@@ -1,0 +1,11 @@
+AddDefaultCharset UTF-8
+ErrorDocument 403 /403.html
+ErrorDocument 404 /404.html
+DirectoryIndex index.php index.html index.htm
+RewriteEngine On
+RewriteRule ^forum-([^-]*)-([^-]*)\.html$ /view-message.php?forumid=$1&threadid=$2 [L]
+RewriteRule ^forum-([^_]*)_([^_]*)$ /group.php?group=$1&page=$2 [L]
+RewriteRule ^forum-([^/]*)$ /group.php?group=$1 [L]
+
+RewriteCond %{HTTP_HOST} ^rulinux.net
+RewriteRule (.*)  http://www.rulinux.net/$1 [R=301,L]

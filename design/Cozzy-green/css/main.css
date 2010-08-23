@@ -1,0 +1,182 @@
+
+BODY { 
+	font-family: serif;
+	background: #ffffff;
+	color: #000000;
+	background-image: url(images/bg.gif);
+}
+
+A { color: black; text-decoration: underline}
+A:link { color: #0e2503; }
+A:hover { color: #84ac60}
+
+.hr { background: #000000; }
+hr { color: #7da65a; }
+
+H1 { 
+	color: #000000; 
+}
+H2 { color: #000000; }
+
+DIV.boxlet H2
+   { 
+    text-align: center; 
+    color: white; 
+    font-size: medium; 
+    font-family: serif; 
+    background-color: #84ac60;
+    border: 1px; 
+    padding-bottom: 5px;
+    font-weight: bold;
+    margin-top: 0px;
+    background-image: url(images/tile_cat.gif);
+   }
+
+DIV.boxlet H3
+   {
+    font-size: small;
+   }
+
+DIV.boxlet {
+    font-size: small; 
+    font-family: serif; 
+    text-align: left; 
+    background-color: #e4ebd7; 
+    border: 1px;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+   }
+
+DIV.boxlet LI { list-style: inside }
+
+DIV.columnimg
+   { 
+    font-size: small; 
+    font-family: serif; 
+    margin-top: 30px; 
+    text-align: center; 
+   }
+
+/* news items */
+.news H2 
+{ 
+    font-family: serif; 
+    margin-bottom: 5px; 
+    margin-top: 5px; 
+}
+.news DIV.nav 
+{ 
+    text-align: left; 
+    margin-top: 1em; 
+}
+.news { width:100% }
+
+/* view-forum */
+.color1 { background: #c0c0c0; }
+
+.nav {
+  border: #c0c0c0 1px solid;
+  background: #84ac60;
+}
+
+table.nav>tbody>tr>td {
+  border: #cccc99 1px solid; 
+  background-color: #e4ebd7;
+}
+
+.newsblog, .nav {
+  background-color: white;
+}
+
+/*.newsblog2, .nav {
+  background-color: #e4ebd7;
+}*/
+
+.entry-body .nav {
+  background-color: white;
+}
+
+.pageinfo {
+  border: #c0c0c0 1px solid;
+  background: #f0f0f0;
+}
+
+TR.color2 { background: #f0f0f0; }
+.message-table {
+  background: #84ac60;
+  border-spacing: 1px;
+  background-image: url(images/tile_cat.gif);
+}
+
+.message-table td {
+  padding: 0;
+}
+
+.message-table tbody {
+  background: #f0f0f0;
+}
+
+div.messages, div.title 
+{ 
+	background-color: #84ac60; 
+	background-image: url(images/tile_cat.gif);
+}
+.messages .comment .title 
+{ 
+	background: #84ac60; 
+	background-image: url(images/tile_cat.gif);
+}
+div.messages, div.msg 
+{ 
+	background: #e4ebd7;
+}
+.messages .comment .nav { text-align: left; font-style: italic; }
+
+/* general */
+DIV.notes 
+   { 
+    text-align: center; 
+    font-style: italic; 
+    margin-top: 0.5em; 
+    margin-bottom: 0.5em;
+    border: solid black;
+   }
+
+.head-main table {
+  border-collapse: collapse;
+  margin-top: 5px;
+  border-style: solid;
+  border-color: #7da65a;
+}
+
+.head-main td { border: 3px double #c0c0c0; padding: 3px; text-align: right; }
+
+.messages .msg {
+  border: 1px solid #f0f0f0;
+}
+
+.messages .highLighted {
+    border: #7da65a solid 1px;
+}
+
+.head
+{
+color: black;
+}
+
+.gallery-head A
+{
+color: white
+}
+
+.head A
+{
+    color: #2e4308;
+    font-family: serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin: 0px;
+    padding: 7px 0 7px 0;
+    width: auto;
+}

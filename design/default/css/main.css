@@ -1,0 +1,125 @@
+		body{
+			background-image:url(images/stripe.png);
+			margin:0;
+		}
+		hr{
+			border: 1px solid #d2d2d2;
+			width:90%
+		}
+		td{
+			font-size: 11pt;
+			color:#4d4d4d;
+		}
+		a{
+			text-decoration:none;
+			color:#4d4d4d;
+		}
+		a:hover{
+			text-decoration:none;
+			color:#4d4d4d;
+		}
+		a:active{
+			text-decoration:none;
+			color:#4d4d4d;
+		}
+		a:visited{
+			text-decoration:none;
+			color:#4d4d4d;;
+		}
+		.commentbody{
+			background-color:#eaeaea;
+		}
+		.commenthead{
+			background-color:#dbdbdb;
+		}
+		#otherlinks{
+			text-decoration:none;
+			color:#4d4d4d;
+			border-bottom: 1px #4d4d4d dashed;
+		}
+		#otherlinks:hover{
+			text-decoration:none;
+			color:#4d4d4d;
+			border-bottom: 1px #4d4d4d solid;
+		}
+		#otherlinks:active{
+			text-decoration:none;
+			color:#4d4d4d;
+			border-bottom: 1px #4d4d4d dashed;
+		}
+		#otherlinks:visited{
+			text-decoration:none;
+			color:#4d4d4d;
+			border-bottom: 1px #4d4d4d dashed;
+		}
+		#sbheader{
+			background-color: #2c80e9;
+			background-image:url(images/sbheader.png);
+			font-weight:bold;
+			color:#ffffff;
+			font-family: tahoma;
+			text-align:center;
+			height:20px;
+		}
+		#menu{
+			font-size: 9pt;
+			color:#4d4d4d;
+		}
+		#menu:active{
+			font-size: 9pt;
+			color:#4d4d4d;
+		}
+		#menu:visited{
+			font-size: 9pt;
+			color:#4d4d4d;
+		}
+		#menuselected{
+			font-size: 9pt;
+			color:#000000;
+		}
+		#menuselected:active{
+			font-size: 9pt;
+			color:#000000;
+		}
+		#mpoint{
+			color:#4d4d4d
+		}
+		#mpoint:hover{
+			color:#000000
+		}
+		#menuselected:visited{
+			font-size: 9pt;
+			color:#000000;
+		}
+		#newsheader{
+			text-decoration: none;
+			color: #2c71cf;
+			font-weight:bold;
+		}
+		#newsheader:active{
+			text-decoration: none;
+			color: #2c71cf;
+			font-weight:bold;
+		}
+		#newsheader:visited{
+			text-decoration: none;
+			color: #2c71cf;
+			font-weight:bold;
+		}
+		#newsheader:hover{
+			text-decoration: none;
+			color: #4592e8;
+			font-weight:bold;
+		}
+		#newstext{
+			font-size: 11pt;
+			color: #464646;
+		}
+		#newsbottom{
+			font-size: 10pt;
+			color: #4d4d4d;
+		}
+		#content{
+			text-align:justify;
+			color:3d3d3d
+		}

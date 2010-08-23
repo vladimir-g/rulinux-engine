@@ -1,0 +1,79 @@
+body{
+	background:#000000;
+	font-family:Arial;
+}
+span{
+	font-family:Arial;
+	color:#ffffff;
+}
+tr, td, p{
+	font-family:Arial;
+	color:#ffffff;
+}
+h1{
+	font-family:Arial;
+	color:#ffffff;
+}
+div{
+	font-family:Arial;
+	color:#ffffff;
+}
+form{
+	font-family:Arial;
+	margin:0px;
+}
+input{
+	font-family:Arial;
+	font-size: 9pt;
+	border:1px solid #ffffff;
+	background:#000000;
+	color:#ffffff;
+}
+label{
+font-weight:bolder;
+color: #ffffff;
+}
+.question{
+	font-family:Arial;
+	color:#ffffff;
+	font-weight:bolder;
+	font-style:italic;
+}
+hr{
+	width:80%;
+	border:1px solid #cccccc;
+	color:#cccccc;
+}
+.highlite{
+	font-family:Arial;
+	color:#ffffff;
+	background:#000000;
+}
+.likespan{
+	font-family:Arial;
+	color:#ffffff;
+}
+a{
+	font-family:Arial;
+	color:#ffffff;
+	font-weight:bolder;
+	text-decoration:underline;
+}
+a:visited{
+	font-family:Arial;
+	color:#ffffff;
+	font-weight:bolder;
+	text-decoration:underline;
+}
+a:active{
+	font-family:Arial;
+	color:#ff0000;
+	font-weight:bolder;
+	text-decoration:underline;
+}
+a:hover{
+	font-family:Arial;
+	color:#cccccc;
+	font-weight:bolder;
+	text-decoration:none;
+}

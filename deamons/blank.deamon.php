@@ -1,0 +1,6 @@
+<?
+if ($INCLUDED){
+   
+}
+$INCLUDED = false;
+?>

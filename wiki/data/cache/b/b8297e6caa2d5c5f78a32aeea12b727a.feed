@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.7.2-ppt DokuWiki" -->
+<?xml-stylesheet href="http://lor-ng.org/wiki/lib/exe/css.php?s=feed" type="text/css"?>
+<rdf:RDF
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel rdf:about="http://lor-ng.org/wiki/feed.php">
+        <title>LOR-NG Wiki: Техническая документация</title>
+        <description></description>
+        <link>http://lor-ng.org/wiki/</link>
+        <image rdf:resource="http://lor-ng.org/wiki/lib/images/favicon.ico" />
+       <dc:date>2009-07-21T12:01:32-07:00</dc:date>
+        <items>
+            <rdf:Seq>
+                <rdf:li rdf:resource="http://lor-ng.org/wiki/doku.php?id=start&amp;rev=1248179393&amp;do=diff"/>
+            </rdf:Seq>
+        </items>
+    </channel>
+    <image rdf:about="http://lor-ng.org/wiki/lib/images/favicon.ico">
+        <title>LOR-NG Wiki: Техническая документация</title>
+        <link>http://lor-ng.org/wiki/</link>
+        <url>http://lor-ng.org/wiki/lib/images/favicon.ico</url>
+    </image>
+    <item rdf:about="http://lor-ng.org/wiki/doku.php?id=start&amp;rev=1248179393&amp;do=diff">
+        <dc:format>text/html</dc:format>
+        <dc:date>2009-07-21T05:29:53-07:00</dc:date>
+        <title>start</title>
+        <link>http://lor-ng.org/wiki/doku.php?id=start&amp;rev=1248179393&amp;do=diff</link>
+        <description>'OS Linux'
+
+Установка и настройка
+
+Администрирование
+
+Программирование
+
+Kernel development
+
+' Электроника '
+
+AVR
+
+ARM
+
+MIPS
+
+FixMe: Решитесь как сделать лучше оглавление вики. Это только экзампл.</description>
+    </item>
+</rdf:RDF>
