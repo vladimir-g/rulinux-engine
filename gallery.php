@@ -1,106 +1,102 @@
-<?
-define('SUB_PAGE', true);
-$scriptname=$_SERVER['SCRIPT_NAME'];
-$scriptname=str_replace(getcwd(), '', $scriptname);
-$nid=intval($_GET['nid']);
-$cid=$_GET['cid'];
-include('incs/db.inc.php');
-$content=array('title'=>'Новости');
-require_once('classes/config.class.php');
-require_once('classes/pages.class.php');
-require_once('classes/news.class.php');
-require_once('classes/auth.class.php');
-require_once('classes/users.class.php');
-require_once('classes/faq.class.php');
+<?php
+$subsection_id = (int)$_GET['id'];
+include 'classes/core.php';
+$user_theme = users::get_user_theme();
+$theme = $user_theme['directory'];
+$site_name = $_SERVER["HTTP_HOST"];
+$profile_name = $_SESSION['user_name'];
+$profile_link = 'profile.php?user='.$_SESSION['user_name'];
+$subsect_arr = sections::get_subsection(3, $subsection_id);
+$sect_arr = sections::get_section(3);
+$recomendations = $subsect_arr['shortfaq'];
+$section_name = $sect_arr['name'];
+$section_id = 3;
+$subsection_name = $subsect_arr['name'];
+$subsection_description = $subsect_arr['description'];
+$title = $site_name.' - '.$section_name.' - '.$subsection_name;
+include 'links.php';
+include 'themes/'.$theme.'/templates/header.tpl.php';
+include 'themes/'.$theme.'/templates/gallery/nav_top.tpl.php';
 
-$baseC = new base();
-$faqC = new faq();
-$pagesC = new pages();
-$newsC = new news();
-$usersC = new users();
-
-require_once('incs/header.inc.php');
-
-
-(int)$_SESSION['user_login'] ? $tpl_name= $info['theme'] : $tpl_name = $baseC->check_setting('template');
-if ($_SESSION['user_admin'] == 1 && isset($_GET['stick'])){
-	$sticked = $baseC->eread('news', 'ontop', '', 'id', $_GET['eid']);
-	if ($sticked == 1)
-		$baseC->erewrite('news', 'ontop', 0, $_GET['eid']);
+$subsct = sections::get_subsections(3);
+for($i=0; $i<count($subsct);$i++)
+{
+	$subsection_nav_name = $subsct[$i]['name'];
+	$subsection_nav_id = $subsct[$i]['sort'];
+	if($subsection_id==$subsection_nav_id)
+		$selected_nav = 'selected';
 	else
-		$baseC->erewrite('news', 'ontop', 1, $_GET['eid']);
+		$selected_nav = '';
+	include 'themes/'.$theme.'/templates/gallery/nav_middle.tpl.php';
 }
-$header=$pagesC->get_templates('header');
-$footer=$pagesC->get_templates('footer');
-if (strpos($header, '[menu]')<0 && strpos($footer, '[menu]')<0)
-	$pagesC->get_menu();
-$perpage = (int)$_SESSION['user_login'] > 0 ? $baseC->eread('users', 'news_on_page', '', 'id', $_SESSION['user_login']) : 50;
-$limit = $perpage*($_GET['page']).', '.$perpage;
-$news_ids = $baseC->eread('news', 'id', null, '', '', '`active`=1 AND `deleted`=0 AND `cid`=0 ORDER BY `ontop` DESC, `approve_time` DESC, `timestamp` DESC LIMIT '.$limit);
-$news_count = $baseC->other_query('SELECT COUNT(id) FROM [prefix]news WHERE `active`=1 AND `deleted`=0 AND `cid`=0');
+include 'themes/'.$theme.'/templates/gallery/nav_bottom.tpl.php';
 
-$pages = ceil($news_count[0][0]/$perpage);
-foreach ($news_ids as $news_id){
-     $get_news = $newsC->get_news_by_id($news_id);
-     echo '<h2><a href="message.php?newsid='.$get_news['id'].'" id="newsheader" style="text-decoration:none">'.$get_news['title'].'</a></h2>';
-     if ($_SESSION['user_admin']>=1) {
-		$sticked = $baseC->eread('news', 'ontop', '', 'id', $get_news['id']) == 0 ? 'Прикрепить' : 'Открепить';
-          echo '<div>
-               <a href="admin.php?mod=news&action=edit" target="_blank" id="otherlinks">Добавить новость</a> | 
-               <a href="admin.php?mod=news&action=edit&eid='.$get_news['id'].'" target="_blank" id="otherlinks">Редактировать</a> |
-					<a href="gallery.php?stick&eid='.$get_news['id'].'" id="otherlinks">'.$sticked.'</a> | 
-               <a href="admin.php?mod=news&action=manage&delid='.$get_news['id'].'" target="_blank" id="otherlinks">Удалить</a></div>';
-          $a++;
+include 'themes/'.$theme.'/templates/gallery/top.tpl.php';
+$threads_count = threads::get_threads_count(3, $subsection_id);
+$threads_on_page = $uinfo['threads_on_page'];
+$pages_count = ceil(($threads_count)/$threads_on_page);
+$pages_count>1 ? $begin=$threads_on_page*($page-1) : $begin = 0;
+if($pages_count > 1)
+{
+	if($page>1)
+	{
+		$pg = $page-1;
+		$pages = $pages.'<a href="gallery.php?id='.$subsection_id.'&page=1" title=В Начало>←</a>&nbsp;';
+		$pages = $pages.'<a href="gallery.php?id='.$subsection_id.'&page='.$pg.'" title="Назад">≪</a>&nbsp;';
 	}
-	echo '<table cellspadding="0" cellspacing="0" border="0">';
-	echo '<tr>';
-	echo '<td style="vertical-align:top">';
-	echo $get_news['text'];
-	//echo '<strong>Категория: <a href="'.$scriptname.'?cid='.$get_news['cid'].'" id="otherlinks">'.$get_news['cid'].'</a></strong>';
-   $time = getdate($get_news['timestamp']);
-   $get_news['timestamp'] = '';
-   $get_news['timestamp'] .= (strlen($time['mday']) < 2 ? '0'.$time['mday'] : $time['mday']);
-   $get_news['timestamp'] .= '.'.(strlen($time['mon']) < 2 ? '0'.$time['mon'] : $time['mon']);
-   $get_news['timestamp'] .= '.'.$time['year'];
-   $get_news['timestamp'] .= '&nbsp;';
-   $get_news['timestamp'] .= (strlen($time['hours']) < 2 ? '0'.$time['hours'] : $time['hours']);
-   $get_news['timestamp'] .= ':'.(strlen($time['minutes']) < 2 ? '0'.$time['minutes'] : $time['minutes']);
-   $get_news['timestamp'] .= ':'.(strlen($time['seconds']) < 2 ? '0'.$time['seconds'] : $time['seconds']);
-	echo '<p style="font-style:italic">'.$get_news['by'].' (<a href="profile.php?user='.$get_news['by'].'">*</a>) ('.$get_news['timestamp'].')</p>';
-	$perpage = (int)$_SESSION['user_login'] > 0 ? $baseC->eread('users', 'comments_on_page', '', 'id', $_SESSION['user_login']) : 50;
-	$comment_count = $baseC->other_query('SELECT COUNT(cid) FROM [prefix]comments WHERE tid='.$get_news['id'].' AND deleted=0');
-	$comment_pages = ceil($comment_count[0][0]/$perpage);
-	$pages_str = '';
-		if($comment_pages > 1){
-		$pages_str .= ' (стр. ';
-		for ($p = 1; $p < $comment_pages; $p++){
-				$pages_str .= '<a href="message.php?newsid='.$get_news['id'].'&page='.$p.'">'.($p+1).'</a>&nbsp;';
+	if($pages_count>10)
+	{
+		if($page<5)
+			$start_page = 1;
+		else
+			$start_page = $page-4;
+			
+		if($page>$pages_count-4)
+			$end_page = $pages_count;
+		else
+			$end_page = $page+4;
+		for($p=$start_page; $p<=$end_page; $p++)
+		{
+			if ($p == $page)
+				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
+			else
+				$pages = $pages.'<a href="gallery.php?id='.$subsection_id.'&page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
 		}
-			$pages_str .= '<a href="message.php?newsid='.$get_news['id'].'&all">все</a>)';
+	}
+	else
+	{
+		for($p=1; $p<=$pages_count; $p++)
+		{
+			if ($p == $page)
+				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
+			else
+				$pages = $pages.'<a href="gallery.php?id='.$subsection_id.'&page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
 		}
-		if(sizeof($baseC->eread('comments', 'cid', null, 'tid', $get_news['id'], 'AND `deleted`=0')) > 0){
-			echo '[<a href="message.php?newsid='.$get_news['id'].'" id="more-1">';
-			echo ''.$baseC->declOfNum(sizeof($baseC->eread('comments', 'cid', null, 'tid', $get_news['id'], 'AND `deleted`=0')), array('комментарий', 'комментария', 'комментариев')).'</a>'.$pages_str.']&nbsp;';
-		}
-	echo '[<a href="comment.php?answerto='.$get_news['id'].'&cid=0&news" id="more-1">Добавить комментарий</a>]<br><br>';
-	echo '</td>';
-	echo '</tr>';
-	echo '</table><hr>';
+	}
+	if($page<$pages_count)
+	{
+		$pg = $page+1;
+		$pages = $pages.'<a href="gallery.php?id='.$subsection_id.'&page='.$pg.'" title="Вперед">≫</a>&nbsp;';
+		$pages = $pages.'<a href="gallery.php?id='.$subsection_id.'&page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
+	}
 }
-for ($p = 0; $p < $pages; $p++){
-     $break = '';
-     if (!(($p+1) % 10)) $break = '<br>';
-     if ($p == (int)$_GET['page'])
-          if (!isset($_GET['all']))
-              echo '<strong>'.($p+1).'</strong>&nbsp;'.$break;
-          else
-              echo '<a href="gallery.php?page='.$p.'">'.($p+1).'</a>&nbsp;'.$break;
-     else
-          echo '<a href="gallery.php?page='.$p.'">'.($p+1).'</a>&nbsp;'.$break;
+$gal = threads::get_gallery($subsection_id, $begin, $threads_on_page);
+for($i=0; $i<count($gal); $i++)
+{
+	$comment_id = $gal[$i]['cid'];
+	$subject = $gal[$i]['subject'];
+	$comment = $gal[$i]['comment'];
+	$img_link = '/gallery/'.$gal[$i]['file'].'.'.$gal[$i]['extension'];
+	$img_thumb_link = '/gallery/thumbs/'.$gal[$i]['file'].'_small.png';
+	$size = $gal[$i]['image_size'].', '.$gal[$i]['file_size'];
+	$usr = users::get_user_info($gal[$i]['uid']);
+	$author = $usr['nick'];
+	$author_profile = 'profile.php?id='.$usr['nick'];
+	$timestamp = $gal[$i]['timest'];
+	$thread_id = $gal[$i]['id'];
+	$count = threads::get_comments_count($thread_id);
+	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
+	include 'themes/'.$theme.'/templates/gallery/middle.tpl.php';
 }
-
-if (sizeof($news_ids) < 1)
-			echo '<h1>Новостей не найдено</h1>';
-echo '<!--content section end-->';
-include_once('incs/bottom.inc.php');
+include 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

@@ -2,8 +2,8 @@
 ////error_reporting(E_ALL & E_NOTICE & E_PARSE);
 //echo "UCAPTCHA leveled captcha system, level 0 example<br>";
 include "ucaptcha.php";
-include_once "../incs/db.inc.php";
-include_once "../classes/config.class.php";
+//include_once "../incs/db.inc.php";
+include_once "../classes/core.php";
 $cp=new ucaptcha;
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
 header('Cache-Control: no-store, no-cache, must-revalidate'); 
@@ -15,7 +15,7 @@ if(isset($_REQUEST[session_name()])){
 }
 
 if($_REQUEST[session_name()]){
-     $cpt_level = $_SESSION['user_login'] < 1 ? rand(1,2) : base::get_field_by_id('users', 'captcha', $_SESSION['user_login']);
+     $cpt_level = $_SESSION['user_id'] < 1 ? rand(1,2) : users::get_captcha_level($_SESSION['user_id']);
      $captcha = $cp->gen_image($cpt_level);
      $_SESSION['captcha_keystring'] = $captcha[1];
 }

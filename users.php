@@ -1,115 +1,79 @@
-<?
-include('incs/db.inc.php');
-require_once('classes/forum.class.php');
-require_once('classes/config.class.php');
-require_once('classes/pages.class.php');
-require_once('classes/auth.class.php');
-require_once('classes/users.class.php');
+<?php
+$page = (int)$_GET['page'];
+include 'classes/core.php';
+$user_theme = users::get_user_theme();
+$theme = $user_theme['directory'];
+$site_name = $_SERVER["HTTP_HOST"];
+$profile_name = $_SESSION['user_name'];
+$profile_link = 'profile.php?user='.$_SESSION['user_name'];
+$title = $site_name.' - Пользователи';
+include 'links.php';
+include 'themes/'.$theme.'/templates/header.tpl.php';
+include 'themes/'.$theme.'/templates/users/top.tpl.php';
 
-$baseC = new base();
-$pagesC = new pages();
-$usersC = new users();
+$users_on_page = 20;
+$users_count = users::get_users_count();
+$pages_count = ceil(($users_count)/$users_on_page);
+$pages_count>1?	$begin=$users_on_page*($page-1):$begin = 0;
+if($pages_count > 1)
+{
+	if($page>1)
+	{
+		$pg = $page-1;
+		$pages = $pages.'<a href="users.php?page=1" title=В Начало>←</a>&nbsp;';
+		$pages = $pages.'<a href="users.php?page='.$pg.'" title="Назад">≪</a>&nbsp;';
+	}
+	if($pages_count>10)
+	{
+		if($page<5)
+			$start_page = 1;
+		else
+			$start_page = $page-4;
+			
+		if($page>$pages_count-4)
+			$end_page = $pages_count;
+		else
+			$end_page = $page+4;
+		for($p=$start_page; $p<=$end_page; $p++)
+		{
+			if ($p == $page)
+				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
+			else
+				$pages = $pages.'<a href="users.php?page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
+		}
+	}
+	else
+	{
+		for($p=1; $p<=$pages_count; $p++)
+		{
+			if ($p == $page)
+				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
+			else
+				$pages = $pages.'<a href="users.php?page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
+		}
+	}
+	if($page<$pages_count)
+	{
+		$pg = $page+1;
+		$pages = $pages.'<a href="users.php?page='.$pg.'" title="Вперед">≫</a>&nbsp;';
+		$pages = $pages.'<a href="users.php?page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
+	}
+}
 
-$content['title'] .= 'Пользователи зарегистрированные на форуме';
-require_once('incs/header.inc.php');
-$header=$pagesC->get_templates('header');
-$footer=$pagesC->get_templates('footer');
-$dbcnx = @mysql_connect($db_host,$db_user,$db_pass); 
-if (!$dbcnx) 
+$users = users::get_users($begin, $users_on_page);
+for($i=0; $i<count($users); $i++)
 {
-	echo ("<P>В настоящий момент сервер базы данных не доступен, поэтому корректное отображение страницы невозможно.</P>");
-	exit();
+	$avatar = empty($users[$i]['photo'])? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$users[$i]['photo'];
+	$nick = $users[$i]['nick'];
+	$group_info = users::get_group($users[$i]['gid']);
+	$group_name = $group_info['name'];
+	$name = $users[$i]['name'];
+	$city = !empty($users[$i]['city'])? $users[$i]['city'] : 'город не указан';
+	$country = !empty($users[$i]['country'])? $users[$i]['country'] : 'страна не указана';
+	$email = in_array($users[$i]['show_email'], $true_arr) ? $users[$i]['email'] : 'скрыт';
+	$im = in_array($users[$i]['show_im'], $true_arr) ? $users[$i]['im'] : 'скрыт';
+	include 'themes/'.$theme.'/templates/users/middle.tpl.php';
 }
-if (!@mysql_select_db($db_name, $dbcnx)) 
-{
-	echo( "<P>В настоящий момент база данных не доступна, поэтому корректное отображение страницы невозможно.</P>" );
-	exit();
-}
-mysql_query("SET NAMES utf8");
-$query = "SELECT * FROM users ORDER BY nick";
-$usr = $baseC->other_query($query);
-?>
-<table class="nav">
-<tbody><tr>
-<td align="left" valign="middle">
-<strong>Форум</strong>
-</td>
-<td align="right" valign="middle">
-[<a href="/add-section.php">Добавить сообщение</a>]
-[<a href="/tracker.php">Последние сообщения</a>]
-[<a href="/page.php?id=1">Правила форума</a>]
-[<a href="/faq.php">FAQ</a>]
-<!-- [<a href="http://www.linux.org.ru/section-rss.jsp?section=2">RSS</a>] -->
-</td>
-</tr>
-</tbody>
-</table>
-<h1>Список зарегистрированных пользователей</h1>
-<br>
-<table width="100%" class="message-table">
-<thead>
-<b>Список пользователей</b>
-<tr>
-<th></th>
-</tr>
-</thead>
-<tfoot>
-</tfoot>
-<tbody>
-<?
-$i=0;
-foreach($usr as $user)
-{
-	$i++;
-	$text = '';
-	if($user[13]!='')
-	{
-		$text .= '<img src='.$user[13].'  height="100" align="right" border = "2" vspace="3" hspace="3">';
-	}
-	else
-	{
-		$text .= '<img src="/avatars/no_avatar.gif"  height="100" align="right" border = "2" vspace="3" hspace="3">';
-	}
-	$text .= '<b>Ник:</b> '.$user[2].'<br>';
-	if($user[1]==2)
-	{
-		$text .= '<b>Статус: <font color="blue">Модератор</font></b><br>';
-	}
-	else
-	{
-		$text .= '<b>Статус:</b> Пользователь<br>';
-	}
-	$text .= '<b>Имя:</b> '.$user[4].'<br>
-	<b>Город:</b> '.$user[12].'<br>
-	<b>Страна:</b> '.$user[11].'<br>';
-	if($user[8]==1)
-	{
-		$text .= '<b>e-mail:</b> '.$user[7].'<br>';
-	}
-	else
-	{
-		$text .= '<b>e-mail:</b> скрыт<br>';
-	}
-	if($user[10]==1)
-	{
-		$text .= '<b>IM:</b> '.$user[9].'<br>';
-	}
-	else
-	{
-		$text .= '<b>IM:</b> скрыт<br>';
-	}
-	?>
-	<tr>
-	<td>
-	<?=$text?>
-	<td>
-	</tr>
-	<?
-}
-?>
-
-</tbody>
-</table>
-<?
-include_once('incs/bottom.inc.php');
+include 'themes/'.$theme.'/templates/users/bottom.tpl.php';
+include 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

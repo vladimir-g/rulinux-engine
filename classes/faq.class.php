@@ -1,46 +1,58 @@
-<?
+<?php
 class faq{
-	function add_question($name, $email, $quetion, $av){
-		if (mysql_connect($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass'])) {
-			mysql_selectdb($GLOBALS['db_name']);
-			mysql_query('SET CHARACTER SET \''.$GLOBALS['db_charset'].'\'');
-			$query = '
-				INSERT INTO `'.$GLOBALS['tbl_prefix'].'faq`
-				(`name`, `email`, `question`, `ip`, `date`, `answered`, `available`)
-				VALUES
-				(\''.$name.'\', \''.$email.'\', \''.$quetion.'\', \''.getenv('REMOTE_ADDR').'\', \''.date('Y-m-d').'\', \'0\', \''.$av.'\')
-			';
-			if(mysql_query($query))
-				return 1;
-			else
-				return -1;
-		}
-		else return 0;
+
+	function add_question($subject, $email, $quetion, $av)
+	{
+		$subject = htmlspecialchars($subject);
+		$question_raw = $question;
+		$question = htmlspecialchars($question);
+		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+			$email = htmlspecialchars($email);
+		$timestamp = date("y-m-d H:i:s");
+		$ip = getenv('REMOTE_ADDR');
+		$useragent = htmlspecialchars($useragent);
+		$faq_arr = array(
+				array('subject', $subject), 
+				array('email', $email), 
+				array('question', $question),
+				array('raw_question', $question_raw),
+				array('answer', ''), 
+				array('raw_answer', ''), 
+				array('timest', $timestamp) , 
+				array('useragent', $useragent), 
+				array('answered', false), 
+				array('available', true)
+				);
+		$ret = base::insert('faq', $faq_arr);
+		return $ret;
 	}
-	function get_questions($condition = '' , $limit = ''){
-		if (mysql_connect($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass'])) {
-				mysql_selectdb($GLOBALS['db_name']);
-				mysql_query('SET CHARACTER SET \''.$GLOBALS['db_charset'].'\'');
-				$query='
-						SELECT *
-						FROM `'.$GLOBALS['tbl_prefix'].'faq`
-						'.$condition.'
-						ORDER BY date DESC '.$limit;
-				if ($get_faq_res=mysql_query($query)){
-					$ret=array();
-					$i=1;
-					while ($get_faq=mysql_fetch_assoc($get_faq_res)) {
-						$get_faq['question'] = str_replace("\r\n", "<br>", $get_faq['question']);
-						$get_faq['answer'] = str_replace("\r\n", "<br>", $get_faq['answer']);
-						$ret[$i]=$get_faq;
-						$i++;
-					}
-					return $ret;
-					
-				}
-				else { return -1;}
-		}
-		else return 0;
+	
+	function response_to_question($id, $answer)
+	{
+		$id = (int)$id;
+		$answer_raw = $answer;
+		$answer = htmlspecialchars($answer);
+		$answ = base::update('faq', 'answer', $answer, 'id', $id);
+		$raw_answ = base::update('faq', 'raw_answer', $answer_raw, 'id', $id);
+		$answd = base::update('faq', 'answered', true, 'id', $id);
+		if($answ<0)
+			return $answ;
+		elseif($raw_answ<0)
+			return $raw_answ;
+		elseif($answd<0)
+			return $answd;
+		else
+			return 1;
+	}
+	
+	function get_questions()
+	{
+		$where_arr = array(array("key"=>'available', "value"=>'true', "oper"=>'='));
+		$sel = base::select('faq', '', '*', $where_arr, '', 'id', 'DESC');
+		if(!empty($sel))
+			return $sel;
+		else
+			return -1;
 	}
 }
 ?>

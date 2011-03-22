@@ -1,7 +1,0 @@
-.message-table tbody tr:hover {
-	background-image: url(images/hover-small.png);
-	-moz-border-radius: 5px 5px 5px 5px ;
-	-webkit-border-radius: 5px 5px 5px 5px ;
-	-khtml-border-radius: 5px 5px 5px 5px ;
-	border-radius: 5px 5px 5px 5px ;
-}

@@ -1,241 +1,104 @@
-<?
-define('GLOBAL_SECTION', 'articles');
-
-include('incs/db.inc.php');
-require_once('classes/art.class.php');
-require_once('classes/config.class.php');
-require_once('classes/pages.class.php');
-require_once('classes/auth.class.php');
-require_once('classes/users.class.php');
-
-$baseC = new base();
-$pagesC = new pages();
-$usersC = new users();
-$artC = new artClass();
-
-$group = (int)$_GET['group'];
-$art = $baseC->other_query("SELECT name, description FROM forums WHERE forum_id = '$group'");
-$content['title'] .= 'Статьи раздела '.$art[0][0];
-require_once('incs/header.inc.php');
-$header=$pagesC->get_templates('header');
-$footer=$pagesC->get_templates('footer');
-if($_GET['action']==approove)
+<?php
+$subsection_id = (int)$_GET['id'];
+$page = (int)$_GET['page'];
+include 'classes/core.php';
+$user_theme = users::get_user_theme();
+$theme = $user_theme['directory'];
+$site_name = $_SERVER["HTTP_HOST"];
+$subsect_arr = sections::get_subsection(2, $subsection_id);
+$sect_arr = sections::get_section(2);
+$recomendations = $subsect_arr['shortfaq'];
+$section_name = $sect_arr['name'];
+$section_id = 2;
+$subsection_name = $subsect_arr['name'];
+$subsection_description = $subsect_arr['description'];
+$title = $site_name.' - '.$section_name.' - '.$subsection_name;
+$profile_name = $_SESSION['user_name'];
+$profile_link = 'profile.php?user='.$_SESSION['user_name'];
+include 'links.php';
+include 'themes/'.$theme.'/templates/header.tpl.php';
+include 'themes/'.$theme.'/templates/art/nav_top.tpl.php';
+$subsct = sections::get_subsections(2);
+for($i=0; $i<count($subsct);$i++)
 {
-	if($_SESSION['user_admin'])
-	{
-		$uid = $_SESSION['user_login'];
-		$aid = $_GET['aid'];
-		$artC->approoveArticle($aid, $uid);
-		echo "<fieldset><p align=center>Статья успешно подтверждена. <br>Через несколько секунд вы будете перенаправлены в список неподтвержденного. <br>Если вы не хотите ждать нажмите <a href=/view-all.php>сюда</a></fieldset>";
-		echo "<header><meta http-equiv='Refresh' content='0; url=view-all.php' /></header>";
-	}
+	$subsection_nav_name = $subsct[$i]['name'];
+	$subsection_nav_id = $subsct[$i]['sort'];
+	if($subsection_id==$subsection_nav_id)
+		$selected_nav = 'selected';
+	else
+		$selected_nav = '';
+	include 'themes/'.$theme.'/templates/art/nav_middle.tpl.php';
 }
-elseif($_GET['action']==move)
+include 'themes/'.$theme.'/templates/art/nav_bottom.tpl.php';
+include 'themes/'.$theme.'/templates/art/top.tpl.php';
+$threads_count = threads::get_threads_count(4, $subsection_id);
+$threads_on_page = $uinfo['threads_on_page'];
+$pages_count = ceil(($threads_count)/$threads_on_page);
+$pages_count>1?	$begin=$threads_on_page*($page-1):$begin = 0;
+$thr = threads::get_threads_on_page(2, $subsection_id, $begin, $threads_on_page);
+for($i=0; $i<count($thr); $i++)
 {
-	if($_SESSION['user_admin'])
+	//$thread_move_link
+	//$thread_attach_link
+	//echo $cur_thr['attached'].'<br>';
+	//if(in_array($cur_thr['attached'], $true_arr))
+	//	$attached = '<img src="/themes/'.$theme.'/paper_clip.gif">';
+	$thread_id = $thr[$i]['id'];
+	$cur_thr = threads::get_thread_info($thread_id);
+	$thread_subject = $cur_thr['thread_subject'];
+	$thr_autor = users::get_user_info($cur_thr['uid']);
+	$thread_author = $thr_autor['nick'];
+	$comments_in_thread_all =$cur_thr['comments_in_thread_all'];
+	$comments_in_thread_day = $cur_thr['comments_in_thread_day'];
+	$comments_in_thread_hour = $cur_thr['comments_in_thread_hour'];
+	include 'themes/'.$theme.'/templates/art/middle.tpl.php';
+}
+if($pages_count > 1)
+{
+	if($page>1)
 	{
-		$aid = $_GET['aid'];
-		if(isset($_POST['newfid']))
+		$pg = $page-1;
+		$pages = $pages.'<a href="art.php?id='.$subsection_id.'&page=1" title=В Начало>←</a>&nbsp;';
+		$pages = $pages.'<a href="art.php?id='.$subsection_id.'&page='.$pg.'" title="Назад">≪</a>&nbsp;';
+	}
+	if($pages_count>10)
+	{
+		if($page<5)
+			$start_page = 1;
+		else
+			$start_page = $page-4;
+			
+		if($page>$pages_count-4)
+			$end_page = $pages_count;
+		else
+			$end_page = $page+4;
+		for($p=$start_page; $p<=$end_page; $p++)
 		{
-			$new_fid = $_POST['newfid'];
-			if($artC->moveArticle($aid, $new_fid))
-			{
-				echo "<fieldset><p align=center>Статья успешно перемещена. <br>Через несколько секунд вы будете перенаправлены в список статей. <br>Если вы не хотите ждать нажмите <a href=/art.php?group=$new_fid>сюда</a></fieldset>";
-				echo "<header><meta http-equiv='Refresh' content='0; url=art.php?group=$new_fid' /></header>";
-			}
+			if ($p == $page)
+				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
 			else
-			{
-				echo 'Не удалось переместить статью.';
-			}
-		}
-		else
-		{
-			?>
-			<form action="/art.php?action=move&aid=<?=$_GET['aid']?>" method="POST">
-			Куда перемещать будем?:
-			<?
-			$forums = $artC->getSections();
-			echo '<select name="newfid"">';
-			foreach($forums as $forum)
-			{
-				echo '<option value="'.$forum["fid"].'">'.$forum["name"].'</option>';
-			}
-			echo '</select><br>';
-			?>
-			<br><input type="submit" value="Переместить">
-			</form>
-			<?
+				$pages = $pages.'<a href="art.php?id='.$subsection_id.'&page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
 		}
 	}
-}
-elseif($_GET['action']==remove)
-{
-	if($_SESSION['user_admin'])
+	else
 	{
-		$uid = $_SESSION['user_login'];
-		$aid = $_GET['aid'];
-		$fid = $baseC->eread('articles', 'fid', null, 'id', $aid);
-		$artC->removeArticle($aid);
-		if(strstr($_SERVER['HTTP_REFERER'], 'view-all.php')=='view-all.php')
+		for($p=1; $p<=$pages_count; $p++)
 		{
-			echo "<fieldset><p align=center>Статья успешно удалена. <br>Через несколько секунд вы будете перенаправлены в список неподтвержденного. <br>Если вы не хотите ждать нажмите <a href=/view-all.php>сюда</a></fieldset>";
-			echo "<header><meta http-equiv='Refresh' content='0; url=view-all.php' /></header>";
-		}
-		else
-		{
-			echo "<fieldset><p align=center>Статья успешно удалена. <br>Через несколько секунд вы будете перенаправлены в список статей. <br>Если вы не хотите ждать нажмите <a href=/art.php?group=$fid>сюда</a></fieldset>";
-			echo "<header><meta http-equiv='Refresh' content='0; url=art.php?group=$fid' /></header>";
-		}
-	}
-}
-else
-{
-	if (isset($_GET['group'])=='') 
-	{
-		echo "Неизвестные параметры";
-	}
-	else if ((int)$_GET['group'] == 0)
-		$_GET['group'] = $baseC->eread('forums', 'forum_id', '', 'rewrite', $_GET['group']);
-	if (ereg("^[0-9]*$", $_GET['group'])) 
-	{
-		?>
-		<form action="art.php">
-		<table class=nav>
-		<tr>
-		<td align=left valign=middle>
-		<a href="/view-section.php?id=2">Статьи</a> - <b><? print $art[0][0]?></b>
-		</td>
-		<td align=right valign=middle>
-		[<a href="/add-article.php?group=<?=$_GET['group']?>">Добавить статью</a>]
-		[<a href="/faq.php">FAQ</a>]
-		<select name=group onChange="submit()" title="Быстрый переход">
-		<?
-		$sel = $baseC->other_query("SELECT forum_id, name FROM forums ORDER BY sort");
-		foreach($sel as $val)
-		{
-			if($val['forum_id']==$_GET['group'])
-			{
-				?>
-				<option value=<? print $val['forum_id']?> selected><? print $val['name']?></option>
-				<?
-			}
+			if ($p == $page)
+				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
 			else
-			{
-				?>
-				<option value=<? print $val['forum_id']?>><? print $val['name']?></option>
-				<?
-			}
+				$pages = $pages.'<a href="art.php?id='.$subsection_id.'&page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
 		}
-		?>
-		</select>
-		</td>
-		</tr>
-		</table>
-		</form>
-		<h1>Статьи раздела <?=$art[0][0]?></h1><p style="margin-top: 0px">
-		
-		<div class=forum>
-		<?
-		if((int)$_GET['page'] > 1)
-		{
-			$page = $_GET['page'];
-		}
-		else
-		{
-			$page = 1;
-		}
-		?>
-		<table width="100%" class="message-table">
-		<thead>
-		<tr>
-		<?
-		if($_SESSION['user_admin'])
-		{
-			?>
-			<th width = "5%">Управление</th>
-			<?
-		}
-		?>
-		<th width = "75%">Заголовок</th>
-		<th>Дата написания</th>
-		</tr>
-		</thead>
-		<tfoot>
-		<tr>
-		<td colspan=2>
-		<p>
-		<div style="float: left"></div>
-		<div style="float: right"></div>
-		</td>
-		</tr>
-		</tfoot>
-		<tbody>
-		<?
-		$fn = $artC->getArticles($_GET['group']);
-		
-		if($fn!=0)
-		{
-			foreach($fn as $array)
-			{
-				$uid = $array["uid"];
-				$id = $array["id"];
-				$title = $array["title"];
-				$user = $baseC->eread('users', 'nick', '', 'id', $uid);
-				$timestamp = $array["timestamp"];
-				$timestamp = $baseC->timeToSTDate($timestamp);
-				?>
-				<tr>
-				<?
-				if($_SESSION['user_admin'])
-				{
-					?>
-					<td>
-					<a href="art.php?action=remove&aid=<?=$id?>"><img border="0" src="design/<?=$tpl_name ?>/remove.png" alt="Удалить"></a>
-					<a href="art.php?action=move&aid=<?=$id?>"><img border="0" src="design/<?=$tpl_name ?>/move.png" alt="Переместить"></a>
-					<a href="#"><img border="0" src="design/<?=$tpl_name ?>/edit.png" alt="Редактировать"></a>
-					</td>
-					<?
-				}
-				?>
-				<td><a href="/view-article.php?aid=<?=$id?>"><?=$title?></a> (<?=$user?>)</td>
-				<td align="center"><?=$timestamp?></td>
-				</tr>
-				<?
-			}
-		}
-		else
-		{
-			echo 'Error';
-		}
-		?>
-		</tbody>
-		</table>
-		</div>
-		<div align=center><p>
-		<?
-		if($pages > 1){
-		echo '[страница ';
-		for ($p = 1; $p <= $pages; $p++)
-		{
-			if ($p == (int)$_GET['page'])
-			{
-				echo '<b>'.$p.'</b> ';
-			}
-			else
-			{
-				echo '<a href=/forum-'.$baseC->eread('forums', 'rewrite', '', 'forum_id', $_GET['group']).'_'.$p.'>'.$p.'</a>&nbsp;';
-			}
-		}
-		echo ']';
-		}
-		?>
-		<p>
-		<hr>
-		<hr>
-		</div>
-		<?
+	}
+	if($page<$pages_count)
+	{
+		$pg = $page+1;
+		$pages = $pages.'<a href="art.php?id='.$subsection_id.'&page='.$pg.'" title="Вперед">≫</a>&nbsp;';
+		$pages = $pages.'<a href="art.php?id='.$subsection_id.'&page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
-include_once('incs/bottom.inc.php');
+include 'themes/'.$theme.'/templates/art/bottom.tpl.php';
+include 'themes/'.$theme.'/templates/footer.tpl.php';
+
 
 ?>

@@ -1,117 +1,149 @@
-<?
-class core{
-	private function module_allown($permission, $mod){
-		if (mysql_connect($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass'])) {
-			mysql_selectdb($GLOBALS['db_name']);
-			mysql_query('SET NAMES \''.$GLOBALS['db_charset'].'\'');
-			$query = '
-				SELECT `prefix`
-				FROM `'.$GLOBALS['tbl_prefix'].'modules`
-				WHERE `link` = \''.$mod.'\'';
-			$prefix_res = mysql_query($query);
-			$query = mysql_fetch_object($prefix_res);
-			$prefix = $query->prefix;
-			if (substr($permission, ($prefix+1), 1) == '1')
-				return true;
-			else{
-				messages::showmsg('Ошибка безопасности!', 'У вас не достаточно прав для использования этого модуля.', 'error');
-				return false;
-			}
-		}
+<?php
+if (get_magic_quotes_gpc()) 
+{
+	function stripslashes_deep($value)
+	{
+		$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
+		return $value;
 	}
-	function logit($message, $pars, $level) {
-		if (mysql_connect($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass'])) {
-			mysql_selectdb($GLOBALS['db_name']);
-			mysql_query('SET NAMES \''.$GLOBALS['db_charset'].'\'');
-			$insert='INSERT INTO `'.$GLOBALS['tbl_prefix'].'logs`
-					(`level`, `enc_by`, `timestamp`, `params`, `message`)
-					VALUES
-					('.$level.', \''.$_SESSION['user_name'].'\', \''.date('Y-m-d H:i:s').'\', \''.$pars.'\', \''.$message.'\')
-					';
-			if(mysql_query($insert))
-				return 1;
-			else 
-				return 0;
-		}
-		else 
-			return 0;
+
+	$_POST = array_map('stripslashes_deep', $_POST);
+	$_GET = array_map('stripslashes_deep', $_GET);
+	$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
+}
+
+class core
+{
+	function get_settings_by_name($name)
+	{
+		$where_arr = array(array("key"=>'name', "value"=>$name, "oper"=>'='));
+		$sel = base::select('settings', '', 'value', $where_arr, 'AND');
+		return $sel[0]['value'];
 	}
-	function load_module($mname, $mod, $permission){
-		if (!core::module_allown($permission, $mod)) return false;
-		$mname=modules::get_module($mod);
-		if ($mname>-1){
-			$minfo=modules::get_module_info(modules::get_module_id('', $mod));
-			$m=modules::get_module(modules::get_module_id('', $mod));
-			echo '<h1><img src="modules/icons/'.$m['link'].'.png" align="left">'.$mname.'</h1>';
-			messages::showmsg('Информация о модуле', 'Версия: '.$minfo['version'].'<br />
-Совместимость с ядром: '.$minfo['comp'].'<br />
-Автор: '.$minfo['autor'].'<br />Описание: '.$minfo['descr'], 'info');
-			$links = base::get_field_by_id('modules', 'links', modules::get_module_id('', $mod));
-			$tags = base::devide_tags($links);
-			if ($links != ''){
-				echo '<form action="admin.php" method="GET" id="actForm">';
-				echo '<input type="hidden" name="mod" value="'.$mod.'">';
-				echo 'Действия: <select name="action" onchange="document.getElementById(\'actForm\').submit()">';
-				echo '<option value="0">Перейти к:</option>';
-				foreach ($tags as $tag){
-					$tag = base::parse_attributes($tag);
-					if ($tag['action'] == $_GET['action'])
-						$curract = $tag['text'];
-					echo '<option value="'.$tag['action'].'">'.$tag['text'].'</option>';
-				}
-				echo '</select>';
-				echo '<input type="submit" value="Перейти">';
-				echo '</form>';
-				if ($curract != '')
-					echo 'Текущее действие: <strong>'.$curract.'</strong><br><br>';
-			}
-			if (file_exists(base::check_setting('modules_dir').'/'.$m['link'].'.mod.php')){
-				$inside=true;
-				include_once(base::check_setting('modules_dir').'/'.$m['link'].'.mod.php');
-			}
-			else messages::showmsg('Ошибка подгрузки модуля', 'Невозможно найти файл модуля: вероятно, он был перемещен, удален или переименован, при этом осталась запись в таблице модулей.', 'error');
-		}
-		else {
-			if ($mod != 'settings' && $mod != 'modules')
-				messages::showmsg('Ошибка подгрузки модуля!', 'Искомый модуль не найден или не подключен.', 'error');
-		}
+
+	function declOfNum($number, $titles)
+	{
+	    $cases = array (2, 0, 1, 1, 1, 2);
+	    return $number." ".$titles[ ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)] ];
 	}
-	function set_activation($id, $active){
-		if (mysql_connect($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass'])) {
-			mysql_selectdb($GLOBALS['db_name']);
-			mysql_query('SET NAMES \''.$GLOBALS['db_charset'].'\'');
-			$query = '
-						UPDATE `'.$GLOBALS['tbl_prefix'].'modules`
-						SET `active` = '.$active.'
-						WHERE `id`='.$id
-						;
-			if (mysql_query($query))
-				return 1;
-			else
-				return -1;
+	
+	function get_readers_count($tid, $anon=0)
+	{
+		if($anon==1)
+		{
+			$param_arr = array($tid);
+			$sel = base::query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\' AND uid = 1', 'assoc_array', $param_arr);
+		}
+		elseif($anon==2)
+		{
+			$param_arr = array($tid);
+			$sel = base::query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\' AND uid != 1', 'assoc_array', $param_arr);
 		}
 		else
-			return -2;
+		{
+			$param_arr = array($tid);
+			$sel = base::query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\'', 'assoc_array', $param_arr);
+		}
+		return $sel[0]['cnt'];
+			
 	}
-}
-function log_it($message, $level){
-	if(!class_exists('base'))
-		include_once('config.class.php');
-	$pars = "GET:\n";
-	foreach ($_GET as $par => $val){
-		$pars .= "$par = $val;\n";
+	
+	function get_readers($tid)
+	{
+		$where_arr = array(array("key"=>'tid', "value"=>$tid, "oper"=>'='), array("key"=>'uid', "value"=>'1', "oper"=>'>'));
+		$usrs = base::select('sessions', '', 'uid', $where_arr, 'AND');
+		if(!empty($usrs))
+		{
+			for($i=0; $i<count($usrs); $i++)
+			{
+				$where_arr = array(array("key"=>'id', "value"=>$usrs[$i]['uid'], "oper"=>'='));
+				$sel = base::select('users', '', 'nick,gid', $where_arr, 'AND');
+				$ret[$i] = $sel[0];
+			}
+			return $ret;
+		}
+		else
+			return -1;
 	}
-	$pars .= "POST:\n";
-	foreach ($_POST as $par => $val){
-		$pars .= "$par = $val;\n";
+	
+	function update_sessions_table($session_id, $uid, $tid)
+	{
+		if(date("i")>5)
+			$min = date("i")-5;
+		else
+			$min = 60+date("i")-5;
+		$timestamp = date("Y-m-d H").':'.$min.':'.date("s");
+		$where_arr = array(array("key"=>'timest', "value"=>$timestamp, "oper"=>'<'));
+		$subsect = base::select('sessions', '', '*', $where_arr, 'AND');
+		if(!empty($subsect))
+		{
+			for($i=0; $i<count($subsect); $i++)
+				base::delete('sessions', 'id', $subsect[$i]['id']);
+		}
+		base::delete('sessions', 'session_id', $session_id);
+		base::delete('sessions', 'uid', $uid);
+		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timestamp));
+		$ret = base::insert('sessions', $msg_arr);
 	}
-	$pars .= "COOKIES:\n";
-	foreach ($_COOKIE as $par => $val){
-		$pars .= "$par = $val;\n";
+	
+	function search($str, $include, $date, $section, $username)
+	{
+		$query = 'SELECT * FROM comments WHERE ';
+		if($include = 'topics')
+			$query = $query.'subject LIKE \'%::0::%\'';
+		else if($include = 'comments')
+			$query = $query.'comment LIKE \'%::0::%\'';
+		else
+			$query = $query.'subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\'';
+		
+		if($date=='3month')
+		{
+			$month = date("m")-3;
+			$timestamp = date("Y").'-'.$month.'-'.date("d H:i:s");
+			$query = $query.' AND timest > \''.$timestamp.'\'';
+		}
+		else if($date=='year')
+		{
+			$month = date("Y")-1;
+			$timestamp = $year.'-'.date("m-d H:i:s");
+			$query = $query.' AND timest > \''.$timestamp.'\'';
+		}
+		$section = (int)$section;
+		if($section !=0)
+			$query = $query.' AND tid IN (SELECT id FROM threads WHERE section = \'::1::\')';
+		if(!empty($username))
+			$query = $query.' AND uid IN(SELECT id FROM users WHERE nick = \'::2::\')';
+		$query = $query.' ORDER BY timest DESC';
+		$param_arr = array($str, $section, $username);
+		$sel = base::query($query, 'assoc_array', $param_arr);
+		return $sel;
 	}
-	$loglevel = base::check_setting('loglevel');
-	if ($loglevel >= $level){
-		core::logit($message, $pars, $level);
+	
+	function get_page_by_tid($tid, $msg, $cmnt_on_pg)
+	{
+		$param_arr = array($tid);
+		$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
+		for($t=0;$t<count($sel);$t++)
+		{
+			if($sel[$t]['id']==$msg)
+				$message_number = $t;
+		}
+		$page = ceil($message_number/$cmnt_on_pg);
+		if($page == 0)
+			$page = 1;
+		return $page;
+	}
+	
+	function get_themes()
+	{
+		$sel = base::query('SELECT * FROM themes ORDER BY id ASC','assoc_array');
+		return $sel;
+	}
+	
+	function get_captcha_levels()
+	{
+		$ret = array(array("name"=>'Нет', "value"=>-1), array("name"=>'0', "value"=>0), array("name"=>'1', "value"=>1), array("name"=>'2', "value"=>2), array("name"=>'3', "value"=>3), array("name"=>'4', "value"=>4));
+		return $ret;
 	}
 }
 ?>

@@ -1,6 +1,0 @@
-<?
-if ($INCLUDED){
-   
-}
-$INCLUDED = false;
-?>

@@ -1,118 +1,30 @@
-<?
-include('incs/db.inc.php');
-require_once('classes/forum.class.php');
-require_once('classes/art.class.php');
-require_once('classes/config.class.php');
-require_once('classes/pages.class.php');
-require_once('classes/auth.class.php');
-require_once('classes/users.class.php');
-
-$baseC = new base();
-$pagesC = new pages();
-$usersC = new users();
-$forumC = new forumClass();
-$artC = new artClass();
-
-if(isset($_GET['id']))
+<?php
+$section_id = (int)$_GET['id'];
+include 'classes/core.php';
+$user_theme = users::get_user_theme();
+$theme = $user_theme['directory'];
+$site_name = $_SERVER["HTTP_HOST"];
+$profile_name = $_SESSION['user_name'];
+$profile_link = 'profile.php?user='.$_SESSION['user_name'];
+$sect = sections::get_section($section_id);
+$section_name = $sect['name'];
+$title = $site_name.' - '.$section_name;
+include 'links.php';
+include 'themes/'.$theme.'/templates/header.tpl.php';
+include 'themes/'.$theme.'/templates/view_section/top.tpl.php';
+$subsct = sections::get_subsections($section_id);
+for($i=0; $i<count($subsct); $i++)
 {
-	$id=$_GET['id'];
-	if($id==1)
-	{
-		$content['title'] .= 'Форум';
-		require_once('incs/header.inc.php');
-		$header=$pagesC->get_templates('header');
-		$footer=$pagesC->get_templates('footer');
-		$fn = $forumC->getForums();
-		?>
-		<table class="nav">
-		<tbody><tr>
-		<td align="left" valign="middle">
-        <strong>Форум</strong>
-		</td>
-		<td align="right" valign="middle">
-        [<a href="/add-section.php">Добавить сообщение</a>]
-        [<a href="/tracker.php">Последние сообщения</a>]
-        [<a href="/page.php?id=1">Правила форума</a>]
-		[<a href="/faq.php">FAQ</a>]
-		</td>
-		</tr>
-		</tbody></table>
-		<h1>Форум</h1>
-		Группы:
-		<ul>
-		<?
-		foreach($fn as $array)
-		{
-			?>
-			<li>
-			<a href="/group.php?group=<? print $array["fid"]?>"><?=$array["name"]?></a>
-			(<?=$array["in_sum"]?>/<?=$array["in_day"]?>/<?=$array["in_hour"]?>) - <em><?=$array["description"]?></em>
-			</li>
-			<?
-		}
-	}
-	else if($id==2)
-	{
-		$content['title'] .= 'Статьи';
-		require_once('incs/header.inc.php');
-		$header=$pagesC->get_templates('header');
-		$footer=$pagesC->get_templates('footer');
-		$fn = $artC->getSections();
-		?>
-		<table class="nav">
-		<tbody><tr>
-		<td align="left" valign="middle">
-        <strong>Статьи</strong>
-		</td>
-		<td align="right" valign="middle">
-        [<a href="/add-article.php">Добавить статью</a>]
-		[<a href="/faq.php">FAQ</a>]
-		</td>
-		</tr>
-		</tbody></table>
-		<h1>Статьи</h1>
-		Группы:
-		<ul>
-		<?
-		foreach($fn as $array)
-		{
-			?>
-			<li>
-			<a href="art.php?group=<? print $array["fid"]?>"><?=$array["name"]?></a>
-			(<?=$array["in_sum"]?>/<?=$array["in_day"]?>/<?=$array["in_hour"]?>) - <em><?=$array["description"]?></em>
-			</li>
-			<?
-		}
-	}
-	else
-	{
-		echo 'Неизвестный раздел';
-	}
+	$subsection_id = $subsct[$i]['sort'];
+	$subsection_name = $subsct[$i]['name'];
+	$thr_count = sections::get_subsection_thr_count($section_id, $subsection_id);
+	$subsection_thr_count = $thr_count['subsection_thr_count'];
+	$subsection_thr_day = $thr_count['subsection_thr_day'];
+	$subsection_thr_hour = $thr_count['subsection_thr_hour'];
+	$subsection_description = $subsct[$i]['description'];
+	$page = $sect['file'];
+	include 'themes/'.$theme.'/templates/view_section/middle.tpl.php';
 }
-else
-{
-	echo 'Неизвестный раздел';
-}
-?>
-<p>
-<h1>Настройки</h1>
-<? 
-if ($_SESSION['user_login'] == ''):
-{
-	?>
-	Если вы еще не зарегистрировались - вам <a href="/register.php">сюда</a>.
-	<?
-}
-elseif ($_SESSION['user_login'] != ''):
-{
-?>
-<ul>
-<li><a href="/profile.php?user=<?print $_SESSION['user_name'];?>">Персональные настройки сайта</a>
-</li></ul>
-<?
-}
-endif;
-
-include_once('incs/bottom.inc.php');
-
+include 'themes/'.$theme.'/templates/view_section/bottom.tpl.php';
+include 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

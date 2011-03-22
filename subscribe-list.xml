@@ -1,8 +1,0 @@
-     <item>
-          <author>${author}</author>
-          <link><![CDATA[http://www.lor-ng.org/${msglink}]]></link>
-          <guid><![CDATA[http://www.lor-ng.org/${msglink}&guid=${guid}]]></guid>
-          <title>${title}</title>
-          <pubDate>${date}</pubDate>
-          <description><![CDATA[${text}]]></description>
-     </item>
