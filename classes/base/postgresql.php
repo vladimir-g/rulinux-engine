@@ -48,7 +48,7 @@ class base
 		$limit_begin=pg_escape_string($limit_begin);
 		$limit_end=pg_escape_string($limit_end);
 		$query = 'SELECT '.$dist.' '.$sel_expr.' FROM '.$table.' '.$where.$group.$order.' OFFSET '.$limit_begin.' LIMIT '.$limit_end;
-		echo $query.'<br />';
+// 		echo $query.'<br />';
 			
 		
 		if (pg_connect('host='.$GLOBALS['db_host'].' port='.$GLOBALS['db_port'].' dbname='.$GLOBALS['db_name'].' user='.$GLOBALS['db_user'].' password='.$GLOBALS['db_pass'])) 
@@ -67,7 +67,7 @@ class base
 			return $ret;
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 	
 	function insert($table, $arr)
@@ -102,7 +102,7 @@ class base
 				return -1;
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 	
 	function update($table, $field, $value, $id_field='id', $id)
@@ -125,7 +125,7 @@ class base
 				return -1;
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 
 	function delete($table, $id_field='id', $id)
@@ -146,7 +146,7 @@ class base
 				return -1;
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 
 	function query($query, $returnas = 'assoc_array', $param_array)
@@ -193,7 +193,7 @@ class base
 				echo '<fieldset><legend>PostgreSQL Error</legend>Error: '.pg_last_error().'<br>In query: '.$query.'<br></fieldset>';
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 
 }

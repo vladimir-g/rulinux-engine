@@ -75,7 +75,7 @@ class base
 			return $ret;
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 
 	function insert($table, $arr)
@@ -112,7 +112,7 @@ class base
 				return -1;
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 
 	function update($table, $field, $value, $id_field='id', $id)
@@ -136,7 +136,7 @@ class base
 				return -1;
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 
 	function delete($table, $id_field='id', $id)
@@ -158,7 +158,7 @@ class base
 				return -1;
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 
 	function query($query, $returnas = 'assoc_array', $param_array)
@@ -206,7 +206,7 @@ class base
 				echo '<fieldset><legend>MySQL Error</legend>Error: '.mysql_error().'<br>In query: '.$query.'<br></fieldset>';
 		}
 		else 
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
 
 }
