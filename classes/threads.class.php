@@ -104,7 +104,7 @@ class threads
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$param_arr = array($subsection, $end, $begin);
-		$ret = base::query('SELECT t.id, t.cid, t.approved, t.approved_by, t.approve_timest, t.subsection, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=1) ORDER BY t.attached <>true ASC, id DESC LIMIT \'::1::\' OFFSET \'::2::\'', 'assoc_array', $param_arr);
+		$ret = base::query('SELECT t.id, t.cid, t.approved, t.approved_by, t.approve_timest, t.subsection, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=1) ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	

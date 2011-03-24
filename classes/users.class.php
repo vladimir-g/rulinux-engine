@@ -98,6 +98,21 @@ class users
 		{
 			$where_arr = array(array("key"=>'id', "value"=>$sel[0]['theme'], "oper"=>'='));
 			$theme = base::select('themes', '', '*', $where_arr);
+			/*if (!file_exists('themes/'.$theme))
+			{
+				$themes = base::select('themes', '', '*');
+				$theme = False;
+				foreach ($themes as $item)
+				{
+					if (file_exists('themes/'.$item['directory']))
+					{
+						$theme = array($item);
+						break;
+					}
+				}
+				if (!$theme)
+					return -1;
+			}*/
 			return $theme[0];
 		}
 		else

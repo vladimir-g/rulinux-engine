@@ -34,7 +34,7 @@ class base
 		$order = '';
 		if(!empty($order_by))
 		{
-			$order_by=pg_escape_string($order_by);	
+			$order_by=mysql_real_escape_string($order_by);	
 			if(!in_array( $order_by_sort, array( 'ASC', 'DESC')))
 				$order_by_sort = 'ASC';
 			$order = ' ORDER BY '.$order_by.' '.$order_by_sort;

@@ -48,7 +48,7 @@ class base
 		$limit_begin=pg_escape_string($limit_begin);
 		$limit_end=pg_escape_string($limit_end);
 		$query = 'SELECT '.$dist.' '.$sel_expr.' FROM '.$table.' '.$where.$group.$order.' OFFSET '.$limit_begin.' LIMIT '.$limit_end;
-// 		echo $query.'<br />';
+//  		echo $query.'<br />';
 			
 		
 		if (pg_connect('host='.$GLOBALS['db_host'].' port='.$GLOBALS['db_port'].' dbname='.$GLOBALS['db_name'].' user='.$GLOBALS['db_user'].' password='.$GLOBALS['db_pass'])) 
