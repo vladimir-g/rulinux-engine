@@ -1,6 +1,6 @@
 <?php
 include 'classes/core.php';
-auth_user('root', 'root', false);
+auth_user('moder', 'moder', false);
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];

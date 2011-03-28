@@ -11,7 +11,7 @@ include "classes/core.class.php";
 include "classes/users.class.php";
 include "classes/auth.class.php";
 
-session_start();
+//session_start();
 $uinfo = users::get_user_info($_SESSION['user_id']);
 
 

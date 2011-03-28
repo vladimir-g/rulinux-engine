@@ -17,7 +17,7 @@ $usr = users::get_user_info($uid);
 
 if($_POST['action']=="pass")
 {
-	if($uid == $uinfo['id'] || $uinfo['gid']==2|| $uinfo['gid']==3)
+	if($uid == $uinfo['id'] || $uinfo['gid']==2)
 	{
 		if(empty($_POST['old_pass']))
 		{
@@ -67,7 +67,7 @@ if($_POST['action']=="pass")
 }
 else if($_POST['action']=="info")
 {	
-	if($uid == $uinfo['id'] || $uinfo['gid']==2|| $uinfo['gid']==3)
+	if($uid == $uinfo['id'] || $uinfo['gid']==2)
 	{
 		if ($_FILES['user_photo']['size'] > 0)
 		{
@@ -173,7 +173,7 @@ else if($_POST['action']=="read")
 		}
 		else
 		{
-			echo 'Произошла ошибка при смене пользовательской информации';
+			echo 'Произошла ошибка при смене настроек чтения';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
@@ -278,7 +278,7 @@ else
 	}
 	else
 	{
-		if($user == $profile_name || $uinfo['gid']==2|| $uinfo['gid']==3)
+		if($user == $profile_name || $uinfo['gid']==2)
 		{
 			include 'themes/'.$theme.'/templates/profile/edit.tpl.php';
 			include 'themes/'.$theme.'/templates/profile/password_edit/password_edit.tpl.php';
@@ -294,6 +294,9 @@ else
 			$additional = $usr['additional'];
 			in_array($usr['gender'], $true_arr) ? $checkedMale = 'selected' : $checkedFemale = 'selected';
 			include 'themes/'.$theme.'/templates/profile/userinfo_edit/userinfo_edit.tpl.php';
+		}
+		if($user == $profile_name || $uinfo['gid']==2|| $uinfo['gid']==3)
+		{
 			$timest = date("Y-m-d H:i:s");
 			$news_on_page = $usr['news_on_page'];
 			$comments_on_page = $usr['comments_on_page'];
@@ -366,6 +369,9 @@ else
 				}
 				include 'themes/'.$theme.'/templates/profile/admin_edit/bottom.tpl.php';
 			}
+		}
+		if($user == $profile_name || $uinfo['gid']==2)
+		{
 			include 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit.tpl.php';
 		}
 	}

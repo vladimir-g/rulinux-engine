@@ -159,7 +159,7 @@ class messages
 	function get_user_messages($user, $limit, $offset)
 	{
 		$param_arr = array($user, $limit, $offset);
-		$ret = base::query('SELECT c.id, c.tid, c.subject, c.timest, t.section, t.subsection  FROM comments c INNER JOIN (SELECT id, section, subsection FROM threads WHERE id IN (SELECT tid FROM comments WHERE uid = (SELECT id FROM users WHERE nick = \'::0::\'))) t ON c.tid = t.id ORDER BY c.id DESC LIMIT \'::1::\' OFFSET \'::2::\'','assoc_array',$param_arr);
+		$ret = base::query('SELECT c.id, c.tid, c.subject, c.timest, t.section, t.subsection  FROM comments c INNER JOIN (SELECT id, section, subsection FROM threads WHERE id IN (SELECT tid FROM comments WHERE uid = (SELECT id FROM users WHERE nick = \'::0::\'))) t ON c.tid = t.id ORDER BY c.id DESC LIMIT ::1:: OFFSET ::2::','assoc_array',$param_arr);
 		return $ret;
 	}
 }
