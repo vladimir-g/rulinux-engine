@@ -237,6 +237,39 @@ else if($_POST['action']=="admin")
 		exit();
 	}
 }
+else if($_POST['action']=="main_page")
+{
+	if($user == $profile_name || $uinfo['gid']==2)
+	{
+		$blocks_str = '';
+		for($i=0; $i<(int)$_POST['count'];$i++)
+		{
+			$name = $i.'_name';
+			$position = $i.'_position';
+			$sort = $i.'_sort';
+			$blocks_str = $blocks_str.$_POST[$name].':'.$_POST[$position].':'.$_POST[$sort].',';
+		}
+		$blocks_str = substr($blocks_str, 0, strlen($blocks_str)-1);
+		$ret = users::modify_user_info('blocks', $blocks_str, $uid);
+		if($ret >=0)
+		{
+			echo '<fieldset><legend>Вид главной страницы успешно изменен</legend><p align="center">Вид главной страницы успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.</p></fieldset>';
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
+		}
+		else
+		{
+			echo 'Произошла ошибка при смене вида главной страницы';
+			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			exit();
+		}
+	}
+	else
+	{
+		echo 'Вы не имеете полномочий для изменения вида главной страницы';
+		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		exit();
+	}
+}
 else
 {
 	if($_GET['edit']!=1)
@@ -372,7 +405,35 @@ else
 		}
 		if($user == $profile_name || $uinfo['gid']==2)
 		{
-			include 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit.tpl.php';
+			include 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_top.tpl.php';
+			$blocks = users::get_blocks($uid);
+			for($i=0; $i<count($blocks); $i++)
+			{
+				$block_id = $i;
+				$block_name = $blocks[$i]['name'];
+				$sort_val = $blocks[$i]['sort'];
+				if($blocks[$i]['position'] == 'l')
+				{
+					$sel_l = 'selected';
+					$sel_r = '';
+					$sel_n = '';
+				}
+				else if($blocks[$i]['position'] == 'r')
+				{
+					$sel_l = '';
+					$sel_r = 'selected';
+					$sel_n = '';
+				}
+				else
+				{
+					$sel_l = '';
+					$sel_r = '';
+					$sel_n = 'selected';
+				}
+				include 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_middle.tpl.php';
+			}
+			$blocks_count = count($blocks);
+			include 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_bottom.tpl.php';
 		}
 	}
 }

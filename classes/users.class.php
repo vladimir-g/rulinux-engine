@@ -134,7 +134,7 @@ class users
 					return -2;
 			$current_date = date("y-m-d H:i:s");
 			$pass = md5($pass);
-			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', $birthday) , 	array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '0'), array('left_block', 'auth:1,links:2,gall:3,tracker:4'), array('right_block', ''), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', $mark), array('banned', 'false'));
+			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', $birthday) , 	array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '0'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', $mark), array('banned', 'false'));
 			$ret = base::insert('users', $user_arr);
 			return $ret;
 	}
@@ -267,6 +267,21 @@ class users
 		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
 		$sel = base::select('users', '', 'filters', $where_arr);
 		return $sel[0]['filters'];
+	}
+	
+	function get_blocks($id)
+	{
+		$ret = array();
+		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
+		$sel = base::select('users', '', 'blocks', $where_arr);
+		$str = $sel[0]['blocks'];
+		$blocks_arr = split(",", $str);
+		for($i=0; $i<count($blocks_arr);$i++)
+		{
+			$block = split(":", $blocks_arr[$i]);
+			$ret[$i]=array("name"=>$block[0], "position"=>$block[1], "sort"=>$block[2]);
+		}
+		return $ret;
 	}
 }
 ?>

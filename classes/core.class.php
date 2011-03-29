@@ -142,6 +142,7 @@ class core
 	
 	function get_captcha_levels()
 	{
+		/*заглушка созданная для того, чтобы впоследствии можно было добавлять новые уровни каптчи*/
 		$ret = array(array("name"=>'Нет', "value"=>-1), array("name"=>'0', "value"=>0), array("name"=>'1', "value"=>1), array("name"=>'2', "value"=>2), array("name"=>'3', "value"=>3), array("name"=>'4', "value"=>4));
 		return $ret;
 	}
