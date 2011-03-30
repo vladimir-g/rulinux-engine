@@ -112,7 +112,6 @@ else if($_POST['action']=='second_sbm')
 	$city = $_POST['user_city'];
 	$additional = $_POST['user_additional'];
 	$gmt = $_POST['user-gmt'];
-	echo $nick.' '.$pass.' '.$name.' '.$lastname.' '.$gender.' '.$email.' '.$show_email.' '.$im.' '.$show_im.' '.$country.' '.$city.' '.$additional.' '.$gmt;
 	$ret= users::add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt);
 	if($ret<0)
 	{
