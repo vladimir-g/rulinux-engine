@@ -106,7 +106,7 @@ class base
 			if (!empty($fields))
 			{
 				$query='INSERT INTO '.$GLOBALS['tbl_prefix'].$table.'('.$fields.') VALUES( '.$values.');';
-//   				echo $query.'<br />';
+// 				echo $query.'<br />';
 			}
 			else 
 				return -1;
@@ -178,14 +178,14 @@ class base
 					}
 				break;
 				case 'assoc_array':
-					while ($r = pg_fetch_array($ret_res))
+					while ($r = pg_fetch_assoc($ret_res))
 					{
-					$ret[$i] = $r;
+						$ret[$i] = $r;
 						$i++;
 					}
 				break;
 				case 'object':
-					while ($r = pg_fetch_array($ret_res))
+					while ($r = pg_fetch_object($ret_res))
 					{
 						$ret[$i] = $r;
 						$i++;
@@ -195,7 +195,10 @@ class base
 			return $ret;
 		}
 		if(strlen(pg_last_error()) > 0)
+		{
 			echo '<fieldset><legend>PostgreSQL Error</legend>Error: '.pg_last_error().'<br>In query: '.$query.'<br></fieldset>';
+			return -1;
+		}
 	}
 
 }

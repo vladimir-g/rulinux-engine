@@ -1,6 +1,6 @@
 <?php
-$true_arr = array('t', '1');
-$false_arr = array('f', '0');
+$true_arr = array('t', '1', 'on');
+$false_arr = array('f', '0', 'off');
 include('config/db.inc.php');
 if($GLOBALS['subd']=='mysql')
 	include "classes/base/mysql.php";

@@ -128,13 +128,45 @@ class users
 				return -1;
 	}
 	
-	function add_user($nick, $pass, $name, $lastname, $birthday, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt, $mark)
+	function user_exists($nick)
+	{
+		$param_arr = array($nick);
+		$ret = base::query('SELECT id FROM users WHERE nick = \'::0::\'', 'assoc_array', $param_arr);
+		if(empty($ret))
+			return false;
+		else
+			return true;
+	}
+	
+	function send_accept_mail($address, $nick, $password)
+	{
+		$where_arr = array(array("key"=>'name', "value"=>'appect_mail_subject', "oper"=>'='));
+		$subj = base::select('settings', '', 'value', $where_arr, 'AND');
+		$subject = $subj[0]['value'];
+		$where_arr = array(array("key"=>'name', "value"=>'appect_mail_text', "oper"=>'='));
+		$txt = base::select('settings', '', 'value', $where_arr, 'AND');
+		$message = str_replace('[user]', $nick, $txt[0]['value']);
+		$message = str_replace('[site]', $_SERVER['HTTP_HOST'], $message);
+		$where_arr = array(array("key"=>'name', "value"=>'register_pass_phrase', "oper"=>'='));
+		$pass_phrase = base::select('settings', '', 'value', $where_arr, 'AND');
+		$link = '<a href="'.$_SERVER['HTTP_HOST'].'/register.php?action=register&login='.$nick.'&password='.$password.'&email='.$address.'&hash='.md5($nick.$password.$pass_phrase[0]['value']).'">'.$_SERVER['HTTP_HOST'].'/register.php?action=register&login='.$nick.'&password='.$password.'&email='.$address.'&hash='.md5($nick.$password.$pass_phrase[0]['value']).'</a>';
+		$message = str_replace('[link]', $link, $message);
+		$headers= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-type: text/html; charset=UTF-8\r\n";
+		$headers .= "From: root <root@rulinux.net>\r\n";
+		$headers .= "Cc: root@rulinux.net\r\n";
+		$headers .= "Bcc: root@rulinux.net\r\n";
+		$ret = mail($address, $subject, $message, $headers);
+		return $ret;
+	}
+	
+	function add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt)
 	{
 			if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 					return -2;
 			$current_date = date("y-m-d H:i:s");
 			$pass = md5($pass);
-			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', $birthday) , 	array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '0'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', $mark), array('banned', 'false'));
+			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '0'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'));
 			$ret = base::insert('users', $user_arr);
 			return $ret;
 	}
