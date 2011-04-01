@@ -19,12 +19,18 @@ if($_POST['action']=="pass")
 {
 	if($uid == $uinfo['id'] || $uinfo['gid']==2)
 	{
+		if($uid==1)
+		{
+			echo 'Вы не можете сменить пароль для пользователя anonymous';
+			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			exit();
+		}
 		if(empty($_POST['old_pass']))
 		{
 			echo 'Введите старый пароль';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
-		}	
+		}
 		if(empty($_POST['new_pass']))
 		{
 			echo 'Введите новый пароль';
@@ -67,6 +73,12 @@ if($_POST['action']=="pass")
 }
 else if($_POST['action']=="info")
 {	
+	if($uid==1)
+	{
+		echo 'Вы не можете сменить информацию о пользователе anonymous';
+		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		exit();
+	}
 	if($uid == $uinfo['id'] || $uinfo['gid']==2)
 	{
 		if ($_FILES['user_photo']['size'] > 0)
@@ -189,6 +201,12 @@ else if($_POST['action']=="moder")
 {
 	if($uinfo['gid']==2|| $uinfo['gid']==3)
 	{
+		if($uid==1)
+		{
+			echo 'Вы не можете банить пользователя anonymous или выставлять ему уровень каптчи';
+			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			exit();
+		}
 		$banned = (int)$_POST['banned'];
 		$ban_ret = users::ban_user($uid, $banned);
 		$value = (int)$_POST['captcha'];
@@ -214,6 +232,12 @@ else if($_POST['action']=="moder")
 }
 else if($_POST['action']=="admin")
 {
+	if($uid==1)
+	{
+		echo 'Вы не можете менять настройки пользователя anonymous';
+		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		exit();
+	}
 	if($uinfo['gid']==2)
 	{
 		$group = (int)$_POST['group'];
@@ -311,22 +335,31 @@ else
 	}
 	else
 	{
+		if($uid == 1 && $uinfo['id']!= 1)
+		{
+			echo 'Вы не можете сменить настройки для пользователя anonymous';
+			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			exit();
+		}
 		if($user == $profile_name || $uinfo['gid']==2)
 		{
-			include 'themes/'.$theme.'/templates/profile/edit.tpl.php';
-			include 'themes/'.$theme.'/templates/profile/password_edit/password_edit.tpl.php';
-			$name = $usr['name'];
-			$lastname = $usr['lastname'];
-			$avatar = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$usr['photo'];
-			$email = $usr['email'];
-			$show_email_ch = in_array($usr['show_email'], $true_arr) ? 'checked' : '';
-			$im = $usr['im'];
-			$show_im_ch = in_array($usr['show_im'], $true_arr) ? 'checked' : '';
-			$country = $usr['country'];
-			$city = $usr['city'];
-			$additional = $usr['additional'];
-			in_array($usr['gender'], $true_arr) ? $checkedMale = 'selected' : $checkedFemale = 'selected';
-			include 'themes/'.$theme.'/templates/profile/userinfo_edit/userinfo_edit.tpl.php';
+			if($uid!=1)
+			{
+				include 'themes/'.$theme.'/templates/profile/edit.tpl.php';
+				include 'themes/'.$theme.'/templates/profile/password_edit/password_edit.tpl.php';
+				$name = $usr['name'];
+				$lastname = $usr['lastname'];
+				$avatar = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$usr['photo'];
+				$email = $usr['email'];
+				$show_email_ch = in_array($usr['show_email'], $true_arr) ? 'checked' : '';
+				$im = $usr['im'];
+				$show_im_ch = in_array($usr['show_im'], $true_arr) ? 'checked' : '';
+				$country = $usr['country'];
+				$city = $usr['city'];
+				$additional = $usr['additional'];
+				in_array($usr['gender'], $true_arr) ? $checkedMale = 'selected' : $checkedFemale = 'selected';
+				include 'themes/'.$theme.'/templates/profile/userinfo_edit/userinfo_edit.tpl.php';
+			}
 		}
 		if($user == $profile_name || $uinfo['gid']==2|| $uinfo['gid']==3)
 		{

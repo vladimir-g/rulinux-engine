@@ -74,7 +74,24 @@ class users
 		$where_arr = array(array("key"=>'id', "value"=>$uid, "oper"=>'='));
 		$sel = base::select('users', '', '*', $where_arr);
 		if(!empty($sel))
+		{
+			if($uid==1)
+			{
+				$sel[0]['blocks'] = empty($_COOKIE['blocks']) ? $sel[0]['blocks'] : $_COOKIE['blocks'];
+				$sel[0]['news_on_page'] = empty($_COOKIE['news_on_page']) ? $sel[0]['news_on_page'] : $_COOKIE['news_on_page'];
+				$sel[0]['comments_on_page'] = empty($_COOKIE['comments_on_page']) ? $sel[0]['comments_on_page'] : $_COOKIE['comments_on_page'];
+				$sel[0]['threads_on_page'] = empty($_COOKIE['threads_on_page']) ? $sel[0]['threads_on_page'] : $_COOKIE['threads_on_page'];
+				$sel[0]['show_avatars'] = empty($_COOKIE['show_avatars']) ? $sel[0]['show_avatars'] : $_COOKIE['show_avatars'];
+				$sel[0]['show_ua'] = empty($_COOKIE['show_ua']) ? $sel[0]['show_ua'] : $_COOKIE['show_ua'];
+				$sel[0]['show_resp'] = empty($_COOKIE['show_resp']) ? $sel[0]['show_resp'] : $_COOKIE['show_resp'];
+				$sel[0]['theme'] = empty($_COOKIE['theme']) ? $sel[0]['theme'] : $_COOKIE['theme'];
+				$sel[0]['gmt'] = empty($_COOKIE['gmt']) ? $sel[0]['gmt'] : $_COOKIE['gmt'];
+				$sel[0]['filters'] = empty($_COOKIE['filters']) ? $sel[0]['filters'] : $_COOKIE['filters'];
+				$sel[0]['mark'] = empty($_COOKIE['mark']) ? $sel[0]['mark'] : $_COOKIE['mark'];
+				$sel[0]['sort_to'] = empty($_COOKIE['sort_to']) ? $sel[0]['sort_to'] : $_COOKIE['sort_to'];
+			}
 			return $sel[0];
+		}
 		else
 			return -1;
 	}
@@ -96,27 +113,32 @@ class users
 		$sel = base::select('users', '', '*', $where_arr);
 		if(!empty($sel))
 		{
-			$where_arr = array(array("key"=>'id', "value"=>$sel[0]['theme'], "oper"=>'='));
-			$theme = base::select('themes', '', '*', $where_arr);
-			/*if (!file_exists('themes/'.$theme))
-			{
-				$themes = base::select('themes', '', '*');
-				$theme = False;
-				foreach ($themes as $item)
-				{
-					if (file_exists('themes/'.$item['directory']))
-					{
-						$theme = array($item);
-						break;
-					}
-				}
-				if (!$theme)
-					return -1;
-			}*/
-			return $theme[0];
+			$usr_th = $sel[0]['theme'];
 		}
 		else
 			return -1;
+		if($_SESSION['user_id'] == 1)
+		{
+			$usr_th = empty($_COOKIE['theme']) ? $usr_th : $_COOKIE['theme'];
+		}
+		$where_arr = array(array("key"=>'id', "value"=>$sel[0]['theme'], "oper"=>'='));
+		$theme = base::select('themes', '', '*', $where_arr);
+		/*if (!file_exists('themes/'.$theme))
+		 {                *
+			$themes = base::select('themes', '', '*');
+			$theme = False;
+			foreach ($themes as $item)
+			{
+				if (file_exists('themes/'.$item['directory']))
+				{
+					$theme = array($item);
+					break;
+				}
+			}
+			if (!$theme)
+				return -1;
+		}*/
+		return $theme[0];
 	}
 	
 	function get_users_count()
@@ -166,7 +188,7 @@ class users
 					return -2;
 			$current_date = date("y-m-d H:i:s");
 			$pass = md5($pass);
-			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '0'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'));
+			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '0'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
 			$ret = base::insert('users', $user_arr);
 			return $ret;
 	}
@@ -207,20 +229,28 @@ class users
 	
 	function modify_user_info($field, $value, $id)
 	{
-			if ($field != '' && $value != '')
+		if ($field != '' && $value != '')
+		{
+			if($id != 1)
 			{
-					$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
-					$sel = base::select('users', '', '*', $where_arr);
-					if(!empty($sel))
-					{
-							$ret = base::update('users', $field, $value, 'id', $id);
-							return $ret;
-					}
-					else
-							return -2;
+				$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
+				$sel = base::select('users', '', '*', $where_arr);
+				if(!empty($sel))
+				{
+					$ret = base::update('users', $field, $value, 'id', $id);
+					return $ret;
+				}
+				else
+					return -2;
 			}
-			else 
-				return -1;
+			else
+			{
+				setcookie ($field, $value,time()+31536000);
+				return 1;
+			}
+		}
+		else 
+			return -1;
 	}
 	
 	function modify_user_read_settings($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp)
@@ -233,9 +263,24 @@ class users
 		$show_ua = empty($show_ua) ? 0 : 1;
 		$sort_to = empty($sort_to) ? 0 : 1;
 		$show_resp = empty($show_resp) ? 0 : 1;
-		$param_arr = array($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp);
-		$ret = base::query('UPDATE users SET theme = \'::1::\', news_on_page = \'::2::\', comments_on_page = \'::3::\', threads_on_page = \'::4::\', show_avatars = \'::5::\', show_ua = \'::6::\', sort_to = \'::7::\', show_resp = \'::8::\'  WHERE id = \'::0::\'', 'assoc_array', $param_arr);
-		return $ret;
+		if($id!=1)
+		{
+			$param_arr = array($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp);
+			$ret = base::query('UPDATE users SET theme = \'::1::\', news_on_page = \'::2::\', comments_on_page = \'::3::\', threads_on_page = \'::4::\', show_avatars = \'::5::\', show_ua = \'::6::\', sort_to = \'::7::\', show_resp = \'::8::\'  WHERE id = \'::0::\'', 'assoc_array', $param_arr);
+			return $ret;
+		}
+		else
+		{
+			setcookie ('theme', $theme,time()+31536000);
+			setcookie ('news_on_page', $news_on_page,time()+31536000);
+			setcookie ('comments_on_page', $comments_on_page,time()+31536000);
+			setcookie ('threads_on_page', $threads_on_page,time()+31536000);
+			setcookie ('show_photos', $show_photos,time()+31536000);
+			setcookie ('show_ua', $show_ua,time()+31536000);
+			setcookie ('sort_to', $sort_to,time()+31536000);
+			setcookie ('show_resp', $show_resp,time()+31536000);
+			return 1;
+		}
 	}
 	
 	function modify_user_info_settings($id, $user_name, $user_lastname, $gender, $user_email, $show_email, $user_im, $show_im, $country, $city, $additional)
@@ -290,14 +335,25 @@ class users
 	
 	function set_filter($id, $str)
 	{
-		$ret = base::update('users', 'filters', $str, 'id', $id);
-		return $ret;
+		if($id!=1)
+		{
+			$ret = base::update('users', 'filters', $str, 'id', $id);
+			return $ret;
+		}
+		else
+		{
+			setcookie ('filters', $str, time()+31536000);
+			return 1;
+		}
 	}
 	
 	function get_filter($id)
 	{
+		
 		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
 		$sel = base::select('users', '', 'filters', $where_arr);
+		if($id==1)
+			$sel[0]['filters'] = empty($_COOKIE['filters']) ? $sel[0]['filters'] : $_COOKIE['filters'];
 		return $sel[0]['filters'];
 	}
 	
@@ -307,6 +363,8 @@ class users
 		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
 		$sel = base::select('users', '', 'blocks', $where_arr);
 		$str = $sel[0]['blocks'];
+		if($id==1)
+			$str = empty($_COOKIE['blocks']) ? $sel[0]['blocks'] : $_COOKIE['blocks'];
 		$blocks_arr = split(",", $str);
 		for($i=0; $i<count($blocks_arr);$i++)
 		{
