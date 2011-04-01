@@ -103,7 +103,13 @@ if(empty($_POST['submit_form']))
 			include 'themes/'.$theme.'/templates/add_content/forum_bottom.tpl.php';
 		}
 		else
-			echo 'Такой категории не существует';
+		{
+			$legend = 'Такой категории не существует';
+			$text = 'Такой категории не существует';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			exit();
+		}
 	}
 }
 else
@@ -172,14 +178,20 @@ else
 				} 
 				else 
 				{
-					echo '<fieldset style="border: 1px dashed #ffffff">Не удалось загрузить файл.</fieldset>';
+					$legend = 'Не удалось загрузить файл.';
+					$text = 'Не удалось загрузить файл.';
+					include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 					include 'themes/'.$theme.'/templates/footer.tpl.php';
 					exit();
 				}
 			}
 			else
 			{
-				echo '<fieldset style="border: 1px dashed #ffffff">'.$error.'</fieldset>';
+				$legend = $error;
+				$text = $error;
+				include 'themes/'.$theme.'/templates/fieldset.tpl.php';
+				include 'themes/'.$theme.'/templates/footer.tpl.php';
+				exit();
 			}
 			
 		}
@@ -194,10 +206,8 @@ else
 	messages::new_thread($_POST['subject'], $_POST['comment'], $section, $_POST['subsection_id'], $file, $extension, $file_size, $image_size);
 	if($section_id==1 || $section_id==2 || $section_id==3)
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'view-all.php">');  
-		//header('location: view-all.php');
 	else if($section_id==4)
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'group.php?id='.$_POST['subsection_id'].'&page=1">');  
-		//header('location: group.php?id='.$_POST['subsection_id'].'&page=1');
 }
 include 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

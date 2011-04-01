@@ -13,17 +13,12 @@ else
 if(!empty($_GET['user']))
 	$user = (string)$_GET['user'];
 else
-{
 	$user = $profile_name;
-}
 $limit = 50;
 include 'links.php';
 include 'themes/'.$theme.'/templates/header.tpl.php';
-
 include 'themes/'.$theme.'/templates/view_comments/top.tpl.php';
-
 $msg = messages::get_user_messages($user, $limit, $offset);
-
 for($i=0; $i<count($msg); $i++)
 {
 	$sect = sections::get_section_by_tid($msg[$i]['tid']);
@@ -37,7 +32,6 @@ for($i=0; $i<count($msg); $i++)
 	$timestamp = $msg[$i]['timest'];
 	include 'themes/'.$theme.'/templates/view_comments/middle.tpl.php';
 }
-
 if(count($msg)<$limit)
 	$next_offset = $offset;
 else
@@ -47,6 +41,5 @@ if($offset>$limit)
 else
 	$prev_offset = 0;
 include 'themes/'.$theme.'/templates/view_comments/bottom.tpl.php';
-
 include 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

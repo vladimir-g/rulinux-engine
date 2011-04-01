@@ -13,7 +13,9 @@ if(!empty($_POST['sbm']))
 {
 	if (empty($_POST['subject']))
 	{
-		echo '<fieldset style="border: 1px dashed #ffffff">Не заполнено поле \'Тема\'</fieldset>';
+		$legend = 'Не заполнено поле \'Тема\'.';
+		$text = 'Не заполнено поле \'Тема\'';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		define(SUBJ_SET, false);
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
@@ -23,7 +25,9 @@ if(!empty($_POST['sbm']))
 		
 	if (empty($_POST['comment']))
 	{
-		echo '<fieldset style="border: 1px dashed #ffffff">Не заполнено поле \'Ваш коментарий\'</fieldset>';
+		$legend = 'Не заполнено поле \'Ваш коментарий\'';
+		$text = 'Не заполнено поле \'Ваш коментарий\'';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		define(COMM_SET, false);
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
@@ -48,7 +52,9 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 			}
 			else 
 			{
-				echo '<fieldset style="border: 1px dashed #ffffff">Неверно введен ответ с картинки</fieldset>';
+				$legend = 'Неверно введен ответ с картинки';
+				$text = 'Неверно введен ответ с картинки';
+				include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 				include 'themes/'.$theme.'/templates/footer.tpl.php';
 				exit();
 			}
@@ -71,7 +77,9 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 	}
 	else
 	{
-		echo '<fieldset style="border: 1px dashed #ffffff">Ошибка! Постинг из-под данного аккаунта был заблокирован модератором</fieldset>';
+		$legend = 'Вы не можете отправить сообщение';
+		$text = 'Постинг из-под данного аккаунта был заблокирован модератором';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}

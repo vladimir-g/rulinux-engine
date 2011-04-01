@@ -77,7 +77,7 @@
 <td><?=$last_comment_date?></td>
 </tr>
 <tr>
-<td>Всего комментариев:</td>
+<td>Всего <a href="<?=$link?>">комментариев</a>:</td>
 <td><?=$comments_count?></td>
 </tr>
 <tr>

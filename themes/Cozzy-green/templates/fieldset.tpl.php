@@ -1,0 +1,1 @@
+<fieldset><legend><?=$legend?></legend><p align="center"><?=$text?></p></fieldset>

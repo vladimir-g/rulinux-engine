@@ -21,52 +21,74 @@ if($_POST['action']=="pass")
 	{
 		if($uid==1)
 		{
-			echo 'Вы не можете сменить пароль для пользователя anonymous';
+			$legend = 'Невозможно выполнить действие';
+			$text = 'Вы не можете сменить пароль для пользователя anonymous';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		if(empty($_POST['old_pass']))
 		{
-			echo 'Введите старый пароль';
+			$legend = 'Введите старый пароль';
+			$text = 'Введите старый пароль';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		if(empty($_POST['new_pass']))
 		{
-			echo 'Введите новый пароль';
+			$legend = 'Введите новый пароль';
+			$text = 'Введите новый пароль';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		if(empty($_POST['new_pass_retype']))
 		{
-			echo 'Введите подтверждение нового пароля';
+			$legend = 'Введите подтверждение нового пароля';
+			$text = 'Введите подтверждение нового пароля';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		if($_POST['new_pass'] != $_POST['new_pass_retype'])
 		{
-			echo 'Строка нового пароля не соответствует строке подтверждения';
+			$legend = 'Неверно введен пароль';
+			$text = 'Строка нового пароля не соответствует строке подтверждения';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		if(md5($_POST['old_pass']) != $usr['password'])
 		{
-			echo 'Неверно введен старый пароль';
+			$legend = 'Неверно введен старый пароль';
+			$text = 'Неверно введен старый пароль';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		$ret = users::modify_user_info('password', md5($_POST['new_pass']), $uid);
 		if($ret == 1)
 		{
-			echo '<fieldset><legend>Пароль успешно изменен</legend><p align="center">Пароль успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.</p></fieldset>';
+			$legend = 'Пароль успешно изменен';
+			$text = 'Пароль успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
 		}
 		else
-			echo 'Произошла ошибка при смене пароля';
+		{
+			$legend = 'Произошла ошибка при смене пароля';
+			$text = 'Произошла ошибка при смене пароля. Возможно это связано с ошибками при обращении к базе данных';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			exit();
+		}
 	}
 	else
 	{
-		echo 'У вас нет полномочий для смены пароля данного пользователя';
+		$legend = 'Вы не можете сменить пароль этому пользователю';
+		$text = 'У вас нет полномочий для смены пароля данного пользователя';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -75,7 +97,9 @@ else if($_POST['action']=="info")
 {	
 	if($uid==1)
 	{
-		echo 'Вы не можете сменить информацию о пользователе anonymous';
+		$legend = 'Вы не можете сменить информацию о пользователе anonymous';
+		$text = 'Вы не можете сменить информацию о пользователе anonymous';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -113,20 +137,25 @@ else if($_POST['action']=="info")
 				$val = users::modify_user_info('photo', $filename.'.'.$ext[1], $uid);
 				if($val != 1)
 				{
-					echo 'Произошла ошибка при смене информации';
+					$legend = 'Произошла ошибка при смене информации';
+					$text = 'Произошла ошибка при смене информации';
+					include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 					include 'themes/'.$theme.'/templates/footer.tpl.php';
 					exit();
 				}
 			}
 		}
-
 		$val = users::modify_user_info_settings($uid, $_POST['user_name'], $_POST['user_lastname'], $_POST['gender'], $_POST['user_email'], $_POST['showEmail'], $_POST['user_im'], $_POST['showIM'], $_POST['user_country'], $_POST['user_city'], $_POST['user_additional']);
-		echo '<fieldset><legend>Пользовательская информация успешно изменена</legend><p align="center">Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.</p></fieldset>';
+		$legend = 'Пользовательская информация успешно изменена';
+		$text = 'Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
 	}
 	else
 	{
-		echo 'У вас нет полномочий для смены информации о данном пользователе';
+		$legend = 'У вас нет полномочий для смены информации о данном пользователе';
+		$text = 'У вас нет полномочий для смены информации о данном пользователе';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -145,19 +174,25 @@ else if($_POST['action']=="filters")
 		$ret = users::set_filter($uid, $str);
 		if($ret == 1)
 		{
-			echo '<fieldset><legend>Настройки фильтров успешно изменены</legend><p align="center">Настройки фильтров успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.</p></fieldset>';
+			$legend = 'Настройки фильтров успешно изменены';
+			$text = 'Настройки фильтров успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
 		}
 		else
 		{
-			echo 'Произошла ошибка при смене настроек фильтров';
+			$legend = 'Произошла ошибка при смене настроек фильтров';
+			$text = 'Произошла ошибка при смене настроек фильтров';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 	}
 	else
 	{
-		echo 'У вас нет полномочий для смены настроек фильтров';
+		$legend = 'У вас нет полномочий для смены настроек фильтров';
+		$text = 'У вас нет полномочий для смены настроек фильтров';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -171,7 +206,9 @@ else if($_POST['action']=="read")
 			$val = users::modify_user_info('gmt', htmlspecialchars($_POST['user-gmt']), $uid);
 			if($val != 1)
 			{
-				echo 'Произошла ошибка при смене часового пояса';
+				$legend = 'Произошла ошибка при смене часового пояса';
+				$text = 'Произошла ошибка при смене часового пояса';
+				include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 				include 'themes/'.$theme.'/templates/footer.tpl.php';
 				exit();
 			}
@@ -180,19 +217,25 @@ else if($_POST['action']=="read")
 		$ret = users::modify_user_read_settings($uid, $_POST['theme'], $_POST['news_on_page'], $_POST['comments_on_page'], $_POST['threads_on_page'], $_POST['show_photos'], $_POST['show_ua'], $_POST['sort_to'], $_POST['show_resp']);
 		if($ret >=0)
 		{
-			echo '<fieldset><legend>Настройки чтения успешно изменены</legend><p align="center">Настройки чтения успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.</p></fieldset>';
+			$legend = 'Настройки чтения успешно изменены';
+			$text = 'Настройки чтения успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
 		}
 		else
 		{
-			echo 'Произошла ошибка при смене настроек чтения';
+			$legend = 'Произошла ошибка при смене настроек чтения';
+			$text = 'Произошла ошибка при смене настроек чтения';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 	}
 	else
 	{
-		echo 'У вас нет полномочий для смены настроек чтения';
+		$legend = 'У вас нет полномочий для смены настроек чтения';
+		$text = 'У вас нет полномочий для смены настроек чтения';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -203,7 +246,9 @@ else if($_POST['action']=="moder")
 	{
 		if($uid==1)
 		{
-			echo 'Вы не можете банить пользователя anonymous или выставлять ему уровень каптчи';
+			$legend = 'Действие запрещено';
+			$text = 'Вы не можете банить пользователя anonymous или выставлять ему уровень каптчи';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
@@ -213,19 +258,25 @@ else if($_POST['action']=="moder")
 		$cpt_ret = users::modify_user_info('captcha', $value, $uid);
 		if($ban_ret >=0 || $cpt_ret >=0)
 		{
-			echo '<fieldset><legend>Модераторские настройки успешно изменены</legend><p align="center">Модераторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.</p></fieldset>';
+			$legend = 'Модераторские настройки успешно изменены';
+			$text = 'Модераторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
 		}
 		else
 		{
-			echo 'Произошла ошибка при смене модераторских настроек';
+			$legend = 'Произошла ошибка при смене модераторских настроек';
+			$text = 'Произошла ошибка при смене модераторских настроек';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 	}
 	else
 	{
-		echo 'Вы не имеете полномочий для изменения модераторских настроек';
+		$legend = 'Действие запрещено';
+		$text = 'Вы не имеете полномочий для изменения модераторских настроек';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -234,7 +285,9 @@ else if($_POST['action']=="admin")
 {
 	if($uid==1)
 	{
-		echo 'Вы не можете менять настройки пользователя anonymous';
+		$legend = 'Действие запрещено';
+		$text = 'Вы не можете менять настройки пользователя anonymous';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -244,19 +297,25 @@ else if($_POST['action']=="admin")
 		$ret = users::modify_user_info('gid', $group, $uid);
 		if($ret >=0)
 		{
-			echo '<fieldset><legend>Администраторские настройки успешно изменены</legend><p align="center">Администраторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.</p></fieldset>';
+			$legend = 'Администраторские настройки успешно изменены';
+			$text = 'Администраторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
 		}
 		else
 		{
-			echo 'Произошла ошибка при смене администраторских настроек';
+			$legend = 'Произошла ошибка при смене администраторских настроек';
+			$text = 'Произошла ошибка при смене администраторских настроек';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 	}
 	else
 	{
-		echo 'Вы не имеете полномочий для изменения администраторских настроек';
+		$legend = 'Действие запрещено';
+		$text = 'Вы не имеете полномочий для изменения администраторских настроек';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -277,19 +336,25 @@ else if($_POST['action']=="main_page")
 		$ret = users::modify_user_info('blocks', $blocks_str, $uid);
 		if($ret >=0)
 		{
-			echo '<fieldset><legend>Вид главной страницы успешно изменен</legend><p align="center">Вид главной страницы успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.</p></fieldset>';
+			$legend = 'Вид главной страницы успешно изменен';
+			$text = 'Вид главной страницы успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
 		}
 		else
 		{
-			echo 'Произошла ошибка при смене вида главной страницы';
+			$legend = 'Произошла ошибка при смене вида главной страницы';
+			$text = 'Произошла ошибка при смене вида главной страницы';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 	}
 	else
 	{
-		echo 'Вы не имеете полномочий для изменения вида главной страницы';
+		$legend = 'Действие запрещено';
+		$text = 'Вы не имеете полномочий для изменения вида главной страницы';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -330,6 +395,7 @@ else
 		$last_comment_date = $usr_add['last_comment_date'];
 		$comments_count = $usr_add['comments_count'];
 		$topics_count = $usr_add['topics_count'];
+		$link = 'view-comments.php?user='.$user;
 		include 'themes/'.$theme.'/templates/profile/middle.tpl.php';
 		include 'themes/'.$theme.'/templates/profile/form.tpl.php';
 	}
@@ -337,7 +403,9 @@ else
 	{
 		if($uid == 1 && $uinfo['id']!= 1)
 		{
-			echo 'Вы не можете сменить настройки для пользователя anonymous';
+			$legend = 'Действие запрещено';
+			$text = 'Вы не можете сменить настройки для пользователя anonymous';
+			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			include 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}

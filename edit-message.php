@@ -15,7 +15,9 @@ if(empty($_POST['sbm']))
 	$msg = messages::get_message($message_id);
 	if(empty($msg))
 	{
-		echo 'Произошла ошибка при выборке сообщения из базы';
+		$legend = 'Произошла ошибка при выборке сообщения из базы';
+		$text = 'Произошла ошибка при выборке сообщения из базы';
+		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		include 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
@@ -38,7 +40,6 @@ else
 	}
 	$page = ceil($message_number/$uinfo['comments_on_page']);
 	die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thr[0]['tid'].'&page='.$page.'">');  
-	//header('location: message.php?newsid='.$thr[0]['tid'].'&page='.$page);
 }
 include 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

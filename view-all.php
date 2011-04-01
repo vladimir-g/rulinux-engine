@@ -24,7 +24,6 @@ for($i=0; $i<count($unconfirmed); $i++)
 	$author_profile = '/profile.php?user='.$usr['nick'];
 	$timestamp = $unconfirmed[$i]['timest'];
 	$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($unconfirmed[$i]['subsection']);
-	
 	if($unconfirmed[$i]['section']==1)
 		include 'themes/'.$theme.'/templates/view_all/news.tpl.php';
 	else if($unconfirmed[$i]['section']==2)
