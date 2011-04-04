@@ -25,7 +25,7 @@ for($i=0; $i<count($messages);$i++)
 	$link = 'message.php?newsid='.$messages[$i]['tid'].'&page='.$page.'#'.$messages[$i]['id'];
 	$subject = $messages[$i]['subject'];
 	$author_info = users::get_user_info($messages[$i]['uid']);
-	$author = $author_info['nick'];
+	in_array($author_info['banned'], $true_arr) ? $author = '<s>'.$author_info['nick'].'</s>' :$author = $author_info['nick'];
 	if(in_array($uinfo['show_resp'], $true_arr))
 	{
 		if($messages[$i]['referer']>0)

@@ -20,7 +20,7 @@ for($i=0; $i<count($unconfirmed); $i++)
 	$comment = $unconfirmed[$i]['comment'];
 	$size = $unconfirmed[$i]['image_size'].', '.$unconfirmed[$i]['file_size'];
 	$usr = users::get_user_info($unconfirmed[$i]['uid']);
-	$author = $usr['nick'];
+	in_array($usr['banned'], $true_arr) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
 	$author_profile = '/profile.php?user='.$usr['nick'];
 	$timestamp = $unconfirmed[$i]['timest'];
 	$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($unconfirmed[$i]['subsection']);

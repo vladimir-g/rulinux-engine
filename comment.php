@@ -104,7 +104,7 @@ else
 	$message_comment = $msg['comment'];
 	$message_timestamp = $msg['timest'];
 	$msg_autor = users::get_user_info($msg['uid']);
-	$message_autor = $msg_autor['nick'];
+	in_array($msg_autor['banned'], $true_arr) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' : $message_autor = $msg_autor['nick'];
 	$message_autor_profile_link = '/profile.php?user='.$message_autor;
 	$message_useragent = $msg['useragent'];
 }

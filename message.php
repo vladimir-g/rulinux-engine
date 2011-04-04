@@ -20,8 +20,8 @@ $topic_start = messages::get_topic_start_message($thread_id);
 $message_subject = $thread_subject = $topic_start['subject'];
 $message_comment = $topic_start['comment'];
 $msg_autor = users::get_user_info($topic_start['uid']);
-$message_autor = $msg_autor['nick'];
-$message_autor_profile_link = '/profile.php?user='.$message_autor;
+in_array($msg_autor['banned'], $true_arr) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
+$message_autor_profile_link = '/profile.php?user='.$msg_autor['nick'];
 if(in_array($topic_start['show_ua'],$false))
 	$message_useragent = '';
 else
@@ -156,8 +156,8 @@ if($messages_count>1)
 		else
 			$message_comment = $cmnt[$i]['comment'];
 		$msg_autor = users::get_user_info($cmnt[$i]['uid']);
-		$message_autor = $msg_autor['nick'];
-		$message_autor_profile_link = '/profile.php?user='.$message_autor;
+		in_array($msg_autor['banned'], $true_arr) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
+		$message_autor_profile_link = '/profile.php?user='.$msg_autor['nick'];
 		if(in_array($cmnt[$i]['show_ua'], $false_arr))
 			$message_useragent = '';
 		else
