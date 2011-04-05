@@ -5,6 +5,8 @@ require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
+$profile_name = $_SESSION['user_name'];
+$profile_link = 'profile.php?user='.$_SESSION['user_name'];
 $title = 'Добавить коментарий';
 require 'links.php';
 require 'themes/'.$theme.'/templates/header.tpl.php';
@@ -42,7 +44,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 {
 	if ((users::user_banned($_SESSION['user_id']) == 0) || $_SESSION['user_id'] == '')
 	{
-		if ($_SESSION['user_id'] == '' || users::get_captcha_level($_SESSION['user_id']) > -1)
+		if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
 		{
 			if(isset($_SESSION['captcha_keystring'] ) && $_SESSION['captcha_keystring']  == $_POST['keystring'])
 			{
@@ -111,8 +113,8 @@ else
 
 
 
-if ($_SESSION['user_id'] == '' || users::get_captcha_level($_SESSION['user_id']) > -1)
-$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
+if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
+	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 else
 $captcha = '';
 require 'themes/'.$theme.'/templates/comment/comment.tpl.php';

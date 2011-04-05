@@ -45,7 +45,6 @@ class core
 			$sel = base::query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\'', 'assoc_array', $param_arr);
 		}
 		return $sel[0]['cnt'];
-			
 	}
 	
 	function get_readers($tid)

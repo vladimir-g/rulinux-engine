@@ -33,7 +33,10 @@ if(empty($_POST['sbm']))
 	{
 		$subj = $msg['subject'];
 		$comment = $msg['raw_comment'];
-		//$captcha
+		if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
+			$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
+		else
+			$captcha = '';
 		require 'themes/'.$theme.'/templates/edit_message/edit_message.tpl.php';
 	}
 }
@@ -46,6 +49,17 @@ else
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
+	}
+	if(users::get_captcha_level($_SESSION['user_id']) > -1)
+	{
+		if(empty($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])
+		{
+			$legend = 'Неверно введен ответ с картинки';
+			$text = 'Неверно введен ответ с картинки';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			exit();
+		}
 	}
 	if($_POST['msg_uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 	{

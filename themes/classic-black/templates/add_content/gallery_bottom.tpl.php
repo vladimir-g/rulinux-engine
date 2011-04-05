@@ -8,6 +8,11 @@
 <textarea name="comment" id="editor" rows="20" cols="80"></textarea>
 </td>
 </tr>
+</tr>
+<tr>
+<td></td>
+<td><?=$captcha?></td>
+</tr>
 </table>
 <input type="submit" name="submit_form" value="Отправить">
 &nbsp;

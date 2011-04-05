@@ -1,6 +1,6 @@
 <?php
 require 'classes/core.php';
-auth_user('anonymous', '', true);
+auth_user('root', 'root', false);
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];

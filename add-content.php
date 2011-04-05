@@ -13,6 +13,10 @@ require 'links.php';
 require 'themes/'.$theme.'/templates/header.tpl.php';
 if(empty($_POST['submit_form']))
 {
+	if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
+		$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
+	else
+		$captcha = '';
 	if(empty($_GET['section']))
 		require 'themes/'.$theme.'/templates/add_content/sections.tpl.php';
 	else
@@ -114,6 +118,17 @@ if(empty($_POST['submit_form']))
 }
 else
 {
+	if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
+	{
+		if(empty($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])
+		{
+			$legend = 'Неверно введен ответ с картинки';
+			$text = 'Неверно введен ответ с картинки';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			exit();
+		}
+	}
 	$sct=array(1, 2, 3, 4);
 	if(!in_array($section_id, $sct))
 		$section = 4;

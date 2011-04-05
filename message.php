@@ -35,7 +35,8 @@ $messages_count = messages::get_messages_count($thread_id);
 if(!empty($topic_start['changed_by']))
 {
 	$usr = users::get_user_info($topic_start['changed_by']);
-	$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$topic_start['changed_for'].'</b></i>';
+	$reason = empty($topic_start['changed_for']) ? '"не указана"' : $topic_start['changed_for'];
+	$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
 }
 $title = $site_name.' - '.$section_name.' - '.$subsection_name.' - '.$thread_subject;
 $comments_on_page = $uinfo['comments_on_page'];
@@ -168,7 +169,8 @@ if($messages_count>1)
 		if(!empty($cmnt[$i]['changed_by']))
 		{
 			$usr = users::get_user_info($cmnt[$i]['changed_by']);
-			$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$cmnt[$i]['changed_for'].'</b></i>';
+			$reason = empty($cmnt[$i]['changed_for']) ? '"не указана"' : $cmnt[$i]['changed_for'];
+			$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
 		}
 		else
 			$changed='';
