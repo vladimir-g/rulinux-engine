@@ -37,13 +37,20 @@ class mark
 	function highlight($code, $lang, $path)
 	{
 		if(empty($lang))
-		{
 			$lang = 'c';
-		}
 		$geshi = new GeSHi($code, $lang);
 		$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,1);
 		$code = geshi_highlight($code, $lang, $path, true);
 		return $code;
+	}
+	
+	function get_marks()
+	{
+		$sel = base::select('marks', '', '*');
+		if(!empty($sel))
+			return $sel;
+		else
+			return -1;
 	}
 	
 }

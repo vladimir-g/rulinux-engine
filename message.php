@@ -1,6 +1,6 @@
 <?php
-include 'classes/core.php';
-include 'links.php';
+require 'classes/core.php';
+require 'links.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
@@ -101,21 +101,21 @@ if($pages_count > 1)
 		$pages = $pages.'<a href="message.php?newsid='.$thread_id.'&page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
-include 'themes/'.$theme.'/templates/header.tpl.php';
-include 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
+require 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
 switch($section_id)
 {
 	case 1:
 		$news_approve_moder_name = users::get_user_info($topic_start['approved_by']);
 		if(in_array($topic_start['approved'], $true_arr))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="profile.php?user='.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
-		include 'themes/'.$theme.'/templates/message/news.tpl.php';
+		require 'themes/'.$theme.'/templates/message/news.tpl.php';
 		break;
 	case 2:
 		$news_approve_moder_name = users::get_user_info($topic_start['approved_by']);
 		if(in_array($topic_start['approved'], $true_arr))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="profile.php?user='.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
-		include 'themes/'.$theme.'/templates/message/article.tpl.php';
+		require 'themes/'.$theme.'/templates/message/article.tpl.php';
 		break;
 	case 3:
 		$news_approve_moder_name = users::get_user_info($topic_start['approved_by']);
@@ -126,16 +126,16 @@ switch($section_id)
 		$gallery_image_size = $topic_start['image_size'];
 		$gallery_file_size = $topic_start['file_size'];
 		
-		include 'themes/'.$theme.'/templates/message/gallery.tpl.php';
+		require 'themes/'.$theme.'/templates/message/gallery.tpl.php';
 		break;
 	case 4:
-		include 'themes/'.$theme.'/templates/message/forum.tpl.php';
+		require 'themes/'.$theme.'/templates/message/forum.tpl.php';
 		break;
 	default:
-		include 'themes/'.$theme.'/templates/message/forum.tpl.php';
+		require 'themes/'.$theme.'/templates/message/forum.tpl.php';
 		break;
 }
-include 'themes/'.$theme.'/templates/message/nav.tpl.php';
+require 'themes/'.$theme.'/templates/message/nav.tpl.php';
 if($messages_count>1)
 {
 	$cmnt = messages::get_comments_on_page($thread_id, $begin, $comments_on_page);
@@ -172,10 +172,10 @@ if($messages_count>1)
 		}
 		else
 			$changed='';
-		include 'themes/'.$theme.'/templates/message/message.tpl.php';
+		require 'themes/'.$theme.'/templates/message/message.tpl.php';
 	}
-	include 'themes/'.$theme.'/templates/message/nav.tpl.php';
+	require 'themes/'.$theme.'/templates/message/nav.tpl.php';
 }
-include 'themes/'.$theme.'/templates/message/thread_readers.tpl.php';
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/message/thread_readers.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

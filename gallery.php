@@ -1,6 +1,6 @@
 <?php
 $subsection_id = (int)$_GET['id'];
-include 'classes/core.php';
+require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
@@ -14,9 +14,9 @@ $section_id = 3;
 $subsection_name = $subsect_arr['name'];
 $subsection_description = $subsect_arr['description'];
 $title = $site_name.' - '.$section_name.' - '.$subsection_name;
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
-include 'themes/'.$theme.'/templates/gallery/nav_top.tpl.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
+require 'themes/'.$theme.'/templates/gallery/nav_top.tpl.php';
 
 $subsct = sections::get_subsections(3);
 for($i=0; $i<count($subsct);$i++)
@@ -27,11 +27,11 @@ for($i=0; $i<count($subsct);$i++)
 		$selected_nav = 'selected';
 	else
 		$selected_nav = '';
-	include 'themes/'.$theme.'/templates/gallery/nav_middle.tpl.php';
+	require 'themes/'.$theme.'/templates/gallery/nav_middle.tpl.php';
 }
-include 'themes/'.$theme.'/templates/gallery/nav_bottom.tpl.php';
+require 'themes/'.$theme.'/templates/gallery/nav_bottom.tpl.php';
 
-include 'themes/'.$theme.'/templates/gallery/top.tpl.php';
+require 'themes/'.$theme.'/templates/gallery/top.tpl.php';
 $threads_count = threads::get_threads_count(3, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
@@ -96,7 +96,7 @@ for($i=0; $i<count($gal); $i++)
 	$thread_id = $gal[$i]['id'];
 	$count = threads::get_comments_count($thread_id);
 	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
-	include 'themes/'.$theme.'/templates/gallery/middle.tpl.php';
+	require 'themes/'.$theme.'/templates/gallery/middle.tpl.php';
 }
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

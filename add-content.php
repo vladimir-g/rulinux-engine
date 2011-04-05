@@ -1,113 +1,113 @@
 <?php
 $section_id = (int)$_GET['section'];
 $subsection_id = (int)$_GET['subsection'];
-include 'classes/core.php';
+require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
 $title = $site_name.' - Добавить материал';
-include 'classes/faq.class.php';
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
+require 'classes/faq.class.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
 if(empty($_POST['submit_form']))
 {
 	if(empty($_GET['section']))
-		include 'themes/'.$theme.'/templates/add_content/sections.tpl.php';
+		require 'themes/'.$theme.'/templates/add_content/sections.tpl.php';
 	else
 	{
 		$subsect = sections::get_subsections($section_id);
 		if($section_id==1)
 		{
-			include 'themes/'.$theme.'/templates/add_content/news_top.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/news_top.tpl.php';
 			if(empty($_GET['subsection']))
 			{
-				include 'themes/'.$theme.'/templates/add_content/select_top.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select_top.tpl.php';
 				for($i=0; $i<count($subsect); $i++)
 				{
 					$subsect_id = $subsect[$i]['sort'];
 					$subsection_name = $subsect[$i]['name'];
-					include 'themes/'.$theme.'/templates/add_content/select_middle.tpl.php';
+					require 'themes/'.$theme.'/templates/add_content/select_middle.tpl.php';
 				}
-				include 'themes/'.$theme.'/templates/add_content/select_bottom.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select_bottom.tpl.php';
 			}
 			else
 			{
 				$subsect_id = $subsect[$subsection_id-1]['sort'];
-				include 'themes/'.$theme.'/templates/add_content/select.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select.tpl.php';
 			}
-			include 'themes/'.$theme.'/templates/add_content/news_bottom.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/news_bottom.tpl.php';
 		}
 		else if($section_id==2)
 		{
-			include 'themes/'.$theme.'/templates/add_content/articles_top.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/articles_top.tpl.php';
 			if(empty($_GET['subsection']))
 			{
-				include 'themes/'.$theme.'/templates/add_content/select_top.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select_top.tpl.php';
 				for($i=0; $i<count($subsect); $i++)
 				{
 					$subsect_id = $subsect[$i]['sort'];
 					$subsection_name = $subsect[$i]['name'];
-					include 'themes/'.$theme.'/templates/add_content/select_middle.tpl.php';
+					require 'themes/'.$theme.'/templates/add_content/select_middle.tpl.php';
 				}
-				include 'themes/'.$theme.'/templates/add_content/select_bottom.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select_bottom.tpl.php';
 			}
 			else
 			{
 				$subsect_id = $subsect[$subsection_id-1]['sort'];
-				include 'themes/'.$theme.'/templates/add_content/select.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select.tpl.php';
 			}
-			include 'themes/'.$theme.'/templates/add_content/articles_bottom.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/articles_bottom.tpl.php';
 		}
 		else if($section_id==3)
 		{
-			include 'themes/'.$theme.'/templates/add_content/gallery_top.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/gallery_top.tpl.php';
 			if(empty($_GET['subsection']))
 			{
-				include 'themes/'.$theme.'/templates/add_content/select_top.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select_top.tpl.php';
 				for($i=0; $i<count($subsect); $i++)
 				{
 					$subsect_id = $subsect[$i]['sort'];
 					$subsection_name = $subsect[$i]['name'];
-					include 'themes/'.$theme.'/templates/add_content/select_middle.tpl.php';
+					require 'themes/'.$theme.'/templates/add_content/select_middle.tpl.php';
 				}
-				include 'themes/'.$theme.'/templates/add_content/select_bottom.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select_bottom.tpl.php';
 			}
 			else
 			{
 				$subsect_id = $subsect[$subsection_id-1]['sort'];
-				include 'themes/'.$theme.'/templates/add_content/select.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select.tpl.php';
 			}
-			include 'themes/'.$theme.'/templates/add_content/gallery_bottom.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/gallery_bottom.tpl.php';
 		}
 		else if($section_id==4)
 		{
-			include 'themes/'.$theme.'/templates/add_content/forum_top.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/forum_top.tpl.php';
 			if(empty($_GET['subsection']))
 			{
-				include 'themes/'.$theme.'/templates/add_content/select_top.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select_top.tpl.php';
 				for($i=0; $i<count($subsect); $i++)
 				{
 					$subsect_id = $subsect[$i]['sort'];
 					$subsection_name = $subsect[$i]['name'];
-					include 'themes/'.$theme.'/templates/add_content/select_middle.tpl.php';
+					require 'themes/'.$theme.'/templates/add_content/select_middle.tpl.php';
 				}
-				include 'themes/'.$theme.'/templates/add_content/select_bottom.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select_bottom.tpl.php';
 			}
 			else
 			{
 				$subsect_id = $subsect[$subsection_id-1]['sort'];
-				include 'themes/'.$theme.'/templates/add_content/select.tpl.php';
+				require 'themes/'.$theme.'/templates/add_content/select.tpl.php';
 			}
-			include 'themes/'.$theme.'/templates/add_content/forum_bottom.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/forum_bottom.tpl.php';
 		}
 		else
 		{
 			$legend = 'Такой категории не существует';
 			$text = 'Такой категории не существует';
-			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 	}
@@ -180,8 +180,8 @@ else
 				{
 					$legend = 'Не удалось загрузить файл.';
 					$text = 'Не удалось загрузить файл.';
-					include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-					include 'themes/'.$theme.'/templates/footer.tpl.php';
+					require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+					require 'themes/'.$theme.'/templates/footer.tpl.php';
 					exit();
 				}
 			}
@@ -189,8 +189,8 @@ else
 			{
 				$legend = $error;
 				$text = $error;
-				include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-				include 'themes/'.$theme.'/templates/footer.tpl.php';
+				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+				require 'themes/'.$theme.'/templates/footer.tpl.php';
 				exit();
 			}
 			
@@ -209,5 +209,5 @@ else
 	else if($section_id==4)
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'group.php?id='.$_POST['subsection_id'].'&page=1">');  
 }
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

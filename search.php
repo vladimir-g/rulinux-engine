@@ -1,19 +1,19 @@
 <?php
-include 'classes/core.php';
+require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $title = $site_name.' - Поиск';
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
 if(!empty($_GET['q']))
 {
 	$search_user = $_GET['username'];
 	$search_string = $_GET['q'];
-	include 'themes/'.$theme.'/templates/search/form.tpl.php';
-	$found_msg = core::search($_GET['q'], $_GET['include'], $_GET['date'], $_GET['section'], $_GET['username']);
+	require 'themes/'.$theme.'/templates/search/form.tpl.php';
+	$found_msg = core::search($_GET['q'], $_GET['require'], $_GET['date'], $_GET['section'], $_GET['username']);
 	if(!empty($found_msg))
 	{
 		for($i=0; $i<count($found_msg); $i++)
@@ -36,7 +36,7 @@ if(!empty($_GET['q']))
 			$author = $usr['nick'];
 			$author_profile = 'profile.php?id='.$usr['nick'];
 			$timestamp = $found_msg[$i]['timest'];
-			include 'themes/'.$theme.'/templates/search/msg.tpl.php';
+			require 'themes/'.$theme.'/templates/search/msg.tpl.php';
 		}
 	}
 }
@@ -44,8 +44,8 @@ else
 {
 	$search_user ='';
 	$search_string = '';
-	include 'themes/'.$theme.'/templates/search/form.tpl.php';
+	require 'themes/'.$theme.'/templates/search/form.tpl.php';
 }
 
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

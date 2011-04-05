@@ -1,24 +1,24 @@
 <?php
 $true_arr = array('t', '1', 'on');
 $false_arr = array('f', '0', 'off');
-include('config/db.inc.php');
+require('config/db.inc.php');
 if($GLOBALS['subd']=='mysql')
-	include "classes/base/mysql.php";
+	require "classes/base/mysql.php";
 else if ($GLOBALS['subd']=='postgresql')
-	include "classes/base/postgresql.php";
+	require "classes/base/postgresql.php";
 
-include "classes/core.class.php";
-include "classes/users.class.php";
-include "classes/auth.class.php";
+require "classes/core.class.php";
+require "classes/users.class.php";
+require "classes/auth.class.php";
 
 //session_start();
 $uinfo = users::get_user_info($_SESSION['user_id']);
 
 
-include "classes/mark.class.php";
-include "classes/filters.class.php";
-include "classes/sections.class.php";
-include "classes/threads.class.php";
-include "classes/messages.class.php";
+require "classes/mark.class.php";
+require "classes/filters.class.php";
+require "classes/sections.class.php";
+require "classes/threads.class.php";
+require "classes/messages.class.php";
 //auth_user('moder', 'moder', false);
 ?>

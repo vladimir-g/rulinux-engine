@@ -1,15 +1,15 @@
 <?php
 $page = (int)$_GET['page'];
-include 'classes/core.php';
+require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
 $title = $site_name.' - Пользователи';
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
-include 'themes/'.$theme.'/templates/users/top.tpl.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
+require 'themes/'.$theme.'/templates/users/top.tpl.php';
 
 $users_on_page = 20;
 $users_count = users::get_users_count();
@@ -72,8 +72,8 @@ for($i=0; $i<count($users); $i++)
 	$country = !empty($users[$i]['country'])? $users[$i]['country'] : 'страна не указана';
 	$email = in_array($users[$i]['show_email'], $true_arr) ? $users[$i]['email'] : 'скрыт';
 	$im = in_array($users[$i]['show_im'], $true_arr) ? $users[$i]['im'] : 'скрыт';
-	include 'themes/'.$theme.'/templates/users/middle.tpl.php';
+	require 'themes/'.$theme.'/templates/users/middle.tpl.php';
 }
-include 'themes/'.$theme.'/templates/users/bottom.tpl.php';
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/users/bottom.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

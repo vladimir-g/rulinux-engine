@@ -1,7 +1,7 @@
 <?php
 $subsection_id = (int)$_GET['id'];
 $page = (int)$_GET['page'];
-include 'classes/core.php';
+require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
@@ -15,9 +15,9 @@ $subsection_description = $subsect_arr['description'];
 $title = $site_name.' - '.$section_name.' - '.$subsection_name;
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
-include 'themes/'.$theme.'/templates/group/nav_top.tpl.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
+require 'themes/'.$theme.'/templates/group/nav_top.tpl.php';
 $subsct = sections::get_subsections(4);
 for($i=0; $i<count($subsct);$i++)
 {
@@ -27,10 +27,10 @@ for($i=0; $i<count($subsct);$i++)
 		$selected_nav = 'selected';
 	else
 		$selected_nav = '';
-	include 'themes/'.$theme.'/templates/group/nav_middle.tpl.php';
+	require 'themes/'.$theme.'/templates/group/nav_middle.tpl.php';
 }
-include 'themes/'.$theme.'/templates/group/nav_bottom.tpl.php';
-include 'themes/'.$theme.'/templates/group/top.tpl.php';
+require 'themes/'.$theme.'/templates/group/nav_bottom.tpl.php';
+require 'themes/'.$theme.'/templates/group/top.tpl.php';
 $threads_count = threads::get_threads_count(4, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
@@ -51,7 +51,7 @@ for($i=0; $i<count($thr); $i++)
 	$comments_in_thread_all =$cur_thr['comments_in_thread_all'];
 	$comments_in_thread_day = $cur_thr['comments_in_thread_day'];
 	$comments_in_thread_hour = $cur_thr['comments_in_thread_hour'];
-	include 'themes/'.$theme.'/templates/group/middle.tpl.php';
+	require 'themes/'.$theme.'/templates/group/middle.tpl.php';
 }
 if($pages_count > 1)
 {
@@ -97,6 +97,6 @@ if($pages_count > 1)
 		$pages = $pages.'<a href="group.php?id='.$subsection_id.'&page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
-include 'themes/'.$theme.'/templates/group/bottom.tpl.php';
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/group/bottom.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

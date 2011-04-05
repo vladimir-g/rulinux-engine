@@ -1,21 +1,21 @@
 <?php
 $subsection_id = (int)$_GET['id'];
-include 'classes/core.php';
+require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $title = $site_name.' - Регистрация нового пользователя';
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
 
 if($_SESSION['user_id']!=1)
 {
 	$legend = 'Вы уже зарегистрированны';
 	$text = 'Вы уже зарегистрированны на нашем сайте.';
-	include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-	include 'themes/'.$theme.'/templates/footer.tpl.php';
+	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+	require 'themes/'.$theme.'/templates/footer.tpl.php';
 	exit();
 }
 if($_POST['first_smb'])
@@ -26,24 +26,24 @@ if($_POST['first_smb'])
 		{
 			$legend = 'Не совпадают пароли';
 			$text = 'Текст в поле Пароль не совпадает с текстом введенным в поле Подверждения пароля';
-			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		if (!preg_match('/^([a-zA-Z][a-zA-Z0-9\_\-]*){2,}$/', $_POST['nick']))
 		{
 			$legend = 'Ошибка регистрации';
 			$text = 'Правила формирования ника:<ul><li>Только латинские буквы, цифры и символы _ и -<li>Начинается только с латинской буквы<li>Не менее 2 (двух) символов</ul> Если что-то забыл, то используемый регэксп расскажет об остальном: /^([a-zA-Z][a-zA-Z0-9\_\-]*){2,}$/';
-			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		if(!filter_var($_POST['e-mail'], FILTER_VALIDATE_EMAIL)) 
 		{
 			$legend = 'Не валидный e-mail';
 			$text = 'Указанный вами электронный адрес не прошел проверку на валидность';
-			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		$usr_exsts = users::user_exists($_POST['nick']);
@@ -51,8 +51,8 @@ if($_POST['first_smb'])
 		{
 			$legend = 'Такой пользователь уже существует';
 			$text = 'Вы не можете зарегистрировать пользователя с таким именем, так как такой пользователь уже существует.';
-			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		$sndmail = users::send_accept_mail($_POST['e-mail'], $_POST['nick'], $_POST['password_1']);
@@ -60,16 +60,16 @@ if($_POST['first_smb'])
 		{
 			$legend = 'На ваш адрес отправлено письмо для подтверждения регистрации';
 			$text = 'На ваш адрес отправлено письмо дла подтверждения регистрации. Для продолжения регистрации нажмите на ссылку указанную в письме.';
-			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 		else
 		{
 			$legend = 'Письмо не было отправленно';
 			$text = 'Письмо не было отправленно. Возможно это связанно с неправильными настройками сервера.';
-			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 	}
@@ -77,8 +77,8 @@ if($_POST['first_smb'])
 	{
 		$legend = 'Неверно введен ответ с картинки';
 		$text = 'Неверно введен ответ с картинки';
-		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
 }
@@ -89,23 +89,23 @@ else if($_GET['action']=='register')
 	{
 		$legend = 'Логин, пароль или хеш указанные в ссылке не верны.';
 		$text = 'Ваш логин и пароль указанный в ссылке не прошел проверку на соответствие с хешем. Регистрация будет превана.';
-		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
 	if(!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL)) 
 	{
 		$legend = 'Не валидный e-mail';
 		$text = 'Указанный вами электронный адрес не прошел проверку на валидность';
-		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
 	$time = date("Y-m-d H:i:s");
 	$nick = $_GET['login'];
 	$pass = $_GET['password'];
 	$email = $_GET['email'];
-	include 'themes/'.$theme.'/templates/register/second_page.tpl.php';
+	require 'themes/'.$theme.'/templates/register/second_page.tpl.php';
 	
 }
 else if($_POST['action']=='second_sbm')
@@ -116,8 +116,8 @@ else if($_POST['action']=='second_sbm')
 		{
 			$legend = 'Не валидный jabber';
 			$text = 'Указанный вами jabber адрес не прошел проверку на валидность';
-			include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'themes/'.$theme.'/templates/footer.tpl.php';
 			exit();
 		}
 	}
@@ -139,26 +139,26 @@ else if($_POST['action']=='second_sbm')
 	{
 		$legend = 'Вы не были зарегистрированны';
 		$text = 'Регистрация прошла неуспешно. Возможно это связано с ошибками при обращении к БД';
-		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
 	else
 	{
 		$legend = 'Регистрация прошла успешно';
 		$text = 'Вы были зарегистрированны на сайте. Теперь вы можете войти на сайт под своим именем.';
-		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
 }
 else
 {
 	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
-	include 'themes/'.$theme.'/templates/register/first_page.tpl.php';
+	require 'themes/'.$theme.'/templates/register/first_page.tpl.php';
 }
 
 
 
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

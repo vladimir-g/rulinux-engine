@@ -1,6 +1,6 @@
 <?
 $message_id = (int)$_GET['id'];
-include 'classes/core.php';
+require 'classes/core.php';
 if(!empty($_POST['sbm']))
 {
 	for($i=1; $i<=$_POST['filters_count']; $i++)
@@ -29,10 +29,10 @@ $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $title = 'Показать сообщение';
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
 echo '<br />';
-include 'themes/'.$theme.'/templates/set_filter/top.tpl.php';
+require 'themes/'.$theme.'/templates/set_filter/top.tpl.php';
 echo '<br />';
 $filter_str = messages::get_filter($message_id);
 $filtered = filters::parse_filter_string($filter_str);
@@ -45,10 +45,10 @@ for($i=0; $i<count($filters_arr);$i++)
 		$checked_filter = '';
 	else
 		$checked_filter = 'checked';
-	include 'themes/'.$theme.'/templates/set_filter/middle.tpl.php';
+	require 'themes/'.$theme.'/templates/set_filter/middle.tpl.php';
 }
 echo '<br />';
 $filters_count = count($filters_arr);
-include 'themes/'.$theme.'/templates/set_filter/bottom.tpl.php';
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/set_filter/bottom.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>

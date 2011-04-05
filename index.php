@@ -1,5 +1,5 @@
 <?php
-include 'classes/core.php';
+require 'classes/core.php';
 auth_user('root', 'root', false);
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
@@ -7,11 +7,11 @@ $site_name = $_SERVER["HTTP_HOST"];
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
 $title = $site_name;
-include 'classes/faq.class.php';
-include 'links.php';
-include 'themes/'.$theme.'/templates/main_header.tpl.php';
-include 'themes/'.$theme.'/templates/index/nav.tpl.php';
-include 'themes/'.$theme.'/templates/index/top.tpl.php';
+require 'classes/faq.class.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/main_header.tpl.php';
+require 'themes/'.$theme.'/templates/index/nav.tpl.php';
+require 'themes/'.$theme.'/templates/index/top.tpl.php';
 $threads_count = threads::get_news_count();
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
@@ -75,15 +75,15 @@ for($i=0; $i<count($gal); $i++)
 	$thread_id = $gal[$i]['id'];
 	$count = threads::get_comments_count($thread_id);
 	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
-	include 'themes/'.$theme.'/templates/news/middle.tpl.php';
+	require 'themes/'.$theme.'/templates/news/middle.tpl.php';
 }
-include 'themes/'.$theme.'/templates/footer.tpl.php';
-include 'themes/'.$theme.'/templates/index/bottom.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/index/bottom.tpl.php';
 //$column_class
-include 'themes/'.$theme.'/templates/index/column_top.tpl.php';
+require 'themes/'.$theme.'/templates/index/column_top.tpl.php';
 //$boxlet_content
-include 'themes/'.$theme.'/templates/index/boxlet.tpl.php';
-include 'themes/'.$theme.'/templates/index/column_bottom.tpl.php';
+require 'themes/'.$theme.'/templates/index/boxlet.tpl.php';
+require 'themes/'.$theme.'/templates/index/column_bottom.tpl.php';
 
 
 ?>

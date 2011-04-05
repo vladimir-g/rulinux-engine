@@ -253,7 +253,7 @@ class users
 			return -1;
 	}
 	
-	function modify_user_read_settings($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp)
+	function modify_user_read_settings($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp, $mark)
 	{
 		$theme = (int)$theme;
 		$news_on_page = (int)$news_on_page;
@@ -265,8 +265,8 @@ class users
 		$show_resp = empty($show_resp) ? 0 : 1;
 		if($id!=1)
 		{
-			$param_arr = array($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp);
-			$ret = base::query('UPDATE users SET theme = \'::1::\', news_on_page = \'::2::\', comments_on_page = \'::3::\', threads_on_page = \'::4::\', show_avatars = \'::5::\', show_ua = \'::6::\', sort_to = \'::7::\', show_resp = \'::8::\'  WHERE id = \'::0::\'', 'assoc_array', $param_arr);
+			$param_arr = array($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp, $mark);
+			$ret = base::query('UPDATE users SET theme = \'::1::\', news_on_page = \'::2::\', comments_on_page = \'::3::\', threads_on_page = \'::4::\', show_avatars = \'::5::\', show_ua = \'::6::\', sort_to = \'::7::\', show_resp = \'::8::\', mark = \'::9::\'  WHERE id = \'::0::\'', 'assoc_array', $param_arr);
 			return $ret;
 		}
 		else
@@ -279,6 +279,7 @@ class users
 			setcookie ('show_ua', $show_ua,time()+31536000);
 			setcookie ('sort_to', $sort_to,time()+31536000);
 			setcookie ('show_resp', $show_resp,time()+31536000);
+			setcookie ('mark', $mark,time()+31536000);
 			return 1;
 		}
 	}

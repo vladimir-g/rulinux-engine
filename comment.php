@@ -1,13 +1,13 @@
 <?
 $message_id = (int)$_GET['cid'];
 $thread_id = (int)$_GET['answerto'];
-include 'classes/core.php';
+require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $title = 'Добавить коментарий';
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
 
 if(!empty($_POST['sbm']))
 {
@@ -15,9 +15,9 @@ if(!empty($_POST['sbm']))
 	{
 		$legend = 'Не заполнено поле \'Тема\'.';
 		$text = 'Не заполнено поле \'Тема\'';
-		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		define(SUBJ_SET, false);
-		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
 	else
@@ -27,9 +27,9 @@ if(!empty($_POST['sbm']))
 	{
 		$legend = 'Не заполнено поле \'Ваш коментарий\'';
 		$text = 'Не заполнено поле \'Ваш коментарий\'';
-		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		define(COMM_SET, false);
-		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
 	else
@@ -54,8 +54,8 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 			{
 				$legend = 'Неверно введен ответ с картинки';
 				$text = 'Неверно введен ответ с картинки';
-				include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-				include 'themes/'.$theme.'/templates/footer.tpl.php';
+				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+				require 'themes/'.$theme.'/templates/footer.tpl.php';
 				exit();
 			}
 		}
@@ -79,8 +79,8 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 	{
 		$legend = 'Вы не можете отправить сообщение';
 		$text = 'Постинг из-под данного аккаунта был заблокирован модератором';
-		include 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		include 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
 }
@@ -115,10 +115,10 @@ if ($_SESSION['user_id'] == '' || users::get_captcha_level($_SESSION['user_id'])
 $captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 else
 $captcha = '';
-include 'themes/'.$theme.'/templates/comment/comment.tpl.php';
+require 'themes/'.$theme.'/templates/comment/comment.tpl.php';
 
 
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>
 
 

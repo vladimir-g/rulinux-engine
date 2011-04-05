@@ -1,5 +1,5 @@
 <?php
-include 'classes/core.php';
+require 'classes/core.php';
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
@@ -12,13 +12,13 @@ $mark_name = $mark_info['name'];
 $title = $site_name.' - Разметка '.$mark_name;
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
-include 'links.php';
-include 'themes/'.$theme.'/templates/header.tpl.php';
+require 'links.php';
+require 'themes/'.$theme.'/templates/header.tpl.php';
 echo '<h2>Разметка '.$mark_name.'</h2>';
 echo $mark_info['description'];
 echo '<br /><br />';
 $langs = core::get_settings_by_name('langs');
 echo $langs;
 echo '<br />';
-include 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'themes/'.$theme.'/templates/footer.tpl.php';
 ?>
