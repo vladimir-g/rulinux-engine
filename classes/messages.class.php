@@ -15,7 +15,7 @@ class messages
 		$where_arr = array(array("key"=>'id', "value"=>$uid, "oper"=>'='));
 		$sel = base::select('users', '', 'show_ua', $where_arr, 'AND');
 		$show_ua = $sel[0]['show_ua'];
-		$timest = $changing_timest = date("Y-m-d H:i:s");
+		$timest = $changing_timest = gmdate("Y-m-d H:i:s");
 		$referer = (int)$referer;
 		$filters = '';
 		//if(findFilthyLang($message))
@@ -52,7 +52,7 @@ class messages
 		$where_arr = array(array("key"=>'id', "value"=>$_SESSION['user_id'], "oper"=>'='));
 		$sel = base::select('users', '', 'show_ua', $where_arr, 'AND');
 		$show_ua = $sel[0]['show_ua'];
-		$timest = $changing_timest = date("Y-m-d H:i:s");
+		$timest = $changing_timest = gmdate("Y-m-d H:i:s");
 		$referer = (int)$referer;
 		$filters = '';
 		if(mark::findFilthyLang($message))
@@ -67,7 +67,7 @@ class messages
 			$str = '- '.$hours.' hours';
 		else
 			$str = '- 1 hour';
-		$timestamp = date('Y-m-d H:i:s', strtotime($str)); 
+		$timestamp = gmdate('Y-m-d H:i:s', strtotime($str)); 
 		$where_arr = array(array("key"=>'timest', "value"=>$timestamp, "oper"=>'>'));
 		$sel = base::select('comments', '', '*', $where_arr, 'AND', 'timest', 'DESC');
 		return $sel;
@@ -78,7 +78,7 @@ class messages
 		$raw_message = $message;
 		$subject = htmlspecialchars($subject);
 		$message = str_to_html($message);
-		$changing_timest = date("Y-m-d H:i:s");
+		$changing_timest = gmdate("Y-m-d H:i:s");
 		$changed_by = $_SESSION['user_id'];
 		$changed_for = htmlspecialchars($reason);
 		$param_arr = array($subject, $raw_message, $message, $changing_timest, $changed_by, $changed_for, $id);

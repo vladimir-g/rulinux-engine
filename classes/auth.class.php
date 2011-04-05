@@ -37,7 +37,7 @@ function auth_user($login, $pass, $encrypted)
 		$_SESSION['user_name']=$sel[0]['nick'];
 		setcookie('lorng_login', $login, (time()+60*60*24*9999));
 		setcookie('lorng_password', $pass, (time()+60*60*24*9999));
-		$current_date = date('Y-m-d H:i:s');
+		$current_date = gmdate('Y-m-d H:i:s');
 		base::update('users', 'last_visit', $current_date);
 		$login='yes';
 		if($sel[0]['gid']==3)

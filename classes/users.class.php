@@ -118,10 +118,8 @@ class users
 		else
 			return -1;
 		if($_SESSION['user_id'] == 1)
-		{
 			$usr_th = empty($_COOKIE['theme']) ? $usr_th : $_COOKIE['theme'];
-		}
-		$where_arr = array(array("key"=>'id', "value"=>$sel[0]['theme'], "oper"=>'='));
+		$where_arr = array(array("key"=>'id', "value"=>$usr_th, "oper"=>'='));
 		$theme = base::select('themes', '', '*', $where_arr);
 		/*if (!file_exists('themes/'.$theme))
 		 {                *
@@ -186,7 +184,7 @@ class users
 	{
 			if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 					return -2;
-			$current_date = date("y-m-d H:i:s");
+			$current_date = gmdate("y-m-d H:i:s");
 			$pass = md5($pass);
 			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '0'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
 			$ret = base::insert('users', $user_arr);

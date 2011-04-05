@@ -92,7 +92,7 @@ for($i=0; $i<count($gal); $i++)
 	$usr = users::get_user_info($gal[$i]['uid']);
 	in_array($usr['banned'], $true_arr) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
 	$author_profile = 'profile.php?id='.$usr['nick'];
-	$timestamp = $gal[$i]['timest'];
+	$timestamp = core::to_local_time_zone($gal[$i]['timest']);
 	$thread_id = $gal[$i]['id'];
 	$count = threads::get_comments_count($thread_id);
 	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));

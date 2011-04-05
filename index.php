@@ -1,6 +1,6 @@
 <?php
 require 'classes/core.php';
-auth_user('root', 'root', false);
+auth_user('anonymous', '', true);
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
@@ -71,7 +71,7 @@ for($i=0; $i<count($gal); $i++)
 	$usr = users::get_user_info($gal[$i]['uid']);
 	in_array($usr['banned'], $true_arr) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
 	$author_profile = 'profile.php?id='.$usr['nick'];
-	$timestamp = $gal[$i]['timest'];
+	$timestamp = core::to_local_time_zone($gal[$i]['timest']);
 	$thread_id = $gal[$i]['id'];
 	$count = threads::get_comments_count($thread_id);
 	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));

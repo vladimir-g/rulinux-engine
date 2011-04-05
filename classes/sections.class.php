@@ -3,8 +3,8 @@ class sections
 {
 	function get_subsection_thr_count($section_id, $subsection_id)
 	{
-		$timest_day = date('Y-m-d H:i:s',strtotime('-1 day'));
-		$timest_hour = date('Y-m-d H:i:s',strtotime('-1 hour'));
+		$timest_day = gmdate('Y-m-d H:i:s',strtotime('-1 day'));
+		$timest_hour = gmdate('Y-m-d H:i:s',strtotime('-1 hour'));
 		$where_arr = array(array("key"=>'section', "value"=>$section_id, "oper"=>'='), array("key"=>'subsection', "value"=>$subsection_id, "oper"=>'='));
 		$thr_in_subsect_all = base::select('threads', '', 'count(id) AS cnt', $where_arr, 'AND', '', '', 0, 'NULL', 'subsection');
 		if(empty($thr_in_subsect_all[0]['cnt']))

@@ -26,7 +26,7 @@ if(in_array($topic_start['show_ua'],$false))
 	$message_useragent = '';
 else
 	$message_useragent = $topic_start['useragent'];
-$message_timestamp = $topic_start['timest'];
+$message_timestamp = core::to_local_time_zone($topic_start['timest']);
 $message_id = $topic_start['id'];
 $message_set_filter_link = 'set-filter.php?id='.$message_id;
 $message_add_answer_link = 'comment.php?answerto='.$thread_id.'&cid='.$message_id;
@@ -145,7 +145,7 @@ if($messages_count>1)
 		$message_set_filter_link = 'set-filter.php?id='.$message_id;
 		$msg_resp = messages::get_message($cmnt[$i]['referer']);
 		$message_resp_title = $msg_resp['subject'];
-		$message_resp_timestamp = $msg_resp['timest'];
+		$message_resp_timestamp = core::to_local_time_zone($msg_resp['timest']);
 		$msg_resp_autor = users::get_user_info($msg_resp['uid']);
 		$message_resp_user = $msg_resp_autor['nick'];
 		$message_resp_link = 'message.php?newsid='.$thread_id.'#'.$cmnt[$i]['referer'];
@@ -162,7 +162,7 @@ if($messages_count>1)
 			$message_useragent = '';
 		else
 			$message_useragent = $cmnt[$i]['useragent'];
-		$message_timestamp = $cmnt[$i]['timest'];
+		$message_timestamp = core::to_local_time_zone($cmnt[$i]['timest']);
 		$message_add_answer_link = 'comment.php?answerto='.$thread_id.'&cid='.$message_id;
 		$message_avatar = empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$msg_autor['photo'];
 		if(!empty($cmnt[$i]['changed_by']))

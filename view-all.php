@@ -22,7 +22,7 @@ for($i=0; $i<count($unconfirmed); $i++)
 	$usr = users::get_user_info($unconfirmed[$i]['uid']);
 	in_array($usr['banned'], $true_arr) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
 	$author_profile = '/profile.php?user='.$usr['nick'];
-	$timestamp = $unconfirmed[$i]['timest'];
+	$timestamp = core::to_local_time_zone($unconfirmed[$i]['timest']);
 	$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($unconfirmed[$i]['subsection']);
 	if($unconfirmed[$i]['section']==1)
 		require 'themes/'.$theme.'/templates/view_all/news.tpl.php';

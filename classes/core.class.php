@@ -68,11 +68,11 @@ class core
 	
 	function update_sessions_table($session_id, $uid, $tid)
 	{
-		if(date("i")>5)
-			$min = date("i")-5;
+		if(gmdate("i")>5)
+			$min = gmdate("i")-5;
 		else
-			$min = 60+date("i")-5;
-		$timestamp = date("Y-m-d H").':'.$min.':'.date("s");
+			$min = 60+gmdate("i")-5;
+		$timestamp = gmdate("Y-m-d H").':'.$min.':'.gmdate("s");
 		$where_arr = array(array("key"=>'timest', "value"=>$timestamp, "oper"=>'<'));
 		$subsect = base::select('sessions', '', '*', $where_arr, 'AND');
 		if(!empty($subsect))
@@ -98,14 +98,14 @@ class core
 		
 		if($date=='3month')
 		{
-			$month = date("m")-3;
-			$timestamp = date("Y").'-'.$month.'-'.date("d H:i:s");
+			$month = gmdate("m")-3;
+			$timestamp = gmdate("Y").'-'.$month.'-'.gmdate("d H:i:s");
 			$query = $query.' AND timest > \''.$timestamp.'\'';
 		}
 		else if($date=='year')
 		{
-			$month = date("Y")-1;
-			$timestamp = $year.'-'.date("m-d H:i:s");
+			$month = gmdate("Y")-1;
+			$timestamp = $year.'-'.gmdate("m-d H:i:s");
 			$query = $query.' AND timest > \''.$timestamp.'\'';
 		}
 		$section = (int)$section;
@@ -145,6 +145,27 @@ class core
 		/*заглушка созданная для того, чтобы впоследствии можно было добавлять новые уровни каптчи*/
 		$ret = array(array("name"=>'Нет', "value"=>-1), array("name"=>'0', "value"=>0), array("name"=>'1', "value"=>1), array("name"=>'2', "value"=>2), array("name"=>'3', "value"=>3), array("name"=>'4', "value"=>4));
 		return $ret;
+	}
+	
+	function to_local_time_zone($timest)
+	{
+		$first_arr = split(" ", $timest);
+		$second_arr = split("-", $first_arr[0]);
+		$third_arr = split(":", $first_arr[1]);
+		$year = $second_arr[0];
+		$month = $second_arr[1];
+		$day = $second_arr[2];
+		$hour = $third_arr[0];
+		$minute = $third_arr[1];
+		$second = $third_arr[2];
+		$param_arr = array($_SESSION['user_id']);
+		$sel = base::query('SELECT gmt FROM users WHERE id = \'::0::\'','assoc_array', $param_arr);
+		if(!empty($sel))
+			$gmt = $sel[0]['gmt'];
+		else
+			$gmt = '+0';
+		$timest = date("Y-m-d H:i:s", mktime($hour, $minute, $second, $month, $day, $year)+($gmt*3600));
+		return $timest;
 	}
 }
 ?>

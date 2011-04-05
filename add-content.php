@@ -169,7 +169,7 @@ else
 					$resource = imagecreatetruecolor($image_width, $image_height);
 					imagecopyresampled($resource, $source, 0, 0, 0, 0, $image_width, $image_height, $imageinfo[0], $imageinfo[1]);
 					imagePng($resource, $uploaddir.'/thumbs/'.$filename.'_small.png');
-					$date = date('d.m.Y H:i:s');
+					$date = gmdate('d.m.Y H:i:s');
 					$file = $filename;
 					$extension = $ext[1];
 					echo $ext[1];

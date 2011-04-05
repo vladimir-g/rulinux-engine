@@ -35,7 +35,7 @@ if(!empty($_GET['q']))
 			$usr = users::get_user_info($found_msg[$i]['uid']);
 			$author = $usr['nick'];
 			$author_profile = 'profile.php?id='.$usr['nick'];
-			$timestamp = $found_msg[$i]['timest'];
+			$timestamp = core::to_local_time_zone($found_msg[$i]['timest']);
 			require 'themes/'.$theme.'/templates/search/msg.tpl.php';
 		}
 	}

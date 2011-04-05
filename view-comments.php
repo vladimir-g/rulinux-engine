@@ -29,7 +29,7 @@ for($i=0; $i<count($msg); $i++)
 	$page = core::get_page_by_tid($msg[$i]['tid'], $msg[$i]['id'], $uinfo['comments_on_page']);
 	$link = 'message.php?newsid='.$msg[$i]['tid'].'&page='.$page.'#'.$msg[$i]['id'];
 	$subject = $msg[$i]['subject'];
-	$timestamp = $msg[$i]['timest'];
+	$timestamp = core::to_local_time_zone($msg[$i]['timest']);
 	require 'themes/'.$theme.'/templates/view_comments/middle.tpl.php';
 }
 if(count($msg)<$limit)

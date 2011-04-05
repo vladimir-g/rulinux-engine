@@ -8,7 +8,7 @@ class faq{
 		$question = htmlspecialchars($question);
 		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 			$email = htmlspecialchars($email);
-		$timestamp = date("y-m-d H:i:s");
+		$timestamp = gmdate("y-m-d H:i:s");
 		$ip = getenv('REMOTE_ADDR');
 		$useragent = htmlspecialchars($useragent);
 		$faq_arr = array(

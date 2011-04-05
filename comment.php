@@ -61,7 +61,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 		}
 		else
 		{
-			$md5 = md5(rand().date("Y-m-d H:i:s"));
+			$md5 = md5(rand().gmdate("Y-m-d H:i:s"));
 			messages::add_message($_POST['subject'], $_POST['comment'], $thread_id, $message_id, $md5);
 			$param_arr = array($thread_id);
 			$sel = base::query('SELECT id,md5 FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\')','assoc_array', $param_arr);
@@ -89,7 +89,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Предпросмотр')
 {
 	$subj = $message_subject = $_POST['subject'];
 	$comment = $message_comment = $_POST['comment'];
-	$message_timestamp = date("Y-m-d H:i:s");
+	$message_timestamp = gmdate("Y-m-d H:i:s");
 	$msg_autor = users::get_user_info($_SESSION['user_id']);
 	$message_autor = $msg_autor['nick'];
 	$message_autor_profile_link = '/profile.php?user='.$message_autor;
@@ -102,7 +102,7 @@ else
 	$subj = 'Re:'.$message_subject;
 	$subj = preg_replace('/(Re\:){1,}/', 'Re:', $subj);
 	$message_comment = $msg['comment'];
-	$message_timestamp = $msg['timest'];
+	$message_timestamp = core::to_local_time_zone($msg['timest']);
 	$msg_autor = users::get_user_info($msg['uid']);
 	in_array($msg_autor['banned'], $true_arr) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' : $message_autor = $msg_autor['nick'];
 	$message_autor_profile_link = '/profile.php?user='.$message_autor;

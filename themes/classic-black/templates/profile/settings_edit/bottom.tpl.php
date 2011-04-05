@@ -3,31 +3,31 @@
 <td>
 <select name="user-gmt">
 <option value="none" selected>Выберите время</option>
-<option value="-11">Время сервера -11</option>
-<option value="-12">Время сервера -12</option>
-<option value="-10">Время сервера -10</option>
-<option value="-9">Время сервера -09</option>
-<option value="-8">Время сервера -08</option>
-<option value="-7">Время сервера -07</option>
-<option value="-6">Время сервера -06</option>
-<option value="-5">Время сервера -05</option>
-<option value="-4">Время сервера -04</option>
-<option value="-3">Время сервера -03</option>
-<option value="-2">Время сервера -02</option>
-<option value="-1">Время сервера -01</option>
-<option value="0">Время сервера +00</option>
-<option value="+1">Время сервера +01</option>
-<option value="+2">Время сервера +02</option>
-<option value="+3">Время сервера +03</option>
-<option value="+4">Время сервера +04</option>
-<option value="+5">Время сервера +05</option>
-<option value="+6">Время сервера +06</option>
-<option value="+7">Время сервера +07</option>
-<option value="+8">Время сервера +08</option>
-<option value="+9">Время сервера +09</option>
-<option value="+10">Время сервера +10</option>
-<option value="+11">Время сервера +11</option>
-<option value="+12">Время сервера +12</option>
+<option value="-11">GMT -11</option>
+<option value="-12">GMT -12</option>
+<option value="-10">GMT -10</option>
+<option value="-9">GMT -09</option>
+<option value="-8">GMT -08</option>
+<option value="-7">GMT -07</option>
+<option value="-6">GMT -06</option>
+<option value="-5">GMT -05</option>
+<option value="-4">GMT -04</option>
+<option value="-3">GMT -03</option>
+<option value="-2">GMT -02</option>
+<option value="-1">GMT -01</option>
+<option value="0">GMT +00</option>
+<option value="+1">GMT +01</option>
+<option value="+2">GMT +02</option>
+<option value="+3">GMT +03</option>
+<option value="+4">GMT +04</option>
+<option value="+5">GMT +05</option>
+<option value="+6">GMT +06</option>
+<option value="+7">GMT +07</option>
+<option value="+8">GMT +08</option>
+<option value="+9">GMT +09</option>
+<option value="+10">GMT +10</option>
+<option value="+11">GMT +11</option>
+<option value="+12">GMT +12</option>
 </select>
 </td>
 <td></td>

@@ -101,7 +101,7 @@ else if($_GET['action']=='register')
 		require 'themes/'.$theme.'/templates/footer.tpl.php';
 		exit();
 	}
-	$time = date("Y-m-d H:i:s");
+	$time = gmdate("Y-m-d H:i:s");
 	$nick = $_GET['login'];
 	$pass = $_GET['password'];
 	$email = $_GET['email'];

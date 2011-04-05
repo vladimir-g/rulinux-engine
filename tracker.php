@@ -38,7 +38,7 @@ for($i=0; $i<count($messages);$i++)
 		else
 			$resp = '';
 	}
-	$timestamp = $messages[$i]['timest'];
+	$timestamp = core::to_local_time_zone($messages[$i]['timest']);
 	require 'themes/'.$theme.'/templates/tracker/middle.tpl.php';
 }
 require 'themes/'.$theme.'/templates/tracker/bottom.tpl.php';

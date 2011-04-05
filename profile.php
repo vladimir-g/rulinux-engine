@@ -386,13 +386,13 @@ else
 		else
 			$status = 'Пользователь';
 		$status = in_array($usr['banned'], $true_arr) ? $status.", Заблокирован" : $status.", Разблокирован";
-		$register_date = $usr['register_date'];
-		$last_login = $usr['last_visit'];
+		$register_date = core::to_local_time_zone($usr['register_date']);
+		$last_login = core::to_local_time_zone($usr['last_visit']);
 		$additional = $usr['additional'];
-		$first_topic_date = $usr_add['first_topic_date'];
-		$last_topic_date = $usr_add['last_topic_date'];
-		$first_comment_date = $usr_add['first_comment_date'];
-		$last_comment_date = $usr_add['last_comment_date'];
+		$first_topic_date = core::to_local_time_zone($usr_add['first_topic_date']);
+		$last_topic_date = core::to_local_time_zone($usr_add['last_topic_date']);
+		$first_comment_date = core::to_local_time_zone($usr_add['first_comment_date']);
+		$last_comment_date = core::to_local_time_zone($usr_add['last_comment_date']);
 		$comments_count = $usr_add['comments_count'];
 		$topics_count = $usr_add['topics_count'];
 		$link = 'view-comments.php?user='.$user;
@@ -431,7 +431,7 @@ else
 		}
 		if($user == $profile_name || $uinfo['gid']==2|| $uinfo['gid']==3)
 		{
-			$timest = date("Y-m-d H:i:s");
+			$timest = gmdate("Y-m-d H:i:s");
 			$news_on_page = $usr['news_on_page'];
 			$comments_on_page = $usr['comments_on_page'];
 			$threads_on_page = $usr['threads_on_page'];

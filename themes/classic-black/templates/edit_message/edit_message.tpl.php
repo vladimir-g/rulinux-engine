@@ -1,6 +1,7 @@
 <h1>Редактировать сообщение</h1>
 <form method=POST action="edit-message.php?id=<?=$message_id?>">
 <input type="hidden" name="action" value="edit">
+<input type="hidden" name="<?=$msg_uid?>" value="msg_uid">
 <input type="hidden" name="cid" value="<?=$message_id?>">
 <table border=0>
 <tr>
