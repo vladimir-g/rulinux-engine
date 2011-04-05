@@ -18,9 +18,9 @@ $message_resp_link = 'message.php?newsid='.$thread_id.'#'.$msg['referer'];
 $message_subject = $msg['subject'];
 $message_comment = $msg['comment'];
 $msg_autor = users::get_user_info($msg['uid']);
-in_array($msg_autor['banned'], $true_arr) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
+core::validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
 $message_autor_profile_link = '/profile.php?user='.$msg_autor['nick'];
-if(in_array($msg['show_ua'], $false_arr))
+if(!core::validate_boolean(($msg['show_ua']))
 	$message_useragent = '';
 else
 	$message_useragent = $msg['useragent'];

@@ -47,7 +47,7 @@ for($i=0; $i<count($thr); $i++)
 	$cur_thr = threads::get_thread_info($thread_id);
 	$thread_subject = $cur_thr['thread_subject'];
 	$thr_autor = users::get_user_info($cur_thr['uid']);
-	in_array($thr_autor['banned'], $true_arr) ? $thread_author = '<s>'.$thr_autor['nick'].'</s>' : $thread_author = $thr_autor['nick'];
+	core::validate_boolean($thr_autor['banned']) ? $thread_author = '<s>'.$thr_autor['nick'].'</s>' : $thread_author = $thr_autor['nick'];
 	$comments_in_thread_all =$cur_thr['comments_in_thread_all'];
 	$comments_in_thread_day = $cur_thr['comments_in_thread_day'];
 	$comments_in_thread_hour = $cur_thr['comments_in_thread_hour'];

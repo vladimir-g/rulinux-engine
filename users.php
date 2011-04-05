@@ -70,8 +70,8 @@ for($i=0; $i<count($users); $i++)
 	$name = $users[$i]['name'];
 	$city = !empty($users[$i]['city'])? $users[$i]['city'] : 'город не указан';
 	$country = !empty($users[$i]['country'])? $users[$i]['country'] : 'страна не указана';
-	$email = in_array($users[$i]['show_email'], $true_arr) ? $users[$i]['email'] : 'скрыт';
-	$im = in_array($users[$i]['show_im'], $true_arr) ? $users[$i]['im'] : 'скрыт';
+	$email = core::validate_boolean($users[$i]['show_email']) ? $users[$i]['email'] : 'скрыт';
+	$im = core::validate_boolean($users[$i]['show_im']) ? $users[$i]['im'] : 'скрыт';
 	require 'themes/'.$theme.'/templates/users/middle.tpl.php';
 }
 require 'themes/'.$theme.'/templates/users/bottom.tpl.php';

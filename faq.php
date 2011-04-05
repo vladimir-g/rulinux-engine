@@ -15,7 +15,7 @@ for($i=0; $i<count($questions); $i++)
 {
 	$subject = $questions[$i]['subject'];
 	$question = $questions[$i]['question'];
-	if(in_array($questions[$i]['answered'], $true_arr))
+	if(core::validate_boolean($questions[$i]['answered']))
 		$answer = $questions[$i]['answer'];
 	else
 		$answer = 'ждите ответа';

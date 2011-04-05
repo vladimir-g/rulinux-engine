@@ -20,7 +20,7 @@ for($i=0; $i<count($unconfirmed); $i++)
 	$comment = $unconfirmed[$i]['comment'];
 	$size = $unconfirmed[$i]['image_size'].', '.$unconfirmed[$i]['file_size'];
 	$usr = users::get_user_info($unconfirmed[$i]['uid']);
-	in_array($usr['banned'], $true_arr) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
+	core::validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
 	$author_profile = '/profile.php?user='.$usr['nick'];
 	$timestamp = core::to_local_time_zone($unconfirmed[$i]['timest']);
 	$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($unconfirmed[$i]['subsection']);

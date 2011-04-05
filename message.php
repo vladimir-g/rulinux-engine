@@ -20,9 +20,9 @@ $topic_start = messages::get_topic_start_message($thread_id);
 $message_subject = $thread_subject = $topic_start['subject'];
 $message_comment = $topic_start['comment'];
 $msg_autor = users::get_user_info($topic_start['uid']);
-in_array($msg_autor['banned'], $true_arr) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
+core::validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
 $message_autor_profile_link = '/profile.php?user='.$msg_autor['nick'];
-if(in_array($topic_start['show_ua'],$false))
+if(!core::validate_boolean($topic_start['show_ua']))
 	$message_useragent = '';
 else
 	$message_useragent = $topic_start['useragent'];
@@ -107,19 +107,19 @@ switch($section_id)
 {
 	case 1:
 		$news_approve_moder_name = users::get_user_info($topic_start['approved_by']);
-		if(in_array($topic_start['approved'], $true_arr))
+		if(core::validate_boolean($topic_start['approved']))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="profile.php?user='.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
 		require 'themes/'.$theme.'/templates/message/news.tpl.php';
 		break;
 	case 2:
 		$news_approve_moder_name = users::get_user_info($topic_start['approved_by']);
-		if(in_array($topic_start['approved'], $true_arr))
+		if(core::validate_boolean($topic_start['approved']))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="profile.php?user='.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
 		require 'themes/'.$theme.'/templates/message/article.tpl.php';
 		break;
 	case 3:
 		$news_approve_moder_name = users::get_user_info($topic_start['approved_by']);
-		if(in_array($topic_start['approved'], $true_arr))
+		if(core::validate_boolean($topic_start['approved']))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="profile.php?user='.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
 		$gallery_file_name = $topic_start['file'];
 		$gallery_file_extension = $topic_start['extension'];
@@ -156,9 +156,9 @@ if($messages_count>1)
 		else
 			$message_comment = $cmnt[$i]['comment'];
 		$msg_autor = users::get_user_info($cmnt[$i]['uid']);
-		in_array($msg_autor['banned'], $true_arr) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
+		core::validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
 		$message_autor_profile_link = '/profile.php?user='.$msg_autor['nick'];
-		if(in_array($cmnt[$i]['show_ua'], $false_arr))
+		if(!core::validate_boolean($cmnt[$i]['show_ua']))
 			$message_useragent = '';
 		else
 			$message_useragent = $cmnt[$i]['useragent'];

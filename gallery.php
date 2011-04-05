@@ -90,7 +90,7 @@ for($i=0; $i<count($gal); $i++)
 	$img_thumb_link = '/gallery/thumbs/'.$gal[$i]['file'].'_small.png';
 	$size = $gal[$i]['image_size'].', '.$gal[$i]['file_size'];
 	$usr = users::get_user_info($gal[$i]['uid']);
-	in_array($usr['banned'], $true_arr) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
+	core::validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
 	$author_profile = 'profile.php?id='.$usr['nick'];
 	$timestamp = core::to_local_time_zone($gal[$i]['timest']);
 	$thread_id = $gal[$i]['id'];

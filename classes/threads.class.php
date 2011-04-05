@@ -24,7 +24,7 @@ class threads
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$uinfo = users::get_user_info($_SESSION['user_id']);
-		if(in_array($uinfo['sort_to'], array('f', '0')))
+		if(!core::validate_boolean($uinfo['sort_to']))
 			$sort = 'c.timest';
 		else
 			$sort = 'c.changing_timest';

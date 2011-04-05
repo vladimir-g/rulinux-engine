@@ -366,17 +366,17 @@ else
 		$usr_add = users::get_additional_user_info($uid);
 		$name = $usr['name'];
 		$lastname = $usr['lastname'];
-		$gender = in_array($usr['gender'], $true_arr) ? 'Мужской' : 'Женский';
+		$gender = core::validate_boolean($usr['gender']) ? 'Мужской' : 'Женский';
 		$birthday = $usr['birthday'];
 		$photo = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$usr['photo'];
 		if($uinfo['gid']==3 || $uinfo['gid']==2)
 			$email = $usr['email'];
 		else
-			$email = in_array($usr['show_email'], $true_arr) ? $usr['email'] : 'скрыт';
+			$email = core::validate_boolean($usr['show_email']) ? $usr['email'] : 'скрыт';
 		if($uinfo['gid']==3 || $uinfo['gid']==2)
 			$im = $usr['im'];
 		else
-			$im = in_array($usr['show_im'], $true_arr) ? $usr['im'] : 'скрыт';
+			$im = core::validate_boolean($usr['show_im']) ? $usr['im'] : 'скрыт';
 		$country = $usr['country'];
 		$city = $usr['city'];
 		if($usr['gid']==3)
@@ -385,7 +385,7 @@ else
 			$status = 'Администратор';
 		else
 			$status = 'Пользователь';
-		$status = in_array($usr['banned'], $true_arr) ? $status.", Заблокирован" : $status.", Разблокирован";
+		$status = core::validate_boolean($usr['banned']) ? $status.", Заблокирован" : $status.", Разблокирован";
 		$register_date = core::to_local_time_zone($usr['register_date']);
 		$last_login = core::to_local_time_zone($usr['last_visit']);
 		$additional = $usr['additional'];
@@ -419,13 +419,13 @@ else
 				$lastname = $usr['lastname'];
 				$avatar = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$usr['photo'];
 				$email = $usr['email'];
-				$show_email_ch = in_array($usr['show_email'], $true_arr) ? 'checked' : '';
+				$show_email_ch = core::validate_boolean($usr['show_email']) ? 'checked' : '';
 				$im = $usr['im'];
-				$show_im_ch = in_array($usr['show_im'], $true_arr) ? 'checked' : '';
+				$show_im_ch = core::validate_boolean($usr['show_im']) ? 'checked' : '';
 				$country = $usr['country'];
 				$city = $usr['city'];
 				$additional = $usr['additional'];
-				in_array($usr['gender'], $true_arr) ? $checkedMale = 'selected' : $checkedFemale = 'selected';
+				core::validate_boolean($usr['gender']) ? $checkedMale = 'selected' : $checkedFemale = 'selected';
 				require 'themes/'.$theme.'/templates/profile/userinfo_edit/userinfo_edit.tpl.php';
 			}
 		}
@@ -435,10 +435,10 @@ else
 			$news_on_page = $usr['news_on_page'];
 			$comments_on_page = $usr['comments_on_page'];
 			$threads_on_page = $usr['threads_on_page'];
-			$show_photos_ch = in_array($usr['show_avatars'], $true_arr) ? 'checked' : '';
-			$show_ua_ch = in_array($usr['show_ua'], $true_arr) ? 'checked' : '';
-			$change_date_sort_ch = in_array($usr['sort_to'], $true_arr) ? 'checked' : '';
-			$show_resp_ch = in_array($usr['show_resp'], $true_arr) ? 'checked' : '';
+			$show_photos_ch = core::validate_boolean($usr['show_avatars']) ? 'checked' : '';
+			$show_ua_ch = core::validate_boolean($usr['show_ua']) ? 'checked' : '';
+			$change_date_sort_ch = core::validate_boolean($usr['sort_to']) ? 'checked' : '';
+			$show_resp_ch = core::validate_boolean($usr['show_resp']) ? 'checked' : '';
 			require 'themes/'.$theme.'/templates/profile/settings_edit/top.tpl.php';
 			require 'themes/'.$theme.'/templates/profile/settings_edit/theme_top.tpl.php';
 			$themes = core::get_themes();
@@ -485,7 +485,7 @@ else
 			require 'themes/'.$theme.'/templates/profile/filters_edit/bottom.tpl.php';
 			if($uinfo['gid']==2 || $uinfo['gid']==3)
 			{
-				in_array($usr['banned'], $true_arr) ? $banned_y = 'selected' : $banned_n = 'selected';
+				core::validate_boolean($usr['banned']) ? $banned_y = 'selected' : $banned_n = 'selected';
 				require 'themes/'.$theme.'/templates/profile/moder_edit/top.tpl.php';
 				$cptch = core::get_captcha_levels();
 				for($i=0; $i<count($cptch); $i++)
