@@ -13,10 +13,13 @@
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr background="themes/<?=$theme?>/css/images/tile_back.gif">
 <td><a href="/">   <img src="themes/<?=$theme?>/lor-new.png" border=0 alt="<?=$site_name?>"></a></td>
-<td valign="top" align="right">Добро пожаловать <a href="<?=$profile_link?>"><?=$profile_name?></a></td>
+<td valign="top" align="right">
+Добро пожаловать <a href="<?=$profile_link?>"><?=$profile_name?></a>
+<br><?=$invitation?>
+</td>
 </tr>
 <tr background="themes/<?=$theme?>/css/images/tile_sub-lite.gif">
-<td align="left" valign="top">  <?=$theme?></td>
+<td align="left" valign="top"></td>
 <td align="right">
 <a style="text-decoration: none" href="<?=$news_link?>">Новости</a> - 
 <a style="text-decoration: none" href="<?=$mark_link?>">Разметка</a> - 

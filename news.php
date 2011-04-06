@@ -6,6 +6,7 @@ $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
+$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="logout.php">Выход</а>';
 $subsect_arr = sections::get_subsection(1, $subsection_id);
 $sect_arr = sections::get_section(1);
 $recomendations = $subsect_arr['shortfaq'];

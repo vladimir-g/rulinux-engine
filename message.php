@@ -16,6 +16,7 @@ $subsection_name = $section['subsection_name'];
 $subsection_link = $section['subsection_link'];
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
+$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="logout.php">Выход</а>';
 $topic_start = messages::get_topic_start_message($thread_id);
 $message_subject = $thread_subject = $topic_start['subject'];
 $message_comment = $topic_start['comment'];

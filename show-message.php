@@ -5,22 +5,28 @@ $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $title = 'Установить фильтр на сообщение';
+$profile_name = $_SESSION['user_name'];
+$profile_link = 'profile.php?user='.$_SESSION['user_name'];
+$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="logout.php">Выход</а>';
 require 'links.php';
 require 'themes/'.$theme.'/templates/header.tpl.php';
 echo '<br>';
 $msg = messages::get_message($message_id);
 $msg_resp = messages::get_message($msg['referer']);
-$message_resp_title = $msg_resp['subject'];
-$message_resp_timestamp = core::to_local_time_zone($msg_resp['timest']);
-$msg_resp_autor = users::get_user_info($msg_resp['uid']);
-$message_resp_user = $msg_resp_autor['nick'];
-$message_resp_link = 'message.php?newsid='.$thread_id.'#'.$msg['referer'];
+if(!empty($msg_resp))
+{
+	$message_resp_title = $msg_resp['subject'];
+	$message_resp_timestamp = core::to_local_time_zone($msg_resp['timest']);
+	$msg_resp_autor = users::get_user_info($msg_resp['uid']);
+	$message_resp_user = $msg_resp_autor['nick'];
+	$message_resp_link = 'message.php?newsid='.$thread_id.'#'.$msg['referer'];
+}
 $message_subject = $msg['subject'];
 $message_comment = $msg['comment'];
 $msg_autor = users::get_user_info($msg['uid']);
 core::validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
 $message_autor_profile_link = '/profile.php?user='.$msg_autor['nick'];
-if(!core::validate_boolean(($msg['show_ua']))
+if(!core::validate_boolean($msg['show_ua']))
 	$message_useragent = '';
 else
 	$message_useragent = $msg['useragent'];

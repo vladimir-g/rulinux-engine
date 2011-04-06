@@ -8,6 +8,7 @@ $hours_count = core::declOfNum($hours, array('час', 'часа', 'часов')
 $title = $site_name.' - Последние сообщения за '.$hours_count;
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
+$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="logout.php">Выход</а>';
 require 'links.php';
 require 'themes/'.$theme.'/templates/header.tpl.php';
 require 'themes/'.$theme.'/templates/tracker/nav.tpl.php';

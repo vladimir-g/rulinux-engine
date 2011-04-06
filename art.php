@@ -15,6 +15,7 @@ $subsection_description = $subsect_arr['description'];
 $title = $site_name.' - '.$section_name.' - '.$subsection_name;
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
+$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="logout.php">Выход</а>';
 require 'links.php';
 require 'themes/'.$theme.'/templates/header.tpl.php';
 require 'themes/'.$theme.'/templates/art/nav_top.tpl.php';

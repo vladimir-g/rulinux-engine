@@ -8,7 +8,8 @@
 <link href="themes/<?=$theme?>/css/common.css" type="text/css" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title><?=$title?></title>
-</head><body>
+</head>
+<body>
 <a href="news.php"><img style="float: left; border:none" src="themes/<?=$theme?>/logo.png" alt="Портал о GNU/Linux и не только" width="270" height="208"></a>
 <div style="float: left;" class="head-main">
 <br><br><br>
@@ -37,10 +38,8 @@
 </div>
 <div style="right: 5px; text-align: right; top: 5px; position: absolute;">
 Добро пожаловать <a href="<?=$profile_link?>"><?=$profile_name?></a>
-<br>
+<br><?=$invitation?><br>
 <img src="themes/<?=$theme?>/pingvin.gif" alt="Linux Logo" width="102" height="114">
 </div>
-
 <div style="clear: both;"></div>
-
 <div style="clear: both;"></div>
