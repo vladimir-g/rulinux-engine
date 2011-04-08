@@ -1,14 +1,13 @@
 <?php
 require 'classes/core.php';
-auth_user('root', 'root', false);
+//auth_user('root', 'root', false);
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
 $title = $site_name;
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="logout.php">Выход</а>';
-require 'classes/faq.class.php';
+$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
 require 'links.php';
 require 'themes/'.$theme.'/templates/main_header.tpl.php';
 require 'themes/'.$theme.'/templates/index/nav.tpl.php';

@@ -10,7 +10,7 @@ if(!empty($_GET['user']))
 else
 	$user = $profile_name;
 $profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="logout.php">Выход</а>';
+$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
 require 'links.php';
 require 'themes/'.$theme.'/templates/header.tpl.php';
 $uid = users::get_uid_by_nick($user);
