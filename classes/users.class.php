@@ -20,7 +20,6 @@ class users
 		else 
 			return -1;
 	}
-	
 	function get_group($id)
 	{
 		if ($id == 'all')
@@ -35,7 +34,6 @@ class users
 			return $sel[0];
 		}
 	}
-	
 	function add_group($name, $description)
 	{
 		$where_arr = array(array("key"=>'name', "value"=>$name, "oper"=>'='));
@@ -49,7 +47,6 @@ class users
 		else
 			return -1;
 	}
-	
 	function get_users($begin, $end)
 	{
 		$sel = base::select('users', '', '*', '', '', 'nick', 'ASC', $begin, $end);
@@ -58,7 +55,6 @@ class users
 		else
 			return -1;
 	}
-	
 	function get_uid_by_nick($nick)
 	{
 		$where_arr = array(array("key"=>'nick', "value"=>$nick, "oper"=>'='));
@@ -68,7 +64,6 @@ class users
 		else
 			return -1;
 	}
-	
 	function get_user_info($uid)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$uid, "oper"=>'='));
@@ -95,7 +90,6 @@ class users
 		else
 			return -1;
 	}
-	
 	function get_additional_user_info($uid)
 	{
 		$param_arr = array($uid);
@@ -106,7 +100,6 @@ class users
 		$ret = array("first_topic_date"=>$topics_dates[0]['min'], "last_topic_date"=>$topics_dates[0]['max'], "first_comment_date"=>$comments_dates[0]['min'], "last_comment_date"=>$comments_dates[0]['max'], "comments_count"=>$comments_count[0]['cnt'], "topics_count"=>$topics_count[0]['cnt']);
 		return $ret;
 	}
-	
 	function get_user_theme()
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$_SESSION['user_id'], "oper"=>'='));
@@ -138,7 +131,6 @@ class users
 		}*/
 		return $theme[0];
 	}
-	
 	function get_users_count()
 	{
 			$sel = base::select('users', '', 'count(*) AS cnt', '', '', '', '');
@@ -147,7 +139,6 @@ class users
 			else
 				return -1;
 	}
-	
 	function user_exists($nick)
 	{
 		$param_arr = array($nick);
@@ -157,7 +148,6 @@ class users
 		else
 			return true;
 	}
-	
 	function send_accept_mail($address, $nick, $password)
 	{
 		$where_arr = array(array("key"=>'name', "value"=>'appect_mail_subject', "oper"=>'='));
@@ -179,7 +169,6 @@ class users
 		$ret = mail($address, $subject, $message, $headers);
 		return $ret;
 	}
-	
 	function add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt)
 	{
 			if(!filter_var($email, FILTER_VALIDATE_EMAIL))
@@ -190,20 +179,18 @@ class users
 			$ret = base::insert('users', $user_arr);
 			return $ret;
 	}
-	
 	function ban_user($id, $state)
 	{
 			$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
 			$sel = base::select('users', '', '*', $where_arr);
 			if(!empty($sel))
 			{
-					$ret = base::update('users', 'banned', $state, 'id', $id);
-					return $ret;
+				$ret = base::update('users', 'banned', $state, 'id', $id);
+				return $ret;
 			}
 			else
-					return -1;
+				return -1;
 	}
-	
 	function user_banned($uid)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$uid, "oper"=>'='));
@@ -224,7 +211,6 @@ class users
 		else
 			return -1;
 	}
-	
 	function modify_user_info($field, $value, $id)
 	{
 		if ($field != '' && $value != '')
@@ -250,7 +236,6 @@ class users
 		else 
 			return -1;
 	}
-	
 	function modify_user_read_settings($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp, $mark)
 	{
 		$theme = (int)$theme;
@@ -281,7 +266,6 @@ class users
 			return 1;
 		}
 	}
-	
 	function modify_user_info_settings($id, $user_name, $user_lastname, $gender, $user_email, $show_email, $user_im, $show_im, $country, $city, $additional)
 	{
 		$user_name = htmlspecialchars($user_name);
@@ -308,9 +292,7 @@ class users
 		$param_arr = array($id, $user_name, $user_lastname, $gender, $user_email, $show_email, $user_im, $show_im, $country, $city, $additional);
 		$ret = base::query('UPDATE users SET name = \'::1::\', lastname = \'::2::\', gender = \'::3::\', email = \'::4::\', show_email = \'::5::\', im = \'::6::\', show_im = \'::7::\', country = \'::8::\', city = \'::9::\', additional = \'::10::\'  WHERE id = \'::0::\'', 'assoc_array', $param_arr);
 		return $ret;
-		
 	}
-	
 	function filter_users($filter, $value)
 	{
 		if($_SESSION['user_admin']!=1)
@@ -324,14 +306,12 @@ class users
 		}
 		else return -1;
 	}
-	
 	function get_captcha_level($id)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
 		$sel = base::select('users', '', 'captcha', $where_arr);
 		return $sel[0]['captcha'];
 	}
-	
 	function set_filter($id, $str)
 	{
 		if($id!=1)
@@ -345,17 +325,14 @@ class users
 			return 1;
 		}
 	}
-	
 	function get_filter($id)
 	{
-		
 		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
 		$sel = base::select('users', '', 'filters', $where_arr);
 		if($id==1)
 			$sel[0]['filters'] = empty($_COOKIE['filters']) ? $sel[0]['filters'] : $_COOKIE['filters'];
 		return $sel[0]['filters'];
 	}
-	
 	function get_blocks($id)
 	{
 		$ret = array();

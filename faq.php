@@ -1,15 +1,8 @@
 <?php
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-$title = $site_name.' - Часто задаваемые вопросы';
 require 'classes/faq.class.php';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Часто задаваемые вопросы';
+include 'header.php';
 require 'themes/'.$theme.'/templates/faq/top.tpl.php';
 $questions = faq::get_questions();
 for($i=0; $i<count($questions); $i++)
@@ -23,5 +16,5 @@ for($i=0; $i<count($questions); $i++)
 	require 'themes/'.$theme.'/templates/faq/middle.tpl.php';
 }
 require 'themes/'.$theme.'/templates/faq/bottom.tpl.php';
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

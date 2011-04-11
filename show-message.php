@@ -1,15 +1,8 @@
 <?
 $message_id = (int)$_GET['id'];
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$title = 'Установить фильтр на сообщение';
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Показать сообщение';
+include 'header.php';
 echo '<br>';
 $msg = messages::get_message($message_id);
 $msg_resp = messages::get_message($msg['referer']);
@@ -34,5 +27,5 @@ $message_timestamp = core::to_local_time_zone($msg['timest']);
 $message_add_answer_link = 'comment.php?answerto='.$thread_id.'&cid='.$message_id;
 $message_avatar = empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$msg_autor['photo'];
 require 'themes/'.$theme.'/templates/message/message.tpl.php';
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

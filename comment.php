@@ -1,17 +1,9 @@
 <?
+require 'classes/core.php';
 $message_id = (int)$_GET['cid'];
 $thread_id = (int)$_GET['answerto'];
-require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
 $title = 'Добавить коментарий';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
-
+include 'header.php';
 if(!empty($_POST['sbm']))
 {
 	if (empty($_POST['subject']))
@@ -119,9 +111,7 @@ if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) 
 else
 $captcha = '';
 require 'themes/'.$theme.'/templates/comment/comment.tpl.php';
-
-
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>
 
 

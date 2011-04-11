@@ -1,6 +1,5 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'].'/geshi/geshi.php');
-
 class mark
 {
 	function get_mark_file($uid)
@@ -11,14 +10,12 @@ class mark
 		$mark_file = base::select('marks', '', 'file', $where_file_arr);
 		return $mark_file[0]['file'];
 	}
-	
 	function get_mark_info($id)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
 		$mark_info = base::select('marks', '', '*', $where_arr);
 		return $mark_info[0];
 	}
-	
 	function findFilthyLang($string)
 	{
 		$where_arr = array(array("key"=>'category', "value"=>'1', "oper"=>'='));
@@ -33,7 +30,6 @@ class mark
 		}
 		return 0;
 	}
-	
 	function highlight($code, $lang, $path)
 	{
 		if(empty($lang))
@@ -43,7 +39,6 @@ class mark
 		$code = geshi_highlight($code, $lang, $path, true);
 		return $code;
 	}
-	
 	function get_marks()
 	{
 		$sel = base::select('marks', '', '*');
@@ -52,9 +47,7 @@ class mark
 		else
 			return -1;
 	}
-	
 }
-
 $mark_file = mark::get_mark_file($_SESSION['user_id']);
 include 'mark/'.$mark_file;
 ?>

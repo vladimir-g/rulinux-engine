@@ -1,14 +1,7 @@
 <?php
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$title = $site_name.' - Поиск';
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Поиск';
+include 'header.php';
 if(!empty($_GET['q']))
 {
 	$search_user = $_GET['username'];
@@ -47,6 +40,5 @@ else
 	$search_string = '';
 	require 'themes/'.$theme.'/templates/search/form.tpl.php';
 }
-
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

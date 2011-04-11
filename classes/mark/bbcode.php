@@ -1,5 +1,4 @@
 <?php
-
 function str_to_html($string)
 {
 	$string = htmlspecialchars($string);
@@ -88,5 +87,4 @@ function str_to_html($string)
 	$string = str_replace("\r\n", '</p><p>', $string);
 	return $string;
 }
-
 ?>

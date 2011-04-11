@@ -1,17 +1,9 @@
 <?php
 $page = (int)$_GET['page'];
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-$title = $site_name.' - Пользователи';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Пользователи';
+include 'header.php';
 require 'themes/'.$theme.'/templates/users/top.tpl.php';
-
 $users_on_page = 20;
 $users_count = users::get_users_count();
 $pages_count = ceil(($users_count)/$users_on_page);
@@ -76,5 +68,5 @@ for($i=0; $i<count($users); $i++)
 	require 'themes/'.$theme.'/templates/users/middle.tpl.php';
 }
 require 'themes/'.$theme.'/templates/users/bottom.tpl.php';
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (isset($_COOKIE['login']) && isset($_COOKIE['password']))
 {
 	$_COOKIE['login'] = preg_replace('/[\'\/\*\s]/', '', $_COOKIE['login']);
@@ -7,7 +6,6 @@ if (isset($_COOKIE['login']) && isset($_COOKIE['password']))
 }
 else
 	auth_user('anonymous', '', true);
-
 if( empty($_SESSION['user_id']) || !isset($_SESSION['user_id']))
 {
 	session_register("user_id");
@@ -19,7 +17,6 @@ if( empty($_SESSION['user_id']) || !isset($_SESSION['user_id']))
 	session_register("user_moder");
 	$user_moder="";
 }
-
 function auth_user($login, $pass, $encrypted)
 {
 	if (!$encrypted)
@@ -33,7 +30,7 @@ function auth_user($login, $pass, $encrypted)
 		setcookie ('login', $login,time()+31536000);
 		setcookie ('password', $pass,time()+31536000);
 		$current_date = gmdate('Y-m-d H:i:s');
-		base::update('users', 'last_visit', $current_date);
+		base::update('users', 'last_visit', $current_date, 'id', $sel[0]['id']);
 		$login='yes';
 		if($sel[0]['gid']==3)
 		{
@@ -52,7 +49,6 @@ function auth_user($login, $pass, $encrypted)
 		}
 	}
 }
-
 if ((int)$_SESSION['user_id'] > 0)
 {
 	$useri = users::get_user_info($_SESSION['user_id']);

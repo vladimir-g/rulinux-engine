@@ -1,6 +1,6 @@
 <?php
-class faq{
-
+class faq
+{
 	function add_question($subject, $email, $quetion, $av)
 	{
 		$subject = htmlspecialchars($subject);
@@ -26,7 +26,6 @@ class faq{
 		$ret = base::insert('faq', $faq_arr);
 		return $ret;
 	}
-	
 	function response_to_question($id, $answer)
 	{
 		$id = (int)$id;
@@ -44,7 +43,6 @@ class faq{
 		else
 			return 1;
 	}
-	
 	function get_questions()
 	{
 		$where_arr = array(array("key"=>'available', "value"=>'true', "oper"=>'='));

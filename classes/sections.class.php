@@ -20,7 +20,6 @@ class sections
 		$ret = array("subsection_thr_count"=>$thr_in_subsect_all[0]['cnt'], "subsection_thr_day"=>$thr_in_subsect_day[0]['cnt'], "subsection_thr_hour"=>$thr_in_subsect_hour[0]['cnt']);
 		return $ret;
 	}
-	
 	function get_section_by_tid($tid)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$tid, "oper"=>'='));
@@ -35,28 +34,24 @@ class sections
 		$sub_link = $name_sel[0]['file'].'?id='.$sel[0]['subsection'].'&page=1';
 		return array("id"=>$sel[0]['section'], "name"=>$name_sel[0]['name'], "subsection_id"=>$sel[0]['subsection'] , "subsection_name"=>$subsection, "link"=>$link, "subsection_link"=>$sub_link);
 	}
-	
 	function get_subsections($section_id)
 	{
 		$where_arr = array(array("key"=>'section', "value"=>$section_id, "oper"=>'='));
 		$sel = base::select('subsections', '', '*', $where_arr, 'AND', 'sort', 'ASC');
 		return $sel;
 	}
-	
 	function get_subsection($section_id, $subsection_id)
 	{
 		$where_arr = array(array("key"=>'section', "value"=>$section_id, "oper"=>'='), array("key"=>'sort', "value"=>$subsection_id, "oper"=>'='));
 		$sel = base::select('subsections', '', '*', $where_arr, 'AND');
 		return $sel[0];
 	}
-	
 	function get_section($section_id)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$section_id, "oper"=>'='));
 		$sel = base::select('sections', '', '*', $where_arr, 'AND');
 		return $sel[0];
 	}
-
 	function get_subsection_icon($subsection_id)
 	{
 		$where_arr = array(array("key"=>'sort', "value"=>$subsection_id, "oper"=>'='), array("key"=>'section', "value"=>'1', "oper"=>'='));

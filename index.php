@@ -1,15 +1,7 @@
 <?php
 require 'classes/core.php';
-//auth_user('root', 'root', false);
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$title = $site_name;
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/main_header.tpl.php';
+$title = '';
+include 'header.php';
 require 'themes/'.$theme.'/templates/index/nav.tpl.php';
 require 'themes/'.$theme.'/templates/index/top.tpl.php';
 $threads_count = threads::get_news_count();
@@ -77,7 +69,7 @@ for($i=0; $i<count($gal); $i++)
 	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
 	require 'themes/'.$theme.'/templates/news/middle.tpl.php';
 }
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 require 'themes/'.$theme.'/templates/index/bottom.tpl.php';
 //$column_class
 require 'themes/'.$theme.'/templates/index/column_top.tpl.php';

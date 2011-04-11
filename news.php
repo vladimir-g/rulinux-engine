@@ -1,12 +1,6 @@
 <?php
 $subsection_id = (int)$_GET['id'];
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
 $subsect_arr = sections::get_subsection(1, $subsection_id);
 $sect_arr = sections::get_section(1);
 $recomendations = $subsect_arr['shortfaq'];
@@ -14,9 +8,8 @@ $section_name = $sect_arr['name'];
 $section_id = 1;
 $subsection_name = $subsect_arr['name'];
 $subsection_description = $subsect_arr['description'];
-$title = $site_name.' - '.$section_name.' - '.$subsection_name;
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - '.$section_name.' - '.$subsection_name;
+include 'header.php';
 require 'themes/'.$theme.'/templates/news/nav_top.tpl.php';
 
 $subsct = sections::get_subsections(1);
@@ -97,5 +90,5 @@ for($i=0; $i<count($gal); $i++)
 	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
 	require 'themes/'.$theme.'/templates/news/middle.tpl.php';
 }
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

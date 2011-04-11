@@ -1,14 +1,11 @@
 <?php
-
 class filters
 {
-	
 	function get_filters()
 	{
 		$sel = base::select('filters', '', '*');
 		return $sel;
 	}
-	
 	function parse_filter_string($str)
 	{
 		$ret = array();
@@ -21,5 +18,4 @@ class filters
 		return $ret;
 	}
 }
-
 ?>

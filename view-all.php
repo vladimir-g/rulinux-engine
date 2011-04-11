@@ -1,14 +1,7 @@
 <?php
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$title = $site_name.' - Просмотр неподтвержденных';
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Просмотр неподтвержденных';
+include 'header.php';
 require 'themes/'.$theme.'/templates/view_all/top.tpl.php';
 $unconfirmed = threads::get_unconfirmed();
 for($i=0; $i<count($unconfirmed); $i++)
@@ -32,6 +25,5 @@ for($i=0; $i<count($unconfirmed); $i++)
 	else if($unconfirmed[$i]['section']==3)
 		require 'themes/'.$theme.'/templates/view_all/gallery.tpl.php';
 }
-
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

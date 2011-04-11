@@ -1,4 +1,5 @@
 <?php
+session_start();
 require('config/db.inc.php');
 if($GLOBALS['subd']=='mysql')
 	require "classes/base/mysql.php";

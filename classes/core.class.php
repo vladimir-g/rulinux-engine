@@ -6,12 +6,10 @@ if (get_magic_quotes_gpc())
 		$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
 		return $value;
 	}
-
 	$_POST = array_map('stripslashes_deep', $_POST);
 	$_GET = array_map('stripslashes_deep', $_GET);
 	$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
 }
-
 class core
 {
 	function get_settings_by_name($name)
@@ -20,13 +18,11 @@ class core
 		$sel = base::select('settings', '', 'value', $where_arr, 'AND');
 		return $sel[0]['value'];
 	}
-
 	function declOfNum($number, $titles)
 	{
 	    $cases = array (2, 0, 1, 1, 1, 2);
 	    return $number." ".$titles[ ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)] ];
 	}
-	
 	function get_readers_count($tid, $anon=0)
 	{
 		if($anon==1)
@@ -46,7 +42,6 @@ class core
 		}
 		return $sel[0]['cnt'];
 	}
-	
 	function get_readers($tid)
 	{
 		$where_arr = array(array("key"=>'tid', "value"=>$tid, "oper"=>'='), array("key"=>'uid', "value"=>'1', "oper"=>'>'));
@@ -64,7 +59,6 @@ class core
 		else
 			return -1;
 	}
-	
 	function update_sessions_table($session_id, $uid, $tid)
 	{
 		if(gmdate("i")>5)
@@ -84,7 +78,6 @@ class core
 		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timestamp));
 		$ret = base::insert('sessions', $msg_arr);
 	}
-	
 	function search($str, $include, $date, $section, $username)
 	{
 		$query = 'SELECT * FROM comments WHERE ';
@@ -94,7 +87,6 @@ class core
 			$query = $query.'comment LIKE \'%::0::%\'';
 		else
 			$query = $query.'subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\'';
-		
 		if($date=='3month')
 		{
 			$month = gmdate("m")-3;
@@ -117,7 +109,6 @@ class core
 		$sel = base::query($query, 'assoc_array', $param_arr);
 		return $sel;
 	}
-	
 	function get_page_by_tid($tid, $msg, $cmnt_on_pg)
 	{
 		$param_arr = array($tid);
@@ -132,20 +123,17 @@ class core
 			$page = 1;
 		return $page;
 	}
-	
 	function get_themes()
 	{
 		$sel = base::query('SELECT * FROM themes ORDER BY id ASC','assoc_array');
 		return $sel;
 	}
-	
 	function get_captcha_levels()
 	{
 		/*заглушка созданная для того, чтобы впоследствии можно было добавлять новые уровни каптчи*/
 		$ret = array(array("name"=>'Нет', "value"=>-1), array("name"=>'0', "value"=>0), array("name"=>'1', "value"=>1), array("name"=>'2', "value"=>2), array("name"=>'3', "value"=>3), array("name"=>'4', "value"=>4));
 		return $ret;
 	}
-	
 	function to_local_time_zone($timest)
 	{
 		$first_arr = split(" ", $timest);
@@ -166,7 +154,6 @@ class core
 		$timest = date("Y-m-d H:i:s", mktime($hour, $minute, $second, $month, $day, $year)+($gmt*3600));
 		return $timest;
 	}
-	
 	function validate_boolean($val, $fail = '')
 	{
 		$true_arr = array('t', '1', 'on', 'true', 'yes');

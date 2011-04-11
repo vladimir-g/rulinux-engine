@@ -11,7 +11,7 @@
 </head><body>
 <div class="head">
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
-<tr background="themes/<?=$theme?>/css/images/tile_back.gif">
+<tr>
 <td><a href="/">   <img src="themes/<?=$theme?>/lor-new.png" border=0 alt="<?=$site_name?>"></a></td>
 <td valign="top" align="right">
 Добро пожаловать <a href="<?=$profile_link?>"><?=$profile_name?></a>

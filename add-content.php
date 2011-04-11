@@ -1,17 +1,9 @@
 <?php
+require 'classes/core.php';
 $section_id = (int)$_GET['section'];
 $subsection_id = (int)$_GET['subsection'];
-require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-$title = $site_name.' - Добавить материал';
-require 'classes/faq.class.php';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Добавить материал';
+include 'header.php';
 if(empty($_POST['submit_form']))
 {
 	if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
@@ -225,5 +217,5 @@ else
 	else if($section_id==4)
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'group.php?id='.$_POST['subsection_id'].'&page=1">');  
 }
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

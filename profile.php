@@ -1,18 +1,11 @@
 <?php
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$title = $site_name.' - Профиль пользователя '.$user;
-$profile_name = $_SESSION['user_name'];
 if(!empty($_GET['user']))
 	$user = $_GET['user'];
 else
 	$user = $profile_name;
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Профиль пользователя '.$user;
+include 'header.php';
 $uid = users::get_uid_by_nick($user);
 $usr = users::get_user_info($uid);
 
@@ -552,5 +545,5 @@ else
 		}
 	}
 }
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

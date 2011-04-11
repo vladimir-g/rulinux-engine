@@ -1,14 +1,7 @@
 <?php
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$title = $site_name;
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = '';
+include 'header.php';
 if(isset($_GET['logout']))
 {
 	$_SESSION['user_id']='';
@@ -18,7 +11,7 @@ if(isset($_GET['logout']))
 	setcookie('login', '', time()-3600);
 	setcookie('password', '', time()-3600);
 	session_destroy();
-	die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');  
+	die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');
 }
 else
 {
@@ -42,5 +35,5 @@ else
 	else
 		include 'themes/'.$theme.'/templates/login/form.tpl.php';
 }
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

@@ -10,7 +10,7 @@
 <title><?=$title?></title>
 </head>
 <body>
-<a href="news.php"><img style="float: left; border:none" src="themes/<?=$theme?>/logo.png" alt="Портал о GNU/Linux и не только" width="270" height="208"></a>
+<a href="/"><img style="float: left; border:none" src="themes/<?=$theme?>/logo.png" alt="Портал о GNU/Linux и не только" width="270" height="208"></a>
 <div style="float: left;" class="head-main">
 <br><br><br>
 <table>

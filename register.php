@@ -1,15 +1,8 @@
 <?php
 $subsection_id = (int)$_GET['id'];
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$title = $site_name.' - Регистрация нового пользователя';
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Регистрация нового пользователя';
+include 'header.php';
 
 if($_SESSION['user_id']!=1)
 {
@@ -158,8 +151,5 @@ else
 	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 	require 'themes/'.$theme.'/templates/register/first_page.tpl.php';
 }
-
-
-
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

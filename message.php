@@ -1,9 +1,6 @@
 <?php
 require 'classes/core.php';
 require 'links.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
 $thread_id = (int)$_GET['newsid'];
 $page = (int)$_GET['page'];
 core::update_sessions_table(session_id(),$_SESSION[user_id], $thread_id);
@@ -14,9 +11,6 @@ $section_link = $section['link'];
 $subsection_id = $section['subsection_id'];
 $subsection_name = $section['subsection_name'];
 $subsection_link = $section['subsection_link'];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
 $topic_start = messages::get_topic_start_message($thread_id);
 $message_subject = $thread_subject = $topic_start['subject'];
 $message_comment = $topic_start['comment'];
@@ -39,7 +33,8 @@ if(!empty($topic_start['changed_by']))
 	$reason = empty($topic_start['changed_for']) ? '"не указана"' : $topic_start['changed_for'];
 	$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
 }
-$title = $site_name.' - '.$section_name.' - '.$subsection_name.' - '.$thread_subject;
+$title = ' - '.$section_name.' - '.$subsection_name.' - '.$thread_subject;
+include 'header.php';
 $comments_on_page = $uinfo['comments_on_page'];
 $pages_count = ceil(($messages_count-1)/$comments_on_page);
 $pages_count>1?	$begin=$comments_on_page*($page-1):$begin = 0;
@@ -102,7 +97,6 @@ if($pages_count > 1)
 		$pages = $pages.'<a href="message.php?newsid='.$thread_id.'&page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
-require 'themes/'.$theme.'/templates/header.tpl.php';
 require 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
 switch($section_id)
 {
@@ -179,5 +173,5 @@ if($messages_count>1)
 	require 'themes/'.$theme.'/templates/message/nav.tpl.php';
 }
 require 'themes/'.$theme.'/templates/message/thread_readers.tpl.php';
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

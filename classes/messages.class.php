@@ -1,8 +1,6 @@
 <?php
-
 class messages
 {
-
 	function new_thread($subject, $message, $section='4', $subsection='1', $file = '', $extension = '', $file_size = '0', $image_size = '')
 	{
 		$thr = base::query('SELECT MAX(id) AS tid FROM threads', 'assoc_array');
@@ -39,10 +37,8 @@ class messages
 		$tid = $sel[0]['id'];
 		$ret = base::update('comments', 'tid', $tid, 'md5', $md5);
 	}
-	
 	function add_message($subject, $message, $tid, $referer, $md5)
 	{
-		
 		$raw_message = $message;
 		$subject = htmlspecialchars($subject);
 		$message = str_to_html($message);
@@ -60,7 +56,6 @@ class messages
 		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5));
 		$ret = base::insert('comments', $msg_arr);
 	}
-	
 	function get_messages_for_tracker($hours)
 	{
 		if($hours>1)
@@ -72,7 +67,6 @@ class messages
 		$sel = base::select('comments', '', '*', $where_arr, 'AND', 'timest', 'DESC');
 		return $sel;
 	}
-	
 	function edit_message($id, $subject, $message, $reason)
 	{
 		$raw_message = $message;
@@ -85,16 +79,13 @@ class messages
 		$ret = base::query('UPDATE comments SET subject=\'::0::\', raw_comment=\'::1::\', comment=\'::2::\', changing_timest=\'::3::\', changed_by=\'::4::\', changed_for=\'::5::\' WHERE id= \'::6::\'', 'assoc_array', $param_arr);
 		return $ret;
 	}
-	
 	function get_messages_count($tid)
 	{
 		$tid = (int)$tid;
 		$param_arr = array($tid);
 		$sel = base::query('SELECT count(*) AS cnt FROM comments WHERE tid = \'::0::\'', 'assoc_array', $param_arr);
-		
 		return $sel[0]['cnt'];
 	}
-	
 	function get_message($id)
 	{
 		$id = (int)$id;
@@ -102,7 +93,6 @@ class messages
 		$sel = base::select('comments', '', '*', $where_arr, 'AND');
 		return $sel[0];
 	}
-	
 	function get_topic_start_message($tid)
 	{
 		$tid = (int)$tid;
@@ -112,7 +102,6 @@ class messages
 		$ret = base::select('comments', '', '*', $where_arr, 'AND');
 		return $ret[0] + $sel[0];
 	}
-	
 	function get_comments_on_page($tid, $begin = 0, $end = '')
 	{
 		$tid = (int)$tid;
@@ -124,20 +113,17 @@ class messages
 		$sel = base::select('comments', '', '*', $where_arr, 'AND', 'id', 'ASC', $begin, $end);
 		return $sel;
 	}
-	
 	function set_filter($cid, $str)
 	{
 		$ret = base::update('comments', 'filters', $str, 'id', $cid);
 		return $ret;
 	}
-	
 	function get_filter($cid)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$cid, "oper"=>'='));
 		$sel = base::select('comments', '', 'filters', $where_arr);
 		return $sel[0]['filters'];
 	}
-	
 	function is_filtered($cid)
 	{
 		$user_filter = users::get_filter($_SESSION['user_id']);
@@ -153,9 +139,7 @@ class messages
 			}
 		}
 		return 0;
-		
 	}
-	
 	function get_user_messages($user, $limit, $offset)
 	{
 		$param_arr = array($user, $limit, $offset);

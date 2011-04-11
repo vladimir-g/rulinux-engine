@@ -1,19 +1,15 @@
 <?php
 class base
 {
-	
 	static $connection = null;
-	
 	function connect()
 	{
 		if (self::$connection)
 			return;
 		self::$connection = pg_connect('host='.$GLOBALS['db_host'].' port='.$GLOBALS['db_port'].' dbname='.$GLOBALS['db_name'].' user='.$GLOBALS['db_user'].' password='.$GLOBALS['db_pass']);
 		if (!self::$connection)
-			die('Could not connect to database, please check /incs/db.inc.php');
-		
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
-	
 	function escape_string($value)
 	{
 		if (get_magic_quotes_gpc()) 
@@ -22,7 +18,6 @@ class base
 			$value = pg_escape_string($value);
 		return $value;
 	}
-	
 	function select($table, $dist, $sel_expr, $where_arr = '', $where_oper = '', $order_by = 'id', $order_by_sort = 'ASC', $limit_begin = '0', $limit_end = 'NULL', $group_by = '')
 	{
 		self::connect();
@@ -30,7 +25,6 @@ class base
 			$group = ' GROUP BY '.$group_by.' ';
 		else
 			$group = '';
-		
 		$table=self::escape_string($table);
 		if(!in_array($dist, array('DISTINCT', 'DISTINCTROW', 'ALL'))) 
 			$dist = 'ALL';
@@ -72,7 +66,6 @@ class base
 		$limit_end=self::escape_string($limit_end);
 		$query = 'SELECT '.$dist.' '.$sel_expr.' FROM '.$table.' '.$where.$group.$order.' OFFSET '.$limit_begin.' LIMIT '.$limit_end;
 //		echo $query.'<br />';
-			
 		if($c_res=pg_query($query))
 		{
 			$ret = array();
@@ -87,7 +80,6 @@ class base
 			echo pg_last_error();
 		return $ret;
 	}
-	
 	function insert($table, $arr)
 	{
 		self::connect();
@@ -118,7 +110,6 @@ class base
 		else 
 			return -1;
 	}
-	
 	function update($table, $field, $value, $id_field='id', $id)
 	{
 		self::connect();
@@ -137,7 +128,6 @@ class base
 		else 
 			return -1;
 	}
-
 	function delete($table, $id_field='id', $id)
 	{
 		self::connect();
@@ -154,7 +144,6 @@ class base
 		else 
 			return -1;
 	}
-
 	function query($query, $returnas = 'assoc_array', $param_array)
 	{
 		self::connect();
@@ -200,8 +189,5 @@ class base
 			return -1;
 		}
 	}
-
 }
-
-
 ?>

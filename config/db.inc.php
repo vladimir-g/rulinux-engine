@@ -7,8 +7,6 @@ $db_host='localhost';
 $db_pass='root_password';
 $db_charset='utf8';
 $tbl_prefix = '';*/
-
-
 $subd='postgresql'; #postgresql/mysql
 $db_name='rulinux';
 $db_user='rluser';

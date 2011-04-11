@@ -1,10 +1,7 @@
 <?php
+require 'classes/core.php';
 $subsection_id = (int)$_GET['id'];
 $page = (int)$_GET['page'];
-require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
 $subsect_arr = sections::get_subsection(2, $subsection_id);
 $sect_arr = sections::get_section(2);
 $recomendations = $subsect_arr['shortfaq'];
@@ -12,12 +9,8 @@ $section_name = $sect_arr['name'];
 $section_id = 2;
 $subsection_name = $subsect_arr['name'];
 $subsection_description = $subsect_arr['description'];
-$title = $site_name.' - '.$section_name.' - '.$subsection_name;
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - '.$section_name.' - '.$subsection_name;
+include 'header.php';
 require 'themes/'.$theme.'/templates/art/nav_top.tpl.php';
 $subsct = sections::get_subsections(2);
 for($i=0; $i<count($subsct);$i++)
@@ -99,7 +92,5 @@ if($pages_count > 1)
 	}
 }
 require 'themes/'.$theme.'/templates/art/bottom.tpl.php';
-require 'themes/'.$theme.'/templates/footer.tpl.php';
-
-
+require 'footer.php';
 ?>

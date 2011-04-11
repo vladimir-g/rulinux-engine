@@ -2,7 +2,6 @@
 class base
 {
 	static $connection = null;
-
 	function connect()
 	{
 		if (self::$connection)
@@ -14,9 +13,8 @@ class base
 			mysql_query('SET CHARACTER SET \''.$GLOBALS['db_charset'].'\'');
 		}
 		else
-			die('Could not connect to database, please check /incs/db.inc.php');
+			die('Could not connect to database, please check /config/db.inc.php');
 	}
-	
 	function escape_string($value)
 	{
 		if (get_magic_quotes_gpc()) 
@@ -25,7 +23,6 @@ class base
 			$value = mysql_real_escape_string($value);
 		return $value;
 	}
-
 	function select($table, $dist, $sel_expr, $where_arr = '', $where_oper = '', $order_by = 'id', $order_by_sort = 'ASC', $limit_begin = '0', $limit_end = '', $group_by = '')
 	{
 		self::connect();
@@ -80,9 +77,7 @@ class base
 			}
 		}
 		$query = 'SELECT '.$dist.' '.$sel_expr.' FROM '.$table.' '.$where.$group.$order.$lim;
-
 // 		echo $query.'<br>';
-
 		if($c_res=mysql_query($query))
 		{
 			$i = 0;
@@ -97,7 +92,6 @@ class base
 		else
 			echo mysql_error();
 	}
-
 	function insert($table, $arr)
 	{
 		self::connect();
@@ -128,7 +122,6 @@ class base
 		else 
 			return -1;
 	}
-
 	function update($table, $field, $value, $id_field='id', $id)
 	{
 		self::connect();
@@ -146,7 +139,6 @@ class base
 		else 
 			return -1;
 	}
-
 	function delete($table, $id_field='id', $id)
 	{
 		self::connect();
@@ -162,7 +154,6 @@ class base
 		else 
 			return -1;
 	}
-
 	function query($query, $returnas = 'assoc_array', $param_array)
 	{
 		self::connect();
@@ -204,6 +195,5 @@ class base
 		if(strlen(mysql_error()) > 0)
 			echo '<fieldset><legend>MySQL Error</legend>Error: '.mysql_error().'<br>In query: '.$query.'<br></fieldset>';
 	}
-
 }
 ?>

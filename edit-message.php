@@ -1,16 +1,8 @@
 <?php
-$message_id = (int)$_GET['id'];
 require 'classes/core.php';
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$title = $site_name.' - Редактировать сообщение';
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
-
+$message_id = (int)$_GET['id'];
+$title = ' - Редактировать сообщение';
+include 'header.php';
 if(empty($_POST['sbm']))
 {
 	if($_SESSION['user_id'] == 1)
@@ -78,5 +70,5 @@ else
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thr[0]['tid'].'&page='.$page.'">');  
 	}
 }
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>

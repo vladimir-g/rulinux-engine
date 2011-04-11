@@ -35,15 +35,8 @@ if(!empty($_POST['sbm']))
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'">');  
 	}
 }
-$user_theme = users::get_user_theme();
-$theme = $user_theme['directory'];
-$site_name = $_SERVER["HTTP_HOST"];
-$profile_name = $_SESSION['user_name'];
-$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-$title = 'Показать сообщение';
-require 'links.php';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+$title = ' - Установить фильтр на сообщение';
+include 'header.php';
 if($_SESSION['user_id'] == 1)
 {
 	$legend = 'Действие запрещено';
@@ -79,5 +72,5 @@ else
 	$text = 'Вы не можете выставлять фильтры на это сообщение';
 	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 }
-require 'themes/'.$theme.'/templates/footer.tpl.php';
+require 'footer.php';
 ?>
