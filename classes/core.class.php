@@ -126,7 +126,10 @@ class core
 	function get_themes()
 	{
 		$sel = base::query('SELECT * FROM themes ORDER BY id ASC','assoc_array');
-		return $sel;
+		if(!empty($sel))
+			return $sel;
+		else
+			return -1;
 	}
 	function get_captcha_levels()
 	{
@@ -172,6 +175,28 @@ class core
 			else
 				return 1;
 		}
+	}
+	function get_block($name='all')
+	{
+		if($name == 'all')
+			$sel = base::query('SELECT * FROM blocks ORDER BY id ASC','assoc_array');
+		else
+		{
+			$param_arr = array($name);
+			$sel = base::query('SELECT * FROM blocks WHERE name=\'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
+		}
+		if(!empty($sel))
+			return $sel;
+		else
+			return -1;
+	}
+	function get_blocks_count()
+	{
+		$sel = base::query('SELECT count(*) AS cnt FROM blocks ORDER BY id ASC','assoc_array');
+		if(!empty($sel))
+			return $sel[0]['cnt'];
+		else
+			return -1;
 	}
 }
 ?>

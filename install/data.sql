@@ -7,6 +7,12 @@ INSERT INTO marks (name, file, description) VALUES('Wiki-mark', 'wiki-mark.php',
 INSERT INTO marks (name, file, description) VALUES('Wakaba-mark', 'wakaba-mark.php', '');
 INSERT INTO marks (name, file, description) VALUES('Base HTML', 'base-html.php', '');
 
+INSERT INTO blocks VALUES (1, 'authorization', 'Авторизация', 'authorization');
+INSERT INTO blocks VALUES (2, 'gallery', 'Галерея', 'gallery');
+INSERT INTO blocks VALUES (3, 'links', 'Ссылки', 'links');
+INSERT INTO blocks VALUES (4, 'tracker', 'Последние 10 сообщений', 'tracker');
+INSERT INTO blocks VALUES (5, 'faq', 'F.A.Q.', 'faq');
+
 INSERT INTO groups(name, description) VALUES('Пользователи', 'Пользователи ресурса');
 INSERT INTO groups(name, description) VALUES('Администраторы', 'Администраторы ресурса');
 INSERT INTO groups(name, description) VALUES('Модераторы', 'Модераторы ресурса');

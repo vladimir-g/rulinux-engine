@@ -1,7 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Поиск';
-include 'header.php';
+require 'header.php';
 if(!empty($_GET['q']))
 {
 	$search_user = $_GET['username'];

@@ -1,5 +1,5 @@
 <?php
-//ob_start("ob_gzhandler", 9);
+ob_start("ob_gzhandler", 9);
 $user_theme = users::get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
@@ -18,5 +18,5 @@ $news_link = 'view-section.php?id=1';
 $articles_link = 'view-section.php?id=2';
 $gallery_link = 'view-section.php?id=3';
 $forum_link = 'view-section.php?id=4';
-require 'themes/'.$theme.'/templates/header.tpl.php';
+require 'themes/'.$theme.'/templates/main_header.tpl.php';
 ?>

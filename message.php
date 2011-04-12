@@ -34,7 +34,7 @@ if(!empty($topic_start['changed_by']))
 	$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
 }
 $title = ' - '.$section_name.' - '.$subsection_name.' - '.$thread_subject;
-include 'header.php';
+require 'header.php';
 $comments_on_page = $uinfo['comments_on_page'];
 $pages_count = ceil(($messages_count-1)/$comments_on_page);
 $pages_count>1?	$begin=$comments_on_page*($page-1):$begin = 0;

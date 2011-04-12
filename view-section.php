@@ -4,7 +4,7 @@ require 'classes/core.php';
 $sect = sections::get_section($section_id);
 $section_name = $sect['name'];
 $title = ' - '.$section_name;
-include 'header.php';
+require 'header.php';
 require 'themes/'.$theme.'/templates/view_section/top.tpl.php';
 $subsct = sections::get_subsections($section_id);
 for($i=0; $i<count($subsct); $i++)

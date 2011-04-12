@@ -2,7 +2,7 @@
 $page = (int)$_GET['page'];
 require 'classes/core.php';
 $title = ' - Пользователи';
-include 'header.php';
+require 'header.php';
 require 'themes/'.$theme.'/templates/users/top.tpl.php';
 $users_on_page = 20;
 $users_count = users::get_users_count();

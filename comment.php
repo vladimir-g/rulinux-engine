@@ -3,11 +3,11 @@ require 'classes/core.php';
 $message_id = (int)$_GET['cid'];
 $thread_id = (int)$_GET['answerto'];
 $title = 'Добавить коментарий';
-include 'header.php';
 if(!empty($_POST['sbm']))
 {
 	if (empty($_POST['subject']))
 	{
+		require 'header.php';
 		$legend = 'Не заполнено поле \'Тема\'.';
 		$text = 'Не заполнено поле \'Тема\'';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -20,6 +20,7 @@ if(!empty($_POST['sbm']))
 		
 	if (empty($_POST['comment']))
 	{
+		require 'header.php';
 		$legend = 'Не заполнено поле \'Ваш коментарий\'';
 		$text = 'Не заполнено поле \'Ваш коментарий\'';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -47,6 +48,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 			}
 			else 
 			{
+				require 'header.php';
 				$legend = 'Неверно введен ответ с картинки';
 				$text = 'Неверно введен ответ с картинки';
 				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -72,6 +74,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 	}
 	else
 	{
+		require 'header.php';
 		$legend = 'Вы не можете отправить сообщение';
 		$text = 'Постинг из-под данного аккаунта был заблокирован модератором';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -79,7 +82,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 		exit();
 	}
 }
-
+require 'header.php';
 if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Предпросмотр')
 {
 	$subj = $message_subject = $_POST['subject'];

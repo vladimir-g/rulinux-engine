@@ -1,7 +1,6 @@
 <?php
 require 'classes/core.php';
 $title = '';
-include 'header.php';
 if(isset($_GET['logout']))
 {
 	$_SESSION['user_id']='';
@@ -17,10 +16,11 @@ else
 {
 	if($_SESSION['user_id']!= 1)
 	{
+		require 'header.php';
 		$legend = 'Вы уже авторизованны на сайте';
 		$text = 'Вы уже авторизованны на сайте. Если вы хотите войти под другим ником, То вам необходимо <a href="login.php?logout">разлогиниться</a>';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	if(!empty($_POST['login']))
@@ -33,7 +33,10 @@ else
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');  
 	}
 	else
+	{
+		require 'header.php';
 		include 'themes/'.$theme.'/templates/login/form.tpl.php';
+		require 'footer.php';
+	}
 }
-require 'footer.php';
 ?>

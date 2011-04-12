@@ -9,7 +9,7 @@ $section_id = 3;
 $subsection_name = $subsect_arr['name'];
 $subsection_description = $subsect_arr['description'];
 $title = ' - '.$section_name.' - '.$subsection_name;
-include 'header.php';
+require 'header.php';
 require 'themes/'.$theme.'/templates/gallery/nav_top.tpl.php';
 
 $subsct = sections::get_subsections(3);

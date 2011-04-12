@@ -1,0 +1,3 @@
+name="Авторизация"
+description="Блок с формой для авторизации"
+directory="authorization"

@@ -1,7 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Просмотр неподтвержденных';
-include 'header.php';
+require 'header.php';
 require 'themes/'.$theme.'/templates/view_all/top.tpl.php';
 $unconfirmed = threads::get_unconfirmed();
 for($i=0; $i<count($unconfirmed); $i++)

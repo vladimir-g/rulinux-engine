@@ -2,7 +2,7 @@
 require 'classes/core.php';
 require 'classes/faq.class.php';
 $title = ' - Часто задаваемые вопросы';
-include 'header.php';
+require 'header.php';
 require 'themes/'.$theme.'/templates/faq/top.tpl.php';
 $questions = faq::get_questions();
 for($i=0; $i<count($questions); $i++)

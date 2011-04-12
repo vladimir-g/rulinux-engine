@@ -8,7 +8,7 @@ if(!empty($_POST['sbm']))
 		$legend = 'Действие запрещено';
 		$text = 'Вы не можете выставлять фильтры на это сообщение';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	if($_POST['msg_uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
@@ -36,18 +36,19 @@ if(!empty($_POST['sbm']))
 	}
 }
 $title = ' - Установить фильтр на сообщение';
-include 'header.php';
 if($_SESSION['user_id'] == 1)
 {
+	require 'header.php';
 	$legend = 'Действие запрещено';
 	$text = 'Вы не можете выставлять фильтры на это сообщение';
 	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-	require 'themes/'.$theme.'/templates/footer.tpl.php';
+	require 'footer.php';
 	exit();
 }
 $msg = messages::get_message($message_id);
 if($msg['uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 {
+	require 'header.php';
 	require 'themes/'.$theme.'/templates/set_filter/top.tpl.php';
 	$filter_str = messages::get_filter($message_id);
 	$filtered = filters::parse_filter_string($filter_str);
@@ -65,12 +66,13 @@ if($msg['uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 	$filters_count = count($filters_arr);
 	$msg_uid = $msg['uid'];
 	require 'themes/'.$theme.'/templates/set_filter/bottom.tpl.php';
+	require 'footer.php';
 }
 else
 {
+	require 'header.php';
 	$legend = 'Действие запрещено';
 	$text = 'Вы не можете выставлять фильтры на это сообщение';
 	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 }
-require 'footer.php';
 ?>

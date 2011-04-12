@@ -1,4 +1,4 @@
-<br />
+<br>
 <hr>
 <hr>
 <div align="center">
@@ -17,6 +17,6 @@ pageTracker._trackPageview();
 </script>
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
 <div style="display:none;"><script type="text/javascript">try { var yaCounter906590 = new Ya.Metrika(906590); } catch(e){}</script></div>
-<noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/906590"  alt="" /></div></noscript>
+<noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/906590"  alt=""></div></noscript>
 </body>
 </html>

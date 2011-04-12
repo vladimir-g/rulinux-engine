@@ -3,9 +3,9 @@ require 'classes/core.php';
 $section_id = (int)$_GET['section'];
 $subsection_id = (int)$_GET['subsection'];
 $title = ' - Добавить материал';
-include 'header.php';
 if(empty($_POST['submit_form']))
 {
+	require 'header.php';
 	if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
 		$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 	else
@@ -104,10 +104,11 @@ if(empty($_POST['submit_form']))
 			$legend = 'Такой категории не существует';
 			$text = 'Такой категории не существует';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
+	require 'footer.php';
 }
 else
 {
@@ -115,10 +116,11 @@ else
 	{
 		if(empty($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])
 		{
+			require 'header.php';
 			$legend = 'Неверно введен ответ с картинки';
 			$text = 'Неверно введен ответ с картинки';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
@@ -186,19 +188,21 @@ else
 				} 
 				else 
 				{
+					require 'header.php';
 					$legend = 'Не удалось загрузить файл.';
 					$text = 'Не удалось загрузить файл.';
 					require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-					require 'themes/'.$theme.'/templates/footer.tpl.php';
+					require 'header.php';
 					exit();
 				}
 			}
 			else
 			{
+				require 'header.php';
 				$legend = $error;
 				$text = $error;
 				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-				require 'themes/'.$theme.'/templates/footer.tpl.php';
+				require 'footer.php';
 				exit();
 			}
 			
@@ -217,5 +221,4 @@ else
 	else if($section_id==4)
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'group.php?id='.$_POST['subsection_id'].'&page=1">');  
 }
-require 'footer.php';
 ?>

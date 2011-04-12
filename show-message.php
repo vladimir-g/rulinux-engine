@@ -2,7 +2,7 @@
 $message_id = (int)$_GET['id'];
 require 'classes/core.php';
 $title = ' - Показать сообщение';
-include 'header.php';
+require 'header.php';
 echo '<br>';
 $msg = messages::get_message($message_id);
 $msg_resp = messages::get_message($msg['referer']);

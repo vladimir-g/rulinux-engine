@@ -1,17 +1,9 @@
 <?php
 !empty($_GET['h']) ? $hours = (int)$_GET['h'] : $hours = 3;
 require 'classes/core.php';
-//$user_theme = users::get_user_theme();
-//$theme = $user_theme['directory'];
-//$site_name = $_SERVER["HTTP_HOST"];
 $hours_count = core::declOfNum($hours, array('час', 'часа', 'часов'));
 $title = ' - Последние сообщения за '.$hours_count;
-//$profile_name = $_SESSION['user_name'];
-//$profile_link = 'profile.php?user='.$_SESSION['user_name'];
-//$invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
-//require 'links.php';
-//require 'themes/'.$theme.'/templates/header.tpl.php';
-include 'header.php';
+require 'header.php';
 require 'themes/'.$theme.'/templates/tracker/nav.tpl.php';
 $messages = messages::get_messages_for_tracker($hours);
 $msg_count = count($messages);

@@ -1,3 +1,4 @@
+<!DOCTYPE html> 
 <html lang="ru">
 <head>
 <LINK REL="alternate" TITLE="<?=$site_name?> RSS" HREF="<?=$rss_link?>" TYPE="application/rss+xml">

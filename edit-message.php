@@ -2,28 +2,30 @@
 require 'classes/core.php';
 $message_id = (int)$_GET['id'];
 $title = ' - Редактировать сообщение';
-include 'header.php';
 if(empty($_POST['sbm']))
 {
 	if($_SESSION['user_id'] == 1)
 	{
+		require 'header.php';
 		$legend = 'Действие запрещено';
 		$text = 'Вы не можете редактировать это сообщение';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	$msg = messages::get_message($message_id);
 	if(empty($msg))
 	{
+		require 'header.php';
 		$legend = 'Произошла ошибка при выборке сообщения из базы';
 		$text = 'Произошла ошибка при выборке сообщения из базы';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	if($msg['uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 	{
+		require 'header.php';
 		$subj = $msg['subject'];
 		$comment = $msg['raw_comment'];
 		if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
@@ -31,26 +33,29 @@ if(empty($_POST['sbm']))
 		else
 			$captcha = '';
 		require 'themes/'.$theme.'/templates/edit_message/edit_message.tpl.php';
+		require 'footer.php';
 	}
 }
 else
 {
 	if($_SESSION['user_id'] == 1)
 	{
+		require 'header.php';
 		$legend = 'Действие запрещено';
 		$text = 'Вы не можете редактировать это сообщение';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	if(users::get_captcha_level($_SESSION['user_id']) > -1)
 	{
 		if(empty($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])
 		{
+			require 'header.php';
 			$legend = 'Неверно введен ответ с картинки';
 			$text = 'Неверно введен ответ с картинки';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
@@ -70,5 +75,4 @@ else
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thr[0]['tid'].'&page='.$page.'">');  
 	}
 }
-require 'footer.php';
 ?>

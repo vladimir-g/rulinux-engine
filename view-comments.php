@@ -10,7 +10,7 @@ if(!empty($_GET['user']))
 else
 	$user = $profile_name;
 $limit = 50;
-include 'header.php';
+require 'header.php';
 require 'themes/'.$theme.'/templates/view_comments/top.tpl.php';
 $msg = messages::get_user_messages($user, $limit, $offset);
 for($i=0; $i<count($msg); $i++)
