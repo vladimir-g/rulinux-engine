@@ -14,4 +14,5 @@ require "classes/filters.class.php";
 require "classes/sections.class.php";
 require "classes/threads.class.php";
 require "classes/messages.class.php";
+require "classes/faq.class.php";
 ?>

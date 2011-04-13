@@ -1,6 +1,5 @@
 <?php
 require 'classes/core.php';
-require 'classes/faq.class.php';
 $title = ' - Часто задаваемые вопросы';
 require 'header.php';
 require 'themes/'.$theme.'/templates/faq/top.tpl.php';

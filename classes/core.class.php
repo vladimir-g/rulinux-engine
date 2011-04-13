@@ -198,5 +198,13 @@ class core
 		else
 			return -1;
 	}
+	function get_links()
+	{
+		$sel = base::query('SELECT * FROM links ORDER BY id ASC','assoc_array');
+		if(!empty($sel))
+			return $sel;
+		else
+			return -1;
+	}
 }
 ?>

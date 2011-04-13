@@ -7,10 +7,16 @@ INSERT INTO marks (name, file, description) VALUES('Wiki-mark', 'wiki-mark.php',
 INSERT INTO marks (name, file, description) VALUES('Wakaba-mark', 'wakaba-mark.php', '');
 INSERT INTO marks (name, file, description) VALUES('Base HTML', 'base-html.php', '');
 
+INSERT INTO links (name, link) VALUES('GNU Planet', 'http://gnuplanet.ru');
+INSERT INTO links (name, link) VALUES('ЛОР оригинальный', 'http://linux.org.ru');
+INSERT INTO links (name, link) VALUES('Лолксы ivlad-а', 'http://lolks.ru');
+INSERT INTO links (name, link) VALUES('Opennet.ru', 'http://opennet.ru');
+
+
 INSERT INTO blocks VALUES (1, 'authorization', 'Авторизация', 'authorization');
 INSERT INTO blocks VALUES (2, 'gallery', 'Галерея', 'gallery');
 INSERT INTO blocks VALUES (3, 'links', 'Ссылки', 'links');
-INSERT INTO blocks VALUES (4, 'tracker', 'Последние 10 сообщений', 'tracker');
+INSERT INTO blocks VALUES (4, 'tracker', 'Трекер', 'tracker');
 INSERT INTO blocks VALUES (5, 'faq', 'F.A.Q.', 'faq');
 
 INSERT INTO groups(name, description) VALUES('Пользователи', 'Пользователи ресурса');
@@ -101,6 +107,7 @@ INSERT INTO settings(name, value) VALUES('langs', '<table width="100%"><thead><s
 INSERT INTO settings(name, value) VALUES('appect_mail_subject', 'Подтвердите пожалуйста регистрацию');
 INSERT INTO settings(name, value) VALUES('appect_mail_text', '<html><head><title>Подтвердите пожалуйста регистрацию</title></head><body><p align="center">Здравствуйте, [user]!</p><p>Это письмо пришло вам потому что кто-то зарегистрировался на сайте [site] указав ваш электронный адрес. Если вы не делали этого, то просто удалите данное сообщение.<br>Для подтверждения регистрации пройдите по этой ссылке [link].</p><p>Это письмо сформировано автоматически и не требует ответа. <font color="red">Пожалуйста не отвечайте на него!</font></p></body></html>');
 INSERT INTO settings(name, value) VALUES('register_pass_phrase', 'rulinux.net');
+INSERT INTO settings(name, value) VALUES('title', 'Все о GNU/Linux и не только');
 
 
 

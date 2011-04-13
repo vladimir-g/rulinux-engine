@@ -1,6 +1,5 @@
 <?php
 require 'classes/core.php';
-require 'links.php';
 $thread_id = (int)$_GET['newsid'];
 $page = (int)$_GET['page'];
 core::update_sessions_table(session_id(),$_SESSION[user_id], $thread_id);

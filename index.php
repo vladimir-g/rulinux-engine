@@ -88,13 +88,19 @@ for($i=0; $i<count($gal); $i++)
 	require 'themes/'.$theme.'/templates/news/middle.tpl.php';
 }
 require 'themes/'.$theme.'/templates/index/bottom.tpl.php';
+function compare($v1, $v2)
+{
+	if($v1['sort'] == $v2['sort'])
+		return 0;
+	return ($v1['sort'] < $v2['sort'])?-1:1;
+}
 if(!empty($left_arr))
 {
 	$column_class = '';
+	usort($left_arr, 'compare');
 	require 'themes/'.$theme.'/templates/index/column_top.tpl.php';
 	for($i=0; $i<count($left_arr); $i++)
 	{
-		echo 'name '.$left_arr[$i]['name'].'<br>';
 		$blck = core::get_block($left_arr[$i]['name']);
 		$name = $blck[0]['description'];
 		$directory = $blck[0]['directory'];
@@ -109,10 +115,10 @@ if(!empty($left_arr))
 if(!empty($right_arr))
 {
 	$column_class = '2';
+	usort($right_arr, 'compare');
 	require 'themes/'.$theme.'/templates/index/column_top.tpl.php';
 	for($i=0; $i<count($right_arr); $i++)
 	{
-		echo 'name'.$right_arr[$i]['name'];
 		$blck = core::get_block($right_arr[$i]['name']);
 		$name = $blck[0]['description'];
 		$directory = $blck[0]['directory'];
