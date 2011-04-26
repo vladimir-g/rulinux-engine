@@ -8,6 +8,8 @@ function str_to_html($string)
 	$string = preg_replace("#(\\[s\\])(.*?[^\\[/s\\]]?)(\\[/s\\])#sim","<s>\$2</s>", $string);
 	$string = preg_replace("#(\\[sub\\])(.*?[^\\[/sub\\]]?)(\\[/sub\\])#sim","<sub>\$2</sub>", $string);
 	$string = preg_replace("#(\\[sup\\])(.*?[^\\[/sup\\]]?)(\\[/sup\\])#sim","<sup>\$2</sup>", $string);
+	$string = str_replace('imgh://', 'http://', $string);
+	$string = str_replace('imghs://', 'https://', $string);
 	$tags = array
 	(
 		'list' => '<ul>',
@@ -22,7 +24,7 @@ function str_to_html($string)
 			$vt = preg_match_all($re, $string, $match);
 			for($i=0;$i<$vt;$i++)
 			{
-				$string = preg_replace($re, "$val$2</ul>", $string);
+				$string = preg_replace($re, "$val$2</ul>", $string, 1);
 				$with_breaks = str_replace('[*]', '<li>&nbsp;', $match[2][$i]);
 				$string = str_replace($match[2][$i], $with_breaks, $string);
 			}
@@ -33,7 +35,7 @@ function str_to_html($string)
 			$vt = preg_match_all($re, $string, $match);
 			for($i=0;$i<$vt;$i++)
 			{
-				$string = preg_replace($re, "$val$2</ol>", $string);
+				$string = preg_replace($re, "$val$2</ol>", $string, 1);
 				$with_breaks = str_replace('[*]', '<li>&nbsp;', $match[2][$i]);
 				$string = str_replace($match[2][$i], $with_breaks, $string);
 			}
@@ -44,7 +46,7 @@ function str_to_html($string)
 			$vt = preg_match_all($re, $string, $match);
 			for($i=0;$i<$vt;$i++)
 			{
-				$string = preg_replace($re, "$val$2</ol></fieldset>", $string);
+				$string = preg_replace($re, "$val$2</ol></fieldset>", $string, 1);
 				$with_breaks = preg_replace('/\n|^/', '<li>&nbsp;', $match[2][$i]);
 				$string = str_replace($match[2][$i], $with_breaks, $string);
 			}
@@ -55,15 +57,18 @@ function str_to_html($string)
 	$arr = preg_match_all($code_re, $string, $match);
 	for($i=0;$i<$arr;$i++)
 	{
-		$string = preg_replace($code_re, '<fieldset><legend>$2</legend>$4</fieldset>', $string);
+		$string = preg_replace($code_re, '<fieldset><legend>$2</legend>$4</fieldset>', $string, 1);
 		$with_breaks = mark::highlight(html_entity_decode($match[4][$i], ENT_QUOTES), $match[2][$i], "geshi/geshi");
 		$string = str_replace($match[4][$i], $with_breaks, $string);
 	}
-	$img_re = '#(\\[img) ?(align=)?(left|right|center)?(\\])(.*?[^\\[/img\\]]?)(\\[/img\\])#sim';
+	$img_re = '#(\\[img) ?(align=)?(left|right|middle|top|bottom)?(\\])(.*?[^\\[/img\\]]?)(\\[/img\\])#sim';
 	$vt = preg_match_all($img_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{
-		$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" alt=\"[путь к изображению некорректен]\" />", $string);
+		if(empty($match[3][$i]))
+			$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		else
+			$string = preg_replace($img_re, "<img src=\"\$5\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
 	}
 	$user_re = "#(\\[user\\])(.*?[^\\[/user\\]]?)(\\[/user\\])#sim";
 	$arr = preg_match_all($user_re, $string, $match);
@@ -72,16 +77,23 @@ function str_to_html($string)
 		$where_arr = array(array("key"=>'nick', "value"=>$match[2][$i], "oper"=>'='));
 		$sel = base::select('users', '', '*', $where_arr, 'AND');
 		if(!empty($sel))
-			$string = preg_replace($user_re, "<b><a href=\"/profile.php?user=\$2\">\$2</a></b>", $string);
+			$string = preg_replace($user_re, "<b><a href=\"/profile.php?user=\$2\">\$2</a></b>", $string, 1);
 		else
-			$string = preg_replace($user_re, "\$2", $string);
+			$string = preg_replace($user_re, "\$2", $string, 1);
 	}
-	$url_re = '#(\\[url=)(.*?[^\\]]?)(\\])(.*?[^\\[/url\\]]?)(\\[/url\\])#sim';
+	$url_re = '#(\\[url\\])(.*?[^\\[/url\\]]?)(\\[/url\\])#sim';
 	$vt = preg_match_all($url_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{
 		if(filter_var($match[2][$i], FILTER_VALIDATE_URL))
-			$string = preg_replace($url_re, "<a href=\"\$2\">\$4</a>", $string);
+			$string = preg_replace($url_re, "<a href=\"\$2\">\$2</a>", $string);
+	}
+	$url_par_re = '#(\\[url=)(.*?[^\\]]?)(\\])(.*?[^\\[/url\\]]?)(\\[/url\\])#sim';
+	$vt = preg_match_all($url_par_re, $string, $match);
+	for($i=0;$i<$vt;$i++)
+	{
+		if(filter_var($match[2][$i], FILTER_VALIDATE_URL))
+			$string = preg_replace($url_par_re, "<a href=\"\$2\">\$4</a>", $string);
 	}
 	$string = '<p>'.$string.'</p>';
 	$string = str_replace("\r\n", '</p><p>', $string);

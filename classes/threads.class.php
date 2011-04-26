@@ -100,5 +100,31 @@ class threads
 		$ret = base::query('SELECT t.id, t.cid, t.section, t.subsection, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=false AND c.id IN (SELECT cid FROM threads WHERE t.section=1 OR t.section=2 OR t.section=3) ORDER BY t.attached <>true ASC, id DESC', 'assoc_array', array());
 		return $ret;
 	}
+	function move_thread($tid, $section, $subsection)
+	{
+		$tid = (int)$tid;
+		$section = (int)$section;
+		$subsection = (int)$subsection;
+		$param_arr = array($tid, $section, $subsection);
+		$ret = base::query('UPDATE threads SET section = \'::1::\' , subsection = \'::2::\' WHERE id = \'::0::\'', 'assoc_array', $param_arr);
+		return $ret;
+	}
+	function attach_thread($tid, $state)
+	{
+		$tid = (int)$tid;
+		$state = core::validate_boolean($state);
+		$param_arr = array($tid, $state);
+		$ret = base::query('UPDATE threads SET attached = \'::1::\' WHERE id = \'::0::\'', 'assoc_array', $param_arr);
+		return $ret;
+	}
+	function approve_thread($tid)
+	{
+		$tid = (int)$tid;
+		$approved_by = $_SESSION['user_id'];
+		$approve_timest = gmdate("Y-m-d H:i:s");
+		$param_arr = array($tid, $approved_by, $approve_timest);
+		$ret = base::query('UPDATE threads SET approved = true , approved_by = \'::1::\', approve_timest=\'::2::\' WHERE id = \'::0::\'', 'assoc_array', $param_arr);
+		return $ret;
+	}
 }
 ?>

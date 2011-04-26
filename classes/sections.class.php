@@ -48,9 +48,18 @@ class sections
 	}
 	function get_section($section_id)
 	{
-		$where_arr = array(array("key"=>'id', "value"=>$section_id, "oper"=>'='));
-		$sel = base::select('sections', '', '*', $where_arr, 'AND');
-		return $sel[0];
+		if($section_id == 'all')
+		{
+			$sel = base::select('sections', '', '*');
+			return $sel;
+		}
+		else
+		{
+			$section_id = (int)$section_id;
+			$where_arr = array(array("key"=>'id', "value"=>$section_id, "oper"=>'='));
+			$sel = base::select('sections', '', '*', $where_arr, 'AND');
+			return $sel[0];
+		}
 	}
 	function get_subsection_icon($subsection_id)
 	{

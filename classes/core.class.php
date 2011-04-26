@@ -139,9 +139,9 @@ class core
 	}
 	function to_local_time_zone($timest)
 	{
-		$first_arr = split(" ", $timest);
-		$second_arr = split("-", $first_arr[0]);
-		$third_arr = split(":", $first_arr[1]);
+		$first_arr = explode(" ", $timest);
+		$second_arr = explode("-", $first_arr[0]);
+		$third_arr = explode(":", $first_arr[1]);
 		$year = $second_arr[0];
 		$month = $second_arr[1];
 		$day = $second_arr[2];
@@ -200,7 +200,7 @@ class core
 	}
 	function get_links()
 	{
-		$sel = base::query('SELECT * FROM links ORDER BY id ASC','assoc_array');
+		$sel = base::query('SELECT * FROM links ORDER BY id ASC','assoc_array', array());
 		if(!empty($sel))
 			return $sel;
 		else

@@ -341,10 +341,10 @@ class users
 		$str = $sel[0]['blocks'];
 		if($id==1)
 			$str = empty($_COOKIE['blocks']) ? $sel[0]['blocks'] : $_COOKIE['blocks'];
-		$blocks_arr = split(",", $str);
+		$blocks_arr = explode(",", $str);
 		for($i=0; $i<count($blocks_arr);$i++)
 		{
-			$block = split(":", $blocks_arr[$i]);
+			$block = explode(":", $blocks_arr[$i]);
 			$ret[$i]=array("name"=>$block[0], "position"=>$block[1], "sort"=>$block[2]);
 		}
 		return $ret;

@@ -32,11 +32,18 @@ $pages_count>1?	$begin=$threads_on_page*($page-1):$begin = 0;
 $thr = threads::get_threads_on_page(4, $subsection_id, $begin, $threads_on_page);
 for($i=0; $i<count($thr); $i++)
 {
-	//$thread_move_link
-	//$thread_attach_link
-	//echo $cur_thr['attached'].'<br>';
-	//if(in_array($cur_thr['attached'], $true_arr))
-	//	$attached = '<img src="/themes/'.$theme.'/paper_clip.gif">';
+	$thread_move_link = 'moder.php?action=move_thread&tid='.$thr[$i]['id'];
+	$attached_bool = core::validate_boolean($thr[$i]['attached']);
+	if($attached_bool)
+	{
+		$thread_attach_link = 'moder.php?action=detach_thread&tid='.$thr[$i]['id'];
+		$attached = '<img src="/themes/'.$theme.'/paper_clip.gif">';
+	}
+	else
+	{
+		$thread_attach_link = 'moder.php?action=attach_thread&tid='.$thr[$i]['id'];
+		$attached = '';
+	}
 	$thread_id = $thr[$i]['id'];
 	$cur_thr = threads::get_thread_info($thread_id);
 	$thread_subject = $cur_thr['thread_subject'];

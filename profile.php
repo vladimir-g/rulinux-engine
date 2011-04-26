@@ -14,62 +14,62 @@ if($_POST['action']=="pass")
 	{
 		if($uid==1)
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Невозможно выполнить действие';
 			$text = 'Вы не можете сменить пароль для пользователя anonymous';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 		if(empty($_POST['old_pass']))
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Введите старый пароль';
 			$text = 'Введите старый пароль';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 		if(empty($_POST['new_pass']))
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Введите новый пароль';
 			$text = 'Введите новый пароль';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 		if(empty($_POST['new_pass_retype']))
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Введите подтверждение нового пароля';
 			$text = 'Введите подтверждение нового пароля';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 		if($_POST['new_pass'] != $_POST['new_pass_retype'])
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Неверно введен пароль';
 			$text = 'Строка нового пароля не соответствует строке подтверждения';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 		if(md5($_POST['old_pass']) != $usr['password'])
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Неверно введен старый пароль';
 			$text = 'Неверно введен старый пароль';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 		$ret = users::modify_user_info('password', md5($_POST['new_pass']), $uid);
 		if($ret == 1)
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Пароль успешно изменен';
 			$text = 'Пароль успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -77,21 +77,21 @@ if($_POST['action']=="pass")
 		}
 		else
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Произошла ошибка при смене пароля';
 			$text = 'Произошла ошибка при смене пароля. Возможно это связано с ошибками при обращении к базе данных';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
 	else
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'Вы не можете сменить пароль этому пользователю';
 		$text = 'У вас нет полномочий для смены пароля данного пользователя';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 }
@@ -99,11 +99,11 @@ else if($_POST['action']=="info")
 {	
 	if($uid==1)
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'Вы не можете сменить информацию о пользователе anonymous';
 		$text = 'Вы не можете сменить информацию о пользователе anonymous';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	if($uid == $uinfo['id'] || $uinfo['gid']==2)
@@ -140,17 +140,17 @@ else if($_POST['action']=="info")
 				$val = users::modify_user_info('photo', $filename.'.'.$ext[1], $uid);
 				if($val != 1)
 				{
-					include 'header.php';
+					require 'header.php';
 					$legend = 'Произошла ошибка при смене информации';
 					$text = 'Произошла ошибка при смене информации';
 					require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-					require 'themes/'.$theme.'/templates/footer.tpl.php';
+					require 'footer.php';
 					exit();
 				}
 			}
 		}
 		$val = users::modify_user_info_settings($uid, $_POST['user_name'], $_POST['user_lastname'], $_POST['gender'], $_POST['user_email'], $_POST['showEmail'], $_POST['user_im'], $_POST['showIM'], $_POST['user_country'], $_POST['user_city'], $_POST['user_additional']);
-		include 'header.php';
+		require 'header.php';
 		$legend = 'Пользовательская информация успешно изменена';
 		$text = 'Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -158,11 +158,11 @@ else if($_POST['action']=="info")
 	}
 	else
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'У вас нет полномочий для смены информации о данном пользователе';
 		$text = 'У вас нет полномочий для смены информации о данном пользователе';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 }
@@ -180,7 +180,7 @@ else if($_POST['action']=="filters")
 		$ret = users::set_filter($uid, $str);
 		if($ret == 1)
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Настройки фильтров успешно изменены';
 			$text = 'Настройки фильтров успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -188,21 +188,21 @@ else if($_POST['action']=="filters")
 		}
 		else
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Произошла ошибка при смене настроек фильтров';
 			$text = 'Произошла ошибка при смене настроек фильтров';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
 	else
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'У вас нет полномочий для смены настроек фильтров';
 		$text = 'У вас нет полномочий для смены настроек фильтров';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 }
@@ -215,11 +215,11 @@ else if($_POST['action']=="read")
 			$val = users::modify_user_info('gmt', htmlspecialchars($_POST['user-gmt']), $uid);
 			if($val != 1)
 			{
-				include 'header.php';
+				require 'header.php';
 				$legend = 'Произошла ошибка при смене часового пояса';
 				$text = 'Произошла ошибка при смене часового пояса';
 				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-				require 'themes/'.$theme.'/templates/footer.tpl.php';
+				require 'footer.php';
 				exit();
 			}
 		}
@@ -227,7 +227,7 @@ else if($_POST['action']=="read")
 		$ret = users::modify_user_read_settings($uid, $_POST['theme'], $_POST['news_on_page'], $_POST['comments_on_page'], $_POST['threads_on_page'], $_POST['show_photos'], $_POST['show_ua'], $_POST['sort_to'], $_POST['show_resp'], $_POST['mark']);
 		if($ret >=0)
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Настройки чтения успешно изменены';
 			$text = 'Настройки чтения успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -235,21 +235,21 @@ else if($_POST['action']=="read")
 		}
 		else
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Произошла ошибка при смене настроек чтения';
 			$text = 'Произошла ошибка при смене настроек чтения';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
 	else
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'У вас нет полномочий для смены настроек чтения';
 		$text = 'У вас нет полномочий для смены настроек чтения';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 }
@@ -259,11 +259,11 @@ else if($_POST['action']=="moder")
 	{
 		if($uid==1)
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Действие запрещено';
 			$text = 'Вы не можете банить пользователя anonymous или выставлять ему уровень каптчи';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 		$banned = (int)$_POST['banned'];
@@ -272,7 +272,7 @@ else if($_POST['action']=="moder")
 		$cpt_ret = users::modify_user_info('captcha', $value, $uid);
 		if($ban_ret >=0 || $cpt_ret >=0)
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Модераторские настройки успешно изменены';
 			$text = 'Модераторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -280,21 +280,21 @@ else if($_POST['action']=="moder")
 		}
 		else
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Произошла ошибка при смене модераторских настроек';
 			$text = 'Произошла ошибка при смене модераторских настроек';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
 	else
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'Действие запрещено';
 		$text = 'Вы не имеете полномочий для изменения модераторских настроек';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 }
@@ -302,11 +302,11 @@ else if($_POST['action']=="admin")
 {
 	if($uid==1)
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'Действие запрещено';
 		$text = 'Вы не можете менять настройки пользователя anonymous';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	if($uinfo['gid']==2)
@@ -315,7 +315,7 @@ else if($_POST['action']=="admin")
 		$ret = users::modify_user_info('gid', $group, $uid);
 		if($ret >=0)
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Администраторские настройки успешно изменены';
 			$text = 'Администраторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -323,21 +323,21 @@ else if($_POST['action']=="admin")
 		}
 		else
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Произошла ошибка при смене администраторских настроек';
 			$text = 'Произошла ошибка при смене администраторских настроек';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
 	else
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'Действие запрещено';
 		$text = 'Вы не имеете полномочий для изменения администраторских настроек';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 }
@@ -357,7 +357,7 @@ else if($_POST['action']=="main_page")
 		$ret = users::modify_user_info('blocks', $blocks_str, $uid);
 		if($ret >=0)
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Вид главной страницы успешно изменен';
 			$text = 'Вид главной страницы успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
@@ -365,27 +365,27 @@ else if($_POST['action']=="main_page")
 		}
 		else
 		{
-			include 'header.php';
+			require 'header.php';
 			$legend = 'Произошла ошибка при смене вида главной страницы';
 			$text = 'Произошла ошибка при смене вида главной страницы';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 	}
 	else
 	{
-		include 'header.php';
+		require 'header.php';
 		$legend = 'Действие запрещено';
 		$text = 'Вы не имеете полномочий для изменения вида главной страницы';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 }
 else
 {
-	include 'header.php';
+	require 'header.php';
 	if($_GET['edit']!=1)
 	{
 		$usr_add = users::get_additional_user_info($uid);
@@ -431,7 +431,7 @@ else
 			$legend = 'Действие запрещено';
 			$text = 'Вы не можете сменить настройки для пользователя anonymous';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			require 'themes/'.$theme.'/templates/footer.tpl.php';
+			require 'footer.php';
 			exit();
 		}
 		if($user == $profile_name || $uinfo['gid']==2)
