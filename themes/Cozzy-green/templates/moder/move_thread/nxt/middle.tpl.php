@@ -1,1 +1,1 @@
-<option value="<?=$section_id?>"><?=$section_name?></option>
+<option value="<?=$section_id?>" <?=$selected?>><?=$section_name?></option>

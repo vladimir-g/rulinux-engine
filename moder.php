@@ -22,7 +22,7 @@ if($_GET['action']=='move_thread')
 		require 'themes/'.$theme.'/templates/moder/move_thread/sbm/top.tpl.php';
 		for($i=0; $i<count($subsections); $i++)
 		{
-			$subsection_id = $subsections[$i]['id'];
+			$subsection_id = $subsections[$i]['sort'];
 			$subsection_name = $subsections[$i]['name'];
 			require 'themes/'.$theme.'/templates/moder/move_thread/sbm/middle.tpl.php';
 		}
@@ -30,15 +30,51 @@ if($_GET['action']=='move_thread')
 		require 'footer.php';
 		exit();
 	}
+	else if(!empty($_POST['cat']))
+	{
+		$tid = (int)$_GET['tid'];
+		$referer = $_POST['referer'];
+		$section = (int)$_POST['section'];
+		$subsection = (int)$_POST['subsection'];
+		if($section == 1)
+		{
+			require 'header.php';
+			require 'themes/'.$theme.'/templates/moder/move_thread/news/news.tpl.php';
+			require 'footer.php';
+			exit();
+		}
+		elseif($section == 3)
+		{
+			require 'header.php';
+			
+			
+			require 'footer.php';
+			exit();
+		}
+		else
+		{
+			$ret = threads::move_thread($tid, $section, $subsection);
+			if(empty($ret))
+				die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
+			else
+			{
+				require 'header.php';
+				$legend = 'Ошибка при перемещении';
+				$text = 'Произошла ошибка при перемещении треда в указанный раздел.';
+				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+				require 'footer.php';
+				exit();
+			}
+		}
+	}
 	else if(!empty($_POST['sbm']))
 	{
 		$tid = (int)$_GET['tid'];
 		$referer = $_POST['referer'];
 		$section = (int)$_POST['section'];
 		$subsection = (int)$_POST['subsection'];
-		//echo 'section '.$section.' subsection '.$subsection;
 		$ret = threads::move_thread($tid, $section, $subsection);
-		if($ret>0)
+		if(empty($ret))
 			die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
 		else
 		{
