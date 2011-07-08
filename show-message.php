@@ -12,7 +12,7 @@ if(!empty($msg_resp))
 	$message_resp_timestamp = core::to_local_time_zone($msg_resp['timest']);
 	$msg_resp_autor = users::get_user_info($msg_resp['uid']);
 	$message_resp_user = $msg_resp_autor['nick'];
-	$message_resp_link = 'message.php?newsid='.$thread_id.'#'.$msg['referer'];
+	$message_resp_link = 'message.php?newsid='.$msg['tid'].'#'.$msg['referer'];
 }
 $message_subject = $msg['subject'];
 $message_comment = $msg['comment'];

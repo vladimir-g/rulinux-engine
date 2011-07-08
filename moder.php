@@ -30,48 +30,20 @@ if($_GET['action']=='move_thread')
 		require 'footer.php';
 		exit();
 	}
-	else if(!empty($_POST['cat']))
-	{
-		$tid = (int)$_GET['tid'];
-		$referer = $_POST['referer'];
-		$section = (int)$_POST['section'];
-		$subsection = (int)$_POST['subsection'];
-		if($section == 1)
-		{
-			require 'header.php';
-			require 'themes/'.$theme.'/templates/moder/move_thread/news/news.tpl.php';
-			require 'footer.php';
-			exit();
-		}
-		elseif($section == 3)
-		{
-			require 'header.php';
-			
-			
-			require 'footer.php';
-			exit();
-		}
-		else
-		{
-			$ret = threads::move_thread($tid, $section, $subsection);
-			if(empty($ret))
-				die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
-			else
-			{
-				require 'header.php';
-				$legend = 'Ошибка при перемещении';
-				$text = 'Произошла ошибка при перемещении треда в указанный раздел.';
-				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-				require 'footer.php';
-				exit();
-			}
-		}
-	}
 	else if(!empty($_POST['sbm']))
 	{
 		$tid = (int)$_GET['tid'];
 		$referer = $_POST['referer'];
 		$section = (int)$_POST['section'];
+		if($section=3)
+		{
+			require 'header.php';
+			$legend = 'Невозможно переместить тред в галлерею';
+			$text = 'Вы не можете переместить тред в галлерею. Создайте новый тред в соответствующем разделе.';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
 		$subsection = (int)$_POST['subsection'];
 		$ret = threads::move_thread($tid, $section, $subsection);
 		if(empty($ret))
@@ -97,7 +69,8 @@ if($_GET['action']=='move_thread')
 		{
 			$section_id = $sections[$i]['id'];
 			$section_name = $sections[$i]['name'];
-			require 'themes/'.$theme.'/templates/moder/move_thread/nxt/middle.tpl.php';
+			if($section_id!=3)
+				require 'themes/'.$theme.'/templates/moder/move_thread/nxt/middle.tpl.php';
 		}
 		require 'themes/'.$theme.'/templates/moder/move_thread/nxt/bottom.tpl.php';
 		require 'footer.php';

@@ -69,10 +69,13 @@ else
 		for($i=0;$i<count($sel);$i++)
 		{
 			if($sel[$i]['md5']==$md5)
+			{
 				$message_number = $i+1;
+				$msg_id = $sel[$i]['id'];
+			}
 		}
 		$page = ceil($message_number/$uinfo['comments_on_page']);
-		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thr[0]['tid'].'&page='.$page.'">');  
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thr[0]['tid'].'&page='.$page.'#'.$msg_id.'">');  
 	}
 }
 ?>

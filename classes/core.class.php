@@ -62,10 +62,22 @@ class core
 	function update_sessions_table($session_id, $uid, $tid)
 	{
 		if(gmdate("i")>5)
+		{
 			$min = gmdate("i")-5;
+			$hour = gmdate("H");
+		}
 		else
+		{
 			$min = 60+gmdate("i")-5;
-		$timestamp = gmdate("Y-m-d H").':'.$min.':'.gmdate("s");
+			$hour = gmdate("H");
+			if($hour!="00")
+				$hour = gmdate("H")-1;
+			else
+				$hour = 23;
+		}
+		if($min<10)
+			$min = '0'.$min;
+		$timestamp = gmdate("Y-m-d").' '.$hour.':'.$min.':'.gmdate("s");
 		$where_arr = array(array("key"=>'timest', "value"=>$timestamp, "oper"=>'<'));
 		$subsect = base::select('sessions', '', '*', $where_arr, 'AND');
 		if(!empty($subsect))
@@ -75,7 +87,8 @@ class core
 		}
 		base::delete('sessions', 'session_id', $session_id);
 		base::delete('sessions', 'uid', $uid);
-		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timestamp));
+		$timest = gmdate("Y-m-d H:i:s");
+		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timest));
 		$ret = base::insert('sessions', $msg_arr);
 	}
 	function search($str, $include, $date, $section, $username)

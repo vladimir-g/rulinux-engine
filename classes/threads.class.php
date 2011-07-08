@@ -126,5 +126,39 @@ class threads
 		$ret = base::query('UPDATE threads SET approved = true , approved_by = \'::1::\', approve_timest=\'::2::\' WHERE id = \'::0::\'', 'assoc_array', $param_arr);
 		return $ret;
 	}
+	
+	function get_previous_thread($tid)
+	{
+		$tid = (int)$tid;
+		$ret = array();
+		$param_arr = array($tid);
+		$id = base::query('SELECT max(id) AS id FROM threads WHERE id<\'::0::\' AND section = (SELECT section FROM threads WHERE id=\'::0::\') AND subsection = (SELECT subsection FROM threads WHERE id=\'::0::\');', 'assoc_array', $param_arr);
+		if(!empty($id[0]['id']))
+		{
+			$param_arr = array($id[0]['id']);
+			$subj = base::query('SELECT subject FROM comments WHERE id = (SELECT cid FROM threads WHERE id = \'::0::\');', 'assoc_array', $param_arr);
+			$ret = array("subject"=>$subj[0]['subject'], "id"=>$id[0]['id']);
+			return $ret;
+		}
+		else
+			return $ret;
+	}
+	
+	function get_next_thread($tid)
+	{
+		$tid = (int)$tid;
+		$ret = array();
+		$param_arr = array($tid);
+		$id = base::query('SELECT min(id) AS id FROM threads WHERE id>\'::0::\' AND section = (SELECT section FROM threads WHERE id=\'::0::\') AND subsection = (SELECT subsection FROM threads WHERE id=\'::0::\');', 'assoc_array', $param_arr);
+		if(!empty($id[0]['id']))
+		{
+			$param_arr = array($id[0]['id']);
+			$subj = base::query('SELECT subject FROM comments WHERE id = (SELECT cid FROM threads WHERE id = \'::0::\');', 'assoc_array', $param_arr);
+			$ret = array("subject"=>$subj[0]['subject'], "id"=>$id[0]['id']);
+			return $ret;
+		}
+		else
+			return $ret;
+	}
 }
 ?>
