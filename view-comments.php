@@ -1,6 +1,6 @@
 <?php
 require 'classes/core.php';
-
+$rss_link='view-rss.php';
 $title = ' - Последние коментарии';
 if(!empty($_GET['offset']))
 	$offset = (int)$_GET['offset'];

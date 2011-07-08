@@ -4,8 +4,9 @@ class rss
 	function get_all()
 	{
 		$ret = array();
-		$param_arr = array();
-		$sel = base::query('SELECT id, tid, subject, comment, timest FROM comments WHERE id IN (SELECT cid FROM threads)', 'assoc_array', $param_arr);
+		$uinfo = users::get_user_info($_SESSION['user_id']);
+		$param_arr = array($uinfo['threads_on_page']);
+		$sel = base::query('SELECT id, tid, subject, comment, timest FROM comments WHERE id IN (SELECT cid FROM threads) LIMIT \'::0::\'', 'assoc_array', $param_arr);
 		if(!empty($sel))
 		{
 			for($i=0; $i<count($sel); $i++)
@@ -20,8 +21,9 @@ class rss
 	function get_section($section)
 	{
 		$ret = array();
-		$param_arr = array($section);
-		$sel = base::query('SELECT id, tid, subject, comment, timest FROM comments WHERE id IN (SELECT cid FROM threads WHERE section = \'::0::\')', 'assoc_array', $param_arr);
+		$uinfo = users::get_user_info($_SESSION['user_id']);
+		$param_arr = array($section, $uinfo['threads_on_page']);
+		$sel = base::query('SELECT id, tid, subject, comment, timest FROM comments WHERE id IN (SELECT cid FROM threads WHERE section = \'::0::\')  LIMIT \'::1::\'', 'assoc_array', $param_arr);
 		if(!empty($sel))
 		{
 			for($i=0; $i<count($sel); $i++)
@@ -36,8 +38,9 @@ class rss
 	function get_subsection($section, $subsection)
 	{
 		$ret = array();
-		$param_arr = array($section, $subsection);
-		$sel = base::query('SELECT id, tid, subject, comment, timest FROM comments WHERE id IN (SELECT cid FROM threads WHERE section = \'::0::\' AND subsection=\'::1::\')', 'assoc_array', $param_arr);
+		$uinfo = users::get_user_info($_SESSION['user_id']);
+		$param_arr = array($section, $subsection, $uinfo['threads_on_page']);
+		$sel = base::query('SELECT id, tid, subject, comment, timest FROM comments WHERE id IN (SELECT cid FROM threads WHERE section = \'::0::\' AND subsection=\'::1::\')  LIMIT \'::2::\'', 'assoc_array', $param_arr);
 		if(!empty($sel))
 		{
 			for($i=0; $i<count($sel); $i++)
@@ -52,8 +55,9 @@ class rss
 	function get_thread($tid)
 	{
 		$ret = array();
-		$param_arr = array($tid);
-		$sel = base::query('SELECT id, tid, subject, comment, timest FROM comments WHERE tid = \'::0::\'', 'assoc_array', $param_arr);
+		$uinfo = users::get_user_info($_SESSION['user_id']);
+		$param_arr = array($tid, $uinfo['comments_on_page']);
+		$sel = base::query('SELECT id, tid, subject, comment, timest FROM comments WHERE tid = \'::0::\'  LIMIT \'::1::\'', 'assoc_array', $param_arr);
 		if(!empty($sel))
 		{
 			for($i=0; $i<count($sel); $i++)

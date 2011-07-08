@@ -2,6 +2,7 @@
 $page = (int)$_GET['page'];
 require 'classes/core.php';
 $title = ' - Пользователи';
+$rss_link='view-rss.php';
 require 'header.php';
 require 'themes/'.$theme.'/templates/users/top.tpl.php';
 $users_on_page = 20;

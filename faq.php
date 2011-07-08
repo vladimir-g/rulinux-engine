@@ -1,6 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Часто задаваемые вопросы';
+$rss_link='view-rss.php';
 require 'header.php';
 require 'themes/'.$theme.'/templates/faq/top.tpl.php';
 $questions = faq::get_questions();

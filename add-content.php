@@ -3,6 +3,7 @@ require 'classes/core.php';
 $section_id = (int)$_GET['section'];
 $subsection_id = (int)$_GET['subsection'];
 $title = ' - Добавить материал';
+$rss_link='view-rss.php';
 if(empty($_POST['submit_form']))
 {
 	require 'header.php';

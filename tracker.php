@@ -3,6 +3,7 @@
 require 'classes/core.php';
 $hours_count = core::declOfNum($hours, array('час', 'часа', 'часов'));
 $title = ' - Последние сообщения за '.$hours_count;
+$rss_link='view-rss.php';
 require 'header.php';
 require 'themes/'.$theme.'/templates/tracker/nav.tpl.php';
 $messages = messages::get_messages_for_tracker($hours);

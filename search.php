@@ -1,6 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Поиск';
+$rss_link='view-rss.php';
 require 'header.php';
 if(!empty($_GET['q']))
 {

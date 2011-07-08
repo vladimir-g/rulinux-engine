@@ -7,6 +7,7 @@ else
 $mark_info = mark::get_mark_info($mark_id);
 $mark_name = $mark_info['name'];
 $title = ' - Разметка '.$mark_name;
+$rss_link='view-rss.php';
 require 'header.php';
 echo '<h2>Разметка '.$mark_name.'</h2>';
 echo $mark_info['description'];

@@ -1,6 +1,7 @@
 <?
 $message_id = (int)$_GET['id'];
 require 'classes/core.php';
+$rss_link='view-rss.php';
 if(!empty($_POST['sbm']))
 {
 	if($_SESSION['user_id'] == 1)

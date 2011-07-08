@@ -2,6 +2,7 @@
 require 'classes/core.php';
 $message_id = (int)$_GET['id'];
 $title = ' - Редактировать сообщение';
+$rss_link='view-rss.php';
 if(empty($_POST['sbm']))
 {
 	if($_SESSION['user_id'] == 1)

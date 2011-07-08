@@ -1,6 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Модераторская';
+$rss_link='view-rss.php';
 if($uinfo['gid']!=2 && $uinfo['gid']!=3)
 {
 	require 'header.php';

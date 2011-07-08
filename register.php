@@ -2,6 +2,7 @@
 $subsection_id = (int)$_GET['id'];
 require 'classes/core.php';
 $title = ' - Регистрация нового пользователя';
+$rss_link='view-rss.php';
 if($_SESSION['user_id']!=1)
 {
 	require 'header.php';

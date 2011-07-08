@@ -1,6 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = '';
+$rss_link='view-rss.php';
 if(isset($_GET['logout']))
 {
 	$_SESSION['user_id']='';

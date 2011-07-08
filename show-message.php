@@ -2,6 +2,7 @@
 $message_id = (int)$_GET['id'];
 require 'classes/core.php';
 $title = ' - Показать сообщение';
+$rss_link='view-rss.php';
 require 'header.php';
 echo '<br>';
 $msg = messages::get_message($message_id);

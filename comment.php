@@ -3,6 +3,7 @@ require 'classes/core.php';
 $message_id = (int)$_GET['cid'];
 $thread_id = (int)$_GET['answerto'];
 $title = 'Добавить коментарий';
+$rss_link='view-rss.php';
 if(!empty($_POST['sbm']))
 {
 	if (empty($_POST['subject']))

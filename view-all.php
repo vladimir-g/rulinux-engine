@@ -1,6 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Просмотр неподтвержденных';
+$rss_link='view-rss.php';
 require 'header.php';
 require 'themes/'.$theme.'/templates/view_all/top.tpl.php';
 $unconfirmed = threads::get_unconfirmed();

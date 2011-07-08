@@ -5,6 +5,7 @@ if(!empty($_GET['user']))
 else
 	$user = $profile_name;
 $title = ' - Профиль пользователя '.$user;
+$rss_link='view-rss.php';
 $uid = users::get_uid_by_nick($user);
 $usr = users::get_user_info($uid);
 
