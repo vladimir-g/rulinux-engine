@@ -11,7 +11,7 @@ class rss
 			for($i=0; $i<count($sel); $i++)
 			{
 				$time = strtotime($sel[$i]['timest']);
-				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[0]['comment'], "link"=>'message.php?newsid='.$sel[0]['tid'].'&page=1');
+				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'message.php?newsid='.$sel[$i]['tid'].'&page=1');
 			}
 		}
 		return $ret;
@@ -27,7 +27,7 @@ class rss
 			for($i=0; $i<count($sel); $i++)
 			{
 				$time = strtotime($sel[$i]['timest']);
-				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[0]['comment'], "link"=>'message.php?newsid='.$sel[0]['tid'].'&page=1');
+				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'message.php?newsid='.$sel[$i]['tid'].'&page=1');
 			}
 		}
 		return $ret;
@@ -43,7 +43,7 @@ class rss
 			for($i=0; $i<count($sel); $i++)
 			{
 				$time = strtotime($sel[$i]['timest']);
-				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[0]['comment'], "link"=>'message.php?newsid='.$sel[0]['tid'].'&page=1');
+				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'message.php?newsid='.$sel[$i]['tid'].'&page=1');
 			}
 		}
 		return $ret;
@@ -61,7 +61,7 @@ class rss
 				$time = strtotime($sel[$i]['timest']);
 				$page = core::get_page_by_tid($tid, $sel[$i]['id'], $uinfo['comments_on_page']);
 				$link = 'message.php?newsid='.$tid.'&page='.$page.'#'.$sel[$i]['id'];
-				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[0]['comment'], "link"=>$link);
+				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>$link);
 			}
 		}
 		return $ret;
