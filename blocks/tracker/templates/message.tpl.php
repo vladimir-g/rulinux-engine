@@ -1,6 +1,6 @@
 <a href="[link]">[subject]</a>
-<br>[comment]<br><br>
+<br>[comment]
 <b>[author]</b>(<a href="profile.php?user=[author]">*</a>)
-<br><br>
+<br>
 <a href="[link]">Перейти >></a>
 <hr>

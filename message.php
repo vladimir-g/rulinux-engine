@@ -39,6 +39,7 @@ if(!empty($topic_start['changed_by']))
 	$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
 }
 $title = ' - '.$section_name.' - '.$subsection_name.' - '.$thread_subject;
+$rss_link = 'view-rss.php?section='.$section_id.'&subsection='.$subsection_id.'&newsid='.$thread_id;
 require 'header.php';
 $comments_on_page = $uinfo['comments_on_page'];
 $pages_count = ceil(($messages_count-1)/$comments_on_page);

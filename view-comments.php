@@ -1,16 +1,17 @@
 <?php
 require 'classes/core.php';
+
 $title = ' - Последние коментарии';
 if(!empty($_GET['offset']))
 	$offset = (int)$_GET['offset'];
 else
 	$offset = 0;
+require 'header.php';
 if(!empty($_GET['user']))
 	$user = (string)$_GET['user'];
 else
 	$user = $profile_name;
 $limit = 50;
-require 'header.php';
 require 'themes/'.$theme.'/templates/view_comments/top.tpl.php';
 $msg = messages::get_user_messages($user, $limit, $offset);
 for($i=0; $i<count($msg); $i++)

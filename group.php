@@ -10,6 +10,7 @@ $section_id = 4;
 $subsection_name = $subsect_arr['name'];
 $subsection_description = $subsect_arr['description'];
 $title = ' - '.$section_name.' - '.$subsection_name;
+$rss_link='view-rss.php?section=4';
 require 'header.php';
 require 'themes/'.$theme.'/templates/group/nav_top.tpl.php';
 $subsct = sections::get_subsections(4);

@@ -1,6 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = '';
+$rss_link='view-rss.php?section=1';
 require 'header_main.php';
 $blocks = users::get_blocks($_SESSION['user_id']);
 $lerf_arr = array();

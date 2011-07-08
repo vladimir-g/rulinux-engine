@@ -1,5 +1,7 @@
 <?php
 $subsection_id = (int)$_GET['id'];
+if(empty($subsection_id))
+	$subsection_id = 1;
 require 'classes/core.php';
 $subsect_arr = sections::get_subsection(1, $subsection_id);
 $sect_arr = sections::get_section(1);
@@ -9,6 +11,7 @@ $section_id = 1;
 $subsection_name = $subsect_arr['name'];
 $subsection_description = $subsect_arr['description'];
 $title = ' - '.$section_name.' - '.$subsection_name;
+$rss_link='view-rss.php?section=1';
 include 'header.php';
 require 'themes/'.$theme.'/templates/news/nav_top.tpl.php';
 

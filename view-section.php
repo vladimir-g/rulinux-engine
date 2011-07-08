@@ -4,6 +4,7 @@ require 'classes/core.php';
 $sect = sections::get_section($section_id);
 $section_name = $sect['name'];
 $title = ' - '.$section_name;
+$rss_link='view-rss.php?section='.$section_id;
 require 'header.php';
 require 'themes/'.$theme.'/templates/view_section/top.tpl.php';
 $subsct = sections::get_subsections($section_id);

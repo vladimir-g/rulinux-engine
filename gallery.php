@@ -9,6 +9,7 @@ $section_id = 3;
 $subsection_name = $subsect_arr['name'];
 $subsection_description = $subsect_arr['description'];
 $title = ' - '.$section_name.' - '.$subsection_name;
+$rss_link='view-rss.php?section=3';
 require 'header.php';
 require 'themes/'.$theme.'/templates/gallery/nav_top.tpl.php';
 
