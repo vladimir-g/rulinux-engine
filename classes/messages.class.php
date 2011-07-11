@@ -1,7 +1,7 @@
 <?php
 class messages
 {
-	function new_thread($subject, $message, $section='4', $subsection='1', $file = '', $extension = '', $file_size = '0', $image_size = '')
+	function new_thread($subject, $message, $section='4', $subsection='1', $file = '', $extension = '', $file_size = '0', $image_size = '', $prooflink='')
 	{
 		$thr = base::query('SELECT MAX(id) AS tid FROM threads', 'assoc_array');
 		$tid = $thr[0]['tid']+1;
@@ -30,7 +30,7 @@ class messages
 		$approved = 'false';
 		$approved_by = '0';
 		$approve_timest = $timest;
-		$msg_arr = array(array('id', $tid), array('cid', $cid), array('section', $section), array('subsection', $subsection), array('attached', $attached), array('approved', $approved), array('approved_by', $approved_by), array('approve_timest', $approve_timest) , array('file', $file), array('file_size', $file_size), array('image_size', $image_size), array('extension', $extension), array('md5', $md5));
+		$msg_arr = array(array('id', $tid), array('cid', $cid), array('section', $section), array('subsection', $subsection), array('attached', $attached), array('approved', $approved), array('approved_by', $approved_by), array('approve_timest', $approve_timest) , array('file', $file), array('file_size', $file_size), array('image_size', $image_size), array('extension', $extension), array('md5', $md5), array('prooflink', $prooflink));
 		$ret = base::insert('threads', $msg_arr);
 		$where_arr = array(array("key"=>'md5', "value"=>$md5, "oper"=>'='));
 		$sel = base::select('threads', '', 'id', $where_arr, 'AND');
@@ -77,6 +77,20 @@ class messages
 		$changed_for = htmlspecialchars($reason);
 		$param_arr = array($subject, $raw_message, $message, $changing_timest, $changed_by, $changed_for, $id);
 		$ret = base::query('UPDATE comments SET subject=\'::0::\', raw_comment=\'::1::\', comment=\'::2::\', changing_timest=\'::3::\', changed_by=\'::4::\', changed_for=\'::5::\' WHERE id= \'::6::\'', 'assoc_array', $param_arr);
+		return $ret;
+	}
+	function edit_news($id, $subject, $message, $reason, $tid, $link, $subsection)
+	{
+		$raw_message = $message;
+		$subject = htmlspecialchars($subject);
+		$message = str_to_html($message);
+		$changing_timest = gmdate("Y-m-d H:i:s");
+		$changed_by = $_SESSION['user_id'];
+		$changed_for = htmlspecialchars($reason);
+		$param_arr = array($subject, $raw_message, $message, $changing_timest, $changed_by, $changed_for, $id);
+		$ret = base::query('UPDATE comments SET subject=\'::0::\', raw_comment=\'::1::\', comment=\'::2::\', changing_timest=\'::3::\', changed_by=\'::4::\', changed_for=\'::5::\' WHERE id= \'::6::\'', 'assoc_array', $param_arr);
+		$param_arr = array($link, $subsection, $tid);
+		$ret = base::query('UPDATE threads SET prooflink=\'::0::\', subsection=\'::1::\' WHERE id = \'::2::\'', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	function get_messages_count($tid)

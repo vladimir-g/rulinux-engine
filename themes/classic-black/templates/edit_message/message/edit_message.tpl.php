@@ -24,14 +24,12 @@
 Причина редактирования:
 </td>
 <td>
-<input type=text name="reason" style="width:100%">
+<input type=text name="reason" value="<?=$reason?>" style="width:100%">
 </td>
 </tr>
 <tr>
 <td>
-<!-- captcha section -->
 <?=$captcha?>
-<!-- captcha section end -->
 </td>
 </tr>
 <tr>

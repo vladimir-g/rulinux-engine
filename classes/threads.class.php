@@ -76,7 +76,7 @@ class threads
 		$cmnts_in_thr_hour = base::query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
 		if(empty($cmnts_in_thr_hour[0]['cnt']))
 			$cmnts_in_thr_hour[0]['cnt'] = '-';
-		$ret = array("id"=>$thr[0]['id'], "thread_subject"=>$cmnt[0]['subject'], "uid"=>$cmnt[0]['uid'], "comments_in_thread_all"=>$cmnts_in_thr_all[0]['cnt'], "comments_in_thread_day"=>$cmnts_in_thr_day[0]['cnt'], "comments_in_thread_hour"=>$cmnts_in_thr_hour[0]['cnt'], "attached"=>$thr[0]['attached']);
+		$ret = array("id"=>$thr[0]['id'], "thread_subject"=>$cmnt[0]['subject'], "uid"=>$cmnt[0]['uid'], "comments_in_thread_all"=>$cmnts_in_thr_all[0]['cnt'], "comments_in_thread_day"=>$cmnts_in_thr_day[0]['cnt'], "comments_in_thread_hour"=>$cmnts_in_thr_hour[0]['cnt'], "attached"=>$thr[0]['attached'], "section"=>$thr[0]['section'], "subsection"=>$thr[0]['subsection'], "prooflink"=>$thr[0]['prooflink']);
 		return $ret;
 	}
 	function get_news_count()

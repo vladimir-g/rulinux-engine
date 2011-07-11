@@ -110,6 +110,8 @@ switch($section_id)
 		$news_approve_moder_name = users::get_user_info($topic_start['approved_by']);
 		if(core::validate_boolean($topic_start['approved']))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="profile.php?user='.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
+		if(!empty($topic_start['prooflink']))
+			$prooflink='>>> <a href="'.$topic_start['prooflink'].'">Подробнее</a>';
 		require 'themes/'.$theme.'/templates/message/news.tpl.php';
 		break;
 	case 2:

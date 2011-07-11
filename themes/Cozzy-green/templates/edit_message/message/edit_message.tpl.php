@@ -1,7 +1,6 @@
 <h1>Редактировать сообщение</h1>
 <form method=POST action="edit-message.php?id=<?=$message_id?>">
 <input type="hidden" name="action" value="edit">
-<input type="hidden" name="<?=$msg_uid?>" value="msg_uid">
 <input type="hidden" name="cid" value="<?=$message_id?>">
 <table border=0>
 <tr>
@@ -25,14 +24,12 @@
 Причина редактирования:
 </td>
 <td>
-<input type=text name="reason" style="width:100%">
+<input type=text name="reason" value="<?=$reason?>" style="width:100%">
 </td>
 </tr>
 <tr>
 <td>
-<!-- captcha section -->
 <?=$captcha?>
-<!-- captcha section end -->
 </td>
 </tr>
 <tr>

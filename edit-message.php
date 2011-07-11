@@ -29,11 +29,34 @@ if(empty($_POST['sbm']))
 		require 'header.php';
 		$subj = $msg['subject'];
 		$comment = $msg['raw_comment'];
+		$reason = $msg['changed_for'];
 		if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
 			$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 		else
 			$captcha = '';
-		require 'themes/'.$theme.'/templates/edit_message/edit_message.tpl.php';
+		$sect = sections::get_section_by_tid($msg['tid']);
+		if($sect['id']==1)
+		{
+			require 'themes/'.$theme.'/templates/edit_message/news/top.tpl.php';
+			$subsect = sections::get_subsections($sect['id']);
+			$thr = threads::get_thread_info($msg['tid']);
+			$tid = $msg['tid'];
+			$section = $thr['section'];
+			$link = $thr['prooflink'];
+			for($i=0; $i<count($subsect); $i++)
+			{
+				$subsection_id = $subsect[$i]['id'];
+				$subsection_name = $subsect[$i]['name'];
+				if($thr['subsection']-1==$i)
+					$selected = 'selected';
+				else
+					$selected = '';
+				require 'themes/'.$theme.'/templates/edit_message/news/middle.tpl.php';
+			}
+			require 'themes/'.$theme.'/templates/edit_message/news/bottom.tpl.php';
+		}
+		else
+			require 'themes/'.$theme.'/templates/edit_message/message/edit_message.tpl.php';
 		require 'footer.php';
 	}
 }
@@ -62,7 +85,11 @@ else
 	}
 	if($_POST['msg_uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 	{
-		messages::edit_message($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason']);
+		echo 'sect '.$_POST['section'];
+		if(empty($_POST['section']))
+			messages::edit_message($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason']);
+		else
+			messages::edit_news($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason'], $_POST['tid'], $_POST['link'], $_POST['subsection_id']);
 		$param_arr = array($message_id);
 		$thr = base::query('SELECT tid FROM comments WHERE id = \'::0::\'','assoc_array', $param_arr);
 		$param_arr = array($thr[0]['tid']);

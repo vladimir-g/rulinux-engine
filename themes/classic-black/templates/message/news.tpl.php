@@ -8,6 +8,7 @@
 </div>
 <div class="msg" id=<?=$message_id?>><h2 class="nt"><?=$message_subject?></h2>
 <?=$message_comment?>
+<?=$prooflink?>
 <p>
 <i><?=$message_autor?>(<a href="<?=$message_autor_profile_link?>">*</a>) (<?=$message_timestamp?>)<br /><?=$changed?><br /><?=$message_useragent?></i>
 <br /><?=$approve?>
