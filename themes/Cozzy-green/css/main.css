@@ -181,3 +181,15 @@ color: white
     padding: 7px 0 7px 0;
     width: auto;
 }
+
+.root 
+{ 
+	color: red; 
+	font-weight: bold; 
+} 
+
+.moder 
+{ 
+	color: red; 
+	font-weight: bold; 
+}

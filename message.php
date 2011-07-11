@@ -44,16 +44,16 @@ require 'header.php';
 $comments_on_page = $uinfo['comments_on_page'];
 $pages_count = ceil(($messages_count-1)/$comments_on_page);
 $pages_count>1?	$begin=$comments_on_page*($page-1):$begin = 0;
-$r_count = core::get_readers_count($message_id);
+$r_count = core::get_readers_count($thread_id);
 $readers_count = core::declOfNum($r_count, array('пользователь', 'пользователя', 'пользователей'));
-$readers = 'Анонимных: '.core::get_readers_count($message_id, 1).'<br>Зарегистрированных: '.core::get_readers_count($message_id, 2).' <br>';
-$rdrs_arr = core::get_readers($message_id);
+$readers = 'Анонимных: '.core::get_readers_count($thread_id, 1).'<br>Зарегистрированных: '.core::get_readers_count($thread_id, 2).' <br>';
+$rdrs_arr = core::get_readers($thread_id);
 for($i=0;$i<count($rdrs_arr);$i++)
 {
 	if($rdrs_arr[$i]['gid']==2)
-		$rdrs = $rdrs.', <font color="red"><b>'.$rdrs_arr[$i]['nick'].'</b></font>';
+		$rdrs = $rdrs.', <div class="root">'.$rdrs_arr[$i]['nick'].'</div>';
 	elseif($rdrs_arr[$i]['gid']==3)
-		$rdrs = $rdrs.', <font color="blue"><b>'.$rdrs_arr[$i]['nick'].'</b></font>';
+		$rdrs = $rdrs.', <div class="moder"'.$rdrs_arr[$i]['nick'].'</div>';
 	else
 		$rdrs = $rdrs.', <b>'.$rdrs_arr[$i]['nick'].'</b>';
 }

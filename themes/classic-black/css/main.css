@@ -158,3 +158,15 @@ DIV.notes
 .messages .highLighted {
     border: red solid 1px;
 }
+
+.root 
+{ 
+	color: red; 
+	font-weight: bold; 
+} 
+
+.moder 
+{ 
+	color: red; 
+	font-weight: bold; 
+}
