@@ -1,7 +1,7 @@
 <tr>
 <td style="vertical-align:top;">Текст сообщения:</td>
 <td>
-<textarea name="comment" id="editor" rows="20" cols="80"></textarea>
+<textarea name="comment" id="editor" rows="20" cols="80"><?=$comment?></textarea>
 </td>
 </tr>
 </tr>
@@ -10,6 +10,7 @@
 <td><?=$captcha?></td>
 </tr>
 </table>
+<input type="hidden" name="section" value="<?=$section_id?>">
 <input type="submit" name="submit_form" value="Отправить">
 &nbsp;
 <input type="submit" name="submit_form" value="Предпросмотр">

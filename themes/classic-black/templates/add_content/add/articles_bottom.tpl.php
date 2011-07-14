@@ -1,11 +1,7 @@
 <tr>
-<td style="vertical-align:top;">Адрес файла:</td>
-<td><input type="file" name="scrot_link" value="" style="width:100%"></td>
-</tr>
-<tr>
-<td style="vertical-align:top;">Описание:</td>
+<td style="vertical-align:top;">Текст статьи:</td>
 <td>
-<textarea name="comment" id="editor" rows="20" cols="80"></textarea>
+<textarea name="comment" id="editor" rows="20" cols="80"><?=$comment?></textarea>
 </td>
 </tr>
 </tr>
@@ -14,6 +10,7 @@
 <td><?=$captcha?></td>
 </tr>
 </table>
+<input type="hidden" name="section" value="<?=$section_id?>">
 <input type="submit" name="submit_form" value="Отправить">
 &nbsp;
 <input type="submit" name="submit_form" value="Предпросмотр">
