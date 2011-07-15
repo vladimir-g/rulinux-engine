@@ -552,14 +552,20 @@ else
 			{
 				$block_id = $i;
 				$block_name = $blocks[$i]['name'];
-				//!empty($usr_blocks[$i]['sort']) ? $sort_val = $usr_blocks[$i]['sort'] : $sort_val = 0;
-				/*if($blocks[$i]['position'] == 'l')
+				$id =0;//гребаный быдлокод, но я не могу додуматься как сделать красивее
+				for($t=0; $t<count($usr_blocks); $t++)
+				{
+					if($usr_blocks[$t]['name']==$blocks[$i]['name'])
+						$id=$t;
+				}
+				!empty($usr_blocks[$id]['sort']) ? $sort_val = $usr_blocks[$id]['sort'] : $sort_val = 0;
+				if($usr_blocks[$id]['position'] == 'l')
 				{
 					$sel_l = 'selected';
 					$sel_r = '';
 					$sel_n = '';
 				}
-				else if($blocks[$i]['position'] == 'r')
+				else if($usr_blocks[$id]['position'] == 'r')
 				{
 					$sel_l = '';
 					$sel_r = 'selected';
@@ -570,7 +576,7 @@ else
 					$sel_l = '';
 					$sel_r = '';
 					$sel_n = 'selected';
-				}*/
+				}//конец участка быдлокода требующего чтобы его переписали
 				require 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_middle.tpl.php';
 			}
 			$blocks_count = count($blocks);

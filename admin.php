@@ -24,7 +24,20 @@ if($_GET['action']=='manage_blocks_ui')
 	}
 	elseif($_GET['set']=='remove_block')
 	{
-		
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_blocks/remove_block_top.tpl.php';
+		$blocks = core::get_blocks();
+		for($i=0; $i<count($blocks);$i++)
+		{
+			$id = $blocks[$i]['id'];
+			$name = $blocks[$i]['name'];
+			$description = $blocks[$i]['description'];
+			$directory = $blocks[$i]['directory'];
+			require 'themes/'.$theme.'/templates/admin/manage_blocks/remove_block_middle.tpl.php';
+		}
+		require 'themes/'.$theme.'/templates/admin/manage_blocks/remove_block_bottom.tpl.php';
+		require 'footer.php';
+		exit();
 	}
 	else
 	{
@@ -70,7 +83,36 @@ if($_GET['action']=='install_block')
 		}
 	}
 }
+if($_GET['action']=='remove_block')
+{
+	$error = 0;
+	foreach( $_POST as $key => $value )
+	{
+		if(preg_match('/check_([0-9]*)/', $key, $matches))
+		{
+			$ret = admin::remove_block($_POST['directory_'.$matches[1]]);
+			if($ret!=1)
+				$error = 1;
+		}
+	}
+	if($error)
+	{
+		require 'header.php';
+		$legend = 'Ошибка удаления блока';
+		$text = 'Не получилось удалить блок. Возможно недоступна база данных';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	else
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_blocks_ui">');  
+}
 elseif($_GET['action']=='manage_themes_ui')
+{
+	
+	
+}
+elseif($_GET['action']=='manage_marks_ui')
 {
 	
 	

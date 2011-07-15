@@ -130,5 +130,22 @@ class admin
 			return -1;
 	}
 	
+	function remove_block($block_dir)
+	{
+		if (is_dir('blocks/'.$dir)) 
+		{
+			$ret = base::delete('blocks', 'directory', $block_dir);
+			if($ret==1)
+			{
+				self::delTree($block_dir);
+				return 1;
+			}
+			else
+				return -1;
+		}
+		else
+			return -1;
+	}
+	
 }
 ?>
