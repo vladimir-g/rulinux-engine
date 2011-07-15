@@ -189,6 +189,28 @@ class core
 				return 1;
 		}
 	}
+	function block_exists($name)
+	{
+		$param_arr = array($name);
+		$sel = base::query('SELECT * FROM blocks WHERE name=\'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
+		if(!empty($sel))
+		{
+			if($sel!=-1)
+				return 1;
+			else
+				return 0;
+			
+		}
+		else
+			return 0;
+		
+	}
+	function get_blocks()
+	{
+		$ret = array();
+		$sel = base::select('blocks', '', '*');
+		return $sel;
+	}
 	function get_block($name='all')
 	{
 		if($name == 'all')

@@ -1,6 +1,60 @@
 <?php
 class admin
 {
+	function unzip($file,$dir='unzip/')
+	{
+		if(!file_exists($dir))
+			mkdir($dir,0777);
+		$zip_handle = zip_open($file);
+		if (is_resource($zip_handle)) 
+		{
+			while($zip_entry = zip_read($zip_handle))
+			{
+				if ($zip_entry) 
+				{
+					$zip_name=zip_entry_name($zip_entry);
+					$zip_size=zip_entry_filesize($zip_entry);
+					if(($zip_size==0)&&($zip_name[strlen($zip_name)-1]=='/'))
+						mkdir($dir.$zip_name,0775);
+					else
+					{
+						@zip_entry_open($zip_handle, $zip_entry, 'r');
+						$fp=@fopen($dir.$zip_name,'wb+');
+						@fwrite($fp,zip_entry_read($zip_entry, $zip_size),$zip_size);
+						@fclose($fp);
+						@chmod($dir.$zip_name,0775);
+						@zip_entry_close($zip_entry);
+					}
+				}
+			}
+			return true;
+		}
+		else
+		{
+			zip_close($zip_handle);
+			return false;
+		}
+	}
+	
+	function delTree($dir) 
+	{
+		$files = glob( $dir . '*', GLOB_MARK );
+		foreach( $files as $file )
+		{
+			if( substr( $file, -1 ) == '/' )
+				self::delTree( $file );
+			else
+				unlink( $file );
+		}
+		if (is_dir($dir)) 
+		{
+			rmdir($dir);
+			return 1;
+		}
+		else 
+			return 0;
+	} 
+	
 	function remove_thread($tid)
 	{
 		if(!preg_match("/^[0-9]*$/", $tid))
@@ -56,5 +110,25 @@ class admin
 		$ret = base::update('settings', 'value', $value, 'name', $name);
 		return $ret;
 	}
+	
+	function install_block($filename)
+	{
+		$hash = md5(gmdate("Y-m-d H:i:s"));
+		$is_extr = self::unzip($filename, 'tmp/'.$hash.'/');
+		if($is_extr)
+		{
+			$filename = 'tmp/'.$hash.'/index.block';
+			$block = parse_ini_file($filename);
+			rename('tmp/'.$hash.'/', 'blocks/'.$block['directory']);
+			self::delTree('tmp/'.$hash.'/');
+			$arr = array(array('name', $block['name']), array('description', $block['description']), array('directory', $block['directory']));
+			$ret = base::insert('blocks', $arr);
+			return $ret;
+			
+		}
+		else
+			return -1;
+	}
+	
 }
 ?>

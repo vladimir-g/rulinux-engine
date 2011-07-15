@@ -546,13 +546,14 @@ else
 		if($user == $profile_name || $uinfo['gid']==2)
 		{
 			require 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_top.tpl.php';
-			$blocks = users::get_blocks($uid);
+			$usr_blocks = users::get_blocks($uid);
+			$blocks = core::get_blocks();
 			for($i=0; $i<count($blocks); $i++)
 			{
 				$block_id = $i;
 				$block_name = $blocks[$i]['name'];
-				$sort_val = $blocks[$i]['sort'];
-				if($blocks[$i]['position'] == 'l')
+				//!empty($usr_blocks[$i]['sort']) ? $sort_val = $usr_blocks[$i]['sort'] : $sort_val = 0;
+				/*if($blocks[$i]['position'] == 'l')
 				{
 					$sel_l = 'selected';
 					$sel_r = '';
@@ -569,7 +570,7 @@ else
 					$sel_l = '';
 					$sel_r = '';
 					$sel_n = 'selected';
-				}
+				}*/
 				require 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_middle.tpl.php';
 			}
 			$blocks_count = count($blocks);

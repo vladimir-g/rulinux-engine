@@ -16,8 +16,11 @@ if($uinfo['gid']!=2)
 if($_GET['action']=='manage_blocks_ui')
 {
 	if($_GET['set']=='install_block')
-	{
-		
+	{	
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_blocks/install_block.tpl.php';
+		require 'footer.php';
+		exit();
 	}
 	elseif($_GET['set']=='remove_block')
 	{
@@ -29,6 +32,42 @@ if($_GET['action']=='manage_blocks_ui')
 		require 'themes/'.$theme.'/templates/admin/manage_blocks/main.tpl.php';
 		require 'footer.php';
 		exit();
+	}
+}
+if($_GET['action']=='install_block')
+{
+	if ($_FILES['file']['size'] > 0)
+	{
+		$blacklist = array(".php", ".phtml", ".php3", ".php4");
+		foreach ($blacklist as $item) 
+		{
+			if(preg_match("/$item\$/i", $_FILES['file']['name'])) 
+			{
+				$error = 'block_error';
+			}
+		}
+		if($_FILES['file']['type']!='application/zip')
+			$error = 'mime type is incorrect';
+		$uploaddir = 'tmp/';
+		$hash = md5(gmdate("Y-m-d H:i:s"));
+		$uploadfile = $uploaddir.$hash.'.blk';
+		if (empty($error))
+			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		else
+			echo 'error '.$error;
+		$ret = admin::install_block($uploadfile);
+		unlink($uploadfile);
+		if($ret>0)
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_blocks_ui">');  
+		else
+		{
+			require 'header.php';
+			$legend = 'Ошибка установки блока';
+			$text = 'Не получилось установить блок. Возможно недоступна база данных';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
 	}
 }
 elseif($_GET['action']=='manage_themes_ui')

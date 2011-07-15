@@ -9,9 +9,15 @@ $right_arr=array();
 for($i=0; $i<count($blocks); $i++)
 {
 	if($blocks[$i]['position']=='l')
-		$left_arr[] = $blocks[$i];
+	{
+		if(core::block_exists($blocks[$i]['name']))
+			$left_arr[] = $blocks[$i];
+	}
 	else if($blocks[$i]['position']=='r')
-		$right_arr[] = $blocks[$i];
+	{
+		if(core::block_exists($blocks[$i]['name']))
+			$right_arr[] = $blocks[$i];
+	}
 }
 if(empty($left_arr) && empty($right_arr))
 	$position = '<div>';
