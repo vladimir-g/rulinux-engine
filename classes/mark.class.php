@@ -39,6 +39,14 @@ class mark
 		$code = geshi_highlight($code, $lang, $path, true);
 		return $code;
 	}
+	function get_marks_count()
+	{
+		$sel = base::query('SELECT count(*) AS cnt FROM marks ORDER BY id ASC','assoc_array');
+		if(!empty($sel))
+			return $sel[0]['cnt'];
+		else
+			return -1;
+	}
 	function get_marks()
 	{
 		$sel = base::select('marks', '', '*');

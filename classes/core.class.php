@@ -136,6 +136,14 @@ class core
 			$page = 1;
 		return $page;
 	}
+	function get_themes_count()
+	{
+		$sel = base::query('SELECT count(*) AS cnt FROM themes ORDER BY id ASC','assoc_array');
+		if(!empty($sel))
+			return $sel[0]['cnt'];
+		else
+			return -1;
+	}
 	function get_themes()
 	{
 		$sel = base::query('SELECT * FROM themes ORDER BY id ASC','assoc_array');

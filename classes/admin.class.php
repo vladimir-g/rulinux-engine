@@ -119,8 +119,10 @@ class admin
 		{
 			$filename = 'tmp/'.$hash.'/index.block';
 			$block = parse_ini_file($filename);
-			rename('tmp/'.$hash.'/', 'blocks/'.$block['directory']);
+			$ret = rename('tmp/'.$hash.'/', 'blocks/'.$block['directory']);
 			self::delTree('tmp/'.$hash.'/');
+			if(!$ret)
+				return -1;
 			$arr = array(array('name', $block['name']), array('description', $block['description']), array('directory', $block['directory']));
 			$ret = base::insert('blocks', $arr);
 			return $ret;
@@ -132,7 +134,7 @@ class admin
 	
 	function remove_block($block_dir)
 	{
-		if (is_dir('blocks/'.$dir)) 
+		if (is_dir('blocks/'.$block_dir)) 
 		{
 			$ret = base::delete('blocks', 'directory', $block_dir);
 			if($ret==1)
@@ -146,6 +148,123 @@ class admin
 		else
 			return -1;
 	}
+
+	function install_mark($filename)
+	{
+		$hash = md5(gmdate("Y-m-d H:i:s"));
+		$is_extr = self::unzip($filename, 'tmp/'.$hash.'/');
+		if($is_extr)
+		{
+			$filename = 'tmp/'.$hash.'/index.mark';
+			$mark = parse_ini_file($filename);
+			$ret = rename('tmp/'.$hash.'/'.$mark['file'], 'classes/mark/'.$mark['file']);
+			self::delTree('tmp/'.$hash.'/');
+			if(!$ret)
+				return -1;
+			$arr = array(array('name', $mark['name']), array('description', $mark['description']), array('file', $mark['file']));
+			$ret = base::insert('marks', $arr);
+			return $ret;
+			
+		}
+		else
+			return -1;
+	}
 	
+	function remove_mark($mark_file)
+	{
+		$count = mark::get_marks_count();
+		if($count>1)
+		{
+			if (is_file('classes/mark/'.$mark_file)) 
+			{
+				$ret = base::delete('marks', 'file', $mark_file);
+				if($ret==1)
+				{
+					unlink('classes/mark/'.$mark_file);
+					return 1;
+				}
+				else
+					return -1;
+			}
+			else
+				return -1;
+		}
+		else
+			return -1;
+	}
+	
+	function install_theme($filename)
+	{
+		$hash = md5(gmdate("Y-m-d H:i:s"));
+		$is_extr = self::unzip($filename, 'tmp/'.$hash.'/');
+		if($is_extr)
+		{
+			$filename = 'tmp/'.$hash.'/index.theme';
+			$theme = parse_ini_file($filename);
+			$ret = rename('tmp/'.$hash.'/', 'themes/'.$theme['directory']);
+			self::delTree('tmp/'.$hash.'/');
+			if(!$ret)
+				return -1;
+			$arr = array(array('name', $theme['name']), array('description', $theme['description']), array('directory', $theme['directory']));
+			$ret = base::insert('themes', $arr);
+			return $ret;
+			
+		}
+		else
+			return -1;
+	}
+	
+	function remove_theme($theme_dir)
+	{
+		$count = core::get_themes_count();
+		if($count>1)
+		{
+			if (is_dir('themes/'.$theme_dir)) 
+			{
+				$ret = base::delete('themes', 'directory', $theme_dir);
+				if($ret==1)
+				{
+					self::delTree('themes/'.$theme_dir);
+					return 1;
+				}
+				else
+					return -1;
+			}
+			else
+				return -1;
+		}
+		else
+			return -1;
+	}
+	
+	function add_subsection($section, $name, $description, $shortfaq='', $rewrite, $icon='')
+	{
+		if(!empty($icon))
+		{
+			if(is_file('tmp/'.$icon))
+			{
+				$themes = core::get_themes();
+				for($i=0; $i<count($themes); $i++)
+				{
+					copy('tmp/'.$icon, 'themes/'.$themes[$i]['directory'].'/icons/'.$icon);
+				}
+				unlink('tmp/'.$icon);
+			}
+			else
+				return -1;
+		}
+		$param_arr = array($section);
+		$srt = base::query('SELECT max(sort) AS srt FROM subsections WHERE section = \'::0::\'', 'assoc_array', $param_arr);
+		$sort = $srt[0]['srt']+1;
+		$arr = array(array('section', $section), array('name', $name), array('description', $description), array('shortfaq', $shortfaq), array('rewrite', $rewrite), array('sort', $sort), array('icon', $icon));
+		$ret = base::insert('subsections', $arr);
+		return $ret;
+	}
+	
+	function remove_subsection($id)
+	{
+		$ret = base::delete('subsections', 'id', $id);
+		return $ret;
+	}
 }
 ?>

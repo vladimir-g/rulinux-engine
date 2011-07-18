@@ -2,5 +2,5 @@
 <td><input type="checkbox" name="check_<?=$id?>"></td>
 <td><?=$name?></td>
 <td><?=$description?></td>
-<td><?=$directory?><input type="hidden" name="directory_<?=$id?>" value="<?=$directory?>"></td>
+<td><?=$file?><input type="hidden" name="file_<?=$id?>" value="<?=$file?>"></td>
 </tr>

@@ -19,12 +19,6 @@ $(function()
 	timer();		
 });
 </script>
-
-<style>
-#trigger {display:block;padding-top:1px;}
-#box {display:none}
-#box {color:black;border:1px solid #999;padding:5px}
-</style>
 <div id="jq-wrapper">
 <div id="bodyContent" style="padding-bottom:10px">
 <a href="#" id="trigger">Рекомендации по разделу</a>

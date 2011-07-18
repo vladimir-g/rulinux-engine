@@ -109,18 +109,355 @@ if($_GET['action']=='remove_block')
 }
 elseif($_GET['action']=='manage_themes_ui')
 {
-	
-	
+	if($_GET['set']=='install_theme')
+	{	
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_themes/install_theme.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	elseif($_GET['set']=='remove_theme')
+	{
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_themes/remove_theme_top.tpl.php';
+		$themes = core::get_themes();
+		for($i=0; $i<count($themes);$i++)
+		{
+			$id = $themes[$i]['id'];
+			$name = $themes[$i]['name'];
+			$description = $themes[$i]['description'];
+			$directory = $themes[$i]['directory'];
+			require 'themes/'.$theme.'/templates/admin/manage_themes/remove_theme_middle.tpl.php';
+		}
+		require 'themes/'.$theme.'/templates/admin/manage_themes/remove_theme_bottom.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	else
+	{
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_themes/main.tpl.php';
+		require 'footer.php';
+		exit();
+	}
 }
-elseif($_GET['action']=='manage_marks_ui')
+if($_GET['action']=='install_theme')
 {
-	
-	
+	if ($_FILES['file']['size'] > 0)
+	{
+		$blacklist = array(".php", ".phtml", ".php3", ".php4");
+		foreach ($blacklist as $item) 
+		{
+			if(preg_match("/$item\$/i", $_FILES['file']['name'])) 
+			{
+				$error = 'theme_error';
+			}
+		}
+		if($_FILES['file']['type']!='application/zip')
+			$error = 'mime type is incorrect';
+		$uploaddir = 'tmp/';
+		$hash = md5(gmdate("Y-m-d H:i:s"));
+		$uploadfile = $uploaddir.$hash.'.thm';
+		if (empty($error))
+			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		else
+			echo 'error '.$error;
+		$ret = admin::install_theme($uploadfile);
+		unlink($uploadfile);
+		if($ret>0)
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_themes_ui">');  
+		else
+		{
+			require 'header.php';
+			$legend = 'Ошибка установки темы оформления';
+			$text = 'Не получилось установить тему оформления. Возможно недоступна база данных';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
+	}
+}
+if($_GET['action']=='remove_theme')
+{
+	$error = 0;
+	foreach( $_POST as $key => $value )
+	{
+		if(preg_match('/check_([0-9]*)/', $key, $matches))
+		{
+			$ret = admin::remove_theme($_POST['directory_'.$matches[1]]);
+			if($ret!=1)
+				$error = 1;
+		}
+	}
+	if($error)
+	{
+		require 'header.php';
+		$legend = 'Ошибка удаления темы оформления';
+		$text = 'Не получилось удалить тему оформления. Возможно недоступна база данных';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	else
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_themes_ui">');  
 }
 elseif($_GET['action']=='manage_subsections_ui')
 {
-	
-	
+	if($_GET['set']=='add_subsection')
+	{	
+		if(empty($_GET['section']))
+		{
+			require 'header.php';
+			$action = 'add_subsection';
+			require 'themes/'.$theme.'/templates/admin/manage_subsections/sections.tpl.php';
+			require 'footer.php';
+			exit();
+		}
+		else
+		{
+			$section = (int)$_GET['section'];
+			if(preg_match('/[1-4]{1}/', $section))
+			{
+				if($section == 1)
+				{
+					require 'header.php';
+					require 'themes/'.$theme.'/templates/admin/manage_subsections/add_news_subsection.tpl.php';
+					require 'footer.php';
+					exit();
+				}
+				elseif($section == 4)
+				{
+					require 'header.php';
+					require 'themes/'.$theme.'/templates/admin/manage_subsections/add_forum_subsection.tpl.php';
+					require 'footer.php';
+					exit();
+				}
+				else
+				{
+					require 'header.php';
+					require 'themes/'.$theme.'/templates/admin/manage_subsections/add_other_subsection.tpl.php';
+					require 'footer.php';
+					exit();
+				}
+			}
+			else
+			{
+				require 'header.php';
+				$legend = 'Неизвестный раздел';
+				$text = 'Раздела с ID = '.$section.' не существует';
+				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+				require 'footer.php';
+				exit();
+			}
+		}
+	}
+	elseif($_GET['set']=='remove_subsection')
+	{
+		$section = (int)$_GET['section'];
+		if(preg_match('/[1-4]{1}/', $section))
+		{
+			require 'header.php';
+			require 'themes/'.$theme.'/templates/admin/manage_subsections/remove_subsection_top.tpl.php';
+			$subsections = sections::get_subsections($section);
+			for($i=0; $i<count($subsections); $i++)
+			{
+				$id = $subsections[$i]['id'];
+				$name = $subsections[$i]['name'];
+				$description = $subsections[$i]['description'];
+				$rewrite = $subsections[$i]['rewrite'];
+				require 'themes/'.$theme.'/templates/admin/manage_subsections/remove_subsection_middle.tpl.php';
+			}
+			require 'themes/'.$theme.'/templates/admin/manage_subsections/remove_subsection_bottom.tpl.php';
+			require 'footer.php';
+			exit();
+		}
+		else
+		{
+			require 'header.php';
+			$action = 'remove_subsection';
+			require 'themes/'.$theme.'/templates/admin/manage_subsections/sections.tpl.php';
+			require 'footer.php';
+			exit();
+		}
+	}
+	else
+	{
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_subsections/main.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+}
+elseif($_GET['action']=='add_subsection')
+{
+	$section = (int)$_POST['section'];
+	$name = $_POST['name'];
+	$description = $_POST['description'];
+	$rewrite = $_POST['rewrite'];
+	$shortfaq = $_POST['shortfaq'];
+	if ($_FILES['icon']['size'] > 0)
+	{
+		$blacklist = array(".php", ".phtml", ".php3", ".php4");
+		foreach ($blacklist as $item) 
+		{
+			if(preg_match("/$item\$/i", $_FILES['icon']['name'])) 
+			{
+				$error = 'subsection_error';
+			}
+		}
+		if($_FILES['icon']['type']!='image/png')
+			$error = 'mime type is incorrect';
+		$imageinfo = getimagesize($_FILES['icon']['tmp_name']);
+		if(($imageinfo[0] < 16 || $imageinfo[0] > 128) || ($imageinfo[1] < 16 || $imageinfo[1] > 128))
+				$error = 'Неверное разрешение изображения';
+		$uploaddir = 'tmp/';
+		$hash = md5(gmdate("Y-m-d H:i:s"));
+		$uploadfile = $uploaddir.$hash.'.png';
+		if (empty($error))
+			move_uploaded_file($_FILES['icon']['tmp_name'], $uploadfile);
+		else
+		{
+			echo 'error '.$error;
+			exit();
+		}
+		$icon = $hash.'.png';
+	}
+	else
+		$icon = '';
+	$ret = admin::add_subsection($section, $name, $description, $shortfaq, $rewrite, $icon);
+	if(!is_file($uploadfile))
+		unlink($uploadfile);
+	if($ret>0)
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_subsections_ui">');  
+	else
+	{
+		require 'header.php';
+		$legend = 'Ошибка добавления подраздела';
+		$text = 'Не получилось добавить подраздел. Возможно недоступна база данных';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	exit();
+}
+elseif($_GET['action']=='remove_subsection')
+{
+	$error = 0;
+	foreach( $_POST as $key => $value )
+	{
+		if(preg_match('/check_([0-9]*)/', $key, $matches))
+		{
+			$ret = admin::remove_subsection($matches[1]);
+			if($ret!=1)
+				$error = 1;
+		}
+	}
+	if($error)
+	{
+		require 'header.php';
+		$legend = 'Ошибка удаления подраздела';
+		$text = 'Не получилось удалить подраздел. Возможно недоступна база данных';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	else
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_subsections_ui">');  
+}
+if($_GET['action']=='manage_marks_ui')
+{
+	if($_GET['set']=='install_mark')
+	{	
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_marks/install_mark.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	elseif($_GET['set']=='remove_mark')
+	{
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_marks/remove_mark_top.tpl.php';
+		$marks = mark::get_marks();
+		for($i=0; $i<count($marks);$i++)
+		{
+			$id = $marks[$i]['id'];
+			$name = $marks[$i]['name'];
+			$description = htmlspecialchars(substr ($marks[$i]['description'], 0 , 50)).'...';
+			
+			$file = $marks[$i]['file'];
+			require 'themes/'.$theme.'/templates/admin/manage_marks/remove_mark_middle.tpl.php';
+		}
+		require 'themes/'.$theme.'/templates/admin/manage_marks/remove_mark_bottom.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	else
+	{
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_marks/main.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+}
+if($_GET['action']=='install_mark')
+{
+	if ($_FILES['file']['size'] > 0)
+	{
+		$blacklist = array(".php", ".phtml", ".php3", ".php4");
+		foreach ($blacklist as $item) 
+		{
+			if(preg_match("/$item\$/i", $_FILES['file']['name'])) 
+			{
+				$error = 'mark_error';
+			}
+		}
+		if($_FILES['file']['type']!='application/zip')
+			$error = 'mime type is incorrect';
+		$uploaddir = 'tmp/';
+		$hash = md5(gmdate("Y-m-d H:i:s"));
+		$uploadfile = $uploaddir.$hash.'.mrk';
+		if (empty($error))
+			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		else
+			echo 'error '.$error;
+		$ret = admin::install_mark($uploadfile);
+		unlink($uploadfile);
+		if($ret>0)
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_marks_ui">');  
+		else
+		{
+			require 'header.php';
+			$legend = 'Ошибка установки стиля разметки';
+			$text = 'Не получилось установить стиль разметки. Возможно недоступна база данных';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
+	}
+}
+if($_GET['action']=='remove_mark')
+{
+	$error = 0;
+	foreach( $_POST as $key => $value )
+	{
+		if(preg_match('/check_([0-9]*)/', $key, $matches))
+		{
+			$ret = admin::remove_mark($_POST['file_'.$matches[1]]);
+			if($ret!=1)
+				$error = 1;
+		}
+	}
+	if($error)
+	{
+		require 'header.php';
+		$legend = 'Ошибка удаления стиля разметки';
+		$text = 'Не получилось удалить стиль разметки. Возможно недоступна база данных';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	else
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_marks_ui">');  
 }
 elseif($_GET['action']=='edit_settings_ui')
 {

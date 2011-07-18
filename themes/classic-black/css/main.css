@@ -170,3 +170,7 @@ DIV.notes
 	color: red; 
 	font-weight: bold; 
 }
+
+#trigger {display:block;padding-top:1px;}
+#box {display:none}
+#box {border:1px solid #999;padding:5px}
