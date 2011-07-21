@@ -249,5 +249,28 @@ class core
 		else
 			return -1;
 	}
+	
+	function remove_spam()
+	{
+		$yesterday = gmdate('Y-m-d', strtotime('-1 day')).' '.gmdate("H:i:s");
+		$param_arr = array($yesterday);
+		$sel = base::query('SELECT * FROM comments WHERE filters LIKE \'%4:1%\' AND timest < \'::0::\'','assoc_array', $param_arr);
+		if(!empty($sel))
+		{
+			$error = 0;
+			for($i=0; $i<count($sel); $i++)
+			{
+				$ret = base::delete('comments', 'id', $sel[$i]['id']);
+				if($ret<0)
+					$error = 1;
+			}
+			if($error)
+				return -1;
+			else
+				return 1;
+		}
+		else
+			return -1;
+	}
 }
 ?>
