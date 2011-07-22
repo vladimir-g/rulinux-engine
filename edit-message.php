@@ -35,25 +35,32 @@ if(empty($_POST['sbm']))
 		else
 			$captcha = '';
 		$sect = sections::get_section_by_tid($msg['tid']);
-		if($sect['id']==1)
+		$where_arr = array(array("key"=>'cid', "value"=>$msg['id'], "oper"=>'='));
+		$sel = base::select('threads', '', '*', $where_arr, 'AND');
+		if(!empty($sel))
 		{
-			require 'themes/'.$theme.'/templates/edit_message/news/top.tpl.php';
-			$subsect = sections::get_subsections($sect['id']);
-			$thr = threads::get_thread_info($msg['tid']);
-			$tid = $msg['tid'];
-			$section = $thr['section'];
-			$link = $thr['prooflink'];
-			for($i=0; $i<count($subsect); $i++)
+			if($sect['id']==1)
 			{
-				$subsection_id = $subsect[$i]['id'];
-				$subsection_name = $subsect[$i]['name'];
-				if($thr['subsection']-1==$i)
-					$selected = 'selected';
-				else
-					$selected = '';
-				require 'themes/'.$theme.'/templates/edit_message/news/middle.tpl.php';
+				require 'themes/'.$theme.'/templates/edit_message/news/top.tpl.php';
+				$subsect = sections::get_subsections($sect['id']);
+				$thr = threads::get_thread_info($msg['tid']);
+				$tid = $msg['tid'];
+				$section = $thr['section'];
+				$link = $thr['prooflink'];
+				for($i=0; $i<count($subsect); $i++)
+				{
+					$subsection_id = $subsect[$i]['id'];
+					$subsection_name = $subsect[$i]['name'];
+					if($thr['subsection']-1==$i)
+						$selected = 'selected';
+					else
+						$selected = '';
+					require 'themes/'.$theme.'/templates/edit_message/news/middle.tpl.php';
+				}
+				require 'themes/'.$theme.'/templates/edit_message/news/bottom.tpl.php';
 			}
-			require 'themes/'.$theme.'/templates/edit_message/news/bottom.tpl.php';
+			else
+				require 'themes/'.$theme.'/templates/edit_message/message/edit_message.tpl.php';
 		}
 		else
 			require 'themes/'.$theme.'/templates/edit_message/message/edit_message.tpl.php';
@@ -92,17 +99,14 @@ else
 		$param_arr = array($message_id);
 		$thr = base::query('SELECT tid FROM comments WHERE id = \'::0::\'','assoc_array', $param_arr);
 		$param_arr = array($thr[0]['tid']);
-		$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\')','assoc_array', $param_arr);
+		$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\') ORDER BY id','assoc_array', $param_arr);
 		for($i=0;$i<count($sel);$i++)
 		{
-			if($sel[$i]['md5']==$md5)
-			{
+			if($sel[$i]['id'] == $message_id)
 				$message_number = $i+1;
-				$msg_id = $sel[$i]['id'];
-			}
 		}
 		$page = ceil($message_number/$uinfo['comments_on_page']);
-		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thr[0]['tid'].'&page='.$page.'#'.$msg_id.'">');  
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thr[0]['tid'].'&page='.$page.'#'.$message_id.'">');  
 	}
 }
 ?>
