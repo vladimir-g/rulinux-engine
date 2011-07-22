@@ -37,7 +37,8 @@ class bookz
       
       imagefttext($canvas, 8, rand (-5,5), 5, 10+$i*10, $color, $captcha_font_path."/LiberationMono-Bold.ttf", $txt[1]);
       $nme=$this->ucaptcha->get_filename();
-      imagepng($canvas,$captcha_img_path."/".$nme.".png");
+      //imagepng($canvas,$captcha_img_path."/".$nme.".png");
+      imagepng($canvas);
       $captcha[0]=$nme;
       $captcha[1]=$txt[2];
       return $captcha;
