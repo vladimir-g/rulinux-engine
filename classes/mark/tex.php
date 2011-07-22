@@ -1,9 +1,22 @@
 <?php
 function str_to_html($string)
 {
+	$code = array();
+	$lang = array();
+	$re = '#(\\\\begin)(\[)?(abap|actionscript|actionscript3|ada|apache|applescript|apt_sources|asm|asp|autoit|avisynth|bash|basic4gl|bf|bibtex|blitzbasic|bnf|boo|c|c_mac|caddcl|cadlisp|cfdg|cfm|cil|cmake|cobol|cpp|cpp-qt|csharp|css|d|dcs|delphi|diff|div|dos|dot|eiffel|e-mail|erlang|fo|fortran|freebasic|genero|gettext|glsl|gml|gnuplot|groovy|haskell|hq9plus|html4strict|idl|ini|inno|intercal|io|java|java5|javascript|kixtart|klonec|latex|lisp|locobasic|lolcode|lotusformulas|lotusscript|lscript|lsl2|lua|m68k|make|matlab|mirc|modula3|mpasm|mxml|mysql|nsis|oberon2|objc|ocaml|ocaml-brief|oobas|oracle11|oracle8|pascal|per|perl|php|php-brief|pic16|pixelbender|plsql|povray|powershell|progress|prolog|providex||python|qbasic|rails|rebol|reg|robots|ruby|sas|scala|scheme|scilab|sdlbasic|smalltalk|smarty|sql|tcl|teraterm|text|thinbasic|tsql|typoscript|vb|vbnet|verilog|vhdl|vim|visualfoxpro|visualprolog|whitespace|whois|winbatch|xml|xorg_conf|xpp|z80)?(\])?({highlight})(.*?[^\\\\end{highlight}]?)(\\\\end{highlight})#sim';
+	$vh = preg_match_all($re, $string, $match);
+	for($i=0;$i<$vh;$i++)
+	{
+		//$string = preg_replace($re, '<fieldset><legend>$3</legend>$6</fieldset>', $string, 1);
+		$lang[$i]=$match[3][$i];
+		$with_breaks = mark::highlight(html_entity_decode($match[6][$i], ENT_QUOTES), $match[3][$i], "geshi/geshi");
+		$code[$i] = $with_breaks;
+		$string = str_replace($match[0][$i], '⓬'.$i.'⓬', $string);
+	}
 	$string = htmlspecialchars($string);
 	$string = preg_replace("#\\\\}#sim","&#125;", $string);
 	$string = preg_replace("#(\\\\b{)(.*?[^}]?)(})#sim","<b>\$2</b>", $string);
+	$string = preg_replace("#(\\\\spoiler{)(.*?[^}]?)(})#sim","<span class=\"spoiler\">\$2</span>", $string);
 	$string = preg_replace("#(\\\\i{)(.*?[^}]?)(})#sim","<i>\$2</i>", $string);
 	$string = preg_replace("#(\\\\u{)(.*?[^}]?)(})#sim","<u>\$2</u>", $string);
 	$string = preg_replace("#(\\\\s{)(.*?[^}]?)(})#sim","<s>\$2</s>", $string);
@@ -16,7 +29,7 @@ function str_to_html($string)
 	(
 		'list' => '<ul>',
 		'num' => '<ol>',
-		'quote' => '<fieldset class="quote"><ol start="1">',
+		'quote' => '<fieldset class="quote"><ol start="1"><li>&nbsp;',
 	);
 	foreach ($tags as $tag => $val)
 	{
@@ -49,7 +62,9 @@ function str_to_html($string)
 			for($i=0;$i<$vt;$i++)
 			{
 				$string = preg_replace($re, "$val$3</ol></fieldset>", $string, 1);
-				$with_breaks = preg_replace('/\n/', '<li>&nbsp;', $match[3][$i]);
+				$with_breaks = preg_replace('#^(\\r\\n)+#', '', $match[3][$i]);
+				$with_breaks = preg_replace('/(\\r\\n)+$/', '', $with_breaks);
+				$with_breaks = preg_replace('/\n/', '<li>&nbsp;', $with_breaks);
 				$string = str_replace($match[3][$i], $with_breaks, $string);
 			}
 		}
@@ -74,14 +89,6 @@ function str_to_html($string)
 				$string = str_replace($match[2][$i], $with_breaks, $string);
 			}
 		}
-	}
-	$re = '#(\\\\begin)(\[)?(abap|actionscript|actionscript3|ada|apache|applescript|apt_sources|asm|asp|autoit|avisynth|bash|basic4gl|bf|bibtex|blitzbasic|bnf|boo|c|c_mac|caddcl|cadlisp|cfdg|cfm|cil|cmake|cobol|cpp|cpp-qt|csharp|css|d|dcs|delphi|diff|div|dos|dot|eiffel|e-mail|erlang|fo|fortran|freebasic|genero|gettext|glsl|gml|gnuplot|groovy|haskell|hq9plus|html4strict|idl|ini|inno|intercal|io|java|java5|javascript|kixtart|klonec|latex|lisp|locobasic|lolcode|lotusformulas|lotusscript|lscript|lsl2|lua|m68k|make|matlab|mirc|modula3|mpasm|mxml|mysql|nsis|oberon2|objc|ocaml|ocaml-brief|oobas|oracle11|oracle8|pascal|per|perl|php|php-brief|pic16|pixelbender|plsql|povray|powershell|progress|prolog|providex||python|qbasic|rails|rebol|reg|robots|ruby|sas|scala|scheme|scilab|sdlbasic|smalltalk|smarty|sql|tcl|teraterm|text|thinbasic|tsql|typoscript|vb|vbnet|verilog|vhdl|vim|visualfoxpro|visualprolog|whitespace|whois|winbatch|xml|xorg_conf|xpp|z80)?(\])?({highlight})(.*?[^\\\\end{highlight}]?)(\\\\end{highlight})#sim';
-	$vh = preg_match_all($re, $string, $match);
-	for($i=0;$i<$vh;$i++)
-	{
-		$string = preg_replace($re, '<fieldset><legend>$3</legend>$6</fieldset>', $string, 1);
-		$with_breaks = mark::highlight(html_entity_decode($match[6][$i], ENT_QUOTES), $match[3][$i], "geshi/geshi");
-		$string = str_replace($match[6][$i], $with_breaks, $string);
 	}
 	$user_re = "#(\\\\user{)(.*?[^}]?)(})#sim";
 	$arr = preg_match_all($user_re, $string, $match);
@@ -120,6 +127,12 @@ function str_to_html($string)
 	$string = preg_replace("#(\r\n\r\n|<p>|^)(>|&gt;)(.*?[^\n]?)(\n|$)#sim","\$1<i>>\$3</i><br>", $string);
 	$string = str_replace("\r\n\r\n", '</p><p>', $string);
 	$string = str_replace("\r\n", ' ', $string);
+	$re = "#(⓬)([0-9]+)(⓬)#sim";
+	$vt = preg_match_all($re, $string, $match);
+	for($i=0;$i<$vt;$i++)
+	{
+		$string = str_replace('⓬'.$match[2][$i].'⓬','<fieldset><legend>'.$lang[$match[2][$i]].'</legend>'.$code[$match[2][$i]].'</fieldset>',$string);
+	}
 	return $string;
 }
 ?>

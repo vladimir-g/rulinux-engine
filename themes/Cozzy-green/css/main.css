@@ -194,6 +194,28 @@ color: white
 	font-weight: bold; 
 }
 
-#trigger {display:block;padding-top:1px;}
-#box {display:none}
-#box {color:black;border:1px solid #999;padding:5px}
+#trigger 
+{
+	display:block;
+	padding-top:1px;
+	
+}
+
+#box 
+{
+	display:none
+	
+}
+
+#box 
+{
+	color:black;
+	border:1px solid #999;
+	padding:5px
+	
+}
+
+.spoiler
+{
+	background-color:black
+}

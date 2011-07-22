@@ -85,7 +85,6 @@ else
 	}
 	if($_POST['msg_uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 	{
-		echo 'sect '.$_POST['section'];
 		if(empty($_POST['section']))
 			messages::edit_message($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason']);
 		else
