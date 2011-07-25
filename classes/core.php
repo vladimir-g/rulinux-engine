@@ -1,10 +1,7 @@
 <?php
 session_start();
-require('config/db.inc.php');
-if($GLOBALS['subd']=='mysql')
-	require "classes/base/mysql.php";
-else if ($GLOBALS['subd']=='postgresql')
-	require "classes/base/postgresql.php";
+require_once "classes/config.class.php";
+config::include_database();
 require "classes/core.class.php";
 require "classes/users.class.php";
 require "classes/auth.class.php";

@@ -8,7 +8,7 @@ class base
 			return;
 		self::$connection = pg_connect('host='.$GLOBALS['db_host'].' port='.$GLOBALS['db_port'].' dbname='.$GLOBALS['db_name'].' user='.$GLOBALS['db_user'].' password='.$GLOBALS['db_pass']);
 		if (!self::$connection)
-			die('Could not connect to database, please check /config/db.inc.php');
+			die('Could not connect to database, please check /config/database.ini');
 	}
 	function escape_string($value)
 	{

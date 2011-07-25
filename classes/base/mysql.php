@@ -13,7 +13,7 @@ class base
 			mysql_query('SET CHARACTER SET \''.$GLOBALS['db_charset'].'\'');
 		}
 		else
-			die('Could not connect to database, please check /config/db.inc.php');
+			die('Could not connect to database, please check /config/database.ini');
 	}
 	function escape_string($value)
 	{
