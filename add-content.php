@@ -35,6 +35,15 @@ if(empty($_POST['submit_form']))
 				$subsect_id = $subsect[$subsection_id-1]['sort'];
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
+			require 'themes/'.$theme.'/templates/add_content/add/news_middle.tpl.php';
+			/*$filters_arr = filters::get_filters();
+			for($i=0; $i<count($filters_arr);$i++)
+			{
+				$filterN = $filters_arr[$i]['id'];
+				$filter_name = $filters_arr[$i]['name'];
+				$checked_filter = '';
+				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
+			}*/
 			require 'themes/'.$theme.'/templates/add_content/add/news_bottom.tpl.php';
 		}
 		else if($section_id==2)
@@ -56,6 +65,15 @@ if(empty($_POST['submit_form']))
 				$subsect_id = $subsect[$subsection_id-1]['sort'];
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
+			require 'themes/'.$theme.'/templates/add_content/add/articles_middle.tpl.php';
+			/*$filters_arr = filters::get_filters();
+			for($i=0; $i<count($filters_arr);$i++)
+			{
+				$filterN = $filters_arr[$i]['id'];
+				$filter_name = $filters_arr[$i]['name'];
+				$checked_filter = '';
+				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
+			}*/
 			require 'themes/'.$theme.'/templates/add_content/add/articles_bottom.tpl.php';
 		}
 		else if($section_id==3)
@@ -77,6 +95,15 @@ if(empty($_POST['submit_form']))
 				$subsect_id = $subsect[$subsection_id-1]['sort'];
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
+			require 'themes/'.$theme.'/templates/add_content/add/gallery_middle.tpl.php';
+			/*$filters_arr = filters::get_filters();
+			for($i=0; $i<count($filters_arr);$i++)
+			{
+				$filterN = $filters_arr[$i]['id'];
+				$filter_name = $filters_arr[$i]['name'];
+				$checked_filter = '';
+				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
+			}*/
 			require 'themes/'.$theme.'/templates/add_content/add/gallery_bottom.tpl.php';
 		}
 		else if($section_id==4)
@@ -98,6 +125,15 @@ if(empty($_POST['submit_form']))
 				$subsect_id = $subsect[$subsection_id-1]['sort'];
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
+			require 'themes/'.$theme.'/templates/add_content/add/forum_middle.tpl.php';
+			/*$filters_arr = filters::get_filters();
+			for($i=0; $i<count($filters_arr);$i++)
+			{
+				$filterN = $filters_arr[$i]['id'];
+				$filter_name = $filters_arr[$i]['name'];
+				$checked_filter = '';
+				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
+			}*/
 			require 'themes/'.$theme.'/templates/add_content/add/forum_bottom.tpl.php';
 		}
 		else
@@ -297,6 +333,14 @@ else
 			$prooflink = $_POST['news_link'];
 		}
 		messages::new_thread($_POST['subject'], $_POST['comment'], $section, $_POST['subsection_id'], $file, $extension, $file_size, $image_size, $prooflink);
+		/*for($i=1; $i<=$filters_count; $i++)
+		{
+			if(!empty($_POST['filter_'.$i]))
+				$str = $str.$i.':1;';
+			else
+				$str = $str.$i.':0;';
+		}
+		$val = messages::set_filter($msg_id, $str);*/
 		if($section_id==1 || $section_id==2 || $section_id==3)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'view-all.php">');  
 		else if($section_id==4)

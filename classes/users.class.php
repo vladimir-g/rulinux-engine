@@ -114,13 +114,13 @@ class users
 			$usr_th = empty($_COOKIE['theme']) ? $usr_th : $_COOKIE['theme'];
 		$where_arr = array(array("key"=>'id', "value"=>$usr_th, "oper"=>'='));
 		$theme = base::select('themes', '', '*', $where_arr);
-		/*if (!file_exists('themes/'.$theme))
-		 {                *
+		if (!is_dir('themes/'.$theme[0]['name']))
+		{
 			$themes = base::select('themes', '', '*');
 			$theme = False;
 			foreach ($themes as $item)
 			{
-				if (file_exists('themes/'.$item['directory']))
+				if (is_dir('themes/'.$item['directory']))
 				{
 					$theme = array($item);
 					break;
@@ -128,7 +128,7 @@ class users
 			}
 			if (!$theme)
 				return -1;
-		}*/
+		}
 		return $theme[0];
 	}
 	function get_users_count()

@@ -39,12 +39,32 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 {
 	if ((users::user_banned($_SESSION['user_id']) == 0) || $_SESSION['user_id'] == '')
 	{
+		$filters_count = filters::get_filters_count();
 		if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
 		{
 			if(isset($_SESSION['captcha_keystring'] ) && $_SESSION['captcha_keystring']  == $_POST['keystring'])
 			{
 				messages::add_message($_POST['subject'], $_POST['comment'], $thread_id, $message_id);
-				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page=1">');  
+				$param_arr = array($thread_id);
+				$sel = base::query('SELECT id,md5 FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\')','assoc_array', $param_arr);
+				for($i=0;$i<count($sel);$i++)
+				{
+					if($sel[$i]['md5']==$md5)
+					{
+						$message_number = $i+1;
+						$msg_id = $sel[$i]['id'];
+					}
+				}
+				$page = ceil($message_number/$uinfo['comments_on_page']);
+				for($i=1; $i<=$filters_count; $i++)
+				{
+					if(!empty($_POST['filter_'.$i]))
+						$str = $str.$i.':1;';
+					else
+						$str = $str.$i.':0;';
+				}
+				$val = messages::set_filter($message_id, $str);
+				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'#'.$msg_id.'">');
 				//header('location: message.php?newsid='.$thread_id.'&page=1');
 			}
 			else 
@@ -72,7 +92,14 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 				}
 			}
 			$page = ceil($message_number/$uinfo['comments_on_page']);
-			
+			for($i=1; $i<=$filters_count; $i++)
+			{
+				if(!empty($_POST['filter_'.$i]))
+					$str = $str.$i.':1;';
+				else
+					$str = $str.$i.':0;';
+			}
+			$val = messages::set_filter($msg_id, $str);
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'#'.$msg_id.'">');  
 			//header('location: message.php?newsid='.$thread_id.'&page='.$page);
 		}
@@ -118,7 +145,27 @@ if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) 
 	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 else
 $captcha = '';
-require 'themes/'.$theme.'/templates/comment/comment.tpl.php';
+require 'themes/'.$theme.'/templates/comment/comment_top.tpl.php';
+
+$filters_arr = filters::get_filters();
+for($i=0; $i<count($filters_arr);$i++)
+{
+	$filterN = $filters_arr[$i]['id'];
+	$filter_name = $filters_arr[$i]['name'];
+	if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Предпросмотр')
+	{
+		$fil = $i+1;
+		if(!empty($_POST['filter_'.$fil]))
+			$checked_filter = 'checked';
+		else
+			$checked_filter = '';
+	}
+	else
+		$checked_filter = '';
+	require 'themes/'.$theme.'/templates/comment/comment_middle.tpl.php';
+}
+require 'themes/'.$theme.'/templates/comment/comment_bottom.tpl.php';
+
 require 'footer.php';
 ?>
 

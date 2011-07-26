@@ -17,14 +17,23 @@
 </div>
 
 <form action="comment.php?answerto=<?=$thread_id?>&cid=<?=$message_id?>" method="post">
-<span style="font-size:10pt">Тема:</span><br>
-<input type="text" name="subject" style="width:60%" value="<?=$subj?>"><br>
-<span style="font-size:10pt">Ваш комментарий:</span><br>
-<textarea name="comment" id="comment" style="height:40%;width:60%;" rows="15"><?=$comment?></textarea><br>
-<!-- captcha section -->
-<?=$captcha?>
-<!-- captcha section end -->
-<input type="submit" value="Поместить" name="sbm">
-<input type="submit" value="Предпросмотр" name="sbm">
-</form>
+<table border="0">
+<tr>
+<td style="vertical-align:top;">Тема:</td>
+<td>
+<input type="text" name="subject" style="width:100%" value="<?=$subj?>">
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top;">
+Ваш комментарий:
+</td>
+<td>
+<textarea name="comment" id="comment" rows="20"  cols="80"><?=$comment?></textarea>
+</td>
+</tr>
+<tr>
+<td style="vertical-align:top;">Выберите фильтр: </td>
+<td>
+
 
