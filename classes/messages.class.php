@@ -36,6 +36,8 @@ class messages
 		$sel = base::select('threads', '', 'id', $where_arr, 'AND');
 		$tid = $sel[0]['id'];
 		$ret = base::update('comments', 'tid', $tid, 'md5', $md5);
+		return $cid;
+
 	}
 	function add_message($subject, $message, $tid, $referer, $md5)
 	{
@@ -62,7 +64,7 @@ class messages
 			$str = '- '.$hours.' hours';
 		else
 			$str = '- 1 hour';
-		$timestamp = gmdate('Y-m-d H:i:s', strtotime($str)); 
+		$timestamp = gmdate('Y-m-d H:i:s', strtotime($str));
 		$where_arr = array(array("key"=>'timest', "value"=>$timestamp, "oper"=>'>'));
 		$sel = base::select('comments', '', '*', $where_arr, 'AND', 'timest', 'DESC');
 		return $sel;

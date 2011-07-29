@@ -36,14 +36,14 @@ if(empty($_POST['submit_form']))
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/news_middle.tpl.php';
-			/*$filters_arr = filters::get_filters();
+			$filters_arr = filters::get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
 				$filter_name = $filters_arr[$i]['name'];
 				$checked_filter = '';
 				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
-			}*/
+			}
 			require 'themes/'.$theme.'/templates/add_content/add/news_bottom.tpl.php';
 		}
 		else if($section_id==2)
@@ -66,14 +66,14 @@ if(empty($_POST['submit_form']))
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/articles_middle.tpl.php';
-			/*$filters_arr = filters::get_filters();
+			$filters_arr = filters::get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
 				$filter_name = $filters_arr[$i]['name'];
 				$checked_filter = '';
 				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
-			}*/
+			}
 			require 'themes/'.$theme.'/templates/add_content/add/articles_bottom.tpl.php';
 		}
 		else if($section_id==3)
@@ -96,14 +96,14 @@ if(empty($_POST['submit_form']))
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/gallery_middle.tpl.php';
-			/*$filters_arr = filters::get_filters();
+			$filters_arr = filters::get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
 				$filter_name = $filters_arr[$i]['name'];
 				$checked_filter = '';
 				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
-			}*/
+			}
 			require 'themes/'.$theme.'/templates/add_content/add/gallery_bottom.tpl.php';
 		}
 		else if($section_id==4)
@@ -126,14 +126,14 @@ if(empty($_POST['submit_form']))
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/forum_middle.tpl.php';
-			/*$filters_arr = filters::get_filters();
+			$filters_arr = filters::get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
 				$filter_name = $filters_arr[$i]['name'];
 				$checked_filter = '';
 				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
-			}*/
+			}
 			require 'themes/'.$theme.'/templates/add_content/add/forum_bottom.tpl.php';
 		}
 		else
@@ -178,6 +178,19 @@ else
 				require 'themes/'.$theme.'/templates/add_content/add/select_middle.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/select_bottom.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/add/news_middle.tpl.php';
+			$filters_arr = filters::get_filters();
+			for($i=0; $i<count($filters_arr);$i++)
+			{
+				$filterN = $filters_arr[$i]['id'];
+				$filter_name = $filters_arr[$i]['name'];
+				$num = $i+1;
+				if(!empty($_POST['filter_'.$num]))
+					$checked_filter = 'checked';
+				else
+					$checked_filter = '';
+				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
+			}
 			require 'themes/'.$theme.'/templates/add_content/add/news_bottom.tpl.php';
 		}
 		else if($section_id ==2)
@@ -196,6 +209,19 @@ else
 				require 'themes/'.$theme.'/templates/add_content/add/select_middle.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/select_bottom.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/add/articles_middle.tpl.php';
+			$filters_arr = filters::get_filters();
+			for($i=0; $i<count($filters_arr);$i++)
+			{
+				$filterN = $filters_arr[$i]['id'];
+				$filter_name = $filters_arr[$i]['name'];
+				$num = $i+1;
+				if(!empty($_POST['filter_'.$num]))
+					$checked_filter = 'checked';
+				else
+					$checked_filter = '';
+				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
+			}
 			require 'themes/'.$theme.'/templates/add_content/add/articles_bottom.tpl.php';
 		}
 		else if($section_id ==3)
@@ -222,6 +248,19 @@ else
 				require 'themes/'.$theme.'/templates/add_content/add/select_middle.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/select_bottom.tpl.php';
+			require 'themes/'.$theme.'/templates/add_content/add/forum_middle.tpl.php';
+			$filters_arr = filters::get_filters();
+			for($i=0; $i<count($filters_arr);$i++)
+			{
+				$filterN = $filters_arr[$i]['id'];
+				$filter_name = $filters_arr[$i]['name'];
+				$num = $i+1;
+				if(!empty($_POST['filter_'.$num]))
+					$checked_filter = 'checked';
+				else
+					$checked_filter = '';
+				require 'themes/'.$theme.'/templates/add_content/filters.tpl.php';
+			}
 			require 'themes/'.$theme.'/templates/add_content/add/forum_bottom.tpl.php';
 		}
 		require 'footer.php';
@@ -250,9 +289,9 @@ else
 			if(!empty($_FILES['scrot_link']))
 			{
 				$blacklist = array(".php", ".phtml", ".php3", ".php4");
-				foreach ($blacklist as $item) 
+				foreach ($blacklist as $item)
 				{
-					if(preg_match("/$item\$/i", $_FILES['scrot_link']['name'])) 
+					if(preg_match("/$item\$/i", $_FILES['scrot_link']['name']))
 					{
 						$error ='Неверный тип файла';
 						exit;
@@ -265,7 +304,7 @@ else
 				$ext[1] = str_replace('.', '', $ext[1]);
 				$uploadfile = $uploaddir.$filename.'.'.$ext[1];
 							$imageinfo = getimagesize($_FILES['scrot_link']['tmp_name']);
-				if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg'  && $imageinfo['mime'] != 'image/png') 
+				if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg'  && $imageinfo['mime'] != 'image/png')
 				{
 					$error = 'Неверный тип файла';
 				}
@@ -275,21 +314,21 @@ else
 					$error = 'Ошибка загрузки файла';
 				if (empty($error))
 				{
-					if (move_uploaded_file($_FILES['scrot_link']['tmp_name'], $uploadfile)) 
+					if (move_uploaded_file($_FILES['scrot_link']['tmp_name'], $uploadfile))
 					{
 						$coeff = $imageinfo[0]/200;
 						$image_width = 200;
 						@$image_height = floor($imageinfo[1]/$coeff);
-						switch ($imageinfo[2]) 
+						switch ($imageinfo[2])
 						{
-							case 1: 
-								$source = imagecreatefromgif($uploadfile); 
+							case 1:
+								$source = imagecreatefromgif($uploadfile);
 								break;
-							case 2: 
-								$source = imagecreatefromjpeg($uploadfile); 
+							case 2:
+								$source = imagecreatefromjpeg($uploadfile);
 								break;
-							case 3: 
-								$source = imagecreatefrompng($uploadfile); 
+							case 3:
+								$source = imagecreatefrompng($uploadfile);
 								break;
 						}
 						$resource = imagecreatetruecolor($image_width, $image_height);
@@ -301,8 +340,8 @@ else
 						echo $ext[1];
 						$file_size = $_FILES['scrot_link']['size'];
 						$image_size = $imageinfo[0].'x'.$imageinfo[1];
-					} 
-					else 
+					}
+					else
 					{
 						require 'header.php';
 						$legend = 'Не удалось загрузить файл.';
@@ -321,7 +360,7 @@ else
 					require 'footer.php';
 					exit();
 				}
-				
+
 			}
 		}
 		else
@@ -332,19 +371,20 @@ else
 			$image_size = '';
 			$prooflink = $_POST['news_link'];
 		}
-		messages::new_thread($_POST['subject'], $_POST['comment'], $section, $_POST['subsection_id'], $file, $extension, $file_size, $image_size, $prooflink);
-		/*for($i=1; $i<=$filters_count; $i++)
+		$cid = messages::new_thread($_POST['subject'], $_POST['comment'], $section, $_POST['subsection_id'], $file, $extension, $file_size, $image_size, $prooflink);
+		$filters_count = filters::get_filters_count();
+		for($i=1; $i<=$filters_count; $i++)
 		{
 			if(!empty($_POST['filter_'.$i]))
 				$str = $str.$i.':1;';
 			else
 				$str = $str.$i.':0;';
 		}
-		$val = messages::set_filter($msg_id, $str);*/
+		$val = messages::set_filter($cid, $str);
 		if($section_id==1 || $section_id==2 || $section_id==3)
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'view-all.php">');  
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'view-all.php">');
 		else if($section_id==4)
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'group.php?id='.$_POST['subsection_id'].'&page=1">');  
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'group.php?id='.$_POST['subsection_id'].'&page=1">');
 	}
 }
 ?>
