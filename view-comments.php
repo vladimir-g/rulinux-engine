@@ -12,8 +12,16 @@ if(!empty($_GET['user']))
 else
 	$user = $profile_name;
 $limit = 50;
-require 'themes/'.$theme.'/templates/view_comments/top.tpl.php';
-$msg = messages::get_user_messages($user, $limit, $offset);
+if(isset($_GET['resp']))
+{
+	require 'themes/'.$theme.'/templates/view_comments/resp_top.tpl.php';
+	$msg = messages::get_user_reply($user, $limit, $offset);
+}
+else
+{
+	require 'themes/'.$theme.'/templates/view_comments/top.tpl.php';
+	$msg = messages::get_user_messages($user, $limit, $offset);
+}
 for($i=0; $i<count($msg); $i++)
 {
 	$sect = sections::get_section_by_tid($msg[$i]['tid']);
@@ -35,6 +43,11 @@ if($offset>$limit)
 	$prev_offset = $offset-$limit;
 else
 	$prev_offset = 0;
-require 'themes/'.$theme.'/templates/view_comments/bottom.tpl.php';
+if(isset($_GET['resp']))
+{
+	require 'themes/'.$theme.'/templates/view_comments/resp_bottom.tpl.php';
+}
+else
+	require 'themes/'.$theme.'/templates/view_comments/bottom.tpl.php';
 require 'footer.php';
 ?>

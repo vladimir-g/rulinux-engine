@@ -2,7 +2,17 @@
 if (isset($_COOKIE['login']) && isset($_COOKIE['password']))
 {
 	$_COOKIE['login'] = preg_replace('/[\'\/\*\s]/', '', $_COOKIE['login']);
-	auth_user($_COOKIE['login'], $_COOKIE['password'], true);
+	$where_arr = array(array("key"=>'nick', "value"=>$_COOKIE['login'], "oper"=>'='), array("key"=>'password', "value"=>$_COOKIE['password'], "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
+	$sel = base::select('users', '', 'nick', $where_arr, 'AND');
+	if(!empty($sel))
+	{
+		if($sel[0]['nick']==$_COOKIE['login'])
+			auth_user($_COOKIE['login'], $_COOKIE['password'], true);
+		else
+			auth_user('anonymous', '', true);
+	}
+	else
+		auth_user('anonymous', '', true);
 }
 else
 	auth_user('anonymous', '', true);
@@ -19,6 +29,7 @@ if( empty($_SESSION['user_id']) || !isset($_SESSION['user_id']))
 }
 function auth_user($login, $pass, $encrypted)
 {
+	//echo $login.'<br>';
 	if (!$encrypted)
 		$pass = md5($pass);
 	$where_arr = array(array("key"=>'nick', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$pass, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
@@ -48,6 +59,7 @@ function auth_user($login, $pass, $encrypted)
 			$_SESSION['user_admin']='';
 		}
 	}
+	//exit();
 }
 if ((int)$_SESSION['user_id'] > 0)
 {

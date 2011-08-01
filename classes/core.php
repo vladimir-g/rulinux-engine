@@ -3,6 +3,7 @@ session_start();
 require_once "classes/config.class.php";
 config::include_database();
 require "classes/core.class.php";
+require "classes/search.class.php";
 require "classes/users.class.php";
 require "classes/auth.class.php";
 $uinfo = users::get_user_info($_SESSION['user_id']);

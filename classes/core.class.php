@@ -91,37 +91,6 @@ class core
 		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timest));
 		$ret = base::insert('sessions', $msg_arr);
 	}
-	function search($str, $include, $date, $section, $username)
-	{
-		$query = 'SELECT * FROM comments WHERE ';
-		if($include = 'topics')
-			$query = $query.'subject LIKE \'%::0::%\'';
-		else if($include = 'comments')
-			$query = $query.'comment LIKE \'%::0::%\'';
-		else
-			$query = $query.'subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\'';
-		if($date=='3month')
-		{
-			$month = gmdate("m")-3;
-			$timestamp = gmdate("Y").'-'.$month.'-'.gmdate("d H:i:s");
-			$query = $query.' AND timest > \''.$timestamp.'\'';
-		}
-		else if($date=='year')
-		{
-			$month = gmdate("Y")-1;
-			$timestamp = $year.'-'.gmdate("m-d H:i:s");
-			$query = $query.' AND timest > \''.$timestamp.'\'';
-		}
-		$section = (int)$section;
-		if($section !=0)
-			$query = $query.' AND tid IN (SELECT id FROM threads WHERE section = \'::1::\')';
-		if(!empty($username))
-			$query = $query.' AND uid IN(SELECT id FROM users WHERE nick = \'::2::\')';
-		$query = $query.' ORDER BY timest DESC';
-		$param_arr = array($str, $section, $username);
-		$sel = base::query($query, 'assoc_array', $param_arr);
-		return $sel;
-	}
 	function get_page_by_tid($tid, $msg, $cmnt_on_pg)
 	{
 		$param_arr = array($tid);

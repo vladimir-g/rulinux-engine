@@ -65,7 +65,6 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 				}
 				$val = messages::set_filter($message_id, $str);
 				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'#'.$msg_id.'">');
-				//header('location: message.php?newsid='.$thread_id.'&page=1');
 			}
 			else 
 			{
@@ -101,7 +100,6 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 			}
 			$val = messages::set_filter($msg_id, $str);
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'#'.$msg_id.'">');  
-			//header('location: message.php?newsid='.$thread_id.'&page='.$page);
 		}
 	}
 	else
