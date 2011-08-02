@@ -96,6 +96,8 @@ else
 			messages::edit_message($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason']);
 		else
 			messages::edit_news($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason'], $_POST['tid'], $_POST['link'], $_POST['subsection_id']);
+		$str = filters::set_auto_filter($message_id);
+		$val = messages::set_filter($message_id, $str);
 		$param_arr = array($message_id);
 		$thr = base::query('SELECT tid FROM comments WHERE id = \'::0::\'','assoc_array', $param_arr);
 		$param_arr = array($thr[0]['tid']);

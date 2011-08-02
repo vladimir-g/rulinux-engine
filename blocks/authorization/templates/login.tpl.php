@@ -16,4 +16,5 @@
 * <a href="profile.php?user=[user]">Профиль</a><br>
 * <a href="rules.php">Правила ресурса</a><br><br>
 * <a href="view-comments.php">Мои комментарии</a><br>
+* <a href="view-comments.php?resp">Ответы на мои комментарии</a>
 * <a href="register.php">Регистрация</a>

@@ -380,6 +380,7 @@ else
 			else
 				$str = $str.$i.':0;';
 		}
+		$str = filters::set_auto_filter($cid, $str);
 		$val = messages::set_filter($cid, $str);
 		if($section_id==1 || $section_id==2 || $section_id==3)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'view-all.php">');
