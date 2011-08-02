@@ -1,8 +1,8 @@
-<IfModule mod_charset.c>
-CharsetDisable On
-</IfModule>
-AddDefaultCharset UTF-8
-php_value default_charset utf-8
+#<IfModule mod_charset.c>
+#CharsetDisable On
+#</IfModule>
+#AddDefaultCharset UTF-8
+#php_value default_charset utf-8
 RewriteEngine On
 RewriteBase /
 RewriteRule ^.htaccess$ - [F]
