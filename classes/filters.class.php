@@ -38,7 +38,7 @@ class filters
 		$filters_arr = self::parse_filter_string($filter_str);
 		for($i=0; $i<count($filters); $i++)
 		{
-			include_once 'filters/'.$filters[$i]['file'];
+			include_once 'filters/'.$filters[$i]['directory'].'/filter.php';
 			$filterClass = new $filters[$i]['class'];
 			$state = $filterClass->check($msg[0]['comment']);
 			for($t=0; $t<count($filters_arr); $t++)

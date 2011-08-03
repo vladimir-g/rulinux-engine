@@ -26,14 +26,14 @@ INSERT INTO users(gid, nick, password, name, lastname, birthday, gender, email, 
 INSERT INTO users(gid, nick, password, name, lastname, birthday, gender, email, show_email, im, show_im, country, city, photo, register_date, last_visit, captcha, blocks, additional, news_on_page, comments_on_page, threads_on_page, show_avatars, show_ua, show_resp, theme, gmt, filters, mark, banned, sort_to) VALUES(2, 'root', '63a9f0ea7bb98050796b649e85481845', 'Администратор сайта', '', '2000-01-01 00:00:00', true, 'noemail@rulinux.net', false, 'nojabber@rulinux.net', false, '', '', '', '2000-01-01 00:00:00', '2000-01-01 00:00:00', -1, 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4,faq:r:1', 'Администратор сайта добавленный автоматически', 10, 50, 30, false, true, false, '1', +3, '', 1, false, false);
 INSERT INTO users(gid, nick, password, name, lastname, birthday, gender, email, show_email, im, show_im, country, city, photo, register_date, last_visit, captcha, blocks, additional, news_on_page, comments_on_page, threads_on_page, show_avatars, show_ua, show_resp, theme, gmt, filters, mark, banned, sort_to) VALUES(3, 'moder', '9ab97e0958c6c98c44319b8d06b29c94', 'Модератор сайта', '', '2000-01-01 00:00:00', true, 'noemail@rulinux.net', false, 'nojabber@rulinuxnet', false, '', '', '', '2000-01-01 00:00:00', '2000-01-01 00:00:00', -1, 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4,faq:r:1', 'Модератор сайта добавленный автоматически', 10, 50, 30, false, true, false, '1', +3, '', 1, false, false);
 
-INSERT INTO filters(name, text, file, class) VALUES('матерные выражения', 'матерные выражения', 'filthylang.php', 'filthylang');
-INSERT INTO filters(name, text, file, class) VALUES('торсионщина', 'торсионщину', 'torsion.php', 'torsion');
-INSERT INTO filters(name, text, file, class) VALUES('нацпол', 'нацпол', 'politics.php', 'politics');
-INSERT INTO filters(name, text, file, class) VALUES('спам', 'спам', 'spam.php', 'spam');
-INSERT INTO filters(name, text, file, class) VALUES('флуд', 'флуд', 'flood.php', 'flood');
-INSERT INTO filters(name, text, file, class) VALUES('порно', 'порно', 'porn.php', 'porn');
-INSERT INTO filters(name, text, file, class) VALUES('изображения', 'изображения', 'images.php', 'images');
-INSERT INTO filters(name, text, file, class) VALUES('модераторские фильтры', 'фильтры установленные модераторами', 'moder_filter.php', 'moder_filter');
+INSERT INTO filters(name, text, directory, class) VALUES('матерные выражения', 'матерные выражения', 'filthylang', 'filthylang');
+INSERT INTO filters(name, text, directory, class) VALUES('торсионщина', 'торсионщину', 'torsion', 'torsion');
+INSERT INTO filters(name, text, directory, class) VALUES('нацпол', 'нацпол', 'politics', 'politics');
+INSERT INTO filters(name, text, directory, class) VALUES('спам', 'спам', 'spam', 'spam');
+INSERT INTO filters(name, text, directory, class) VALUES('флуд', 'флуд', 'flood', 'flood');
+INSERT INTO filters(name, text, directory, class) VALUES('порно', 'порно', 'porn', 'porn');
+INSERT INTO filters(name, text, directory, class) VALUES('изображения', 'изображения', 'images', 'images');
+INSERT INTO filters(name, text, directory, class) VALUES('модераторские фильтры', 'фильтры установленные модераторами', 'moder_filter', 'moder_filter');
 
 INSERT INTO sections(name, rewrite, description, file) VALUES('Новости', 'news', 'Информация о FOSS', 'news.php');
 INSERT INTO sections(name, rewrite, description, file) VALUES('Статьи', 'articles', 'Статьи о FOSS', 'art.php');

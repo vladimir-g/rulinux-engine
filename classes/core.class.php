@@ -166,6 +166,12 @@ class core
 				return 1;
 		}
 	}
+	function trim_array($Input)
+	{
+		if (!is_array($Input))
+			return trim($Input);
+		return array_map('self::trim_array', $Input);
+	}
 	function block_exists($name)
 	{
 		$param_arr = array($name);
