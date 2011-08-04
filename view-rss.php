@@ -1,5 +1,5 @@
 <?php
-require 'feedwriter/FeedWriter.php';
+require 'librarys/feedwriter/FeedWriter.php';
 require 'classes/core.php';
 require 'classes/rss.class.php';
 (int)$section=$_GET['section'];

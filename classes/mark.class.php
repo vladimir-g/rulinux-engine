@@ -1,5 +1,6 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'].'/geshi/geshi.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/librarys/geshi/geshi.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/librarys/phpmathpublisher/mathpublisher.php');
 class mark
 {
 	function get_mark_file($uid)
@@ -29,6 +30,13 @@ class mark
 			}
 		}
 		return 0;
+	}
+	function make_formula($text)
+	{
+		$text = '<m>'.$text.'</m>';
+		$size = 14;
+		$pathtoimg = 'formulas/';
+		return mathfilter($text,$size,$pathtoimg);
 	}
 	function highlight($code, $lang, $path)
 	{
