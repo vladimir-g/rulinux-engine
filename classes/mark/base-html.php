@@ -8,9 +8,18 @@ function str_to_html($string)
 	for($i=0;$i<$vh;$i++)
 	{
 		$lang[$i]=$match[3][$i];
-		$with_breaks = mark::highlight(html_entity_decode($match[4][$i], ENT_QUOTES), $match[3][$i], "geshi/geshi");
+		$with_breaks = mark::highlight(html_entity_decode($match[4][$i], ENT_QUOTES), $match[3][$i], "librarys/geshi/geshi");
 		$code[$i] = $with_breaks;
 		$string = str_replace($match[0][$i], '⓬'.$i.'⓬', $string);
+	}
+	$math = array();
+	$re = '#(<m>)(.*?)(</m>)#suim';
+	$vh = preg_match_all($re, $string, $match);
+	for($i=0;$i<$vh;$i++)
+	{
+		$with_breaks = mark::make_formula($match[2][$i]);
+		$math[$i] = $with_breaks;
+		$string = str_replace($match[0][$i], 'ᴥ'.$i.'ᴥ', $string);
 	}
 	$string = htmlspecialchars($string);
 	$string = preg_replace("#(&lt;b&gt;)(.*?[^&lt;/b&gt;]?)(&lt;/b&gt;)#suim","<b>\$2</b>", $string);
@@ -88,6 +97,10 @@ function str_to_html($string)
 	{
 		$string = str_replace('⓬'.$match[2][$i].'⓬','<fieldset><legend>'.$lang[$match[2][$i]].'</legend>'.$code[$match[2][$i]].'</fieldset>',$string);
 	}
+	$re = "#(ᴥ)([0-9]+)(ᴥ)#suim";
+	$vt = preg_match_all($re, $string, $match);
+	for($i=0;$i<$vt;$i++)
+		$string = str_replace('ᴥ'.$match[2][$i].'ᴥ', $math[$match[2][$i]], $string);
 	return $string;
 }
 ?>
