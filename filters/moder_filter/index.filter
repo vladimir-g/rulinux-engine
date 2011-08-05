@@ -1,0 +1,4 @@
+name = "модераторские фильтры";
+description = "фильтры выставленные модератором";
+directory = "moder_filter";
+class = "moder_filter";

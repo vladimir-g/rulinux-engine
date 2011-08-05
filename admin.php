@@ -107,6 +107,100 @@ if($_GET['action']=='remove_block')
 	else
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_blocks_ui">');  
 }
+elseif($_GET['action']=='manage_filters_ui')
+{
+	if($_GET['set']=='install_filter')
+	{	
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_filters/install_filter.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	elseif($_GET['set']=='remove_filter')
+	{
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_filters/remove_filter_top.tpl.php';
+		$filters = filters::get_filters();
+		for($i=0; $i<count($filters);$i++)
+		{
+			$id = $filters[$i]['id'];
+			$name = $filters[$i]['name'];
+			$description = $filters[$i]['text'];
+			$directory = $filters[$i]['directory'];
+			require 'themes/'.$theme.'/templates/admin/manage_filters/remove_filter_middle.tpl.php';
+		}
+		require 'themes/'.$theme.'/templates/admin/manage_filters/remove_filter_bottom.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	else
+	{
+		require 'header.php';
+		require 'themes/'.$theme.'/templates/admin/manage_filters/main.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+}
+if($_GET['action']=='install_filter')
+{
+	if ($_FILES['file']['size'] > 0)
+	{
+		$blacklist = array(".php", ".phtml", ".php3", ".php4");
+		foreach ($blacklist as $item) 
+		{
+			if(preg_match("/$item\$/i", $_FILES['file']['name'])) 
+			{
+				$error = 'theme_error';
+			}
+		}
+		if($_FILES['file']['type']!='application/zip')
+			$error = 'mime type is incorrect';
+		$uploaddir = 'tmp/';
+		$hash = md5(gmdate("Y-m-d H:i:s"));
+		$uploadfile = $uploaddir.$hash.'.fltr';
+		if (empty($error))
+			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		else
+			echo 'error '.$error;
+		$ret = admin::install_filter($uploadfile);
+		unlink($uploadfile);
+		if($ret>0)
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_filters_ui">');  
+		else
+		{
+			require 'header.php';
+			$legend = 'Ошибка установки фильтра';
+			$text = 'Не получилось установить фильтр. Возможно недоступна база данных';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
+	}
+}
+if($_GET['action']=='remove_filter')
+{
+	$error = 0;
+	foreach( $_POST as $key => $value )
+	{
+		if(preg_match('/check_([0-9]*)/', $key, $matches))
+		{
+			$ret = admin::remove_filter($_POST['directory_'.$matches[1]]);
+			if($ret!=1)
+				$error = 1;
+		}
+	}
+	if($error)
+	{
+		require 'header.php';
+		$legend = 'Ошибка удаления фильтра';
+		$text = 'Не получилось удалить фильтр. Возможно недоступна база данных';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'footer.php';
+		exit();
+	}
+	else
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_filters_ui">');  
+}
 elseif($_GET['action']=='manage_themes_ui')
 {
 	if($_GET['set']=='install_theme')

@@ -34,7 +34,7 @@ class mark
 	function make_formula($text)
 	{
 		$text = '<m>'.$text.'</m>';
-		$size = 14;
+		$size = 12;
 		$pathtoimg = 'formulas/';
 		return mathfilter($text,$size,$pathtoimg);
 	}
