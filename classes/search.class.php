@@ -4,9 +4,9 @@ class search
 	function find($str, $include, $date, $section, $username)
 	{
 		$query = 'SELECT * FROM comments WHERE ';
-		if($include = 'topics')
+		if($include == 'topics')
 			$query = $query.'subject LIKE \'%::0::%\'';
-		else if($include = 'comments')
+		else if($include == 'comments')
 			$query = $query.'comment LIKE \'%::0::%\'';
 		else
 			$query = $query.'subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\'';
@@ -36,9 +36,9 @@ class search
 	function find_by_filters($str, $include, $date, $section, $username, $method, $filters_arr)
 	{
 		$query = 'SELECT * FROM comments WHERE ';
-		if($include = 'topics')
+		if($include == 'topics')
 			$query = $query.'subject LIKE \'%::0::%\'';
-		else if($include = 'comments')
+		else if($include == 'comments')
 			$query = $query.'comment LIKE \'%::0::%\'';
 		else
 			$query = $query.'subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\'';

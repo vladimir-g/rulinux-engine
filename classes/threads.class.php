@@ -160,5 +160,56 @@ class threads
 		else
 			return $ret;
 	}
+	
+	function get_msg_number($thread_id, $md5)
+	{
+		$param_arr = array($thread_id);
+		$sel = base::query('SELECT id,md5 FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\')','assoc_array', $param_arr);
+		for($i=0;$i<count($sel);$i++)
+		{
+			if($sel[$i]['md5']==$md5)
+			{
+				$message_number = $i+1;
+				$msg_id = $sel[$i]['id'];
+			}
+		}
+		return array("message_number"=>$message_number, "msg_id"=>$msg_id);
+	}
+	
+	function get_msg_number_by_cid($message_id)
+	{
+		$param_arr = array($message_id);
+		$thr = base::query('SELECT tid FROM comments WHERE id = \'::0::\'','assoc_array', $param_arr);
+		$param_arr = array($thr[0]['tid']);
+		$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\') ORDER BY id','assoc_array', $param_arr);
+		for($i=0;$i<count($sel);$i++)
+		{
+			if($sel[$i]['id'] == $message_id)
+			{
+				$message_number = $i+1;
+				$msg_id = $sel[$i]['id'];
+			}
+		}
+		return array($message_number, $thr[0]['tid'], $msg_id);
+	}
+	
+	function get_tid_by_cid($cid)
+	{
+		$where_arr = array(array("key"=>'cid', "value"=>$cid, "oper"=>'='));
+		$sel = base::select('threads', '', '*', $where_arr, 'AND');
+		return $sel;
+	}
+	
+	function get_msg_number_by_tid($thread_id, $cid)
+	{
+		$param_arr = array($thread_id);
+		$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
+		for($t=0;$t<count($sel);$t++)
+		{
+			if($sel[$t]['id']==$cid)
+				$message_number = $t;
+		}
+		return $message_number;
+	}
 }
 ?>

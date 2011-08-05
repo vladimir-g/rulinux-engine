@@ -35,8 +35,7 @@ if(empty($_POST['sbm']))
 		else
 			$captcha = '';
 		$sect = sections::get_section_by_tid($msg['tid']);
-		$where_arr = array(array("key"=>'cid', "value"=>$msg['id'], "oper"=>'='));
-		$sel = base::select('threads', '', '*', $where_arr, 'AND');
+		$sel = threads::get_tid_by_cid($msg['id']);
 		if(!empty($sel))
 		{
 			if($sect['id']==1)
@@ -98,17 +97,10 @@ else
 			messages::edit_news($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason'], $_POST['tid'], $_POST['link'], $_POST['subsection_id']);
 		$str = filters::set_auto_filter($message_id);
 		$val = messages::set_filter($message_id, $str);
-		$param_arr = array($message_id);
-		$thr = base::query('SELECT tid FROM comments WHERE id = \'::0::\'','assoc_array', $param_arr);
-		$param_arr = array($thr[0]['tid']);
-		$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\') ORDER BY id','assoc_array', $param_arr);
-		for($i=0;$i<count($sel);$i++)
-		{
-			if($sel[$i]['id'] == $message_id)
-				$message_number = $i+1;
-		}
+		$mess_arr = threads::get_msg_number_by_cid($message_id);
+		$message_number = $mess_arr[0];
 		$page = ceil($message_number/$uinfo['comments_on_page']);
-		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thr[0]['tid'].'&page='.$page.'#'.$message_id.'">');  
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$mess_arr[1].'&page='.$page.'#'.$message_id.'">');  
 	}
 }
 ?>

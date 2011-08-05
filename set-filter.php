@@ -22,18 +22,12 @@ if(!empty($_POST['sbm']))
 				$str = $str.$i.':0;';
 		}
 		$val = messages::set_filter($message_id, $str);
-		$param_arr = array($message_id);
-		$sel = base::query('SELECT tid,md5 FROM comments WHERE id = \'::0::\'','assoc_array', $param_arr);
-		$thread_id = $sel[0]['tid'];
-		$param_arr = array($thread_id);
-		$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\') ORDER BY id','assoc_array', $param_arr);
-		for($i=0;$i<count($sel);$i++)
-		{
-			if($sel[$i]['id']==$message_id)
-				$message_number = $i+1;
-		}
+		$mess_arr = threads::get_msg_number_by_cid($message_id);
+		$message_number = $mess_arr[0];
+		$thread_id = $mess_arr[1];
+		$msg_id = $mess_arr[2];
 		$page = ceil($message_number/$uinfo['comments_on_page']);
-		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'">');  
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'#'.$msg_id.'">');  
 	}
 }
 $title = ' - Установить фильтр на сообщение';

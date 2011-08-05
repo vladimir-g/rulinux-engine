@@ -39,22 +39,16 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 {
 	if ((users::user_banned($_SESSION['user_id']) == 0) || $_SESSION['user_id'] == '')
 	{
+		$md5 = md5(rand().gmdate("Y-m-d H:i:s"));
 		$filters_count = filters::get_filters_count();
 		if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
 		{
 			if(isset($_SESSION['captcha_keystring'] ) && $_SESSION['captcha_keystring']  == $_POST['keystring'])
 			{
 				messages::add_message($_POST['subject'], $_POST['comment'], $thread_id, $message_id);
-				$param_arr = array($thread_id);
-				$sel = base::query('SELECT id,md5 FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\')','assoc_array', $param_arr);
-				for($i=0;$i<count($sel);$i++)
-				{
-					if($sel[$i]['md5']==$md5)
-					{
-						$message_number = $i+1;
-						$msg_id = $sel[$i]['id'];
-					}
-				}
+				$mess_arr = threads::get_msg_number($thread_id, $md5);
+				$message_number = $mess_arr['message_number'];
+				$msg_id = $mess_arr['msg_id'];
 				$page = ceil($message_number/$uinfo['comments_on_page']);
 				for($i=1; $i<=$filters_count; $i++)
 				{
@@ -79,18 +73,10 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 		}
 		else
 		{
-			$md5 = md5(rand().gmdate("Y-m-d H:i:s"));
 			messages::add_message($_POST['subject'], $_POST['comment'], $thread_id, $message_id, $md5);
-			$param_arr = array($thread_id);
-			$sel = base::query('SELECT id,md5 FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\')','assoc_array', $param_arr);
-			for($i=0;$i<count($sel);$i++)
-			{
-				if($sel[$i]['md5']==$md5)
-				{
-					$message_number = $i+1;
-					$msg_id = $sel[$i]['id'];
-				}
-			}
+			$mess_arr = threads::get_msg_number($thread_id, $md5);
+			$message_number = $mess_arr['message_number'];
+			$msg_id = $mess_arr['msg_id'];
 			$page = ceil($message_number/$uinfo['comments_on_page']);
 			for($i=1; $i<=$filters_count; $i++)
 			{

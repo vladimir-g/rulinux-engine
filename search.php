@@ -68,17 +68,11 @@ if(!empty($_GET['q']))
 		for($i=0; $i<count($found_msg); $i++)
 		{
 			$msg_id = $found_msg[$i]['id'];
-			$param_arr = array($found_msg[$i]['tid']);
-			$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
-			for($t=0;$t<count($sel);$t++)
-			{
-				if($sel[$t]['id']==$found_msg[$i]['id'])
-					$message_number = $t;
-			}
+			$message_number = threads::get_msg_number_by_tid($found_msg[$i]['tid'], $msg_id);
 			$page = ceil($message_number/$uinfo['comments_on_page']);
 			if($page == 0)
 				$page = 1;
-			$link = 'message.php?newsid='.$found_msg[$i]['tid'].'&page='.$page.'#'.$found_msg[$i]['id'];
+			$link = 'message.php?newsid='.$found_msg[$i]['tid'].'&page='.$page.'#'.$msg_id;
 			$subject = $found_msg[$i]['subject'];
 			$comment = $found_msg[$i]['comment'];
 			$usr = users::get_user_info($found_msg[$i]['uid']);
