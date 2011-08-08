@@ -29,7 +29,7 @@ else
 		if(isset($_POST['user']) && isset($_POST['password']))
 		{
 			$_POST['user'] = preg_replace('/[\'\/\*\s]/', '', $_POST['user']);
-			auth_user($_POST['user'], $_POST['password'], false);
+			$authC->auth_user($_POST['user'], $_POST['password'], false);
 		}
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');  
 	}

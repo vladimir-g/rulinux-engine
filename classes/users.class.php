@@ -1,5 +1,5 @@
 <?php
-class users
+class users extends object
 {
 	function change_users_group($uid, $gid)
 	{

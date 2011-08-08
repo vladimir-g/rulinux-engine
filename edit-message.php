@@ -14,7 +14,7 @@ if(empty($_POST['sbm']))
 		require 'footer.php';
 		exit();
 	}
-	$msg = messages::get_message($message_id);
+	$msg = $messagesC->get_message($message_id);
 	if(empty($msg))
 	{
 		require 'header.php';
@@ -30,19 +30,19 @@ if(empty($_POST['sbm']))
 		$subj = $msg['subject'];
 		$comment = $msg['raw_comment'];
 		$reason = $msg['changed_for'];
-		if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
+		if ($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1)
 			$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 		else
 			$captcha = '';
-		$sect = sections::get_section_by_tid($msg['tid']);
-		$sel = threads::get_tid_by_cid($msg['id']);
+		$sect = $sectionsC->get_section_by_tid($msg['tid']);
+		$sel = $threadsC->get_tid_by_cid($msg['id']);
 		if(!empty($sel))
 		{
 			if($sect['id']==1)
 			{
 				require 'themes/'.$theme.'/templates/edit_message/news/top.tpl.php';
-				$subsect = sections::get_subsections($sect['id']);
-				$thr = threads::get_thread_info($msg['tid']);
+				$subsect = $sectionsC->get_subsections($sect['id']);
+				$thr = $threadsC->get_thread_info($msg['tid']);
 				$tid = $msg['tid'];
 				$section = $thr['section'];
 				$link = $thr['prooflink'];
@@ -77,7 +77,7 @@ else
 		require 'footer.php';
 		exit();
 	}
-	if(users::get_captcha_level($_SESSION['user_id']) > -1)
+	if($usersC->get_captcha_level($_SESSION['user_id']) > -1)
 	{
 		if(empty($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])
 		{
@@ -92,12 +92,12 @@ else
 	if($_POST['msg_uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 	{
 		if(empty($_POST['section']))
-			messages::edit_message($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason']);
+			$messagesC->edit_message($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason']);
 		else
-			messages::edit_news($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason'], $_POST['tid'], $_POST['link'], $_POST['subsection_id']);
-		$str = filters::set_auto_filter($message_id);
-		$val = messages::set_filter($message_id, $str);
-		$mess_arr = threads::get_msg_number_by_cid($message_id);
+			$messagesC->edit_news($message_id, $_POST['subject'], $_POST['comment'], $_POST['reason'], $_POST['tid'], $_POST['link'], $_POST['subsection_id']);
+		$str = $filtersC->set_auto_filter($message_id);
+		$val = $messagesC->set_filter($message_id, $str);
+		$mess_arr = $threadsC->get_msg_number_by_cid($message_id);
 		$message_number = $mess_arr[0];
 		$page = ceil($message_number/$uinfo['comments_on_page']);
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$mess_arr[1].'&page='.$page.'#'.$message_id.'">');  

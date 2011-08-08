@@ -43,7 +43,7 @@ if($_POST['first_smb'])
 			require 'footer.php';
 			exit();
 		}
-		$usr_exsts = users::user_exists($_POST['nick']);
+		$usr_exsts = $usersC->user_exists($_POST['nick']);
 		if($usr_exsts)
 		{
 			require 'header.php';
@@ -53,7 +53,7 @@ if($_POST['first_smb'])
 			require 'footer.php';
 			exit();
 		}
-		$sndmail = users::send_accept_mail($_POST['e-mail'], $_POST['nick'], $_POST['password_1']);
+		$sndmail = $usersC->send_accept_mail($_POST['e-mail'], $_POST['nick'], $_POST['password_1']);
 		if($sndmail)
 		{
 			require 'header.php';
@@ -86,7 +86,7 @@ if($_POST['first_smb'])
 else if($_GET['action']=='register')
 {
 	require 'header.php';
-	$pass_phrase = core::get_settings_by_name('register_pass_phrase');
+	$pass_phrase = $coreC->get_settings_by_name('register_pass_phrase');
 	if($_GET['hash'] != md5($_GET['login'].$_GET['password'].$pass_phrase))
 	{
 		$legend = 'Логин, пароль или хеш указанные в ссылке не верны.';
@@ -137,7 +137,7 @@ else if($_POST['action']=='second_sbm')
 	$city = $_POST['user_city'];
 	$additional = $_POST['user_additional'];
 	$gmt = $_POST['user-gmt'];
-	$ret= users::add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt);
+	$ret= $usersC->add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt);
 	if($ret<0)
 	{
 		require 'header.php';

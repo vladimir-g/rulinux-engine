@@ -21,8 +21,8 @@ if(!empty($_POST['sbm']))
 			else
 				$str = $str.$i.':0;';
 		}
-		$val = messages::set_filter($message_id, $str);
-		$mess_arr = threads::get_msg_number_by_cid($message_id);
+		$val = $messagesC->set_filter($message_id, $str);
+		$mess_arr = $threadsC->get_msg_number_by_cid($message_id);
 		$message_number = $mess_arr[0];
 		$thread_id = $mess_arr[1];
 		$msg_id = $mess_arr[2];
@@ -40,14 +40,14 @@ if($_SESSION['user_id'] == 1)
 	require 'footer.php';
 	exit();
 }
-$msg = messages::get_message($message_id);
+$msg = $messagesC->get_message($message_id);
 if($msg['uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 {
 	require 'header.php';
 	require 'themes/'.$theme.'/templates/set_filter/top.tpl.php';
-	$filter_str = messages::get_filter($message_id);
-	$filtered = filters::parse_filter_string($filter_str);
-	$filters_arr = filters::get_filters();
+	$filter_str = $messagesC->get_filter($message_id);
+	$filtered = $filtersC->parse_filter_string($filter_str);
+	$filters_arr = $filtersC->get_filters();
 	for($i=0; $i<count($filters_arr);$i++)
 	{
 		$filterN = $filters_arr[$i]['id'];

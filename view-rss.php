@@ -1,7 +1,6 @@
 <?php
 require 'librarys/feedwriter/FeedWriter.php';
 require 'classes/core.php';
-require 'classes/rss.class.php';
 (int)$section=$_GET['section'];
 (int)$subsection=$_GET['subsection'];
 (int)$tid=$_GET['newsid'];
@@ -11,16 +10,16 @@ if(!empty($section))
 	{
 		if(!empty($tid))
 		{
-			$feed = rss::get_thread($tid);
-			$title = rss::get_title($section, $subsection, $tid);
+			$feed = $rssC->get_thread($tid);
+			$title = $rssC->get_title($section, $subsection, $tid);
 			$section_name = ' - '.$title['section_name'];
 			$subsection_name = ' - '.$title['subsection_name'];
 			$thread_name = ' - '.$title['thread_name'];
 		}
 		else
 		{
-			$feed = rss::get_subsection($section, $subsection);
-			$title = rss::get_title($section, $subsection, $tid);
+			$feed = $rssC->get_subsection($section, $subsection);
+			$title = $rssC->get_title($section, $subsection, $tid);
 			$section_name = ' - '.$title['section_name'];
 			$subsection_name = ' - '.$title['subsection_name'];
 			$thread_name = '';
@@ -28,8 +27,8 @@ if(!empty($section))
 	}
 	else
 	{
-		$feed = rss::get_section($section);
-		$title = rss::get_title($section, $subsection, $tid);
+		$feed = $rssC->get_section($section);
+		$title = $rssC->get_title($section, $subsection, $tid);
 		$section_name = ' - '.$title['section_name'];
 		$subsection_name = '';
 		$thread_name = '';
@@ -37,7 +36,7 @@ if(!empty($section))
 }
 else
 {
-	$feed = rss::get_all();
+	$feed = $rssC->get_all();
 	$section_name = '';
 	$subsection_name = '';
 	$thread_name = '';

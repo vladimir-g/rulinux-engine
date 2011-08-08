@@ -1,5 +1,5 @@
 <?php
-class faq
+class faq extends object
 {
 	function add_question($subject, $email, $quetion, $av)
 	{

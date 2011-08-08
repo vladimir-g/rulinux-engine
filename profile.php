@@ -6,8 +6,8 @@ else
 	$user = $profile_name;
 $title = ' - Профиль пользователя '.$user;
 $rss_link='view-rss.php';
-$uid = users::get_uid_by_nick($user);
-$usr = users::get_user_info($uid);
+$uid = $usersC->get_uid_by_nick($user);
+$usr = $usersC->get_user_info($uid);
 
 if($_POST['action']=="pass")
 {
@@ -67,7 +67,7 @@ if($_POST['action']=="pass")
 			require 'footer.php';
 			exit();
 		}
-		$ret = users::modify_user_info('password', md5($_POST['new_pass']), $uid);
+		$ret = $usersC->modify_user_info('password', md5($_POST['new_pass']), $uid);
 		if($ret == 1)
 		{
 			require 'header.php';
@@ -138,7 +138,7 @@ else if($_POST['action']=="info")
 			if (empty($error))
 			{
 				move_uploaded_file($_FILES['user_photo']['tmp_name'], $uploadfile);
-				$val = users::modify_user_info('photo', $filename.'.'.$ext[1], $uid);
+				$val = $usersC->modify_user_info('photo', $filename.'.'.$ext[1], $uid);
 				if($val != 1)
 				{
 					require 'header.php';
@@ -150,7 +150,7 @@ else if($_POST['action']=="info")
 				}
 			}
 		}
-		$val = users::modify_user_info_settings($uid, $_POST['user_name'], $_POST['user_lastname'], $_POST['gender'], $_POST['user_email'], $_POST['showEmail'], $_POST['user_im'], $_POST['showIM'], $_POST['user_country'], $_POST['user_city'], $_POST['user_additional']);
+		$val = $usersC->modify_user_info_settings($uid, $_POST['user_name'], $_POST['user_lastname'], $_POST['gender'], $_POST['user_email'], $_POST['showEmail'], $_POST['user_im'], $_POST['showIM'], $_POST['user_country'], $_POST['user_city'], $_POST['user_additional']);
 		require 'header.php';
 		$legend = 'Пользовательская информация успешно изменена';
 		$text = 'Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
@@ -178,7 +178,7 @@ else if($_POST['action']=="filters")
 			else
 				$str = $str.$i.':0;';
 		}
-		$ret = users::set_filter($uid, $str);
+		$ret = $usersC->set_filter($uid, $str);
 		if($ret == 1)
 		{
 			require 'header.php';
@@ -213,7 +213,7 @@ else if($_POST['action']=="read")
 	{
 		if($_POST['user-gmt'] != "none")
 		{
-			$val = users::modify_user_info('gmt', htmlspecialchars($_POST['user-gmt']), $uid);
+			$val = $usersC->modify_user_info('gmt', htmlspecialchars($_POST['user-gmt']), $uid);
 			if($val != 1)
 			{
 				require 'header.php';
@@ -225,7 +225,7 @@ else if($_POST['action']=="read")
 			}
 		}
 	
-		$ret = users::modify_user_read_settings($uid, $_POST['theme'], $_POST['news_on_page'], $_POST['comments_on_page'], $_POST['threads_on_page'], $_POST['show_photos'], $_POST['show_ua'], $_POST['sort_to'], $_POST['show_resp'], $_POST['mark']);
+		$ret = $usersC->modify_user_read_settings($uid, $_POST['theme'], $_POST['news_on_page'], $_POST['comments_on_page'], $_POST['threads_on_page'], $_POST['show_photos'], $_POST['show_ua'], $_POST['sort_to'], $_POST['show_resp'], $_POST['mark']);
 		if($ret >=0)
 		{
 			require 'header.php';
@@ -268,9 +268,9 @@ else if($_POST['action']=="moder")
 			exit();
 		}
 		$banned = (int)$_POST['banned'];
-		$ban_ret = users::ban_user($uid, $banned);
+		$ban_ret = $usersC->ban_user($uid, $banned);
 		$value = (int)$_POST['captcha'];
-		$cpt_ret = users::modify_user_info('captcha', $value, $uid);
+		$cpt_ret = $usersC->modify_user_info('captcha', $value, $uid);
 		if($ban_ret >=0 || $cpt_ret >=0)
 		{
 			require 'header.php';
@@ -313,7 +313,7 @@ else if($_POST['action']=="admin")
 	if($uinfo['gid']==2)
 	{
 		$group = (int)$_POST['group'];
-		$ret = users::modify_user_info('gid', $group, $uid);
+		$ret = $usersC->modify_user_info('gid', $group, $uid);
 		if($ret >=0)
 		{
 			require 'header.php';
@@ -355,7 +355,7 @@ else if($_POST['action']=="main_page")
 			$blocks_str = $blocks_str.$_POST[$name].':'.$_POST[$position].':'.$_POST[$sort].',';
 		}
 		$blocks_str = substr($blocks_str, 0, strlen($blocks_str)-1);
-		$ret = users::modify_user_info('blocks', $blocks_str, $uid);
+		$ret = $usersC->modify_user_info('blocks', $blocks_str, $uid);
 		if($ret >=0)
 		{
 			require 'header.php';
@@ -389,20 +389,20 @@ else
 	require 'header.php';
 	if($_GET['edit']!=1)
 	{
-		$usr_add = users::get_additional_user_info($uid);
+		$usr_add = $usersC->get_additional_user_info($uid);
 		$name = $usr['name'];
 		$lastname = $usr['lastname'];
-		$gender = core::validate_boolean($usr['gender']) ? 'Мужской' : 'Женский';
+		$gender = $coreC->validate_boolean($usr['gender']) ? 'Мужской' : 'Женский';
 		$birthday = $usr['birthday'];
 		$photo = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$usr['photo'];
 		if($uinfo['gid']==3 || $uinfo['gid']==2)
 			$email = $usr['email'];
 		else
-			$email = core::validate_boolean($usr['show_email']) ? $usr['email'] : 'скрыт';
+			$email = $coreC->validate_boolean($usr['show_email']) ? $usr['email'] : 'скрыт';
 		if($uinfo['gid']==3 || $uinfo['gid']==2)
 			$im = $usr['im'];
 		else
-			$im = core::validate_boolean($usr['show_im']) ? $usr['im'] : 'скрыт';
+			$im = $coreC->validate_boolean($usr['show_im']) ? $usr['im'] : 'скрыт';
 		$country = $usr['country'];
 		$city = $usr['city'];
 		if($usr['gid']==3)
@@ -411,14 +411,14 @@ else
 			$status = 'Администратор';
 		else
 			$status = 'Пользователь';
-		$status = core::validate_boolean($usr['banned']) ? $status.", Заблокирован" : $status.", Разблокирован";
-		$register_date = core::to_local_time_zone($usr['register_date']);
-		$last_login = core::to_local_time_zone($usr['last_visit']);
+		$status = $coreC->validate_boolean($usr['banned']) ? $status.", Заблокирован" : $status.", Разблокирован";
+		$register_date = $coreC->to_local_time_zone($usr['register_date']);
+		$last_login = $coreC->to_local_time_zone($usr['last_visit']);
 		$additional = $usr['additional'];
-		$first_topic_date = core::to_local_time_zone($usr_add['first_topic_date']);
-		$last_topic_date = core::to_local_time_zone($usr_add['last_topic_date']);
-		$first_comment_date = core::to_local_time_zone($usr_add['first_comment_date']);
-		$last_comment_date = core::to_local_time_zone($usr_add['last_comment_date']);
+		$first_topic_date = $coreC->to_local_time_zone($usr_add['first_topic_date']);
+		$last_topic_date = $coreC->to_local_time_zone($usr_add['last_topic_date']);
+		$first_comment_date = $coreC->to_local_time_zone($usr_add['first_comment_date']);
+		$last_comment_date = $coreC->to_local_time_zone($usr_add['last_comment_date']);
 		$comments_count = $usr_add['comments_count'];
 		$topics_count = $usr_add['topics_count'];
 		$link = 'view-comments.php?user='.$user;
@@ -445,13 +445,13 @@ else
 				$lastname = $usr['lastname'];
 				$avatar = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$usr['photo'];
 				$email = $usr['email'];
-				$show_email_ch = core::validate_boolean($usr['show_email']) ? 'checked' : '';
+				$show_email_ch = $coreC->validate_boolean($usr['show_email']) ? 'checked' : '';
 				$im = $usr['im'];
-				$show_im_ch = core::validate_boolean($usr['show_im']) ? 'checked' : '';
+				$show_im_ch = $coreC->validate_boolean($usr['show_im']) ? 'checked' : '';
 				$country = $usr['country'];
 				$city = $usr['city'];
 				$additional = $usr['additional'];
-				core::validate_boolean($usr['gender']) ? $checkedMale = 'selected' : $checkedFemale = 'selected';
+				$coreC->validate_boolean($usr['gender']) ? $checkedMale = 'selected' : $checkedFemale = 'selected';
 				require 'themes/'.$theme.'/templates/profile/userinfo_edit/userinfo_edit.tpl.php';
 			}
 		}
@@ -461,13 +461,13 @@ else
 			$news_on_page = $usr['news_on_page'];
 			$comments_on_page = $usr['comments_on_page'];
 			$threads_on_page = $usr['threads_on_page'];
-			$show_photos_ch = core::validate_boolean($usr['show_avatars']) ? 'checked' : '';
-			$show_ua_ch = core::validate_boolean($usr['show_ua']) ? 'checked' : '';
-			$change_date_sort_ch = core::validate_boolean($usr['sort_to']) ? 'checked' : '';
-			$show_resp_ch = core::validate_boolean($usr['show_resp']) ? 'checked' : '';
+			$show_photos_ch = $coreC->validate_boolean($usr['show_avatars']) ? 'checked' : '';
+			$show_ua_ch = $coreC->validate_boolean($usr['show_ua']) ? 'checked' : '';
+			$change_date_sort_ch = $coreC->validate_boolean($usr['sort_to']) ? 'checked' : '';
+			$show_resp_ch = $coreC->validate_boolean($usr['show_resp']) ? 'checked' : '';
 			require 'themes/'.$theme.'/templates/profile/settings_edit/top.tpl.php';
 			require 'themes/'.$theme.'/templates/profile/settings_edit/theme_top.tpl.php';
-			$themes = core::get_themes();
+			$themes = $coreC->get_themes();
 			for($i=0; $i<count($themes); $i++)
 			{
 				$theme_id = $themes[$i]['id'];
@@ -480,7 +480,7 @@ else
 			}
 			require 'themes/'.$theme.'/templates/profile/settings_edit/theme_bottom.tpl.php';
 			require 'themes/'.$theme.'/templates/profile/settings_edit/mark_top.tpl.php';
-			$marks = mark::get_marks();
+			$marks = $markC->get_marks();
 			for($i=0; $i<count($marks); $i++)
 			{
 				$mark_id = $marks[$i]['id'];
@@ -494,9 +494,9 @@ else
 			require 'themes/'.$theme.'/templates/profile/settings_edit/mark_bottom.tpl.php';
 			require 'themes/'.$theme.'/templates/profile/settings_edit/bottom.tpl.php';
 			require 'themes/'.$theme.'/templates/profile/filters_edit/top.tpl.php';
-			$filter_str = users::get_filter($uid);
-			$filtered = filters::parse_filter_string($filter_str);
-			$filters_arr = filters::get_filters();
+			$filter_str = $usersC->get_filter($uid);
+			$filtered = $filtersC->parse_filter_string($filter_str);
+			$filters_arr = $filtersC->get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
@@ -511,9 +511,9 @@ else
 			require 'themes/'.$theme.'/templates/profile/filters_edit/bottom.tpl.php';
 			if($uinfo['gid']==2 || $uinfo['gid']==3)
 			{
-				core::validate_boolean($usr['banned']) ? $banned_y = 'selected' : $banned_n = 'selected';
+				$coreC->validate_boolean($usr['banned']) ? $banned_y = 'selected' : $banned_n = 'selected';
 				require 'themes/'.$theme.'/templates/profile/moder_edit/top.tpl.php';
-				$cptch = core::get_captcha_levels();
+				$cptch = $coreC->get_captcha_levels();
 				for($i=0; $i<count($cptch); $i++)
 				{
 					$captcha_level = $cptch[$i]["value"];
@@ -529,7 +529,7 @@ else
 			if($uinfo['gid']==2)
 			{
 				require 'themes/'.$theme.'/templates/profile/admin_edit/top.tpl.php';
-				$group = users::get_group('all');
+				$group = $usersC->get_group('all');
 				for($i=0; $i<count($group); $i++)
 				{
 					if($usr['gid'] == $group[$i]['id'])
@@ -546,8 +546,8 @@ else
 		if($user == $profile_name || $uinfo['gid']==2)
 		{
 			require 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_top.tpl.php';
-			$usr_blocks = users::get_blocks($uid);
-			$blocks = core::get_blocks();
+			$usr_blocks = $usersC->get_blocks($uid);
+			$blocks = $coreC->get_blocks();
 			for($i=0; $i<count($blocks); $i++)
 			{
 				$block_id = $i;

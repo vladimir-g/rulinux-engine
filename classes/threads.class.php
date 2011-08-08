@@ -1,5 +1,5 @@
 <?php
-class threads
+class threads  extends object
 {
 	function get_threads_count($section, $subsection)
 	{
@@ -20,7 +20,7 @@ class threads
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$uinfo = users::get_user_info($_SESSION['user_id']);
-		if(!core::validate_boolean($uinfo['sort_to']))
+		if(!self::validate_boolean($uinfo['sort_to']))
 			$sort = 'c.timest';
 		else
 			$sort = 'c.changing_timest';
@@ -112,7 +112,7 @@ class threads
 	function attach_thread($tid, $state)
 	{
 		$tid = (int)$tid;
-		$state = core::validate_boolean($state);
+		$state = self::validate_boolean($state);
 		$param_arr = array($tid, $state);
 		$ret = base::query('UPDATE threads SET attached = \'::1::\' WHERE id = \'::0::\'', 'assoc_array', $param_arr);
 		return $ret;

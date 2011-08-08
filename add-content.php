@@ -7,7 +7,7 @@ $rss_link='view-rss.php';
 if(empty($_POST['submit_form']))
 {
 	require 'header.php';
-	if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
+	if ($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1)
 		$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 	else
 		$captcha = '';
@@ -15,7 +15,7 @@ if(empty($_POST['submit_form']))
 		require 'themes/'.$theme.'/templates/add_content/add/sections.tpl.php';
 	else
 	{
-		$subsect = sections::get_subsections($section_id);
+		$subsect = $sectionsC->get_subsections($section_id);
 		if($section_id==1)
 		{
 			require 'themes/'.$theme.'/templates/add_content/add/news_top.tpl.php';
@@ -36,7 +36,7 @@ if(empty($_POST['submit_form']))
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/news_middle.tpl.php';
-			$filters_arr = filters::get_filters();
+			$filters_arr = $filtersC->get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
@@ -66,7 +66,7 @@ if(empty($_POST['submit_form']))
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/articles_middle.tpl.php';
-			$filters_arr = filters::get_filters();
+			$filters_arr = $filtersC->get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
@@ -96,7 +96,7 @@ if(empty($_POST['submit_form']))
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/gallery_middle.tpl.php';
-			$filters_arr = filters::get_filters();
+			$filters_arr = $filtersC->get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
@@ -126,7 +126,7 @@ if(empty($_POST['submit_form']))
 				require 'themes/'.$theme.'/templates/add_content/add/select.tpl.php';
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/forum_middle.tpl.php';
-			$filters_arr = filters::get_filters();
+			$filters_arr = $filtersC->get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
@@ -157,16 +157,16 @@ else
 		$subject = $_POST['subject'];
 		$section_id = (int)$_GET['section'];
 		$subsection_id = (int)$_POST['subsection_id'];
-		$usr = users::get_user_info($_SESSION['user_id']);
+		$usr = $usersC->get_user_info($_SESSION['user_id']);
 		$author = $usr['nick'];
 		$author_profile = '/profile.php?user='.$usr['nick'];
-		$timestamp = core::to_local_time_zone(gmdate("Y-m-d H:i:s"));
+		$timestamp = $coreC->to_local_time_zone(gmdate("Y-m-d H:i:s"));
 		if($section_id == 1)
 		{
-			$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($subsection_id);
+			$subsection_image = '/themes/'.$theme.'/icons/'.$sectionsC->get_subsection_icon($subsection_id);
 			require 'themes/'.$theme.'/templates/add_content/preview/news.tpl.php';
 			require 'themes/'.$theme.'/templates/add_content/add/select_top.tpl.php';
-			$subsect = sections::get_subsections($section_id);
+			$subsect = $sectionsC->get_subsections($section_id);
 			for($i=0; $i<count($subsect); $i++)
 			{
 				$subsect_id = $subsect[$i]['sort'];
@@ -179,7 +179,7 @@ else
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/select_bottom.tpl.php';
 			require 'themes/'.$theme.'/templates/add_content/add/news_middle.tpl.php';
-			$filters_arr = filters::get_filters();
+			$filters_arr = $filtersC->get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
@@ -197,7 +197,7 @@ else
 		{
 			require 'themes/'.$theme.'/templates/add_content/preview/art.tpl.php';
 			require 'themes/'.$theme.'/templates/add_content/add/select_top.tpl.php';
-			$subsect = sections::get_subsections($section_id);
+			$subsect = $sectionsC->get_subsections($section_id);
 			for($i=0; $i<count($subsect); $i++)
 			{
 				$subsect_id = $subsect[$i]['sort'];
@@ -210,7 +210,7 @@ else
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/select_bottom.tpl.php';
 			require 'themes/'.$theme.'/templates/add_content/add/articles_middle.tpl.php';
-			$filters_arr = filters::get_filters();
+			$filters_arr = $filtersC->get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
@@ -236,7 +236,7 @@ else
 		{
 			require 'themes/'.$theme.'/templates/add_content/preview/forum.tpl.php';
 			require 'themes/'.$theme.'/templates/add_content/add/select_top.tpl.php';
-			$subsect = sections::get_subsections($section_id);
+			$subsect = $sectionsC->get_subsections($section_id);
 			for($i=0; $i<count($subsect); $i++)
 			{
 				$subsect_id = $subsect[$i]['sort'];
@@ -249,7 +249,7 @@ else
 			}
 			require 'themes/'.$theme.'/templates/add_content/add/select_bottom.tpl.php';
 			require 'themes/'.$theme.'/templates/add_content/add/forum_middle.tpl.php';
-			$filters_arr = filters::get_filters();
+			$filters_arr = $filtersC->get_filters();
 			for($i=0; $i<count($filters_arr);$i++)
 			{
 				$filterN = $filters_arr[$i]['id'];
@@ -267,7 +267,7 @@ else
 	}
 	else
 	{
-		if ($_SESSION['user_id'] == 1 || users::get_captcha_level($_SESSION['user_id']) > -1)
+		if ($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1)
 		{
 			if(empty($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])
 			{
@@ -371,8 +371,8 @@ else
 			$image_size = '';
 			$prooflink = $_POST['news_link'];
 		}
-		$cid = messages::new_thread($_POST['subject'], $_POST['comment'], $section, $_POST['subsection_id'], $file, $extension, $file_size, $image_size, $prooflink);
-		$filters_count = filters::get_filters_count();
+		$cid = $messagesC->new_thread($_POST['subject'], $_POST['comment'], $section, $_POST['subsection_id'], $file, $extension, $file_size, $image_size, $prooflink);
+		$filters_count = $filtersC->get_filters_count();
 		for($i=1; $i<=$filters_count; $i++)
 		{
 			if(!empty($_POST['filter_'.$i]))
@@ -380,8 +380,8 @@ else
 			else
 				$str = $str.$i.':0;';
 		}
-		$str = filters::set_auto_filter($cid, $str);
-		$val = messages::set_filter($cid, $str);
+		$str = $filtersC->set_auto_filter($cid, $str);
+		$val = $messagesC->set_filter($cid, $str);
 		if($section_id==1 || $section_id==2 || $section_id==3)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'view-all.php">');
 		else if($section_id==4)

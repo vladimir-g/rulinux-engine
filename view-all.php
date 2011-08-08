@@ -4,7 +4,7 @@ $title = ' - Просмотр неподтвержденных';
 $rss_link='view-rss.php';
 require 'header.php';
 require 'themes/'.$theme.'/templates/view_all/top.tpl.php';
-$unconfirmed = threads::get_unconfirmed();
+$unconfirmed = $threadsC->get_unconfirmed();
 for($i=0; $i<count($unconfirmed); $i++)
 {
 	$thread_id = $unconfirmed[$i]['id'];
@@ -14,10 +14,10 @@ for($i=0; $i<count($unconfirmed); $i++)
 	$img_thumb_link = '/gallery/thumbs/'.$unconfirmed[$i]['file'].'_small.png';
 	$comment = $unconfirmed[$i]['comment'];
 	$size = $unconfirmed[$i]['image_size'].', '.$unconfirmed[$i]['file_size'];
-	$usr = users::get_user_info($unconfirmed[$i]['uid']);
-	core::validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
+	$usr = $usersC->get_user_info($unconfirmed[$i]['uid']);
+	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
 	$author_profile = '/profile.php?user='.$usr['nick'];
-	$timestamp = core::to_local_time_zone($unconfirmed[$i]['timest']);
+	$timestamp = $coreC->to_local_time_zone($unconfirmed[$i]['timest']);
 	$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($unconfirmed[$i]['subsection']);
 	if($unconfirmed[$i]['section']==1)
 		require 'themes/'.$theme.'/templates/view_all/news.tpl.php';

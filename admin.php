@@ -26,7 +26,7 @@ if($_GET['action']=='manage_blocks_ui')
 	{
 		require 'header.php';
 		require 'themes/'.$theme.'/templates/admin/manage_blocks/remove_block_top.tpl.php';
-		$blocks = core::get_blocks();
+		$blocks = $coreC->get_blocks();
 		for($i=0; $i<count($blocks);$i++)
 		{
 			$id = $blocks[$i]['id'];
@@ -68,7 +68,7 @@ if($_GET['action']=='install_block')
 			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
 		else
 			echo 'error '.$error;
-		$ret = admin::install_block($uploadfile);
+		$ret = $adminC->install_block($uploadfile);
 		unlink($uploadfile);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_blocks_ui">');  
@@ -90,7 +90,7 @@ if($_GET['action']=='remove_block')
 	{
 		if(preg_match('/check_([0-9]*)/', $key, $matches))
 		{
-			$ret = admin::remove_block($_POST['directory_'.$matches[1]]);
+			$ret = $adminC->remove_block($_POST['directory_'.$matches[1]]);
 			if($ret!=1)
 				$error = 1;
 		}
@@ -120,7 +120,7 @@ elseif($_GET['action']=='manage_filters_ui')
 	{
 		require 'header.php';
 		require 'themes/'.$theme.'/templates/admin/manage_filters/remove_filter_top.tpl.php';
-		$filters = filters::get_filters();
+		$filters = $filtersC->get_filters();
 		for($i=0; $i<count($filters);$i++)
 		{
 			$id = $filters[$i]['id'];
@@ -162,7 +162,7 @@ if($_GET['action']=='install_filter')
 			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
 		else
 			echo 'error '.$error;
-		$ret = admin::install_filter($uploadfile);
+		$ret = $adminC->install_filter($uploadfile);
 		unlink($uploadfile);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_filters_ui">');  
@@ -184,7 +184,7 @@ if($_GET['action']=='remove_filter')
 	{
 		if(preg_match('/check_([0-9]*)/', $key, $matches))
 		{
-			$ret = admin::remove_filter($_POST['directory_'.$matches[1]]);
+			$ret = $adminC->remove_filter($_POST['directory_'.$matches[1]]);
 			if($ret!=1)
 				$error = 1;
 		}
@@ -214,7 +214,7 @@ elseif($_GET['action']=='manage_themes_ui')
 	{
 		require 'header.php';
 		require 'themes/'.$theme.'/templates/admin/manage_themes/remove_theme_top.tpl.php';
-		$themes = core::get_themes();
+		$themes = $coreC->get_themes();
 		for($i=0; $i<count($themes);$i++)
 		{
 			$id = $themes[$i]['id'];
@@ -256,7 +256,7 @@ if($_GET['action']=='install_theme')
 			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
 		else
 			echo 'error '.$error;
-		$ret = admin::install_theme($uploadfile);
+		$ret = $adminC->install_theme($uploadfile);
 		unlink($uploadfile);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_themes_ui">');  
@@ -278,7 +278,7 @@ if($_GET['action']=='remove_theme')
 	{
 		if(preg_match('/check_([0-9]*)/', $key, $matches))
 		{
-			$ret = admin::remove_theme($_POST['directory_'.$matches[1]]);
+			$ret = $adminC->remove_theme($_POST['directory_'.$matches[1]]);
 			if($ret!=1)
 				$error = 1;
 		}
@@ -352,7 +352,7 @@ elseif($_GET['action']=='manage_subsections_ui')
 		{
 			require 'header.php';
 			require 'themes/'.$theme.'/templates/admin/manage_subsections/remove_subsection_top.tpl.php';
-			$subsections = sections::get_subsections($section);
+			$subsections = $sectionsC->get_subsections($section);
 			for($i=0; $i<count($subsections); $i++)
 			{
 				$id = $subsections[$i]['id'];
@@ -418,7 +418,7 @@ elseif($_GET['action']=='add_subsection')
 	}
 	else
 		$icon = '';
-	$ret = admin::add_subsection($section, $name, $description, $shortfaq, $rewrite, $icon);
+	$ret = $adminC->add_subsection($section, $name, $description, $shortfaq, $rewrite, $icon);
 	if(!is_file($uploadfile))
 		unlink($uploadfile);
 	if($ret>0)
@@ -441,7 +441,7 @@ elseif($_GET['action']=='remove_subsection')
 	{
 		if(preg_match('/check_([0-9]*)/', $key, $matches))
 		{
-			$ret = admin::remove_subsection($matches[1]);
+			$ret = $adminC->remove_subsection($matches[1]);
 			if($ret!=1)
 				$error = 1;
 		}
@@ -471,7 +471,7 @@ if($_GET['action']=='manage_marks_ui')
 	{
 		require 'header.php';
 		require 'themes/'.$theme.'/templates/admin/manage_marks/remove_mark_top.tpl.php';
-		$marks = mark::get_marks();
+		$marks = $markC->get_marks();
 		for($i=0; $i<count($marks);$i++)
 		{
 			$id = $marks[$i]['id'];
@@ -514,7 +514,7 @@ if($_GET['action']=='install_mark')
 			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
 		else
 			echo 'error '.$error;
-		$ret = admin::install_mark($uploadfile);
+		$ret = $adminC->install_mark($uploadfile);
 		unlink($uploadfile);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_marks_ui">');  
@@ -536,7 +536,8 @@ if($_GET['action']=='remove_mark')
 	{
 		if(preg_match('/check_([0-9]*)/', $key, $matches))
 		{
-			$ret = admin::remove_mark($_POST['file_'.$matches[1]]);
+			$count = mark::get_marks_count();
+			$ret = $adminC->remove_mark($_POST['file_'.$matches[1]], $count);
 			if($ret!=1)
 				$error = 1;
 		}
@@ -558,7 +559,7 @@ elseif($_GET['action']=='edit_settings_ui')
 	if($_GET['set']=='change_pass')
 	{
 		require 'header.php';
-		$pass = admin::get_setting('register_pass_phrase');
+		$pass = $adminC->get_setting('register_pass_phrase');
 		require 'themes/'.$theme.'/templates/admin/edit_settings/change_pass.tpl.php';
 		require 'footer.php';
 		exit();
@@ -566,8 +567,8 @@ elseif($_GET['action']=='edit_settings_ui')
 	elseif($_GET['set']=='change_letter')
 	{
 		require 'header.php';
-		$subj = admin::get_setting('appect_mail_subject');
-		$text = admin::get_setting('appect_mail_text');
+		$subj = $adminC->get_setting('appect_mail_subject');
+		$text = $adminC->get_setting('appect_mail_text');
 		require 'themes/'.$theme.'/templates/admin/edit_settings/change_letter.tpl.php';
 		require 'footer.php';
 		exit();
@@ -575,7 +576,7 @@ elseif($_GET['action']=='edit_settings_ui')
 	elseif($_GET['set']=='change_rules')
 	{
 		require 'header.php';
-		$rules = admin::get_setting('rules');
+		$rules = $adminC->get_setting('rules');
 		require 'themes/'.$theme.'/templates/admin/edit_settings/change_rules.tpl.php';
 		require 'footer.php';
 		exit();
@@ -583,7 +584,7 @@ elseif($_GET['action']=='edit_settings_ui')
 	elseif($_GET['set']=='change_title')
 	{
 		require 'header.php';
-		$title = admin::get_setting('title');
+		$title = $adminC->get_setting('title');
 		require 'themes/'.$theme.'/templates/admin/edit_settings/change_title.tpl.php';
 		require 'footer.php';
 		exit();
@@ -601,7 +602,7 @@ elseif($_GET['action']=='edit_settings')
 {
 	if($_POST['set']=='change_pass')
 	{
-		$ret = admin::set_setting('register_pass_phrase', $_POST['password']);
+		$ret = $adminC->set_setting('register_pass_phrase', $_POST['password']);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=edit_settings_ui">');  
 		else
@@ -616,10 +617,10 @@ elseif($_GET['action']=='edit_settings')
 	}
 	elseif($_POST['set']=='change_letter')
 	{
-		$ret = admin::set_setting('appect_mail_subject', $_POST['subject']);
+		$ret = $adminC->set_setting('appect_mail_subject', $_POST['subject']);
 		if($ret>0)
 		{
-			$ret = admin::set_setting('appect_mail_text', $_POST['text']);
+			$ret = $adminC->set_setting('appect_mail_text', $_POST['text']);
 			if($ret>0)
 				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=edit_settings_ui">');  
 			else
@@ -644,7 +645,7 @@ elseif($_GET['action']=='edit_settings')
 	}
 	elseif($_POST['set']=='change_rules')
 	{
-		$ret = admin::set_setting('rules', $_POST['rules']);
+		$ret = $adminC->set_setting('rules', $_POST['rules']);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=edit_settings_ui">');  
 		else
@@ -659,7 +660,7 @@ elseif($_GET['action']=='edit_settings')
 	}
 	elseif($_POST['set']=='change_title')
 	{
-		$ret = admin::set_setting('title', $_POST['title']);
+		$ret = $adminC->set_setting('title', $_POST['title']);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=edit_settings_ui">');  
 		else
@@ -702,7 +703,7 @@ elseif($_GET['action']=='remove_message')
 	}
 	else
 	{
-		$ret = admin::remove_message($_POST['message']);
+		$ret = $adminC->remove_message($_POST['message']);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=remove_message_ui">');  
 		else
@@ -736,7 +737,7 @@ elseif($_GET['action']=='remove_thread')
 	}
 	else
 	{
-		$ret = admin::remove_thread($_POST['thread']);
+		$ret = $adminC->remove_thread($_POST['thread']);
 		if($ret>0)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=remove_thread_ui">');  
 		else

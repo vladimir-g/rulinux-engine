@@ -4,12 +4,12 @@ $title = ' - Часто задаваемые вопросы';
 $rss_link='view-rss.php';
 require 'header.php';
 require 'themes/'.$theme.'/templates/faq/top.tpl.php';
-$questions = faq::get_questions();
+$questions = $faqC->get_questions();
 for($i=0; $i<count($questions); $i++)
 {
 	$subject = $questions[$i]['subject'];
 	$question = $questions[$i]['question'];
-	if(core::validate_boolean($questions[$i]['answered']))
+	if($coreC->validate_boolean($questions[$i]['answered']))
 		$answer = $questions[$i]['answer'];
 	else
 		$answer = 'ждите ответа';

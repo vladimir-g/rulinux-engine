@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'].'/librarys/geshi/geshi.php');
 include_once($_SERVER['DOCUMENT_ROOT'].'/librarys/phpmathpublisher/mathpublisher.php');
-class mark
+class mark extends object
 {
 	function get_mark_file($uid)
 	{
@@ -16,20 +16,6 @@ class mark
 		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
 		$mark_info = base::select('marks', '', '*', $where_arr);
 		return $mark_info[0];
-	}
-	function findFilthyLang($string)
-	{
-		$where_arr = array(array("key"=>'category', "value"=>'1', "oper"=>'='));
-		$sel = base::select('regexps', '', 'reg_exp', $where_arr, 'AND');
-		if(!empty($sel))
-		{
-			for($i=0; $i<count($sel); $i++)
-			{
-				if (preg_match('#'.$sel[$i]['reg_exp'].'#sim', $string)) 
-					return 1;
-			}
-		}
-		return 0;
 	}
 	function make_formula($text)
 	{

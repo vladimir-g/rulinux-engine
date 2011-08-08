@@ -15,21 +15,24 @@ $limit = 50;
 if(isset($_GET['resp']))
 {
 	require 'themes/'.$theme.'/templates/view_comments/resp_top.tpl.php';
-	$msg = messages::get_user_reply($user, $limit, $offset);
+	$msg = $messagesC->get_user_reply($user, $limit, $offset);
 }
 else
 {
 	require 'themes/'.$theme.'/templates/view_comments/top.tpl.php';
-	$msg = messages::get_user_messages($user, $limit, $offset);
+	$msg = $messagesC->get_user_messages($user, $limit, $offset);
 }
 for($i=0; $i<count($msg); $i++)
 {
-	$sect = sections::get_section_by_tid($msg[$i]['tid']);
+	$sect = $sectionsC->get_section_by_tid($msg[$i]['tid']);
 	$section_link = $sect['link'];
 	$section_name = $sect['name'];
 	$subsection_link = $sect['subsection_link'];
 	$subsection_name = $sect['subsection_name'];
-	$page = core::get_page_by_tid($msg[$i]['tid'], $msg[$i]['id'], $uinfo['comments_on_page']);
+	$message_number = $threadsC->get_msg_number_by_tid($msg[$i]['tid'], $msg[$i]['id']);
+	$page = ceil($message_number/$uinfo['comments_on_page']);
+	if($page == 0)
+		$page = 1;
 	$link = 'message.php?newsid='.$msg[$i]['tid'].'&page='.$page.'#'.$msg[$i]['id'];
 	$subject = $msg[$i]['subject'];
 	$timestamp = core::to_local_time_zone($msg[$i]['timest']);

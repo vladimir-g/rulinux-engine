@@ -1,6 +1,6 @@
 <?php
 //ob_start("ob_gzhandler", 9);
-$user_theme = users::get_user_theme();
+$user_theme = $usersC->get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $profile_name = $_SESSION['user_name'];
@@ -8,7 +8,7 @@ $profile_link = 'profile.php?user='.$_SESSION['user_name'];
 $invitation = $_SESSION['user_id'] == 1 ? '<a href="register.php">Регистрация</a> <a href="login.php">Вход</a>' : '<a href="login.php?logout">Выход</а>';
 if($_SESSION['user_admin'])
 	$invitation = '<a href="admin.php">Админка</a> '.$invitation;
-$str = core::get_settings_by_name('title');
+$str = $coreC->get_settings_by_name('title');
 $title = $site_name.' - '.$str.$title;
 $users_link = 'users.php';
 $mark_link = 'mark.php';

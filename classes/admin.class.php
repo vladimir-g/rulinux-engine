@@ -1,5 +1,5 @@
 <?php
-class admin
+class admin extends object
 {
 	function unzip($file,$dir='unzip/')
 	{
@@ -176,9 +176,8 @@ class admin
 			return -1;
 	}
 	
-	function remove_mark($mark_file)
+	function remove_mark($mark_file, $count)
 	{
-		$count = mark::get_marks_count();
 		if($count>1)
 		{
 			if (is_file('classes/mark/'.$mark_file)) 

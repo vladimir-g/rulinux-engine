@@ -1,5 +1,5 @@
 <?php
-class search
+class search extends object
 {
 	function find($str, $include, $date, $section, $username)
 	{

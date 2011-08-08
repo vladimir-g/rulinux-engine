@@ -1,5 +1,5 @@
 <?php
-class sections
+class sections extends object
 {
 	function get_subsection_thr_count($section_id, $subsection_id)
 	{

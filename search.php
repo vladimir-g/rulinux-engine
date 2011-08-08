@@ -31,7 +31,7 @@ if(!empty($_GET['q']))
 	}
 	require 'themes/'.$theme.'/templates/search/form_top.tpl.php';
 	$filters_arr = array();
-	$filters = filters::get_filters();
+	$filters = $filtersC->get_filters();
 	for($i=0; $i<count($filters);$i++)
 	{
 		$filter_name = $filters[$i]['name'];
@@ -60,25 +60,25 @@ if(!empty($_GET['q']))
 	}
 	require 'themes/'.$theme.'/templates/search/form_bottom.tpl.php';
 	if($_GET['filter_search'] == 'no')
-		$found_msg = search::find($_GET['q'], $_GET['require'], $_GET['date'], $_GET['section'], $_GET['username']);
+		$found_msg = $searchC->find($_GET['q'], $_GET['require'], $_GET['date'], $_GET['section'], $_GET['username']);
 	else
-		$found_msg = search::find_by_filters($_GET['q'], $_GET['require'], $_GET['date'], $_GET['section'], $_GET['username'], $method, $filters_arr);
+		$found_msg = $searchC->find_by_filters($_GET['q'], $_GET['require'], $_GET['date'], $_GET['section'], $_GET['username'], $method, $filters_arr);
 	if(!empty($found_msg))
 	{
 		for($i=0; $i<count($found_msg); $i++)
 		{
 			$msg_id = $found_msg[$i]['id'];
-			$message_number = threads::get_msg_number_by_tid($found_msg[$i]['tid'], $msg_id);
+			$message_number = $threadsC->get_msg_number_by_tid($found_msg[$i]['tid'], $msg_id);
 			$page = ceil($message_number/$uinfo['comments_on_page']);
 			if($page == 0)
 				$page = 1;
 			$link = 'message.php?newsid='.$found_msg[$i]['tid'].'&page='.$page.'#'.$msg_id;
 			$subject = $found_msg[$i]['subject'];
 			$comment = $found_msg[$i]['comment'];
-			$usr = users::get_user_info($found_msg[$i]['uid']);
+			$usr = $usersC->get_user_info($found_msg[$i]['uid']);
 			$author = $usr['nick'];
 			$author_profile = 'profile.php?id='.$usr['nick'];
-			$timestamp = core::to_local_time_zone($found_msg[$i]['timest']);
+			$timestamp = $coreC->to_local_time_zone($found_msg[$i]['timest']);
 			require 'themes/'.$theme.'/templates/search/msg.tpl.php';
 		}
 	}
@@ -92,7 +92,7 @@ else
 	$srch_mthd_and_ch = 'checked';
 	$srch_mthd_or_ch = '';
 	require 'themes/'.$theme.'/templates/search/form_top.tpl.php';
-	$filters = filters::get_filters();
+	$filters = $filtersC->get_filters();
 	for($i=0; $i<count($filters);$i++)
 	{
 		$filter_name = $filters[$i]['name'];

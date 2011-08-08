@@ -1,5 +1,5 @@
 <?php
-class rss
+class rss extends object
 {
 	function get_all()
 	{
@@ -63,7 +63,10 @@ class rss
 			for($i=0; $i<count($sel); $i++)
 			{
 				$time = strtotime($sel[$i]['timest']);
-				$page = core::get_page_by_tid($tid, $sel[$i]['id'], $uinfo['comments_on_page']);
+				$message_number = threads::get_msg_number_by_tid($tid, $sel[$i]['id']);
+				$page = ceil($message_number/$uinfo['comments_on_page']);
+				if($page == 0)
+					$page = 1;
 				$link = 'message.php?newsid='.$tid.'&page='.$page.'#'.$sel[$i]['id'];
 				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>$link);
 			}

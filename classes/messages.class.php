@@ -1,5 +1,5 @@
 <?php
-class messages
+class messages extends object
 {
 	function new_thread($subject, $message, $section='4', $subsection='1', $file = '', $extension = '', $file_size = '0', $image_size = '', $prooflink='')
 	{
@@ -16,8 +16,6 @@ class messages
 		$timest = $changing_timest = gmdate("Y-m-d H:i:s");
 		$referer = (int)$referer;
 		$filters = '';
-		//if(findFilthyLang($message))
-		//	$filters = $filters.'1:1 ';
 		$md5 = md5(rand().$timest);
 		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('changed_for', ''), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5));
 		$ret = base::insert('comments', $msg_arr);
@@ -53,8 +51,6 @@ class messages
 		$timest = $changing_timest = gmdate("Y-m-d H:i:s");
 		$referer = (int)$referer;
 		$filters = '';
-		if(mark::findFilthyLang($message))
-			$filters = $filters.'1:1 ';
 		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5));
 		$ret = base::insert('comments', $msg_arr);
 	}

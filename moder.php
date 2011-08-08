@@ -19,7 +19,7 @@ if($_GET['action']=='move_thread')
 		$tid = (int)$_GET['tid'];
 		$referer = $_POST['referer'];
 		$section = (int)$_POST['section'];
-		$subsections = sections::get_subsections($section);
+		$subsections = $sectionsC->get_subsections($section);
 		require 'themes/'.$theme.'/templates/moder/move_thread/sbm/top.tpl.php';
 		for($i=0; $i<count($subsections); $i++)
 		{
@@ -46,7 +46,7 @@ if($_GET['action']=='move_thread')
 			exit();
 		}
 		$subsection = (int)$_POST['subsection'];
-		$ret = threads::move_thread($tid, $section, $subsection);
+		$ret = $threadsC->move_thread($tid, $section, $subsection);
 		if(empty($ret))
 			die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
 		else
@@ -64,7 +64,7 @@ if($_GET['action']=='move_thread')
 		require 'header.php';
 		$tid = (int)$_GET['tid'];
 		$referer = getenv("HTTP_REFERER");
-		$sections = sections::get_section('all');
+		$sections = $sectionsC->get_section('all');
 		require 'themes/'.$theme.'/templates/moder/move_thread/nxt/top.tpl.php';
 		for($i=0; $i<count($sections); $i++)
 		{
@@ -80,19 +80,19 @@ if($_GET['action']=='move_thread')
 }
 else if($_GET['action']=='attach_thread')
 {
-	threads::attach_thread($_GET['tid'], 'true');
+	$threadsC->attach_thread($_GET['tid'], 'true');
 	$referer = getenv("HTTP_REFERER");
 	die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
 }
 else if($_GET['action']=='detach_thread')
 {
-	threads::attach_thread($_GET['tid'], 'false');
+	$threadsC->attach_thread($_GET['tid'], 'false');
 	$referer = getenv("HTTP_REFERER");
 	die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
 }
 else if($_GET['action']=='approve_thread')
 {
-	threads::approve_thread($_GET['tid']);
+	$threadsC->approve_thread($_GET['tid']);
 	$referer = getenv("HTTP_REFERER");
 	die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
 }

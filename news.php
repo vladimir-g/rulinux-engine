@@ -3,8 +3,8 @@ $subsection_id = (int)$_GET['id'];
 if(empty($subsection_id))
 	$subsection_id = 1;
 require 'classes/core.php';
-$subsect_arr = sections::get_subsection(1, $subsection_id);
-$sect_arr = sections::get_section(1);
+$subsect_arr = $sectionsC->get_subsection(1, $subsection_id);
+$sect_arr = $sectionsC->get_section(1);
 $recomendations = $subsect_arr['shortfaq'];
 $section_name = $sect_arr['name'];
 $section_id = 1;
@@ -15,7 +15,7 @@ $rss_link='view-rss.php?section=1';
 include 'header.php';
 require 'themes/'.$theme.'/templates/news/nav_top.tpl.php';
 
-$subsct = sections::get_subsections(1);
+$subsct = $sectionsC->get_subsections(1);
 for($i=0; $i<count($subsct);$i++)
 {
 	$subsection_nav_name = $subsct[$i]['name'];
@@ -29,7 +29,7 @@ for($i=0; $i<count($subsct);$i++)
 require 'themes/'.$theme.'/templates/news/nav_bottom.tpl.php';
 
 require 'themes/'.$theme.'/templates/news/top.tpl.php';
-$threads_count = threads::get_threads_count(1, $subsection_id);
+$threads_count = $threadsC->get_threads_count(1, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1 ? $begin=$threads_on_page*($page-1) : $begin = 0;
@@ -77,20 +77,20 @@ if($pages_count > 1)
 		$pages = $pages.'<a href="news.php?id='.$subsection_id.'&page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
-$gal = threads::get_news($subsection_id, $begin, $threads_on_page);
+$gal = $threadsC->get_news($subsection_id, $begin, $threads_on_page);
 for($i=0; $i<count($gal); $i++)
 {
 	$comment_id = $gal[$i]['cid'];
 	$subject = $gal[$i]['subject'];
 	$subsection_image = 'themes/'.$theme.'/icons/'.$subsect_arr['icon'];
 	$comment = $gal[$i]['comment'];
-	$usr = users::get_user_info($gal[$i]['uid']);
-	core::validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
+	$usr = $usersC->get_user_info($gal[$i]['uid']);
+	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
 	$author_profile = 'profile.php?id='.$usr['nick'];
-	$timestamp = core::to_local_time_zone($gal[$i]['timest']);
+	$timestamp = $coreC->to_local_time_zone($gal[$i]['timest']);
 	$thread_id = $gal[$i]['id'];
-	$count = threads::get_comments_count($thread_id);
-	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
+	$count = $threadsC->get_comments_count($thread_id);
+	$comments_count = $coreC->declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
 	require 'themes/'.$theme.'/templates/news/middle.tpl.php';
 }
 require 'footer.php';

@@ -18,7 +18,10 @@ if(!empty($msg))
 		$boxlet_content = str_replace('[comment]', $comment, $boxlet_content);
 		$author = users::get_user_info($msg[$z]['uid']);
 		$boxlet_content = str_replace('[author]', $author['nick'], $boxlet_content);
-		$page = core::get_page_by_tid($msg[$z]['tid'], $msg[$z]['id'], $uinfo['comments_on_page']);
+		$message_number = threads::get_msg_number_by_tid($msg[$z]['tid'], $msg[$z]['id']);
+		$page = ceil($message_number/$uinfo['comments_on_page']);
+		if($page == 0)
+			$page = 1;
 		$link = 'message.php?newsid='.$msg[$z]['tid'].'&page='.$page.'#'.$msg[$z]['id'];
 		$boxlet_content = str_replace('[link]', $link, $boxlet_content);
 	}

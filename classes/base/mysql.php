@@ -1,8 +1,8 @@
 <?php
-class base
+final class base implements baseInterface
 {
 	static $connection = null;
-	function connect()
+	private function connect()
 	{
 		if (self::$connection)
 			return;
@@ -15,7 +15,7 @@ class base
 		else
 			die('Could not connect to database, please check /config/database.ini');
 	}
-	function escape_string($value)
+	private function escape_string($value)
 	{
 		if (get_magic_quotes_gpc()) 
 			$value = stripslashes($value);

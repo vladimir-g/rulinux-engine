@@ -1,27 +1,11 @@
 <?php
-if (get_magic_quotes_gpc()) 
-{
-	function stripslashes_deep($value)
-	{
-		$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
-		return $value;
-	}
-	$_POST = array_map('stripslashes_deep', $_POST);
-	$_GET = array_map('stripslashes_deep', $_GET);
-	$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
-}
-class core
+class core extends object
 {
 	function get_settings_by_name($name)
 	{
 		$where_arr = array(array("key"=>'name', "value"=>$name, "oper"=>'='));
 		$sel = base::select('settings', '', 'value', $where_arr, 'AND');
 		return $sel[0]['value'];
-	}
-	function declOfNum($number, $titles)
-	{
-	    $cases = array (2, 0, 1, 1, 1, 2);
-	    return $number." ".$titles[ ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)] ];
 	}
 	function get_readers_count($tid, $anon=0)
 	{
@@ -91,20 +75,6 @@ class core
 		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timest));
 		$ret = base::insert('sessions', $msg_arr);
 	}
-	function get_page_by_tid($tid, $msg, $cmnt_on_pg)
-	{
-		$param_arr = array($tid);
-		$sel = base::query('SELECT id FROM comments WHERE tid = \'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
-		for($t=0;$t<count($sel);$t++)
-		{
-			if($sel[$t]['id']==$msg)
-				$message_number = $t;
-		}
-		$page = ceil($message_number/$cmnt_on_pg);
-		if($page == 0)
-			$page = 1;
-		return $page;
-	}
 	function get_themes_count()
 	{
 		$sel = base::query('SELECT count(*) AS cnt FROM themes ORDER BY id ASC','assoc_array');
@@ -126,51 +96,6 @@ class core
 		/*заглушка созданная для того, чтобы впоследствии можно было добавлять новые уровни каптчи*/
 		$ret = array(array("name"=>'Нет', "value"=>-1), array("name"=>'0', "value"=>0), array("name"=>'1', "value"=>1), array("name"=>'2', "value"=>2), array("name"=>'3', "value"=>3), array("name"=>'4', "value"=>4));
 		return $ret;
-	}
-	function to_local_time_zone($timest)
-	{
-		$first_arr = explode(" ", $timest);
-		$second_arr = explode("-", $first_arr[0]);
-		$third_arr = explode(":", $first_arr[1]);
-		$year = $second_arr[0];
-		$month = $second_arr[1];
-		$day = $second_arr[2];
-		$hour = $third_arr[0];
-		$minute = $third_arr[1];
-		$second = $third_arr[2];
-		$param_arr = array($_SESSION['user_id']);
-		$sel = base::query('SELECT gmt FROM users WHERE id = \'::0::\'','assoc_array', $param_arr);
-		if(!empty($sel))
-			$gmt = $sel[0]['gmt'];
-		else
-			$gmt = '+0';
-		$timest = date("Y-m-d H:i:s", mktime($hour, $minute, $second, $month, $day, $year)+($gmt*3600));
-		return $timest;
-	}
-	function validate_boolean($val, $fail = '')
-	{
-		$true_arr = array('t', '1', 'on', 'true', 'yes');
-		$false_arr = array('f', '0', 'off', 'false', 'no');
-		if($fail != "FILTER_VALIDATE_FAILURE")
-		{
-			if(in_array($val, $true_arr))
-				return 1;
-			else
-				return 0;
-		}
-		else
-		{
-			if(in_array($val, $false_arr))
-				return 0;
-			else
-				return 1;
-		}
-	}
-	function trim_array($Input)
-	{
-		if (!is_array($Input))
-			return trim($Input);
-		return array_map('self::trim_array', $Input);
 	}
 	function block_exists($name)
 	{

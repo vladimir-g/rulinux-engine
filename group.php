@@ -2,8 +2,8 @@
 $subsection_id = (int)$_GET['id'];
 $page = (int)$_GET['page'];
 require 'classes/core.php';
-$subsect_arr = sections::get_subsection(4, $subsection_id);
-$sect_arr = sections::get_section(4);
+$subsect_arr = $sectionsC->get_subsection(4, $subsection_id);
+$sect_arr = $sectionsC->get_section(4);
 $recomendations = $subsect_arr['shortfaq'];
 $section_name = $sect_arr['name'];
 $section_id = 4;
@@ -13,7 +13,7 @@ $title = ' - '.$section_name.' - '.$subsection_name;
 $rss_link='view-rss.php?section=4';
 require 'header.php';
 require 'themes/'.$theme.'/templates/group/nav_top.tpl.php';
-$subsct = sections::get_subsections(4);
+$subsct = $sectionsC->get_subsections(4);
 for($i=0; $i<count($subsct);$i++)
 {
 	$subsection_nav_name = $subsct[$i]['name'];
@@ -26,15 +26,15 @@ for($i=0; $i<count($subsct);$i++)
 }
 require 'themes/'.$theme.'/templates/group/nav_bottom.tpl.php';
 require 'themes/'.$theme.'/templates/group/top.tpl.php';
-$threads_count = threads::get_threads_count(4, $subsection_id);
+$threads_count = $threadsC->get_threads_count(4, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1?	$begin=$threads_on_page*($page-1):$begin = 0;
-$thr = threads::get_threads_on_page(4, $subsection_id, $begin, $threads_on_page);
+$thr = $threadsC->get_threads_on_page(4, $subsection_id, $begin, $threads_on_page);
 for($i=0; $i<count($thr); $i++)
 {
 	$thread_move_link = 'moder.php?action=move_thread&tid='.$thr[$i]['id'];
-	$attached_bool = core::validate_boolean($thr[$i]['attached']);
+	$attached_bool = $coreC->validate_boolean($thr[$i]['attached']);
 	if($attached_bool)
 	{
 		$thread_attach_link = 'moder.php?action=detach_thread&tid='.$thr[$i]['id'];
@@ -46,10 +46,10 @@ for($i=0; $i<count($thr); $i++)
 		$attached = '';
 	}
 	$thread_id = $thr[$i]['id'];
-	$cur_thr = threads::get_thread_info($thread_id);
+	$cur_thr = $threadsC->get_thread_info($thread_id);
 	$thread_subject = $cur_thr['thread_subject'];
-	$thr_autor = users::get_user_info($cur_thr['uid']);
-	core::validate_boolean($thr_autor['banned']) ? $thread_author = '<s>'.$thr_autor['nick'].'</s>' : $thread_author = $thr_autor['nick'];
+	$thr_autor = $usersC->get_user_info($cur_thr['uid']);
+	$coreC->validate_boolean($thr_autor['banned']) ? $thread_author = '<s>'.$thr_autor['nick'].'</s>' : $thread_author = $thr_autor['nick'];
 	$comments_in_thread_all =$cur_thr['comments_in_thread_all'];
 	$comments_in_thread_day = $cur_thr['comments_in_thread_day'];
 	$comments_in_thread_hour = $cur_thr['comments_in_thread_hour'];

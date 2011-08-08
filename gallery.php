@@ -1,8 +1,8 @@
 <?php
 $subsection_id = (int)$_GET['id'];
 require 'classes/core.php';
-$subsect_arr = sections::get_subsection(3, $subsection_id);
-$sect_arr = sections::get_section(3);
+$subsect_arr = $sectionsC->get_subsection(3, $subsection_id);
+$sect_arr = $sectionsC->get_section(3);
 $recomendations = $subsect_arr['shortfaq'];
 $section_name = $sect_arr['name'];
 $section_id = 3;
@@ -13,7 +13,7 @@ $rss_link='view-rss.php?section=3';
 require 'header.php';
 require 'themes/'.$theme.'/templates/gallery/nav_top.tpl.php';
 
-$subsct = sections::get_subsections(3);
+$subsct = $sectionsC->get_subsections(3);
 for($i=0; $i<count($subsct);$i++)
 {
 	$subsection_nav_name = $subsct[$i]['name'];
@@ -27,7 +27,7 @@ for($i=0; $i<count($subsct);$i++)
 require 'themes/'.$theme.'/templates/gallery/nav_bottom.tpl.php';
 
 require 'themes/'.$theme.'/templates/gallery/top.tpl.php';
-$threads_count = threads::get_threads_count(3, $subsection_id);
+$threads_count = $threadsC->get_threads_count(3, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1 ? $begin=$threads_on_page*($page-1) : $begin = 0;
@@ -75,7 +75,7 @@ if($pages_count > 1)
 		$pages = $pages.'<a href="gallery.php?id='.$subsection_id.'&page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
-$gal = threads::get_gallery($subsection_id, $begin, $threads_on_page);
+$gal = $threadsC->get_gallery($subsection_id, $begin, $threads_on_page);
 for($i=0; $i<count($gal); $i++)
 {
 	$comment_id = $gal[$i]['cid'];
@@ -84,13 +84,13 @@ for($i=0; $i<count($gal); $i++)
 	$img_link = '/gallery/'.$gal[$i]['file'].'.'.$gal[$i]['extension'];
 	$img_thumb_link = '/gallery/thumbs/'.$gal[$i]['file'].'_small.png';
 	$size = $gal[$i]['image_size'].', '.$gal[$i]['file_size'];
-	$usr = users::get_user_info($gal[$i]['uid']);
-	core::validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
+	$usr = $usersC->get_user_info($gal[$i]['uid']);
+	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
 	$author_profile = 'profile.php?id='.$usr['nick'];
-	$timestamp = core::to_local_time_zone($gal[$i]['timest']);
+	$timestamp = $coreC->to_local_time_zone($gal[$i]['timest']);
 	$thread_id = $gal[$i]['id'];
-	$count = threads::get_comments_count($thread_id);
-	$comments_count = core::declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
+	$count = $threadsC->get_comments_count($thread_id);
+	$comments_count = $coreC->declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
 	require 'themes/'.$theme.'/templates/gallery/middle.tpl.php';
 }
 require 'footer.php';

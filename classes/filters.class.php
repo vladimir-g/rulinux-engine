@@ -1,5 +1,5 @@
 <?php
-class filters
+class filters extends object
 {
 	function get_filters()
 	{

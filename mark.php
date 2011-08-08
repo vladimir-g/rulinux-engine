@@ -12,7 +12,7 @@ require 'header.php';
 echo '<h2>Разметка '.$mark_name.'</h2>';
 echo $mark_info['description'];
 echo '<br /><br />';
-$langs = core::get_settings_by_name('langs');
+$langs = $coreC->get_settings_by_name('langs');
 echo $langs;
 echo '<br />';
 require 'footer.php';

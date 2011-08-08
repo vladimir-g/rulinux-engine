@@ -6,7 +6,7 @@ $rss_link='view-rss.php';
 require 'header.php';
 require 'themes/'.$theme.'/templates/users/top.tpl.php';
 $users_on_page = 20;
-$users_count = users::get_users_count();
+$users_count = $usersC->get_users_count();
 $pages_count = ceil(($users_count)/$users_on_page);
 $pages_count>1?	$begin=$users_on_page*($page-1):$begin = 0;
 if($pages_count > 1)
@@ -54,18 +54,18 @@ if($pages_count > 1)
 	}
 }
 
-$users = users::get_users($begin, $users_on_page);
+$users = $usersC->get_users($begin, $users_on_page);
 for($i=0; $i<count($users); $i++)
 {
 	$avatar = empty($users[$i]['photo'])? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$users[$i]['photo'];
 	$nick = $users[$i]['nick'];
-	$group_info = users::get_group($users[$i]['gid']);
+	$group_info = $usersC->get_group($users[$i]['gid']);
 	$group_name = $group_info['name'];
 	$name = $users[$i]['name'];
 	$city = !empty($users[$i]['city'])? $users[$i]['city'] : 'город не указан';
 	$country = !empty($users[$i]['country'])? $users[$i]['country'] : 'страна не указана';
-	$email = core::validate_boolean($users[$i]['show_email']) ? $users[$i]['email'] : 'скрыт';
-	$im = core::validate_boolean($users[$i]['show_im']) ? $users[$i]['im'] : 'скрыт';
+	$email = $coreC->validate_boolean($users[$i]['show_email']) ? $users[$i]['email'] : 'скрыт';
+	$im = $coreC->validate_boolean($users[$i]['show_im']) ? $users[$i]['im'] : 'скрыт';
 	require 'themes/'.$theme.'/templates/users/middle.tpl.php';
 }
 require 'themes/'.$theme.'/templates/users/bottom.tpl.php';
