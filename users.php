@@ -57,7 +57,7 @@ if($pages_count > 1)
 $users = $usersC->get_users($begin, $users_on_page);
 for($i=0; $i<count($users); $i++)
 {
-	$avatar = empty($users[$i]['photo'])? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$users[$i]['photo'];
+	$avatar = empty($users[$i]['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$users[$i]['photo'];
 	$nick = $users[$i]['nick'];
 	$group_info = $usersC->get_group($users[$i]['gid']);
 	$group_name = $group_info['name'];

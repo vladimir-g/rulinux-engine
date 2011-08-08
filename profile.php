@@ -3,7 +3,7 @@ require 'classes/core.php';
 if(!empty($_GET['user']))
 	$user = $_GET['user'];
 else
-	$user = $profile_name;
+	$user = $_SESSION['user_name'];
 $title = ' - Профиль пользователя '.$user;
 $rss_link='view-rss.php';
 $uid = $usersC->get_uid_by_nick($user);
@@ -119,7 +119,7 @@ else if($_POST['action']=="info")
 					$error = 'photo_error';
 				}
 			}
-			$uploaddir = 'avatars/';
+			$uploaddir = 'images/avatars/';
 			preg_match('/^.+(\.jp[e]?g|\.png|\.gif)$/', basename($_FILES['user_photo']['name']), $ext);
 			$filename = $uinfo['nick'];
 			$ext[1] = substr(basename($_FILES['user_photo']['name']), strlen(basename($_FILES['user_photo']['name']))-4, 4);
@@ -394,7 +394,7 @@ else
 		$lastname = $usr['lastname'];
 		$gender = $coreC->validate_boolean($usr['gender']) ? 'Мужской' : 'Женский';
 		$birthday = $usr['birthday'];
-		$photo = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$usr['photo'];
+		$photo = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$usr['photo'];
 		if($uinfo['gid']==3 || $uinfo['gid']==2)
 			$email = $usr['email'];
 		else
@@ -443,7 +443,7 @@ else
 				require 'themes/'.$theme.'/templates/profile/password_edit/password_edit.tpl.php';
 				$name = $usr['name'];
 				$lastname = $usr['lastname'];
-				$avatar = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$usr['photo'];
+				$avatar = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$usr['photo'];
 				$email = $usr['email'];
 				$show_email_ch = $coreC->validate_boolean($usr['show_email']) ? 'checked' : '';
 				$im = $usr['im'];

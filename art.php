@@ -30,7 +30,7 @@ $threads_count = $threadsC->get_threads_count(4, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1?	$begin=$threads_on_page*($page-1):$begin = 0;
-$thr = $threadsC->get_threads_on_page(2, $subsection_id, $begin, $threads_on_page);
+$thr = $threadsC->get_threads_on_page(2, $subsection_id, $begin, $threads_on_page, $uinfo);
 for($i=0; $i<count($thr); $i++)
 {
 	$thread_move_link = 'moder.php?action=move_thread&tid='.$thr[$i]['id'];

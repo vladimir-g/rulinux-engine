@@ -10,7 +10,7 @@ if(!empty($section))
 	{
 		if(!empty($tid))
 		{
-			$feed = $rssC->get_thread($tid);
+			$feed = $rssC->get_thread($tid, $uinfo);
 			$title = $rssC->get_title($section, $subsection, $tid);
 			$section_name = ' - '.$title['section_name'];
 			$subsection_name = ' - '.$title['subsection_name'];
@@ -18,7 +18,7 @@ if(!empty($section))
 		}
 		else
 		{
-			$feed = $rssC->get_subsection($section, $subsection);
+			$feed = $rssC->get_subsection($section, $subsection, $uinfo);
 			$title = $rssC->get_title($section, $subsection, $tid);
 			$section_name = ' - '.$title['section_name'];
 			$subsection_name = ' - '.$title['subsection_name'];
@@ -27,7 +27,7 @@ if(!empty($section))
 	}
 	else
 	{
-		$feed = $rssC->get_section($section);
+		$feed = $rssC->get_section($section, $uinfo);
 		$title = $rssC->get_title($section, $subsection, $tid);
 		$section_name = ' - '.$title['section_name'];
 		$subsection_name = '';
@@ -36,7 +36,7 @@ if(!empty($section))
 }
 else
 {
-	$feed = $rssC->get_all();
+	$feed = $rssC->get_all($uinfo);
 	$section_name = '';
 	$subsection_name = '';
 	$thread_name = '';
@@ -45,10 +45,7 @@ else
 $TestFeed = new FeedWriter(RSS2);
 $site_name = $_SERVER["HTTP_HOST"];
 $title = $site_name.$section_name.$subsection_name.$thread_name;
-//$description = 'description';
 $TestFeed->setTitle($title);
-//$TestFeed->setLink('http://xdan.ru');
-//$TestFeed->setDescription($description);
 if(!empty($feed))
 {
 	for($i=0; $i<count($feed); $i++)

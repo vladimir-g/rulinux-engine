@@ -26,7 +26,7 @@ else
 	$message_useragent = $msg['useragent'];
 $message_timestamp = $coreC->to_local_time_zone($msg['timest']);
 $message_add_answer_link = 'comment.php?answerto='.$thread_id.'&cid='.$message_id;
-$message_avatar = empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$msg_autor['photo'];
+$message_avatar = empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$msg_autor['photo'];
 require 'themes/'.$theme.'/templates/message/message.tpl.php';
 require 'footer.php';
 ?>

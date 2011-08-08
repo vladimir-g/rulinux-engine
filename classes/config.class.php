@@ -1,5 +1,5 @@
 <?php
-class config
+final class config
 {
 	function include_database($path='')
 	{

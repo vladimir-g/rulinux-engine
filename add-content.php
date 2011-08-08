@@ -297,7 +297,7 @@ else
 						exit;
 					}
 				}
-				$uploaddir = 'gallery/';
+				$uploaddir = 'images/gallery/';
 				preg_match('/^.+(\.jp[e]?g|\.png|\.gif)$/', basename($_FILES['scrot_link']['name']), $ext);
 				$filename = md5(time().basename($_FILES['scrot_link']['name']));
 				$ext[1] = substr(basename($_FILES['scrot_link']['name']), strlen(basename($_FILES['scrot_link']['name']))-4, 4);
@@ -337,7 +337,6 @@ else
 						$date = gmdate('d.m.Y H:i:s');
 						$file = $filename;
 						$extension = $ext[1];
-						echo $ext[1];
 						$file_size = $_FILES['scrot_link']['size'];
 						$image_size = $imageinfo[0].'x'.$imageinfo[1];
 					}

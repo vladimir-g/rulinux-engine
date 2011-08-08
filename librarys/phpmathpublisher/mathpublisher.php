@@ -43,7 +43,7 @@ $dirfonts=$_SERVER["DOCUMENT_ROOT"]."/librarys/phpmathpublisher/fonts";
 // or $dirfonts=dirname(__FILE__)."/phpmathpublisher/fonts";
 
 // absolute path to the images directory
-$dirimg=$_SERVER["DOCUMENT_ROOT"]."/formulas/";
+$dirimg=$_SERVER["DOCUMENT_ROOT"]."/images/formulas/";
 // or $dirimg=dirname(__FILE__)."/phpmathpublisher/img";
 
 

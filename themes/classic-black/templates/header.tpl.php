@@ -31,6 +31,7 @@
 <a style="text-decoration: none" href="<?=$not_approved_link?>">Неподтвержденное</a> - 
 <a style="text-decoration: none" href="<?=$tracker_link?>">Трекер</a> - 
 <a style="text-decoration: none" href="<?=$rules_link?>">Правила форума</a> - 
+<a style="text-decoration: none" href="<?=$links_link?>">Ссылки</a> - 
 <a style="text-decoration: none" href="<?=$faq_link?>">F.A.Q.</a> - 
 <a style="text-decoration: none" href="<?=$search_link?>">Поиск</a></td>
 </tr>

@@ -154,7 +154,9 @@ if($messages_count>1)
 		$message_resp_link = 'message.php?newsid='.$thread_id.'#'.$cmnt[$i]['referer'];
 		$message_edit_link = 'edit-message.php?id='.$message_id;
 		$message_subject = $cmnt[$i]['subject'];
-		if($messagesC->is_filtered($cmnt[$i]['id']))
+		$user_filter = users::get_filter($_SESSION['user_id']);
+		$user_filter_arr = filters::parse_filter_string($user_filter);
+		if($messagesC->is_filtered($cmnt[$i]['id'], $user_filter_arr))
 			$message_comment = 'Это сообщение отфильтрованно в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="show-message.php?id='.$message_id.'">сюда</a>.';
 		else
 			$message_comment = $cmnt[$i]['comment'];
@@ -167,7 +169,7 @@ if($messages_count>1)
 			$message_useragent = $cmnt[$i]['useragent'];
 		$message_timestamp = $coreC->to_local_time_zone($cmnt[$i]['timest']);
 		$message_add_answer_link = 'comment.php?answerto='.$thread_id.'&cid='.$message_id;
-		$message_avatar = empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'avatars/'.$msg_autor['photo'];
+		$message_avatar = empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$msg_autor['photo'];
 		if(!empty($cmnt[$i]['changed_by']))
 		{
 			$usr = $usersC->get_user_info($cmnt[$i]['changed_by']);

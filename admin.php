@@ -278,7 +278,8 @@ if($_GET['action']=='remove_theme')
 	{
 		if(preg_match('/check_([0-9]*)/', $key, $matches))
 		{
-			$ret = $adminC->remove_theme($_POST['directory_'.$matches[1]]);
+			$count = core::get_themes_count();
+			$ret = $adminC->remove_theme($_POST['directory_'.$matches[1]], $count);
 			if($ret!=1)
 				$error = 1;
 		}
@@ -418,7 +419,8 @@ elseif($_GET['action']=='add_subsection')
 	}
 	else
 		$icon = '';
-	$ret = $adminC->add_subsection($section, $name, $description, $shortfaq, $rewrite, $icon);
+	$themes = core::get_themes();
+	$ret = $adminC->add_subsection($section, $name, $description, $shortfaq, $rewrite, $icon, $themes);
 	if(!is_file($uploadfile))
 		unlink($uploadfile);
 	if($ret>0)

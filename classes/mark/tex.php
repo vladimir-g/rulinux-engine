@@ -7,7 +7,6 @@ function str_to_html($string)
 	$vh = preg_match_all($re, $string, $match);
 	for($i=0;$i<$vh;$i++)
 	{
-		//$string = preg_replace($re, '<fieldset><legend>$3</legend>$6</fieldset>', $string, 1);
 		$lang[$i]=$match[3][$i];
 		$with_breaks = mark::highlight(html_entity_decode($match[6][$i], ENT_QUOTES), $match[3][$i], "librarys/geshi/geshi");
 		$code[$i] = $with_breaks;
@@ -121,7 +120,6 @@ function str_to_html($string)
 				$string = preg_replace($url_re, "<a href=\"\$6\">\$3</a>", $string, 1);
 		}
 	}
-	//$string = preg_replace("#((https?|ftp)://\S+[^\s.,>)\];'\&quot;!?]*)#", '&nbsp;<a href="\\0">\\0</a>', $string);
 	$img_re = '#(\\\\img)(\\[?) ?(left|right|middle|top|bottom)? ?(\\])?{(.*?[^}]?)(})#sim';
 	$vt = preg_match_all($img_re, $string, $match);
 	for($i=0;$i<$vt;$i++)

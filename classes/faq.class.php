@@ -1,6 +1,11 @@
 <?php
-class faq extends object
+final class faq extends object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function add_question($subject, $email, $quetion, $av)
 	{
 		$subject = htmlspecialchars($subject);
@@ -23,7 +28,7 @@ class faq extends object
 				array('answered', false), 
 				array('available', true)
 				);
-		$ret = base::insert('faq', $faq_arr);
+		$ret = self::$baseC->insert('faq', $faq_arr);
 		return $ret;
 	}
 	function response_to_question($id, $answer)
@@ -31,9 +36,9 @@ class faq extends object
 		$id = (int)$id;
 		$answer_raw = $answer;
 		$answer = htmlspecialchars($answer);
-		$answ = base::update('faq', 'answer', $answer, 'id', $id);
-		$raw_answ = base::update('faq', 'raw_answer', $answer_raw, 'id', $id);
-		$answd = base::update('faq', 'answered', true, 'id', $id);
+		$answ = self::$baseC->update('faq', 'answer', $answer, 'id', $id);
+		$raw_answ = self::$baseC->update('faq', 'raw_answer', $answer_raw, 'id', $id);
+		$answd = self::$baseC->update('faq', 'answered', true, 'id', $id);
 		if($answ<0)
 			return $answ;
 		elseif($raw_answ<0)
@@ -46,7 +51,7 @@ class faq extends object
 	function get_questions()
 	{
 		$where_arr = array(array("key"=>'available', "value"=>'true', "oper"=>'='));
-		$sel = base::select('faq', '', '*', $where_arr, '', 'id', 'DESC');
+		$sel = self::$baseC->select('faq', '', '*', $where_arr, '', 'id', 'DESC');
 		if(!empty($sel))
 			return $sel;
 		else

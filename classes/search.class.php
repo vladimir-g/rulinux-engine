@@ -1,5 +1,5 @@
 <?php
-class search extends object
+final class search extends object
 {
 	function find($str, $include, $date, $section, $username)
 	{
@@ -29,7 +29,7 @@ class search extends object
 			$query = $query.' AND uid IN(SELECT id FROM users WHERE nick = \'::2::\')';
 		$query = $query.' ORDER BY timest DESC';
 		$param_arr = array($str, $section, $username);
-		$sel = base::query($query, 'assoc_array', $param_arr);
+		$sel = self::$baseC->query($query, 'assoc_array', $param_arr);
 		return $sel;
 	}
 	
@@ -78,7 +78,7 @@ class search extends object
 		}
 		$query = $query.' ORDER BY timest DESC';
 		$param_arr = array($str, $section, $username);
-		$sel = base::query($query, 'assoc_array', $param_arr);
+		$sel = self::$baseC->query($query, 'assoc_array', $param_arr);
 		return $sel;
 	}
 }

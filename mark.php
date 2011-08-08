@@ -9,11 +9,8 @@ $mark_name = $mark_info['name'];
 $title = ' - Разметка '.$mark_name;
 $rss_link='view-rss.php';
 require 'header.php';
-echo '<h2>Разметка '.$mark_name.'</h2>';
-echo $mark_info['description'];
-echo '<br /><br />';
+$description = $mark_info['description'];
 $langs = $coreC->get_settings_by_name('langs');
-echo $langs;
-echo '<br />';
+require 'themes/'.$theme.'/templates/mark/main.tpl.php';
 require 'footer.php';
 ?>

@@ -21,7 +21,4 @@ if(!empty($_COOKIE[session_name()]))
 	$captcha = $cp->gen_image($cpt_level);
 	$_SESSION['captcha_keystring'] = $captcha[1];
 }
-//echo "done...";
-//
-//echo "<br><img src='cpt/".$captcha[0].".png'><br>answer is ".$captcha[1];
 ?>

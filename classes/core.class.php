@@ -1,10 +1,15 @@
 <?php
 class core extends object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function get_settings_by_name($name)
 	{
 		$where_arr = array(array("key"=>'name', "value"=>$name, "oper"=>'='));
-		$sel = base::select('settings', '', 'value', $where_arr, 'AND');
+		$sel = self::$baseC->select('settings', '', 'value', $where_arr, 'AND');
 		return $sel[0]['value'];
 	}
 	function get_readers_count($tid, $anon=0)
@@ -12,30 +17,30 @@ class core extends object
 		if($anon==1)
 		{
 			$param_arr = array($tid);
-			$sel = base::query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\' AND uid = 1', 'assoc_array', $param_arr);
+			$sel = self::$baseC->query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\' AND uid = 1', 'assoc_array', $param_arr);
 		}
 		elseif($anon==2)
 		{
 			$param_arr = array($tid);
-			$sel = base::query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\' AND uid != 1', 'assoc_array', $param_arr);
+			$sel = self::$baseC->query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\' AND uid != 1', 'assoc_array', $param_arr);
 		}
 		else
 		{
 			$param_arr = array($tid);
-			$sel = base::query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\'', 'assoc_array', $param_arr);
+			$sel = self::$baseC->query('SELECT count(session_id) AS cnt FROM sessions WHERE tid = \'::0::\'', 'assoc_array', $param_arr);
 		}
 		return $sel[0]['cnt'];
 	}
 	function get_readers($tid)
 	{
 		$where_arr = array(array("key"=>'tid', "value"=>$tid, "oper"=>'='), array("key"=>'uid', "value"=>'1', "oper"=>'>'));
-		$usrs = base::select('sessions', '', 'uid', $where_arr, 'AND');
+		$usrs = self::$baseC->select('sessions', '', 'uid', $where_arr, 'AND');
 		if(!empty($usrs))
 		{
 			for($i=0; $i<count($usrs); $i++)
 			{
 				$where_arr = array(array("key"=>'id', "value"=>$usrs[$i]['uid'], "oper"=>'='));
-				$sel = base::select('users', '', 'nick,gid', $where_arr, 'AND');
+				$sel = self::$baseC->select('users', '', 'nick,gid', $where_arr, 'AND');
 				$ret[$i] = $sel[0];
 			}
 			return $ret;
@@ -63,21 +68,21 @@ class core extends object
 			$min = '0'.$min;
 		$timestamp = gmdate("Y-m-d").' '.$hour.':'.$min.':'.gmdate("s");
 		$where_arr = array(array("key"=>'timest', "value"=>$timestamp, "oper"=>'<'));
-		$subsect = base::select('sessions', '', '*', $where_arr, 'AND');
+		$subsect = self::$baseC->select('sessions', '', '*', $where_arr, 'AND');
 		if(!empty($subsect))
 		{
 			for($i=0; $i<count($subsect); $i++)
-				base::delete('sessions', 'id', $subsect[$i]['id']);
+				self::$baseC->delete('sessions', 'id', $subsect[$i]['id']);
 		}
-		base::delete('sessions', 'session_id', $session_id);
-		base::delete('sessions', 'uid', $uid);
+		self::$baseC->delete('sessions', 'session_id', $session_id);
+		self::$baseC->delete('sessions', 'uid', $uid);
 		$timest = gmdate("Y-m-d H:i:s");
 		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timest));
-		$ret = base::insert('sessions', $msg_arr);
+		$ret = self::$baseC->insert('sessions', $msg_arr);
 	}
 	function get_themes_count()
 	{
-		$sel = base::query('SELECT count(*) AS cnt FROM themes ORDER BY id ASC','assoc_array');
+		$sel = self::$baseC->query('SELECT count(*) AS cnt FROM themes ORDER BY id ASC','assoc_array');
 		if(!empty($sel))
 			return $sel[0]['cnt'];
 		else
@@ -85,7 +90,7 @@ class core extends object
 	}
 	function get_themes()
 	{
-		$sel = base::query('SELECT * FROM themes ORDER BY id ASC','assoc_array');
+		$sel = self::$baseC->query('SELECT * FROM themes ORDER BY id ASC','assoc_array');
 		if(!empty($sel))
 			return $sel;
 		else
@@ -100,7 +105,7 @@ class core extends object
 	function block_exists($name)
 	{
 		$param_arr = array($name);
-		$sel = base::query('SELECT * FROM blocks WHERE name=\'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
+		$sel = self::$baseC->query('SELECT * FROM blocks WHERE name=\'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
 		if(!empty($sel))
 		{
 			if($sel!=-1)
@@ -116,17 +121,17 @@ class core extends object
 	function get_blocks()
 	{
 		$ret = array();
-		$sel = base::select('blocks', '', '*');
+		$sel = self::$baseC->select('blocks', '', '*');
 		return $sel;
 	}
 	function get_block($name='all')
 	{
 		if($name == 'all')
-			$sel = base::query('SELECT * FROM blocks ORDER BY id ASC','assoc_array');
+			$sel = self::$baseC->query('SELECT * FROM blocks ORDER BY id ASC','assoc_array');
 		else
 		{
 			$param_arr = array($name);
-			$sel = base::query('SELECT * FROM blocks WHERE name=\'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
+			$sel = self::$baseC->query('SELECT * FROM blocks WHERE name=\'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
 		}
 		if(!empty($sel))
 			return $sel;
@@ -135,7 +140,7 @@ class core extends object
 	}
 	function get_blocks_count()
 	{
-		$sel = base::query('SELECT count(*) AS cnt FROM blocks ORDER BY id ASC','assoc_array');
+		$sel = self::$baseC->query('SELECT count(*) AS cnt FROM blocks ORDER BY id ASC','assoc_array');
 		if(!empty($sel))
 			return $sel[0]['cnt'];
 		else
@@ -143,7 +148,7 @@ class core extends object
 	}
 	function get_links()
 	{
-		$sel = base::query('SELECT * FROM links ORDER BY id ASC','assoc_array', array());
+		$sel = self::$baseC->query('SELECT * FROM links ORDER BY id ASC','assoc_array', array());
 		if(!empty($sel))
 			return $sel;
 		else
@@ -154,13 +159,13 @@ class core extends object
 	{
 		$yesterday = gmdate('Y-m-d', strtotime('-1 day')).' '.gmdate("H:i:s");
 		$param_arr = array($yesterday);
-		$sel = base::query('SELECT * FROM comments WHERE filters LIKE \'%4:1%\' AND timest < \'::0::\'','assoc_array', $param_arr);
+		$sel = self::$baseC->query('SELECT * FROM comments WHERE filters LIKE \'%4:1%\' AND timest < \'::0::\'','assoc_array', $param_arr);
 		if(!empty($sel))
 		{
 			$error = 0;
 			for($i=0; $i<count($sel); $i++)
 			{
-				$ret = base::delete('comments', 'id', $sel[$i]['id']);
+				$ret = self::$baseC->delete('comments', 'id', $sel[$i]['id']);
 				if($ret<0)
 					$error = 1;
 			}

@@ -4,6 +4,6 @@ $title = ' - Правила сайта';
 $rss_link='view-rss.php';
 require 'header.php';
 $rules = $coreC->get_settings_by_name(rules);
-echo $rules;
+require 'themes/'.$theme.'/templates/rules/main.tpl.php';
 require 'footer.php';
 ?>

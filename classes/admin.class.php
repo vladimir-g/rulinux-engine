@@ -1,6 +1,11 @@
 <?php
-class admin extends object
+final class admin extends object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function unzip($file,$dir='unzip/')
 	{
 		if(!file_exists($dir))
@@ -67,9 +72,9 @@ class admin extends object
 			else
 				return 0;
 		}
-		$ret = base::delete('sessions', 'tid', $tid);
-		$ret = base::delete('threads', 'id', $tid);
-		$ret = base::delete('comments', 'tid', $tid);
+		$ret = self::$baseC->delete('sessions', 'tid', $tid);
+		$ret = self::$baseC->delete('threads', 'id', $tid);
+		$ret = self::$baseC->delete('comments', 'tid', $tid);
 		self::log('user with id = '.$_SESSION['user_id'].' removed thread with id = '.$tid);
 		return $ret;
 	}
@@ -87,14 +92,14 @@ class admin extends object
 				return 0;
 		}
 		$where_arr = array(array("key"=>'cid', "value"=>$cid, "oper"=>'='));
-		$sel = base::select('threads', '', '*', $where_arr, 'AND');
+		$sel = self::$baseC->select('threads', '', '*', $where_arr, 'AND');
 		if(empty($sel))
-			$ret = base::delete('comments', 'id', $cid);
+			$ret = self::$baseC->delete('comments', 'id', $cid);
 		else
 		{
-			$ret = base::delete('sessions', 'tid', $sel[0]['id']);
-			$ret = base::delete('threads', 'id', $sel[0]['id']);
-			$ret = base::delete('comments', 'tid', $sel[0]['id']);
+			$ret = self::$baseC->delete('sessions', 'tid', $sel[0]['id']);
+			$ret = self::$baseC->delete('threads', 'id', $sel[0]['id']);
+			$ret = self::$baseC->delete('comments', 'tid', $sel[0]['id']);
 		}
 		self::log('user with id = '.$_SESSION['user_id'].' removed message with id = '.$cid);
 		return $ret;
@@ -103,13 +108,13 @@ class admin extends object
 	function get_setting($name)
 	{
 		$where_arr = array(array("key"=>'name', "value"=>$name, "oper"=>'='));
-		$sel = base::select('settings', '', 'value', $where_arr, 'AND');
+		$sel = self::$baseC->select('settings', '', 'value', $where_arr, 'AND');
 		return $sel[0]['value'];
 	}
 	
 	function set_setting($name, $value)
 	{
-		$ret = base::update('settings', 'value', $value, 'name', $name);
+		$ret = self::$baseC->update('settings', 'value', $value, 'name', $name);
 		self::log('user with id = '.$_SESSION['user_id'].' changed setting '. $name. ' on '.$value);
 		return $ret;
 	}
@@ -127,7 +132,7 @@ class admin extends object
 			if(!$ret)
 				return -1;
 			$arr = array(array('name', $block['name']), array('description', $block['description']), array('directory', $block['directory']));
-			$ret = base::insert('blocks', $arr);
+			$ret = self::$baseC->insert('blocks', $arr);
 			self::log('user with id = '.$_SESSION['user_id'].' installed block '.$block['name'].' on directory '.$block['directory']);
 			return $ret;
 			
@@ -140,7 +145,7 @@ class admin extends object
 	{
 		if (is_dir('blocks/'.$block_dir)) 
 		{
-			$ret = base::delete('blocks', 'directory', $block_dir);
+			$ret = self::$baseC->delete('blocks', 'directory', $block_dir);
 			if($ret==1)
 			{
 				self::delTree($block_dir);
@@ -167,7 +172,7 @@ class admin extends object
 			if(!$ret)
 				return -1;
 			$arr = array(array('name', $mark['name']), array('description', $mark['description']), array('file', $mark['file']));
-			$ret = base::insert('marks', $arr);
+			$ret = self::$baseC->insert('marks', $arr);
 			self::log('user with id = '.$_SESSION['user_id'].' installed mark '.$mark['name'].' on file '.$mark['file']);
 			return $ret;
 			
@@ -182,7 +187,7 @@ class admin extends object
 		{
 			if (is_file('classes/mark/'.$mark_file)) 
 			{
-				$ret = base::delete('marks', 'file', $mark_file);
+				$ret = self::$baseC->delete('marks', 'file', $mark_file);
 				if($ret==1)
 				{
 					unlink('classes/mark/'.$mark_file);
@@ -212,7 +217,7 @@ class admin extends object
 			if(!$ret)
 				return -1;
 			$arr = array(array('name', $theme['name']), array('description', $theme['description']), array('directory', $theme['directory']));
-			$ret = base::insert('themes', $arr);
+			$ret = self::$baseC->insert('themes', $arr);
 			self::log('user with id = '.$_SESSION['user_id'].' installed theme '.$theme['name'].' on directory '.$theme['directory']);
 			return $ret;
 			
@@ -221,14 +226,13 @@ class admin extends object
 			return -1;
 	}
 	
-	function remove_theme($theme_dir)
+	function remove_theme($theme_dir, $count)
 	{
-		$count = core::get_themes_count();
 		if($count>1)
 		{
 			if (is_dir('themes/'.$theme_dir)) 
 			{
-				$ret = base::delete('themes', 'directory', $theme_dir);
+				$ret = self::$baseC->delete('themes', 'directory', $theme_dir);
 				if($ret==1)
 				{
 					self::delTree('themes/'.$theme_dir);
@@ -258,7 +262,7 @@ class admin extends object
 			if(!$ret)
 				return -1;
 			$arr = array(array('name', $filter['name']), array('text', $filter['description']), array('directory', $filter['directory']), array('class', $filter['class']));
-			$ret = base::insert('filters', $arr);
+			$ret = self::$baseC->insert('filters', $arr);
 			self::log('user with id = '.$_SESSION['user_id'].' installed theme '.$filter['name'].' on directory '.$filter['directory']);
 			return $ret;
 			
@@ -271,7 +275,7 @@ class admin extends object
 	{
 		if (is_dir('filters/'.$filter_dir)) 
 		{
-			$ret = base::delete('filters', 'directory', $filter_dir);
+			$ret = self::$baseC->delete('filters', 'directory', $filter_dir);
 			if($ret==1)
 			{
 				self::delTree($filter_dir);
@@ -285,13 +289,12 @@ class admin extends object
 			return -1;
 	}
 	
-	function add_subsection($section, $name, $description, $shortfaq='', $rewrite, $icon='')
+	function add_subsection($section, $name, $description, $shortfaq='', $rewrite, $icon='', $themes)
 	{
 		if(!empty($icon))
 		{
 			if(is_file('tmp/'.$icon))
 			{
-				$themes = core::get_themes();
 				for($i=0; $i<count($themes); $i++)
 				{
 					copy('tmp/'.$icon, 'themes/'.$themes[$i]['directory'].'/icons/'.$icon);
@@ -302,17 +305,17 @@ class admin extends object
 				return -1;
 		}
 		$param_arr = array($section);
-		$srt = base::query('SELECT max(sort) AS srt FROM subsections WHERE section = \'::0::\'', 'assoc_array', $param_arr);
+		$srt = self::$baseC->query('SELECT max(sort) AS srt FROM subsections WHERE section = \'::0::\'', 'assoc_array', $param_arr);
 		$sort = $srt[0]['srt']+1;
 		$arr = array(array('section', $section), array('name', $name), array('description', $description), array('shortfaq', $shortfaq), array('rewrite', $rewrite), array('sort', $sort), array('icon', $icon));
-		$ret = base::insert('subsections', $arr);
+		$ret = self::$baseC->insert('subsections', $arr);
 		self::log('user with id = '.$_SESSION['user_id'].' added subsection '.$name.' to section with id = '.$section);
 		return $ret;
 	}
 	
 	function remove_subsection($id)
 	{
-		$ret = base::delete('subsections', 'id', $id);
+		$ret = self::$baseC->delete('subsections', 'id', $id);
 		self::log('user with id = '.$_SESSION['user_id'].' removed subsection with id =  '.$id);
 		return $ret;
 	}

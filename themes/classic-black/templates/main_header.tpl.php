@@ -31,6 +31,7 @@
 <tr>
 <td><a style="text-decoration: none" href="<?=$rules_link?>">Правила форума</a></td>
 <td><a style="text-decoration: none" href="<?=$faq_link?>">F.A.Q.</a></td> 
+<td><a style="text-decoration: none" href="<?=$links_link?>">Ссылки</a></td> 
 <td><a style="text-decoration: none" href="<?=$search_link?>">Поиск</a></td>
 <td></td>
 </tr>

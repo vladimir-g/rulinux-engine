@@ -1,27 +1,30 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'].'/librarys/geshi/geshi.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/librarys/phpmathpublisher/mathpublisher.php');
-class mark extends object
+final class mark extends object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function get_mark_file($uid)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$uid, "oper"=>'='));
-		$mark_id = base::select('users', '', 'mark', $where_arr);
+		$mark_id = self::$baseC->select('users', '', 'mark', $where_arr);
 		$where_file_arr = array(array("key"=>'id', "value"=>$mark_id[0]['mark'], "oper"=>'='));
-		$mark_file = base::select('marks', '', 'file', $where_file_arr);
+		$mark_file = self::$baseC->select('marks', '', 'file', $where_file_arr);
 		return $mark_file[0]['file'];
 	}
 	function get_mark_info($id)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
-		$mark_info = base::select('marks', '', '*', $where_arr);
+		$mark_info = self::$baseC->select('marks', '', '*', $where_arr);
 		return $mark_info[0];
 	}
 	function make_formula($text)
 	{
 		$text = '<m>'.$text.'</m>';
-		$size = 12;
-		$pathtoimg = 'formulas/';
+		$size = 10;
+		$pathtoimg = 'images/formulas/';
 		return mathfilter($text,$size,$pathtoimg);
 	}
 	function highlight($code, $lang, $path)
@@ -35,7 +38,7 @@ class mark extends object
 	}
 	function get_marks_count()
 	{
-		$sel = base::query('SELECT count(*) AS cnt FROM marks ORDER BY id ASC','assoc_array');
+		$sel = self::$baseC->query('SELECT count(*) AS cnt FROM marks ORDER BY id ASC','assoc_array');
 		if(!empty($sel))
 			return $sel[0]['cnt'];
 		else
@@ -43,13 +46,11 @@ class mark extends object
 	}
 	function get_marks()
 	{
-		$sel = base::select('marks', '', '*');
+		$sel = self::$baseC->select('marks', '', '*');
 		if(!empty($sel))
 			return $sel;
 		else
 			return -1;
 	}
 }
-$mark_file = mark::get_mark_file($_SESSION['user_id']);
-include 'mark/'.$mark_file;
 ?>

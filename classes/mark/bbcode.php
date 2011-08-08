@@ -7,7 +7,6 @@ function str_to_html($string)
 	$arr = preg_match_all($code_re, $string, $match);
 	for($i=0;$i<$arr;$i++)
 	{
-		//$string = preg_replace($code_re, '<fieldset><legend>$2</legend>$4</fieldset>', $string, 1);
 		$lang[$i]=$match[3][$i];
 		$with_breaks = mark::highlight(html_entity_decode($match[4][$i], ENT_QUOTES), $match[2][$i], "librarys/geshi/geshi");
 		$code[$i] = $with_breaks;

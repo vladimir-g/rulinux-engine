@@ -1,6 +1,8 @@
 <?php
 session_start();
-require_once 'classes/base/abstractbase.class.php';
+require_once 'librarys/geshi/geshi.php';
+require_once 'librarys/phpmathpublisher/mathpublisher.php';
+require_once 'classes/base/base_interface.php';
 require_once "classes/config.class.php";
 config::include_database();
 require_once "classes/object.class.php";
@@ -12,9 +14,11 @@ require_once "classes/users.class.php";
 $usersC = new users;
 require_once "classes/auth.class.php";
 $authC = new auth;
-$uinfo = users::get_user_info($_SESSION['user_id']);
+$uinfo = $usersC->get_user_info($_SESSION['user_id']);
 require_once "classes/mark.class.php";
 $markC = new mark;
+$mark_file = $markC->get_mark_file($_SESSION['user_id']);
+require_once 'mark/'.$mark_file;
 require_once "classes/filters.class.php";
 $filtersC = new filters;
 require_once "classes/sections.class.php";

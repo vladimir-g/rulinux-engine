@@ -81,8 +81,8 @@ for($i=0; $i<count($gal); $i++)
 	$comment_id = $gal[$i]['cid'];
 	$subject = $gal[$i]['subject'];
 	$comment = $gal[$i]['comment'];
-	$img_link = '/gallery/'.$gal[$i]['file'].'.'.$gal[$i]['extension'];
-	$img_thumb_link = '/gallery/thumbs/'.$gal[$i]['file'].'_small.png';
+	$img_link = 'images/gallery/'.$gal[$i]['file'].'.'.$gal[$i]['extension'];
+	$img_thumb_link = 'images/gallery/thumbs/'.$gal[$i]['file'].'_small.png';
 	$size = $gal[$i]['image_size'].', '.$gal[$i]['file_size'];
 	$usr = $usersC->get_user_info($gal[$i]['uid']);
 	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];

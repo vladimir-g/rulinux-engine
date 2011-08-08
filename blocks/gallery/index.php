@@ -26,8 +26,8 @@ for($y=0; $y<$max; $y++)
 	$where_arr = array(array("key"=>'id', "value"=>$ret[$y]['uid'], "oper"=>'='));
 	$author = base::select('users', '', 'nick', $where_arr);
 	$boxlet_content = str_replace('[author]', $author[0]['nick'], $boxlet_content);
-	$boxlet_content = str_replace('[img_thumb_link]', 'gallery/thumbs/'.$ret[$y]['file'].'_small.png', $boxlet_content);
-	$boxlet_content = str_replace('[img_link]', 'gallery/'.$ret[$y]['file'].'.'.$ret[$y]['extension'], $boxlet_content);
+	$boxlet_content = str_replace('[img_thumb_link]', 'images/gallery/thumbs/'.$ret[$y]['file'].'_small.png', $boxlet_content);
+	$boxlet_content = str_replace('[img_link]', 'images/gallery/'.$ret[$y]['file'].'.'.$ret[$y]['extension'], $boxlet_content);
 	$boxlet_content = str_replace('[subject]', $ret[$y]['subject'], $boxlet_content);
 	$timest = core::to_local_time_zone($ret[$y]['timest']);
 	$boxlet_content = str_replace('[timestamp]', $timest, $boxlet_content);

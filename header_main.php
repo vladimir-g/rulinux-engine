@@ -21,5 +21,6 @@ $news_link = 'view-section.php?id=1';
 $articles_link = 'view-section.php?id=2';
 $gallery_link = 'view-section.php?id=3';
 $forum_link = 'view-section.php?id=4';
+$links_link = 'links.php';
 require 'themes/'.$theme.'/templates/main_header.tpl.php';
 ?>

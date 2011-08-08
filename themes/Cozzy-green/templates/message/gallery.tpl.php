@@ -9,10 +9,10 @@
 <div class="msg" id=<?=$message_id?>><h2 class="nt"><?=$message_subject?></h2>
 <table>
 <tr>
-<td style="vertical-align:top"><a href="gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="gallery/thumbs/<?=$gallery_file_name?>_small.png"></td>
+<td style="vertical-align:top"><a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png"></td>
 <td style="vertical-align:top"><?=$message_comment?>
 <br /><span style="font-style: italic">1<?=$gallery_image_size?>, <?=$gallery_file_size?></span><br/><br/>
->>> <a href="gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>">Просмотр</a>
+>>> <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>">Просмотр</a>
 </td>
 <tr>
 </table>

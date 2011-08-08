@@ -12,12 +12,16 @@ if (get_magic_quotes_gpc())
 }
 class object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function declOfNum($number, $titles)
 	{
 	    $cases = array (2, 0, 1, 1, 1, 2);
 	    return $number." ".$titles[ ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)] ];
 	}
-	
 	function to_local_time_zone($timest)
 	{
 		$first_arr = explode(" ", $timest);
@@ -30,7 +34,7 @@ class object
 		$minute = $third_arr[1];
 		$second = $third_arr[2];
 		$param_arr = array($_SESSION['user_id']);
-		$sel = base::query('SELECT gmt FROM users WHERE id = \'::0::\'','assoc_array', $param_arr);
+		$sel = self::$baseC->query('SELECT gmt FROM users WHERE id = \'::0::\'','assoc_array', $param_arr);
 		if(!empty($sel))
 			$gmt = $sel[0]['gmt'];
 		else
