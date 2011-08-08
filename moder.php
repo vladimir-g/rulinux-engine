@@ -36,7 +36,7 @@ if($_GET['action']=='move_thread')
 		$tid = (int)$_GET['tid'];
 		$referer = $_POST['referer'];
 		$section = (int)$_POST['section'];
-		if($section=3)
+		if($section==3)
 		{
 			require 'header.php';
 			$legend = 'Невозможно переместить тред в галлерею';

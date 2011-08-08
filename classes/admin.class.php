@@ -40,7 +40,6 @@ final class admin extends object
 			return false;
 		}
 	}
-	
 	function delTree($dir) 
 	{
 		$files = glob( $dir . '*', GLOB_MARK );
@@ -59,7 +58,6 @@ final class admin extends object
 		else 
 			return 0;
 	} 
-	
 	function remove_thread($tid)
 	{
 		if(!preg_match("/^[0-9]*$/", $tid))
@@ -78,7 +76,6 @@ final class admin extends object
 		self::log('user with id = '.$_SESSION['user_id'].' removed thread with id = '.$tid);
 		return $ret;
 	}
-	
 	function remove_message($cid)
 	{
 		if(!preg_match("/^[0-9]*$/", $cid))
@@ -104,21 +101,18 @@ final class admin extends object
 		self::log('user with id = '.$_SESSION['user_id'].' removed message with id = '.$cid);
 		return $ret;
 	}
-	
 	function get_setting($name)
 	{
 		$where_arr = array(array("key"=>'name', "value"=>$name, "oper"=>'='));
 		$sel = self::$baseC->select('settings', '', 'value', $where_arr, 'AND');
 		return $sel[0]['value'];
 	}
-	
 	function set_setting($name, $value)
 	{
 		$ret = self::$baseC->update('settings', 'value', $value, 'name', $name);
 		self::log('user with id = '.$_SESSION['user_id'].' changed setting '. $name. ' on '.$value);
 		return $ret;
 	}
-	
 	function install_block($filename)
 	{
 		$hash = md5(gmdate("Y-m-d H:i:s"));

@@ -1,6 +1,11 @@
 <?php
 final class search extends object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function find($str, $include, $date, $section, $username)
 	{
 		$query = 'SELECT * FROM comments WHERE ';
@@ -9,7 +14,7 @@ final class search extends object
 		else if($include == 'comments')
 			$query = $query.'comment LIKE \'%::0::%\'';
 		else
-			$query = $query.'subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\'';
+			$query = $query.'(subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\')';
 		if($date=='3month')
 		{
 			$month = gmdate("m")-3;
@@ -41,7 +46,7 @@ final class search extends object
 		else if($include == 'comments')
 			$query = $query.'comment LIKE \'%::0::%\'';
 		else
-			$query = $query.'subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\'';
+			$query = $query.'(subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\')';
 		if($date=='3month')
 		{
 			$month = gmdate("m")-3;

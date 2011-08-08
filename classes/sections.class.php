@@ -1,6 +1,11 @@
 <?php
 final class sections extends object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function get_subsection_thr_count($section_id, $subsection_id)
 	{
 		$timest_day = gmdate('Y-m-d H:i:s',strtotime('-1 day'));

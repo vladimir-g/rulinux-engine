@@ -3,7 +3,6 @@
 Запилить автофильтрацию спама
 Запилить поддержку mod_rewrite
 Проверить валидность ссылок в файлах view-all.php, art.php, news.php, message.php e.t.c.
-Проверить работу на MySQL
 Запилить темы(classic-white, simple-white, oxygen, ubertechno)
 Прогнать html и css через валидатор и проверить через http://pagespeed.googlelabs.com/#
 Запилить сжатие данных
@@ -13,3 +12,4 @@
 
 Проверка на размер изображения
 Цвет формул
+добавление/удаление вопроса в faq

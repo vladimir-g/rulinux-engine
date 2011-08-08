@@ -1,22 +1,6 @@
 <?php
-if (get_magic_quotes_gpc()) 
-{
-	function stripslashes_deep($value)
-	{
-		$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
-		return $value;
-	}
-	$_POST = array_map('stripslashes_deep', $_POST);
-	$_GET = array_map('stripslashes_deep', $_GET);
-	$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
-}
 class object
 {
-	static $baseC = null;
-	function __construct()
-	{
-		self::$baseC = new base;
-	}
 	function declOfNum($number, $titles)
 	{
 	    $cases = array (2, 0, 1, 1, 1, 2);
@@ -34,7 +18,7 @@ class object
 		$minute = $third_arr[1];
 		$second = $third_arr[2];
 		$param_arr = array($_SESSION['user_id']);
-		$sel = self::$baseC->query('SELECT gmt FROM users WHERE id = \'::0::\'','assoc_array', $param_arr);
+		$sel = base::query('SELECT gmt FROM users WHERE id = \'::0::\'','assoc_array', $param_arr);
 		if(!empty($sel))
 			$gmt = $sel[0]['gmt'];
 		else
@@ -68,6 +52,4 @@ class object
 		return array_map('self::trim_array', $Input);
 	}
 }
-
-
 ?>

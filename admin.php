@@ -1,6 +1,7 @@
 <?php
 require 'classes/core.php';
 require 'classes/admin.class.php';
+$adminC = new admin;
 $title = ' - Админка';
 $rss_link='view-rss.php';
 if($uinfo['gid']!=2)

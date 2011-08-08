@@ -1,6 +1,11 @@
 <?php
 final class threads  extends object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function get_threads_count($section, $subsection)
 	{
 		$param_arr = array($section, $subsection);

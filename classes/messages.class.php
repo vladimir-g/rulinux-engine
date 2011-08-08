@@ -165,7 +165,7 @@ final class messages extends object
 	{
 		
 		$param_arr = array($user, $limit, $offset);
-		$ret = self::$baseC->query('SELECT c.id, c.tid, c.subject, c.comment, c.timest, t.section, t.subsection  FROM comments c INNER JOIN (SELECT id, section, subsection FROM threads WHERE id IN (SELECT tid FROM comments WHERE uid = (SELECT id FROM users WHERE nick = \'::0::\'))) t ON c.tid = t.id WHERE c.referer IN (SELECT id FROM comments WHERE uid=(SELECT id FROM users WHERE nick = \'::0::\')) ORDER BY c.id DESC LIMIT \'::1::\' OFFSET \'::2::\'','assoc_array',$param_arr);
+		$ret = self::$baseC->query('SELECT c.id, c.tid, c.subject, c.comment, c.timest, t.section, t.subsection  FROM comments c INNER JOIN (SELECT id, section, subsection FROM threads WHERE id IN (SELECT tid FROM comments WHERE uid = (SELECT id FROM users WHERE nick = \'::0::\'))) t ON c.tid = t.id WHERE c.referer IN (SELECT id FROM comments WHERE uid=(SELECT id FROM users WHERE nick = \'::0::\')) ORDER BY c.id DESC LIMIT ::1:: OFFSET ::2::','assoc_array',$param_arr);
 		return $ret;
 	}
 }

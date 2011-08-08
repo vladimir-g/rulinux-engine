@@ -1,6 +1,11 @@
 <?php
 final class users extends object
 {
+	static $baseC = null;
+	function __construct()
+	{
+		self::$baseC = new base;
+	}
 	function change_users_group($uid, $gid)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$uid, "oper"=>'='));
