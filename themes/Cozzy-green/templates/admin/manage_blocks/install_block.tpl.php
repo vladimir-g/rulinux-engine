@@ -1,5 +1,5 @@
-<form action="admin.php?action=install_block" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_blocks_ui"><<<Назад</a>
+<form action="install_block_act" method="post" enctype="multipart/form-data">
+<a href="manage_blocks"><<<Назад</a>
 <fieldset>
 <legend>Установка блока</legend>
 <table align="center">

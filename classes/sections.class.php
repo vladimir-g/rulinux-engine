@@ -30,14 +30,12 @@ final class sections extends object
 		$where_arr = array(array("key"=>'id', "value"=>$tid, "oper"=>'='));
 		$sel = self::$baseC->select('threads', '', 'section,subsection', $where_arr);
 		$where_arr = array(array("key"=>'id', "value"=>$sel[0]['section'], "oper"=>'='));
-		$name_sel = self::$baseC->select('sections', '', 'name, file', $where_arr);
+		$name_sel = self::$baseC->select('sections', '', 'name, rewrite', $where_arr);
 		$where_arr = array(array("key"=>'section', "value"=>$sel[0]['section'], "oper"=>'='), array("key"=>'sort', "value"=>$sel[0]['subsection'], "oper"=>'='));
 		$subsect = self::$baseC->select('subsections', '', 'id,name,sort', $where_arr, 'AND');
 		if(!empty($subsect))
 			$subsection = $subsect[0]['name'];
-		$link = 'view-section.php?id='.$sel[0]['section'];
-		$sub_link = $name_sel[0]['file'].'?id='.$sel[0]['subsection'].'&page=1';
-		return array("id"=>$sel[0]['section'], "name"=>$name_sel[0]['name'], "subsection_id"=>$sel[0]['subsection'] , "subsection_name"=>$subsection, "link"=>$link, "subsection_link"=>$sub_link);
+		return array("id"=>$sel[0]['section'], "name"=>$name_sel[0]['name'], "subsection_id"=>$sel[0]['subsection'] , "subsection_name"=>$subsection, "rewrite"=>$name_sel[0]['rewrite']);
 	}
 	function get_subsections($section_id)
 	{

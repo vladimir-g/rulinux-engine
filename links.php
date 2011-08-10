@@ -1,5 +1,6 @@
 <?php
 require 'classes/core.php';
+$rss_link='rss';
 $title = ' - Ссылки на дружественные ресурсы и на ресурсы по смежной теме'.$mark_name;
 require 'header.php';
 $links = $coreC->get_links();

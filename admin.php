@@ -3,7 +3,7 @@ require 'classes/core.php';
 require 'classes/admin.class.php';
 $adminC = new admin;
 $title = ' - Админка';
-$rss_link='view-rss.php';
+$rss_link='rss';
 if($uinfo['gid']!=2)
 {
 	require 'header.php';
@@ -13,7 +13,6 @@ if($uinfo['gid']!=2)
 	require 'footer.php';
 	exit();
 }
-
 if($_GET['action']=='manage_blocks_ui')
 {
 	if($_GET['set']=='install_block')
@@ -72,7 +71,7 @@ if($_GET['action']=='install_block')
 		$ret = $adminC->install_block($uploadfile);
 		unlink($uploadfile);
 		if($ret>0)
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_blocks_ui">');  
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'manage_blocks">');  
 		else
 		{
 			require 'header.php';
@@ -106,7 +105,7 @@ if($_GET['action']=='remove_block')
 		exit();
 	}
 	else
-		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'admin.php?action=manage_blocks_ui">');  
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'manage_blocks">');  
 }
 elseif($_GET['action']=='manage_filters_ui')
 {

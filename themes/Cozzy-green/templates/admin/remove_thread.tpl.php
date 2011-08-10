@@ -1,5 +1,5 @@
-<form action="admin.php?action=remove_thread" method="post">
-<a href="admin.php"><<<Назад</a>
+<form action="remove_thread_act" method="post">
+<a href="admin"><<<Назад</a>
 <fieldset>
 <legend>Удаление треда</legend>
 <table align="center">

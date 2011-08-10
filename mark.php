@@ -7,7 +7,7 @@ else
 $mark_info = mark::get_mark_info($mark_id);
 $mark_name = $mark_info['name'];
 $title = ' - Разметка '.$mark_name;
-$rss_link='view-rss.php';
+$rss_link='rss';
 require 'header.php';
 $description = $mark_info['description'];
 $langs = $coreC->get_settings_by_name('langs');

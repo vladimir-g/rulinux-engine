@@ -1,5 +1,5 @@
-<form action="admin.php?action=remove_subsection" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_subsections_ui&set=remove_subsection"><<<Назад</a>
+<form action="remove_subsection_act" method="post" enctype="multipart/form-data">
+<a href="remove_subsection"><<<Назад</a>
 <fieldset>
 <legend>Удаление подразделов</legend>
 <table width="100%">

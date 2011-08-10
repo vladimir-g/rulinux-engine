@@ -1,4 +1,4 @@
 <br>
-<form action="set-filter.php?id=<?=$message_id?>" method="post">
+<form action="set_filter_<?=$message_id?>" method="post">
 Укажите метки присваиваемые сообщению:<br>
 <br>

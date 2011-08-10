@@ -1,5 +1,5 @@
-<form action="admin.php?action=add_subsection" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_subsections_ui&set=add_subsection"><<<Назад</a>
+<form action="add_subsection_act" method="post" enctype="multipart/form-data">
+<a href="add_subsection"><<<Назад</a>
 <fieldset>
 <legend>Добавление подраздела</legend>
 <table align="center" width="100%">

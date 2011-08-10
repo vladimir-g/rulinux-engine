@@ -16,7 +16,6 @@ $(function()
 		event.preventDefault();
 		$("#box").slideUp();
 	});
-	timer();		
 });
 </script>
 <div id="jq-wrapper">

@@ -5,6 +5,6 @@
 </a>
 </p>
 <p id="newsbottom">Опубликована: [timestamp]<br>
-Автор: <a href="profile.php?user=[author]">[author]</a>
+Автор: <a href="user_[author]">[author]</a>
 </p>
 <hr>

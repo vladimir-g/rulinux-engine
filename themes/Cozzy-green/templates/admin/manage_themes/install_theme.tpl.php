@@ -1,5 +1,5 @@
-<form action="admin.php?action=install_theme" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_themes_ui"><<<Назад</a>
+<form action="install_theme_act" method="post" enctype="multipart/form-data">
+<a href="manage_themes"><<<Назад</a>
 <fieldset>
 <legend>Установка темы оформления</legend>
 <table align="center">

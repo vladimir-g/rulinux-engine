@@ -4,7 +4,7 @@ require 'classes/core.php';
 $sect = $sectionsC->get_section($section_id);
 $section_name = $sect['name'];
 $title = ' - '.$section_name;
-$rss_link='view-rss.php?section='.$section_id;
+$rss_link='rss_from_sect_'.$section_id;
 require 'header.php';
 require 'themes/'.$theme.'/templates/view_section/top.tpl.php';
 $subsct = $sectionsC->get_subsections($section_id);
@@ -17,9 +17,11 @@ for($i=0; $i<count($subsct); $i++)
 	$subsection_thr_day = $thr_count['subsection_thr_day'];
 	$subsection_thr_hour = $thr_count['subsection_thr_hour'];
 	$subsection_description = $subsct[$i]['description'];
-	$page = $sect['file'];
+	$page = $sect['rewrite'];
+	$subsect_link = $page.'_'.$subsection_id.'_page_1';
 	require 'themes/'.$theme.'/templates/view_section/middle.tpl.php';
 }
+$edit_profile = $profile_link.':edit';
 require 'themes/'.$theme.'/templates/view_section/bottom.tpl.php';
 require 'footer.php';
 ?>

@@ -8,7 +8,7 @@
 не в General и т.п.
 <li><b>Пишите осмысленный заголовок</b>. Придумайте осмысленный заголовок теме. Сообщения с бессмысленными загловками ("Помогите!", "Вопрос", ...), как правило, остаются без ответа.
 </ul>
-<form action="add-content.php?section=<?=$section_id?>" method="post">
+<form action="<?=$form_link?>" method="post">
 <table border="0">
 <tr>
 <td style="vertical-align:top;">Заголовок:</td>

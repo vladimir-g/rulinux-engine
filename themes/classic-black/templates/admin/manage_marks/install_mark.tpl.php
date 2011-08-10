@@ -1,5 +1,5 @@
-<form action="admin.php?action=install_mark" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_marks_ui"><<<Назад</a>
+<form action="install_mark_act" method="post" enctype="multipart/form-data">
+<a href="manage_marks"><<<Назад</a>
 <fieldset>
 <legend>Установка стиля разметки</legend>
 <table align="center">

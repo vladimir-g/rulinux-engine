@@ -1,5 +1,5 @@
-<form action="admin.php?action=remove_message" method="post">
-<a href="admin.php"><<<Назад</a>
+<form action="remove_message_act" method="post">
+<a href="admin"><<<Назад</a>
 <fieldset>
 <legend>Удаление сообщения</legend>
 <table align="center">

@@ -1,5 +1,5 @@
-<form action="admin.php?action=remove_block" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_blocks_ui"><<<Назад</a>
+<form action="remove_block_act" method="post" enctype="multipart/form-data">
+<a href="manage_blocks"><<<Назад</a>
 <fieldset>
 <legend>Удаление блока</legend>
 <table width="100%">

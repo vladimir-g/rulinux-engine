@@ -2,7 +2,7 @@
 $page = (int)$_GET['page'];
 require 'classes/core.php';
 $title = ' - Пользователи';
-$rss_link='view-rss.php';
+$rss_link='rss';
 require 'header.php';
 require 'themes/'.$theme.'/templates/users/top.tpl.php';
 $users_on_page = 20;
@@ -14,8 +14,8 @@ if($pages_count > 1)
 	if($page>1)
 	{
 		$pg = $page-1;
-		$pages = $pages.'<a href="users.php?page=1" title=В Начало>←</a>&nbsp;';
-		$pages = $pages.'<a href="users.php?page='.$pg.'" title="Назад">≪</a>&nbsp;';
+		$pages = $pages.'<a href="users_page_1" title=В Начало>←</a>&nbsp;';
+		$pages = $pages.'<a href="users_page_'.$pg.'" title="Назад">≪</a>&nbsp;';
 	}
 	if($pages_count>10)
 	{
@@ -33,7 +33,7 @@ if($pages_count > 1)
 			if ($p == $page)
 				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
 			else
-				$pages = $pages.'<a href="users.php?page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
+				$pages = $pages.'<a href="users_page_'.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
 		}
 	}
 	else
@@ -43,14 +43,14 @@ if($pages_count > 1)
 			if ($p == $page)
 				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
 			else
-				$pages = $pages.'<a href="users.php?page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
+				$pages = $pages.'<a href="users_page_'.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
 		}
 	}
 	if($page<$pages_count)
 	{
 		$pg = $page+1;
-		$pages = $pages.'<a href="users.php?page='.$pg.'" title="Вперед">≫</a>&nbsp;';
-		$pages = $pages.'<a href="users.php?page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
+		$pages = $pages.'<a href="users_page_'.$pg.'" title="Вперед">≫</a>&nbsp;';
+		$pages = $pages.'<a href="users_page_'.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
 

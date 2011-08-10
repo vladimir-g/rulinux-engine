@@ -1,5 +1,5 @@
-<form action="admin.php?action=edit_settings" method="post">
-<a href="admin.php?action=edit_settings_ui"><<<Назад</a>
+<form action="edit_settings_act" method="post">
+<a href="edit_settings"><<<Назад</a>
 <fieldset>
 <legend>Изменение парольной фразы</legend>
 <table align="center">

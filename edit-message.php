@@ -2,7 +2,7 @@
 require 'classes/core.php';
 $message_id = (int)$_GET['id'];
 $title = ' - Редактировать сообщение';
-$rss_link='view-rss.php';
+$rss_link='rss';
 if(empty($_POST['sbm']))
 {
 	if($_SESSION['user_id'] == 1)
@@ -100,7 +100,7 @@ else
 		$mess_arr = $threadsC->get_msg_number_by_cid($message_id);
 		$message_number = $mess_arr[0];
 		$page = ceil($message_number/$uinfo['comments_on_page']);
-		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$mess_arr[1].'&page='.$page.'#'.$message_id.'">');  
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$mess_arr[1].'_page_'.$page.'#'.$message_id.'">');  
 	}
 }
 ?>

@@ -1,4 +1,4 @@
-<form action="profile.php?user=<?=$user?>&edit" method="post" enctype="multipart/form-data">
+<form action="<?=$edit_link?>" method="post" enctype="multipart/form-data">
 <fieldset>
 <legend>Личные данные</legend>
 <img src="<?=$avatar?>">

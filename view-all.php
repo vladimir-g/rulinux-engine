@@ -1,7 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Просмотр неподтвержденных';
-$rss_link='view-rss.php';
+$rss_link='rss';
 require 'header.php';
 require 'themes/'.$theme.'/templates/view_all/top.tpl.php';
 $unconfirmed = $threadsC->get_unconfirmed();
@@ -16,9 +16,11 @@ for($i=0; $i<count($unconfirmed); $i++)
 	$size = $unconfirmed[$i]['image_size'].', '.$unconfirmed[$i]['file_size'];
 	$usr = $usersC->get_user_info($unconfirmed[$i]['uid']);
 	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
-	$author_profile = '/profile.php?user='.$usr['nick'];
+	$author_profile = 'user_'.$usr['nick'];
 	$timestamp = $coreC->to_local_time_zone($unconfirmed[$i]['timest']);
 	$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($unconfirmed[$i]['subsection']);
+	$aprove_link = 'approve_thread_'.$thread_id;
+	$edit_link = 'message_'.$comment_id.':edit';
 	if($unconfirmed[$i]['section']==1)
 		require 'themes/'.$theme.'/templates/view_all/news.tpl.php';
 	else if($unconfirmed[$i]['section']==2)

@@ -1,4 +1,4 @@
-<form action="profile.php?user=<?=$user?>&edit" method="post">
+<form action="<?=$edit_link?>" method="post">
 <fieldset>
 <legend>Настройка чтения</legend>
 <b>Время по Гринвичу: <?=$timest?></b>

@@ -3,7 +3,7 @@ require 'classes/core.php';
 $message_id = (int)$_GET['cid'];
 $thread_id = (int)$_GET['answerto'];
 $title = 'Добавить коментарий';
-$rss_link='view-rss.php';
+$rss_link='rss';
 if(!empty($_POST['sbm']))
 {
 	if (empty($_POST['subject']))
@@ -59,7 +59,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 				}
 				$str = $filtersC->set_auto_filter($msg_id, $str);
 				$val = $messagesC->set_filter($msg_id, $str);
-				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'#'.$msg_id.'">');
+				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#'.$msg_id.'">');
 			}
 			else 
 			{
@@ -87,7 +87,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 			}
 			$str = $filtersC->set_auto_filter($msg_id, $str);
 			$val = $messagesC->set_filter($msg_id, $str);
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'#'.$msg_id.'">');  
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#'.$msg_id.'">');  
 		}
 	}
 	else
@@ -121,7 +121,7 @@ else
 	$message_timestamp = $coreC->to_local_time_zone($msg['timest']);
 	$msg_autor = $usersC->get_user_info($msg['uid']);
 	$coreC->validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' : $message_autor = $msg_autor['nick'];
-	$message_autor_profile_link = '/profile.php?user='.$message_autor;
+	$message_autor_profile_link = 'user_'.$message_autor;
 	$message_useragent = $msg['useragent'];
 }
 
@@ -130,7 +130,8 @@ else
 if ($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1)
 	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 else
-$captcha = '';
+	$captcha = '';
+$form_link = 'comment_into_'.$thread_id.'_on_'.$message_id;
 require 'themes/'.$theme.'/templates/comment/comment_top.tpl.php';
 
 $filters_arr = $filtersC->get_filters();

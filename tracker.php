@@ -3,7 +3,7 @@
 require 'classes/core.php';
 $hours_count = $coreC->declOfNum($hours, array('час', 'часа', 'часов'));
 $title = ' - Последние сообщения за '.$hours_count;
-$rss_link='view-rss.php';
+$rss_link='rss';
 require 'header.php';
 require 'themes/'.$theme.'/templates/tracker/nav.tpl.php';
 $messages = $messagesC->get_messages_for_tracker($hours);
@@ -12,15 +12,15 @@ require 'themes/'.$theme.'/templates/tracker/top.tpl.php';
 for($i=0; $i<count($messages);$i++)
 {
 	$sect = $sectionsC->get_section_by_tid($messages[$i]['tid']);
-	$section_link = $sect['link'];
+	$section_link = $sect['rewrite'];
 	$section = $sect['name'];
-	$subsection_link = $sect['subsection_link'];
+	$subsection_link = $sect['rewrite'].'_'.$sect['subsection_id'].'_page_1';
 	$subsection = $sect['subsection_name'];
 	$message_number = threads::get_msg_number_by_tid($messages[$i]['tid'], $messages[$i]['id']);
 	$page = ceil($message_number/$uinfo['comments_on_page']);
 	if($page == 0)
 		$page = 1;
-	$link = 'message.php?newsid='.$messages[$i]['tid'].'&page='.$page.'#'.$messages[$i]['id'];
+	$link = 'thread_'.$messages[$i]['tid'].'_page_'.$page.'#'.$messages[$i]['id'];
 	$subject = $messages[$i]['subject'];
 	$author_info = $usersC->get_user_info($messages[$i]['uid']);
 	$coreC->validate_boolean($author_info['banned']) ? $author = '<s>'.$author_info['nick'].'</s>' :$author = $author_info['nick'];
@@ -37,6 +37,7 @@ for($i=0; $i<count($messages);$i++)
 			$resp = '';
 	}
 	$timestamp = $coreC->to_local_time_zone($messages[$i]['timest']);
+	$filter_link = 'set_filter_'.$messages[$i]['id'];
 	require 'themes/'.$theme.'/templates/tracker/middle.tpl.php';
 }
 require 'themes/'.$theme.'/templates/tracker/bottom.tpl.php';

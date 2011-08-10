@@ -31,7 +31,7 @@ for($y=0; $y<$max; $y++)
 	$boxlet_content = str_replace('[subject]', $ret[$y]['subject'], $boxlet_content);
 	$timest = core::to_local_time_zone($ret[$y]['timest']);
 	$boxlet_content = str_replace('[timestamp]', $timest, $boxlet_content);
-	$boxlet_content = str_replace('[link]', 'messfge.php?newsid='.$ret[$y]['id'].'&page=1', $boxlet_content);
+	$boxlet_content = str_replace('[link]', 'thread_'.$ret[$y]['id'].'_page_1', $boxlet_content);
 }
 $boxlet_content = str_replace('[title]', $name, $boxlet_content);
 ?>

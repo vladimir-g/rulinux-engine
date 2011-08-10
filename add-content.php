@@ -3,7 +3,7 @@ require 'classes/core.php';
 $section_id = (int)$_GET['section'];
 $subsection_id = (int)$_GET['subsection'];
 $title = ' - Добавить материал';
-$rss_link='view-rss.php';
+$rss_link='rss';
 if(empty($_POST['submit_form']))
 {
 	require 'header.php';
@@ -159,8 +159,9 @@ else
 		$subsection_id = (int)$_POST['subsection_id'];
 		$usr = $usersC->get_user_info($_SESSION['user_id']);
 		$author = $usr['nick'];
-		$author_profile = '/profile.php?user='.$usr['nick'];
+		$author_profile = 'user_'.$usr['nick'];
 		$timestamp = $coreC->to_local_time_zone(gmdate("Y-m-d H:i:s"));
+		$form_preview_link = 'new_thread_in_sect_'.$section_id;
 		if($section_id == 1)
 		{
 			$subsection_image = '/themes/'.$theme.'/icons/'.$sectionsC->get_subsection_icon($subsection_id);
@@ -311,7 +312,7 @@ else
 				if(($_FILES['scrot_link']['size']/1000) > 700)
 					$error = 'Слишком большой размер файла';
 				if(($imageinfo[0] < 400 || $imageinfo[0] > 2048) || ($imageinfo[1] < 400 || $imageinfo[1] > 2048))
-					$error = 'Ошибка загрузки файла';
+					$error = 'Неверное разрешение файла';
 				if (empty($error))
 				{
 					if (move_uploaded_file($_FILES['scrot_link']['tmp_name'], $uploadfile))
@@ -382,9 +383,9 @@ else
 		$str = $filtersC->set_auto_filter($cid, $str);
 		$val = $messagesC->set_filter($cid, $str);
 		if($section_id==1 || $section_id==2 || $section_id==3)
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'view-all.php">');
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'unconfirmed">');
 		else if($section_id==4)
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'group.php?id='.$_POST['subsection_id'].'&page=1">');
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'forum_'.$_POST['subsection_id'].'_page_1">');
 	}
 }
 ?>

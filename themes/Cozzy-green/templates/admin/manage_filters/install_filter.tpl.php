@@ -1,5 +1,5 @@
-<form action="admin.php?action=install_filter" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_filters_ui"><<<Назад</a>
+<form action="install_filter_act" method="post" enctype="multipart/form-data">
+<a href="manage_filters"><<<Назад</a>
 <fieldset>
 <legend>Установка фильтра</legend>
 <table align="center">

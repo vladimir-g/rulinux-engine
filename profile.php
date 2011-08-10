@@ -5,10 +5,10 @@ if(!empty($_GET['user']))
 else
 	$user = $_SESSION['user_name'];
 $title = ' - Профиль пользователя '.$user;
-$rss_link='view-rss.php';
+$rss_link='rss';
 $uid = $usersC->get_uid_by_nick($user);
 $usr = $usersC->get_user_info($uid);
-
+$edit_link = 'user_'.$user.':edit';
 if($_POST['action']=="pass")
 {
 	if($uid == $uinfo['id'] || $uinfo['gid']==2)
@@ -72,9 +72,9 @@ if($_POST['action']=="pass")
 		{
 			require 'header.php';
 			$legend = 'Пароль успешно изменен';
-			$text = 'Пароль успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			$text = 'Пароль успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit">');  
 		}
 		else
 		{
@@ -153,9 +153,9 @@ else if($_POST['action']=="info")
 		$val = $usersC->modify_user_info_settings($uid, $_POST['user_name'], $_POST['user_lastname'], $_POST['gender'], $_POST['user_email'], $_POST['showEmail'], $_POST['user_im'], $_POST['showIM'], $_POST['user_country'], $_POST['user_city'], $_POST['user_additional']);
 		require 'header.php';
 		$legend = 'Пользовательская информация успешно изменена';
-		$text = 'Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+		$text = 'Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
+		die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit">');  
 	}
 	else
 	{
@@ -183,9 +183,9 @@ else if($_POST['action']=="filters")
 		{
 			require 'header.php';
 			$legend = 'Настройки фильтров успешно изменены';
-			$text = 'Настройки фильтров успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			$text = 'Настройки фильтров успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit">');  
 		}
 		else
 		{
@@ -230,9 +230,9 @@ else if($_POST['action']=="read")
 		{
 			require 'header.php';
 			$legend = 'Настройки чтения успешно изменены';
-			$text = 'Настройки чтения успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			$text = 'Настройки чтения успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit">');  
 		}
 		else
 		{
@@ -275,9 +275,9 @@ else if($_POST['action']=="moder")
 		{
 			require 'header.php';
 			$legend = 'Модераторские настройки успешно изменены';
-			$text = 'Модераторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			$text = 'Модераторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit">');  
 		}
 		else
 		{
@@ -318,9 +318,9 @@ else if($_POST['action']=="admin")
 		{
 			require 'header.php';
 			$legend = 'Администраторские настройки успешно изменены';
-			$text = 'Администраторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			$text = 'Администраторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit=1">');  
 		}
 		else
 		{
@@ -360,7 +360,7 @@ else if($_POST['action']=="main_page")
 		{
 			require 'header.php';
 			$legend = 'Вид главной страницы успешно изменен';
-			$text = 'Вид главной страницы успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="profile.php?user='.$user.'&edit=1">сюда</a>.';
+			$text = 'Вид главной страницы успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
 		}
@@ -421,7 +421,7 @@ else
 		$last_comment_date = $coreC->to_local_time_zone($usr_add['last_comment_date']);
 		$comments_count = $usr_add['comments_count'];
 		$topics_count = $usr_add['topics_count'];
-		$link = 'view-comments.php?user='.$user;
+		$link = 'comments_'.$user;
 		require 'themes/'.$theme.'/templates/profile/middle.tpl.php';
 		require 'themes/'.$theme.'/templates/profile/form.tpl.php';
 	}

@@ -1,7 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Поиск';
-$rss_link='view-rss.php';
+$rss_link='rss';
 require 'header.php';
 if(!empty($_GET['q']))
 {
@@ -72,12 +72,12 @@ if(!empty($_GET['q']))
 			$page = ceil($message_number/$uinfo['comments_on_page']);
 			if($page == 0)
 				$page = 1;
-			$link = 'message.php?newsid='.$found_msg[$i]['tid'].'&page='.$page.'#'.$msg_id;
+			$link = 'thread_'.$found_msg[$i]['tid'].'_page_'.$page.'#'.$msg_id;
 			$subject = $found_msg[$i]['subject'];
 			$comment = $found_msg[$i]['comment'];
 			$usr = $usersC->get_user_info($found_msg[$i]['uid']);
 			$author = $usr['nick'];
-			$author_profile = 'profile.php?id='.$usr['nick'];
+			$author_profile = 'user_'.$usr['nick'];
 			$timestamp = $coreC->to_local_time_zone($found_msg[$i]['timest']);
 			require 'themes/'.$theme.'/templates/search/msg.tpl.php';
 		}

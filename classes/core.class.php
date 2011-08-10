@@ -50,7 +50,7 @@ class core extends object
 	}
 	function update_sessions_table($session_id, $uid, $tid)
 	{
-		if(gmdate("i")>5)
+		if(gmdate("i")>=5)
 		{
 			$min = gmdate("i")-5;
 			$hour = gmdate("H");

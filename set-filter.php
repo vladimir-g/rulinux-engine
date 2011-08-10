@@ -1,7 +1,7 @@
 <?
 $message_id = (int)$_GET['id'];
 require 'classes/core.php';
-$rss_link='view-rss.php';
+$rss_link='rss';
 if(!empty($_POST['sbm']))
 {
 	if($_SESSION['user_id'] == 1)
@@ -27,7 +27,7 @@ if(!empty($_POST['sbm']))
 		$thread_id = $mess_arr[1];
 		$msg_id = $mess_arr[2];
 		$page = ceil($message_number/$uinfo['comments_on_page']);
-		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'message.php?newsid='.$thread_id.'&page='.$page.'#'.$msg_id.'">');  
+		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#'.$msg_id.'">');  
 	}
 }
 $title = ' - Установить фильтр на сообщение';

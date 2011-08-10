@@ -63,7 +63,12 @@ final class admin extends object
 		if(!preg_match("/^[0-9]*$/", $tid))
 		{
 			$re = '/.*message.php\?newsid=([0-9]*).*/';
+			$re_rew = '/.*thread_([0-9]*).*/';
 			if(preg_match($re, $tid, $matches))
+			{
+				$tid = $matches[1];
+			}
+			elseif(preg_match($re_rew, $tid, $matches))
 			{
 				$tid = $matches[1];
 			}
@@ -81,7 +86,12 @@ final class admin extends object
 		if(!preg_match("/^[0-9]*$/", $cid))
 		{
 			$re = '/.*message.php\?newsid=([0-9]*)(&page=[0-9]*)?#([0-9]*)?/';
+			$re_rew = '/.*thread_([0-9]*)(_page_[0-9]*)?#([0-9]*)?/';
 			if(preg_match($re, $cid, $matches))
+			{
+				$cid = $matches[3];
+			}
+			elseif(preg_match($re_rew, $cid, $matches))
 			{
 				$cid = $matches[3];
 			}

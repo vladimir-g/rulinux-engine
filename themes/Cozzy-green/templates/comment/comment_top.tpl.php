@@ -16,7 +16,7 @@
 </div>
 </div>
 
-<form action="comment.php?answerto=<?=$thread_id?>&cid=<?=$message_id?>" method="post">
+<form action="<?=$form_link?>" method="post">
 <table border="0">
 <tr>
 <td style="vertical-align:top;">Тема:</td>

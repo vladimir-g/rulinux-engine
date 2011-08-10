@@ -1,7 +1,7 @@
 <h2><a href="message.php?newsid=<?=$thread_id?>&page=1" id="newsheader" style="text-decoration:none"><?=$subject?></a></h2>
 <div>
-<a href="moder.php?action=approve_thread&tid=<?=$thread_id?>">Подтвердить</a> | 
-<a href="edit-message.php?id=<?=$comment_id?>">Редактировать</a>
+<a href="<?=$aprove_link?>">Подтвердить</a> |  
+<a href="<?=$edit_link?>">Редактировать</a>
 </div>
 <table cellspadding="0" cellspacing="0" border="0"><tr><td style="vertical-align:top">
 <table>

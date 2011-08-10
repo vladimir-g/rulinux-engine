@@ -7,7 +7,7 @@
 <li>Размер не более 700 Kb
 </ul>
 </fieldset>
-<form action="add-content.php?section=<?=$section_id?>" method="post" enctype="multipart/form-data">
+<form action="<?=$form_link?>" method="post" enctype="multipart/form-data">
 <table border="0">
 <tr>
 <td style="vertical-align:top;">Заголовок:</td>

@@ -11,10 +11,12 @@ $section_id = 1;
 $subsection_name = $subsect_arr['name'];
 $subsection_description = $subsect_arr['description'];
 $title = ' - '.$section_name.' - '.$subsection_name;
-$rss_link='view-rss.php?section=1';
+$rss_link='rss_from_sect_'.$section_id.'_subsect_'.$subsection_id;
 include 'header.php';
+$add_link = 'new_thread_in_sect_'.$section_id.'_subsect_'.$subsection_id;
+$form_link_begin = 'news_';
+$form_link_end = '_page_1';
 require 'themes/'.$theme.'/templates/news/nav_top.tpl.php';
-
 $subsct = $sectionsC->get_subsections(1);
 for($i=0; $i<count($subsct);$i++)
 {
@@ -38,8 +40,8 @@ if($pages_count > 1)
 	if($page>1)
 	{
 		$pg = $page-1;
-		$pages = $pages.'<a href="news.php?id='.$subsection_id.'&page=1" title=В Начало>←</a>&nbsp;';
-		$pages = $pages.'<a href="news.php?id='.$subsection_id.'&page='.$pg.'" title="Назад">≪</a>&nbsp;';
+		$pages = $pages.'<a href="news_'.$subsection_id.'_page_1" title=В Начало>←</a>&nbsp;';
+		$pages = $pages.'<a href="news_'.$subsection_id.'_page_'.$pg.'" title="Назад">≪</a>&nbsp;';
 	}
 	if($pages_count>10)
 	{
@@ -57,7 +59,7 @@ if($pages_count > 1)
 			if ($p == $page)
 				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
 			else
-				$pages = $pages.'<a href="news.php?id='.$subsection_id.'&page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
+				$pages = $pages.'<a href="news_'.$subsection_id.'_page_'.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
 		}
 	}
 	else
@@ -67,14 +69,14 @@ if($pages_count > 1)
 			if ($p == $page)
 				$pages = $pages.'<b>'.($p).'</b>&nbsp;';
 			else
-				$pages = $pages.'<a href="news.php?id='.$subsection_id.'&page='.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
+				$pages = $pages.'<a href="news_'.$subsection_id.'_page_'.$p.'" title="Страница №'.$p.'">'.($p).'</a>&nbsp;';
 		}
 	}
 	if($page<$pages_count)
 	{
 		$pg = $page+1;
-		$pages = $pages.'<a href="news.php?id='.$subsection_id.'&page='.$pg.'" title="Вперед">≫</a>&nbsp;';
-		$pages = $pages.'<a href="news.php?id='.$subsection_id.'&page='.$pages_count.'" title="В Конец">→</a>&nbsp;';
+		$pages = $pages.'<a href="news_'.$subsection_id.'_page_'.$pg.'" title="Вперед">≫</a>&nbsp;';
+		$pages = $pages.'<a href="news_'.$subsection_id.'_page_'.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
 $gal = $threadsC->get_news($subsection_id, $begin, $threads_on_page);
@@ -86,11 +88,15 @@ for($i=0; $i<count($gal); $i++)
 	$comment = $gal[$i]['comment'];
 	$usr = $usersC->get_user_info($gal[$i]['uid']);
 	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
-	$author_profile = 'profile.php?id='.$usr['nick'];
+	$author_profile = 'user_'.$usr['nick'];
 	$timestamp = $coreC->to_local_time_zone($gal[$i]['timest']);
 	$thread_id = $gal[$i]['id'];
 	$count = $threadsC->get_comments_count($thread_id);
 	$comments_count = $coreC->declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
+	$thr_link = 'thread_'.$thread_id.'_page_1';
+	$edit_link = 'message_'.$comment_id.':edit';
+	$attach_link = 'attach_thread_'.$thread_id;
+	$cmnt_link = 'comment_into_'.$thread_id.'_on_'.$comment_id;
 	require 'themes/'.$theme.'/templates/news/middle.tpl.php';
 }
 require 'footer.php';

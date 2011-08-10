@@ -1,7 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = ' - Модераторская';
-$rss_link='view-rss.php';
+$rss_link='rss';
 if($uinfo['gid']!=2 && $uinfo['gid']!=3)
 {
 	require 'header.php';
@@ -13,10 +13,11 @@ if($uinfo['gid']!=2 && $uinfo['gid']!=3)
 }
 if($_GET['action']=='move_thread')
 {
+	$tid = (int)$_GET['tid'];
+	$move_link = 'move_thread_'.$tid;
 	if(!empty($_POST['nxt']))
 	{
 		require 'header.php';
-		$tid = (int)$_GET['tid'];
 		$referer = $_POST['referer'];
 		$section = (int)$_POST['section'];
 		$subsections = $sectionsC->get_subsections($section);
@@ -33,7 +34,6 @@ if($_GET['action']=='move_thread')
 	}
 	else if(!empty($_POST['sbm']))
 	{
-		$tid = (int)$_GET['tid'];
 		$referer = $_POST['referer'];
 		$section = (int)$_POST['section'];
 		if($section==3)
@@ -62,7 +62,6 @@ if($_GET['action']=='move_thread')
 	else
 	{
 		require 'header.php';
-		$tid = (int)$_GET['tid'];
 		$referer = getenv("HTTP_REFERER");
 		$sections = $sectionsC->get_section('all');
 		require 'themes/'.$theme.'/templates/moder/move_thread/nxt/top.tpl.php';

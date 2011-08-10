@@ -1,5 +1,5 @@
-<form action="admin.php?action=remove_filter" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_filters_ui"><<<Назад</a>
+<form action="remove_filter_act" method="post" enctype="multipart/form-data">
+<a href="manage_filters"><<<Назад</a>
 <fieldset>
 <legend>Удаление фильтра</legend>
 <table width="100%">

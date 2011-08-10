@@ -1,5 +1,5 @@
-<form action="admin.php?action=remove_mark" method="post" enctype="multipart/form-data">
-<a href="admin.php?action=manage_marks_ui"><<<Назад</a>
+<form action="remove_mark_act" method="post" enctype="multipart/form-data">
+<a href="manage_marks"><<<Назад</a>
 <fieldset>
 <legend>Удаление стиля разметки</legend>
 <table width="100%">

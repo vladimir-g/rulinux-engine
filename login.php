@@ -1,7 +1,7 @@
 <?php
 require 'classes/core.php';
 $title = '';
-$rss_link='view-rss.php';
+$rss_link='rss';
 if(isset($_GET['logout']))
 {
 	$_SESSION['user_id']='';
@@ -19,7 +19,7 @@ else
 	{
 		require 'header.php';
 		$legend = 'Вы уже авторизованны на сайте';
-		$text = 'Вы уже авторизованны на сайте. Если вы хотите войти под другим ником, То вам необходимо <a href="login.php?logout">разлогиниться</a>';
+		$text = 'Вы уже авторизованны на сайте. Если вы хотите войти под другим ником, То вам необходимо <a href="logout">разлогиниться</a>';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		require 'footer.php';
 		exit();
