@@ -157,6 +157,8 @@ if($messages_count>1)
 		$mess_arr = $threadsC->get_msg_number_by_cid($msg_resp['id']);
 		$message_number = $mess_arr[0];
 		$resp_page = ceil($message_number/$uinfo['comments_on_page']);
+		if($resp_page == 0)
+			$resp_page = 1;
 		$message_resp_link = 'thread_'.$thread_id.'_page_'.$resp_page.'#'.$cmnt[$i]['referer'];
 		$message_edit_link = 'message_'.$message_id.':edit';
 		$message_subject = $cmnt[$i]['subject'];
