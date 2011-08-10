@@ -154,7 +154,10 @@ if($messages_count>1)
 		$message_resp_timestamp = $coreC->to_local_time_zone($msg_resp['timest']);
 		$msg_resp_autor = $usersC->get_user_info($msg_resp['uid']);
 		$message_resp_user = $msg_resp_autor['nick'];
-		$message_resp_link = 'thread_'.$thread_id.'#'.$cmnt[$i]['referer'];
+		$mess_arr = $threadsC->get_msg_number_by_cid($msg_resp['id']);
+		$message_number = $mess_arr[0];
+		$resp_page = ceil($message_number/$uinfo['comments_on_page']);
+		$message_resp_link = 'thread_'.$thread_id.'_page_'.$resp_page.'#'.$cmnt[$i]['referer'];
 		$message_edit_link = 'message_'.$message_id.':edit';
 		$message_subject = $cmnt[$i]['subject'];
 		$user_filter = users::get_filter($_SESSION['user_id']);
