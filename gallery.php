@@ -96,7 +96,16 @@ for($i=0; $i<count($gal); $i++)
 	$count = $threadsC->get_comments_count($thread_id);
 	$comments_count = $coreC->declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
 	$edit_link = 'message_'.$comment_id.':edit';
-	$attach_thread = 'attach_thread_'.$thread_id;
+	if($coreC->validate_boolean($gal[$i]['attached']))
+	{
+		$attach_link = 'detach_thread_'.$thread_id;
+		$attach_text = 'Открепить';
+	}
+	else
+	{
+		$attach_link = 'attach_thread_'.$thread_id;
+		$attach_text = 'Прикрепить';
+	}
 	$thr_link = 'thread_'.$thread_id.'_page_1';
 	$cmnt_link = 'comment_into_'.$thread_id.'_on_'.$comment_id;
 	require 'themes/'.$theme.'/templates/gallery/middle.tpl.php';

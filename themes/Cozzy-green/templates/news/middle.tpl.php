@@ -1,7 +1,7 @@
 <h2><a href="<?=$thr_link?>" id="newsheader" style="text-decoration:none"><?=$subject?></a></h2>
 <div>
 <a href="<?=$edit_link?>">Редактировать</a> | 
-<a href="<?=$attach_link?>">Прикрепить</a>
+<a href="<?=$attach_link?>"><?=$attach_text?></a>
 </div>
 <table cellspadding="0" cellspacing="0" border="0"><tr><td style="vertical-align:top">
 <table>

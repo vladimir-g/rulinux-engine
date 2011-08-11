@@ -90,3 +90,5 @@ RewriteRule ^remove_message_act$ admin.php?action=remove_message
 RewriteRule ^remove_thread$ admin.php?action=remove_thread_ui
 RewriteRule ^remove_thread_act$ admin.php?action=remove_thread
 RewriteRule ^edit_settings_act$ admin.php?action=edit_settings
+RewriteRule ^add_question$ faq.php?action=add_question
+RewriteRule ^add_answer_([0-9]*)$ faq.php?action=add_answer&id=$1

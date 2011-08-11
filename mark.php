@@ -11,6 +11,7 @@ $rss_link='rss';
 require 'header.php';
 $description = $mark_info['description'];
 $langs = $coreC->get_settings_by_name('langs');
+$math = $coreC->get_settings_by_name('math');
 require 'themes/'.$theme.'/templates/mark/main.tpl.php';
 require 'footer.php';
 ?>

@@ -155,6 +155,7 @@ else
 		$prooflink = $_POST['news_link'];
 		$comment = $_POST['comment'];
 		$subject = $_POST['subject'];
+		$user_field = $_POST['user_field'];
 		$section_id = (int)$_GET['section'];
 		$subsection_id = (int)$_POST['subsection_id'];
 		$usr = $usersC->get_user_info($_SESSION['user_id']);
@@ -279,6 +280,15 @@ else
 				require 'footer.php';
 				exit();
 			}
+		}
+		if(!empty($_POST['user_field'])
+		{
+			require 'header.php';
+			$legend = 'Заполнено поле не требующее заполнения.';
+			$text = 'Заполнено поле не требующее заполнения';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
 		}
 		$sct=array(1, 2, 3, 4);
 		if(!in_array($section_id, $sct))

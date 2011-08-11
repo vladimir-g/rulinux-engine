@@ -47,7 +47,7 @@ final class threads  extends object
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$param_arr = array($subsection, $end, $begin);
-		$ret = self::$baseC->query('SELECT t.id, t.cid, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=3 AND t.subsection = \'::0::\') ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
+		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=3 AND t.subsection = \'::0::\') ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	function get_news($subsection, $begin= 0, $end = '')
@@ -57,7 +57,7 @@ final class threads  extends object
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$param_arr = array($subsection, $end, $begin);
-		$ret = self::$baseC->query('SELECT t.id, t.cid, t.approved, t.approved_by, t.approve_timest, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=1 AND t.subsection = \'::0::\') ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
+		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.approved, t.approved_by, t.approve_timest, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=1 AND t.subsection = \'::0::\') ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	function get_thread_info($id)
@@ -96,7 +96,7 @@ final class threads  extends object
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$param_arr = array($subsection, $end, $begin);
-		$ret = self::$baseC->query('SELECT t.id, t.cid, t.approved, t.approved_by, t.approve_timest, t.subsection, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=1) ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
+		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.approved, t.approved_by, t.approve_timest, t.subsection, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=1) ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	function get_unconfirmed()

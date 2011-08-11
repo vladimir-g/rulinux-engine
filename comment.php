@@ -32,6 +32,18 @@ if(!empty($_POST['sbm']))
 	else
 		define(COMM_SET, true);
 
+	if (!empty($_POST['user_field']))
+	{
+		require 'header.php';
+		$legend = 'Заполнено поле не требующее заполнения.';
+		$text = 'Заполнено поле не требующее заполнения';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		define(SUBJ_SET, false);
+		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		exit();
+	}
+	else
+		define(SUBJ_SET, true);
 }
 ini_set(’magic_quotes_runtime’, 0);
 ini_set(’magic_quotes_sybase’, 0);
@@ -110,6 +122,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Предпросмотр')
 	$message_autor = $msg_autor['nick'];
 	$message_autor_profile_link = '/profile.php?user='.$message_autor;
 	$message_useragent = $_SERVER['HTTP_USER_AGENT'];
+	$user_field = $_POST['user_field'];
 }
 else
 {

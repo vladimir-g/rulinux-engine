@@ -1,3 +1,4 @@
+<p align="right">[<a href="<?=$add_question_link?>">Добавить вопрос</a>]</p>
 <table width="100%" class="faq-table">
 <thead>
 <tr>
