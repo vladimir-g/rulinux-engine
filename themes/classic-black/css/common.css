@@ -157,8 +157,7 @@ div.code {
   font-family: monospace;
 }
 
-pre {
-    white-space: pre-wrap; /* ��������� Opera, Firefox, Safari, Chrome*/
-    white-space: -o-pre-wrap; /* ������ Opera (8?) */
-    word-wrap: break-word; /* IE 5.5+ */
+pre 
+{
+	white-space : pre-wrap;
 }

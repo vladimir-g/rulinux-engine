@@ -5,7 +5,7 @@ $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
 $profile_name = $_SESSION['user_name'];
 $profile_link = 'user_'.$_SESSION['user_name'];
-$invitation = $_SESSION['user_id'] == 1 ? '<a href="register">Регистрация</a> <a href="login">Вход</a>' : '<a href="logout">Выход</а>';
+$invitation = $_SESSION['user_id'] == 1 ? '<a href="register">Регистрация</a> <a href="login">Вход</a>' : '<a href="logout">Выход</a>';
 if($_SESSION['user_admin'])
 	$invitation = '<a href="admin">Админка</a> '.$invitation;
 $str = $coreC->get_settings_by_name('title');

@@ -1,8 +1,6 @@
 <table class=readers>
-<tfoot>
-</tfoot>
 <thead>
-Этот тред читают <?=$readers_count?>:
+<tr><td>Этот тред читают <?=$readers_count?>:</td></tr>
 </thead>
 <tbody>
 <tr>
@@ -12,4 +10,4 @@
 </tr>
 </tbody>
 </table>
-<br />
+<br>

@@ -3,8 +3,8 @@
 <div class="comment" id="cmm<?=$message_id?>">
 <div class=title>
 <br></div>
-<div class=msg id=<?=$message_id?>>
-<table cellspacing="0" cellspadding="0" width=100%>
+<div class=msg id=msg<?=$message_id?>>
+<table cellspacing="0" width="100%">
 <tr>
 <td valign=top><h2><?=$message_subject?></h2>
 <?=$message_comment?>

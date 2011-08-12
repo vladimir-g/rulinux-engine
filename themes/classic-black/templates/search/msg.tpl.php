@@ -1,6 +1,6 @@
 <br>
-<div class=msg id="<?=$msg_id?>">
-<table cellspacing="0" cellspadding="0" width=100%>
+<div class=msg>
+<table cellspacing="0" width="100%">
 <tr>
 <td valign=top>
 <h2><a href="<?=$link?>"><?=$subject?></a></h2>

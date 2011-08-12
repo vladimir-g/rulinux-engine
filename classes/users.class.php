@@ -119,7 +119,7 @@ final class users extends object
 			$usr_th = empty($_COOKIE['theme']) ? $usr_th : $_COOKIE['theme'];
 		$where_arr = array(array("key"=>'id', "value"=>$usr_th, "oper"=>'='));
 		$theme = self::$baseC->select('themes', '', '*', $where_arr);
-		if (!is_dir('themes/'.$theme[0]['name']))
+		if (!is_dir('themes/'.$theme[0]['directory']))
 		{
 			$themes = self::$baseC->select('themes', '', '*');
 			$theme = False;

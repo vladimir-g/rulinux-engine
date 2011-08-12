@@ -1,7 +1,7 @@
 <h2>Разметка <?=$mark_name?></h2>
 <?=$description?>
-<br /><br />
+<br><br>
 <?=$math?>
-<br /><br />
+<br><br>
 <?=$langs?>
-<br />
+<br>

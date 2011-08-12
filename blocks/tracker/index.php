@@ -22,7 +22,7 @@ if(!empty($msg))
 		$page = ceil($message_number/$uinfo['comments_on_page']);
 		if($page == 0)
 			$page = 1;
-		$link = 'thread_'.$msg[$z]['tid'].'_page_'.$page.'#'.$msg[$z]['id'];
+		$link = 'thread_'.$msg[$z]['tid'].'_page_'.$page.'#msg'.$msg[$z]['id'];
 		$boxlet_content = str_replace('[link]', $link, $boxlet_content);
 	}
 }

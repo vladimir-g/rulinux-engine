@@ -1,5 +1,5 @@
 <h1>Профиль пользователя</h1>
-<img src="<?=$photo?>">
+<img src="<?=$photo?>" alt="avatar">
 <br>
 <table>
 <tr>

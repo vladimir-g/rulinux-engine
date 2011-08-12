@@ -71,7 +71,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 				}
 				$str = $filtersC->set_auto_filter($msg_id, $str);
 				$val = $messagesC->set_filter($msg_id, $str);
-				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#'.$msg_id.'">');
+				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');
 			}
 			else 
 			{
@@ -99,7 +99,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 			}
 			$str = $filtersC->set_auto_filter($msg_id, $str);
 			$val = $messagesC->set_filter($msg_id, $str);
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#'.$msg_id.'">');  
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');  
 		}
 	}
 	else
@@ -141,7 +141,7 @@ else
 
 
 if ($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1)
-	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
+	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha" alt="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 else
 	$captcha = '';
 $form_link = 'comment_into_'.$thread_id.'_on_'.$message_id;

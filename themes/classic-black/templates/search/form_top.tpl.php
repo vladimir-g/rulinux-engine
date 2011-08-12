@@ -1,9 +1,6 @@
-<br /><h1>Поиск по сайту</h1><br />
+<br><h1>Поиск по сайту</h1><br>
 <form method=GET action="search.php">
 <table width="60%">
-<thead></thead>
-<tfoot></tfoot>
-<tbody>
 <tr>
 <td>
 Искать: <input type="text" name="q" size=50 value="<?=$search_string?>">
@@ -53,12 +50,8 @@
 <td></td>
 <td></td>
 </tr>
-</tbody>
 </table>
 <table>
-<thead></thead>
-<tfoot><tfoot>
-<tbody>
 <tr>
 <td>Искать по фильтрам:</td>
 <td><input type="radio" name="filter_search" value="yes" <?=$fil_srch_yes_ch?>>Да</td>

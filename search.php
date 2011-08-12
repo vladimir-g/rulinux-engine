@@ -72,7 +72,7 @@ if(!empty($_GET['q']))
 			$page = ceil($message_number/$uinfo['comments_on_page']);
 			if($page == 0)
 				$page = 1;
-			$link = 'thread_'.$found_msg[$i]['tid'].'_page_'.$page.'#'.$msg_id;
+			$link = 'thread_'.$found_msg[$i]['tid'].'_page_'.$page.'#msg'.$msg_id;
 			$subject = $found_msg[$i]['subject'];
 			$comment = $found_msg[$i]['comment'];
 			$usr = $usersC->get_user_info($found_msg[$i]['uid']);

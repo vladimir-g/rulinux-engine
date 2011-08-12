@@ -14,11 +14,15 @@ else
 $limit = 50;
 if(isset($_GET['resp']))
 {
+	$backward_link = 'replys_offset_'.$prev_offset.'_'.$user;
+	$forward_link = 'replys_offset_'.$next_offset.'_'.$user;
 	require 'themes/'.$theme.'/templates/view_comments/resp_top.tpl.php';
 	$msg = $messagesC->get_user_reply($user, $limit, $offset);
 }
 else
 {
+	$backward_link = 'comments_offset_'.$prev_offset.'_'.$user;
+	$forward_link = 'comments_offset_'.$next_offset.'_'.$user;
 	require 'themes/'.$theme.'/templates/view_comments/top.tpl.php';
 	$msg = $messagesC->get_user_messages($user, $limit, $offset);
 }
@@ -33,7 +37,7 @@ for($i=0; $i<count($msg); $i++)
 	$page = ceil($message_number/$uinfo['comments_on_page']);
 	if($page == 0)
 		$page = 1;
-	$link = 'thread_'.$msg[$i]['tid'].'_page_'.$page.'#'.$msg[$i]['id'];
+	$link = 'thread_'.$msg[$i]['tid'].'_page_'.$page.'#msg'.$msg[$i]['id'];
 	$subject = $msg[$i]['subject'];
 	$timestamp = core::to_local_time_zone($msg[$i]['timest']);
 	require 'themes/'.$theme.'/templates/view_comments/middle.tpl.php';
@@ -48,14 +52,10 @@ else
 	$prev_offset = 0;
 if(isset($_GET['resp']))
 {
-	$backward_link = 'replys_offset_'.$prev_offset.'_'.$user;
-	$forward_link = 'replys_offset_'.$next_offset.'_'.$user;
 	require 'themes/'.$theme.'/templates/view_comments/resp_bottom.tpl.php';
 }
 else
 {
-	$backward_link = 'comments_offset_'.$prev_offset.'_'.$user;
-	$forward_link = 'comments_offset_'.$next_offset.'_'.$user;
 	require 'themes/'.$theme.'/templates/view_comments/bottom.tpl.php';
 }
 require 'footer.php';

@@ -12,7 +12,7 @@ if($questions>0)
 		$file = fopen($filename, "r") or die("Can't open file!");
 		$boxlet_content = $boxlet_content.fread($file, filesize($filename));
 		fclose($file); 
-		$quest = substr($questions[$z]['question'], 0, 128);
+		$quest = strip_tags($questions[$z]['question']);
 		$boxlet_content = str_replace('[question]', $quest, $boxlet_content);
 	}
 }

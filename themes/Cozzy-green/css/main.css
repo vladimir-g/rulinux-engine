@@ -102,11 +102,24 @@ table.nav>tbody>tr>td {
   background-color: white;
 }
 
-TR.color2 { background: #f0f0f0; }
+TR.color2 
+{ 
+	background: #f0f0f0; 
+}
 .message-table {
   background: #84ac60;
   border-spacing: 1px;
   background-image: url(images/tile_cat.gif);
+}
+
+TR.headClsTop
+{
+	background-image: url(images/tile_back.gif);
+}
+
+TR.headClsBottom
+{
+	background-image: url(images/tile_sub-lite.gif);
 }
 
 .message-table td {

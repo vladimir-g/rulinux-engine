@@ -8,7 +8,7 @@ if(empty($_POST['submit_form']))
 {
 	require 'header.php';
 	if ($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1)
-		$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
+		$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha" alt="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 	else
 		$captcha = '';
 	if(empty($_GET['section']))
@@ -281,7 +281,7 @@ else
 				exit();
 			}
 		}
-		if(!empty($_POST['user_field'])
+		if(!empty($_POST['user_field']))
 		{
 			require 'header.php';
 			$legend = 'Заполнено поле не требующее заполнения.';

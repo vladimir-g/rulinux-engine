@@ -1,1 +1,1 @@
-<li><a id="menu" href="<?=$link?>"><?=$link_name?></a>
+<li><a href="<?=$link?>"><?=$link_name?></a>

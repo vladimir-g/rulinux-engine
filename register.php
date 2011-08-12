@@ -160,7 +160,7 @@ else if($_POST['action']=='second_sbm')
 else
 {
 	require 'header.php';
-	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
+	$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha" alt="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
 	require 'themes/'.$theme.'/templates/register/first_page.tpl.php';
 	require 'footer.php';
 }

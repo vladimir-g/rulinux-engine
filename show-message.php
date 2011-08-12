@@ -19,7 +19,7 @@ if(!empty($msg_resp))
 	$resp_page = ceil($message_number/$uinfo['comments_on_page']);
 	if($resp_page == 0)
 		$resp_page = 1;
-	$message_resp_link = 'thread_'.$msg['tid'].'_page_'.$resp_page.'#'.$msg['referer'];
+	$message_resp_link = 'thread_'.$msg['tid'].'_page_'.$resp_page.'#msg'.$msg['referer'];
 	$reply = 'Ответ на: <a href="'.$message_resp_link.'">'.$message_resp_title.'</a> от '.$message_resp_user.'  '.$message_resp_timestamp;
 }
 $message_subject = $msg['subject'];

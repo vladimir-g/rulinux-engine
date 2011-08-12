@@ -2,11 +2,11 @@
 <br>
 <table width="100%" class="message-table">
 <thead>
-<b>Список пользователей</b>
 <tr>
-<th></th>
+<th>Список пользователей</th>
 </tr>
 </thead>
 <tfoot>
+<tr><td></td></tr>
 </tfoot>
 <tbody>

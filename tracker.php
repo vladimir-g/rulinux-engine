@@ -20,7 +20,7 @@ for($i=0; $i<count($messages);$i++)
 	$page = ceil($message_number/$uinfo['comments_on_page']);
 	if($page == 0)
 		$page = 1;
-	$link = 'thread_'.$messages[$i]['tid'].'_page_'.$page.'#'.$messages[$i]['id'];
+	$link = 'thread_'.$messages[$i]['tid'].'_page_'.$page.'#msg'.$messages[$i]['id'];
 	$subject = $messages[$i]['subject'];
 	$author_info = $usersC->get_user_info($messages[$i]['uid']);
 	$coreC->validate_boolean($author_info['banned']) ? $author = '<s>'.$author_info['nick'].'</s>' :$author = $author_info['nick'];

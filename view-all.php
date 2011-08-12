@@ -21,6 +21,7 @@ for($i=0; $i<count($unconfirmed); $i++)
 	$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($unconfirmed[$i]['subsection']);
 	$aprove_link = 'approve_thread_'.$thread_id;
 	$edit_link = 'message_'.$comment_id.':edit';
+	$thr_link = 'thread_'.$thread_id.'_page_1';
 	if($unconfirmed[$i]['section']==1)
 		require 'themes/'.$theme.'/templates/view_all/news.tpl.php';
 	else if($unconfirmed[$i]['section']==2)
