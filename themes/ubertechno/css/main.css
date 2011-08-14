@@ -1,8 +1,15 @@
 /* (c) ???? ????????? 1999 <maxcom@vinchi.ru> */
 
+@font-face
+{
+	font-family: 'TerminusRe33';
+	src:
+		url('fonts/TerminusRe33-Bold.ttf')  format('truetype')
+}
+
 BODY 
 { 
-	font-family: serif;
+	font-family: TerminusRe33;
 	background: #000000;
 	color: #a3d1ab;
 }
@@ -55,14 +62,13 @@ DIV.boxlet H2
 	text-align: center; 
 	color: #a3d1ab; 
 	font-size: medium; 
-	font-family: serif; 
 	background-color: #446347;
 	border: 1px;
 	border-color: #446347;
-	padding-bottom: 5px;
 	font-weight: bold;
 	margin-top: 0px;
 	background-image: url(images/green_lines.jpg);
+	height: 25px;
 }
 
 DIV.boxlet H3
@@ -88,7 +94,6 @@ DIV.boxlet A:link
 
 DIV.boxlet {
 	font-size: small; 
-	font-family: serif; 
 	text-align: left; 
 	color: #a3d1ab;
 	background-color: #18251a; 
@@ -107,7 +112,6 @@ DIV.boxlet LI
 DIV.columnimg
 { 
 	font-size: small; 
-	font-family: serif; 
 	margin-top: 30px; 
 	text-align: center; 
 }
@@ -115,7 +119,6 @@ DIV.columnimg
 /* news items */
 .news H2 
 { 
-	font-family: serif; 
 	margin-bottom: 5px; 
 	margin-top: 5px;
 	text-align: center;
@@ -233,3 +236,37 @@ DIV.notes
 	border: red solid 1px;
 }
 
+.boxlet_title
+{
+	background: #18251a;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 3px;
+	padding-bottom: 8px;
+	
+}
+
+.news_title
+{
+	background: #18251a;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 4px;
+	padding-bottom: 3px;
+}
+
+.news_title A
+{
+	color: #a3d1ab;
+}
+
+.comment_links
+{
+	text-align: right;
+}
+
+.boxlet_content
+{
+	/*text-align: center;*/
+	padding-left: 15px;
+}

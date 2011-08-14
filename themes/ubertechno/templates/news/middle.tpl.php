@@ -11,10 +11,10 @@
 </td>
 </tr>
 </table>
-<p style="font-style:italic"><?=$author?> (<a href="<?=$author_profile?>">*</a>) (<?=$timestamp?>)</p>[<a href="<?=$thr_link?>"><?=$comments_count?></a>]&nbsp;[<a href="<?=$cmnt_link?>">Добавить комментарий</a>]
-<br>
-<br>
 </td>
 </tr>
 </table>
+<table width="100%"><tr><td style="text-align:left"><?=$author?> (<a href="<?=$author_profile?>">*</a>) (<?=$timestamp?>)</td><td style="text-align:right"><a href="<?=$thr_link?>"><?=$comments_count?></a>&nbsp;/&nbsp;<a href="<?=$cmnt_link?>">Комментировать</a></td></tr></table>
+<br>
+<br>
 <hr>
