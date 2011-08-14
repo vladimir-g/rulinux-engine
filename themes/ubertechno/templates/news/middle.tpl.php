@@ -1,4 +1,4 @@
-<h2><a href="<?=$thr_link?>" style="text-decoration:none"><?=$subject?></a></h2>
+<h2><a href="<?=$thr_link?>"><?=$subject?></a></h2>
 <div>
 <a href="<?=$edit_link?>">Редактировать</a> | 
 <a href="<?=$attach_link?>"><?=$attach_text?></a>

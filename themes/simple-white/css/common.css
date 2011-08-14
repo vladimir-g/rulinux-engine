@@ -162,3 +162,13 @@ pre {
     white-space: -o-pre-wrap; /* ������ Opera (8?) */
     word-wrap: break-word; /* IE 5.5+ */
 }
+
+.newsblog-left
+{
+	margin-left: 245px;
+}
+
+.newsblog-right
+{
+	margin-right: 245px;
+}

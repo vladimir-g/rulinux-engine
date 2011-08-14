@@ -50,7 +50,7 @@ DIV.column2 {
   text-align: center;
   width: 240px;
   position: absolute;
-  right: 0;
+  right: 12px;
 }
 
 DIV.newsblog {
@@ -64,14 +64,24 @@ DIV.newsblog {
 }
 
 .newsblog-in2 {
-  margin-left: 245px;
-  margin-right: 245px;
+	margin-left: 255px;
+	margin-right: 255px;
+	background-color: #18251a;
+	border: 1px;
+	border-color: #446347;
+	border-style: solid;
 }
 
 DIV.newsblog2 {
   margin-left: -490px;
   width: 100%;
   float: right;
+}
+
+DIV.newsblog2 H1
+{
+	text-align:center;
+	background-image: url(images/green_lines.jpg);
 }
 
 H1 {
@@ -159,4 +169,22 @@ div.code {
 
 pre {
     white-space: pre-wrap;
+}
+
+.newsblog-left
+{
+	margin-left: 255px;
+	background-color: #18251a;
+	border: 1px;
+	border-color: #446347;
+	border-style: solid;
+}
+
+.newsblog-right
+{
+	margin-right: 240px;
+	background-color: #18251a;
+	border: 1px;
+	border-color: #446347;
+	border-style: solid;
 }

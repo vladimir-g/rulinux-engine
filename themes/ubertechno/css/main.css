@@ -4,13 +4,13 @@ BODY
 { 
 	font-family: serif;
 	background: #000000;
-	color: #000000;
+	color: #a3d1ab;
 }
 
 A 
 { 
 	color: #c9bb91; 
-	text-decoration: underline
+	text-decoration: none; 
 }
 
 A:link 
@@ -30,7 +30,9 @@ A:hover
 
 hr 
 { 
-	color: #000000; 
+	color: #446347;
+	/*border: 1px;
+	border-color: #446347;*/
 }
 
 H1 
@@ -55,7 +57,7 @@ DIV.boxlet H2
 	font-size: medium; 
 	font-family: serif; 
 	background-color: #446347;
-	border: 2px; 
+	border: 1px;
 	border-color: #446347;
 	padding-bottom: 5px;
 	font-weight: bold;
@@ -81,7 +83,7 @@ DIV.boxlet A
 
 DIV.boxlet A:link 
 {
-	color: #0000ee
+	color: #c9bb91;
 }
 
 DIV.boxlet {
@@ -90,7 +92,7 @@ DIV.boxlet {
 	text-align: left; 
 	color: #a3d1ab;
 	background-color: #18251a; 
-	border: 2px;
+	border: 1px;
 	border-color: #446347;
 	border-style: solid;
 	padding-bottom: 1em;
@@ -115,13 +117,14 @@ DIV.columnimg
 { 
 	font-family: serif; 
 	margin-bottom: 5px; 
-	margin-top: 5px; 
+	margin-top: 5px;
+	text-align: center;
 }
 
 .news H2 A 
 { 
 	text-decoration: none; 
-	color: black; 
+	color: #c9bb91;
 }
 
 .news DIV.nav 
@@ -132,56 +135,67 @@ DIV.columnimg
 
 .news 
 { 
-	width:100% 
+	width:100%
 }
 /* view-forum */
-DIV.forum A { text-decoration: none }
-.color1 { background: #c0c0c0; }
+DIV.forum A
+{
+	text-decoration: none
+}
 
-.nav {
-  border: #c0c0c0 1px solid;
-  background: #f0f0f0;
+.color1
+{
+	background: #c0c0c0;
+}
+
+.nav
+{
+	border: #c0c0c0 1px solid;
+	background: #f0f0f0;
 }
 
 table.nav>tbody>tr>td {
-  border: #c0c0c0 1px solid; 
-  background-color: #f0f0f0;
+	background-color: #18251a;
+	border: 1px;
+	border-color: #446347;
+	border-style: solid;
 }
 
 .newsblog, .nav {
-  background-color: white;
+	background-color: white;
 }
 
-.newsblog2, .nav {
-  background-color: white;
+.newsblog2, .nav
+{
+	
 }
 
 .entry-body .nav {
-  background-color: white;
+	background-color: white;
 }
 
 .pageinfo {
-  border: #c0c0c0 1px solid;
-  background: #f0f0f0;
+	border: #c0c0c0 1px solid;
+	background: #f0f0f0;
 }
 
 TR.color2 { background: #f0f0f0; }
 .message-table {
-  background: #c0c0c0;
-  border-spacing: 1px;
+	background: #c0c0c0;
+	border-spacing: 1px;
 }
 
 .message-table td {
-  padding: 0;
+	padding: 0;
 }
 
 .message-table tbody {
-  background: #f0f0f0;
+	background: #f0f0f0;
 }
 
 .entry-body .nav A {
-  text-decoration: underline;
-  margin-bottom: 0;
+	text-decoration: underline;
+	margin-bottom: 0;
 }
 
 div.messages, div.title { background-color: #4876ff; }
@@ -203,18 +217,19 @@ DIV.notes
 .head-main A:visited { text-decoration: none; color: black }
 
 .head-main table {
-  border-collapse: collapse;
-  margin-top: 5px;
-  border-style: solid;
-  border-color: white;
+	border-collapse: collapse;
+	margin-top: 5px;
+	border-style: solid;
+	border-color: white;
 }
 
 .head-main td { border: 1px solid #c0c0c0; padding: 3px; text-align: right; }
 
 .messages .msg {
-  border: 1px solid #f0f0f0;
+	border: 1px solid #f0f0f0;
 }
 
 .messages .highLighted {
 	border: red solid 1px;
 }
+

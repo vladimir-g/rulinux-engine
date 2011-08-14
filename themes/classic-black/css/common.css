@@ -161,3 +161,13 @@ pre
 {
 	white-space : pre-wrap;
 }
+
+.newsblog-left
+{
+	margin-left: 245px;
+}
+
+.newsblog-right
+{
+	margin-right: 245px;
+}

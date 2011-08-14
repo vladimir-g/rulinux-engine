@@ -22,9 +22,9 @@ for($i=0; $i<count($blocks); $i++)
 if(empty($left_arr) && empty($right_arr))
 	$position = '<div>';
 else if(empty($left_arr) && !empty($right_arr))
-	$position = '<div style="margin-right: 245px;">';
+	$position = '<div class="newsblog-right">';
 else if(!empty($left_arr) && empty($right_arr))
-	$position = '<div style="margin-left: 245px;">';
+	$position = '<div class="newsblog-left">';
 else if(!empty($left_arr) && !empty($right_arr))
 	$position = '<div class="newsblog-in2">';
 require 'themes/'.$theme.'/templates/index/nav.tpl.php';
