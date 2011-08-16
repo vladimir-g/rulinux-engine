@@ -1,3 +1,4 @@
+<?=$pages?>
 </div>
 </div>
 </div>

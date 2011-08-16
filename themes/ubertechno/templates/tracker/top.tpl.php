@@ -2,11 +2,13 @@
 <div class=forum>
 <table width="100%" class="message-table">
 <thead>
-<tr>
-<th  width = "5%">Управление</th>
-<th  width = "12%">Раздел</th>
-<th>Заголовок</th>
-<th width = "15%">Время постинга</th>
+<tr class="tracker_title_tr">
+<?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
+<th style="padding: 0px;" width = "5%"><span class="tracker_title">Управление</span></th>
+<?}?>
+<th style="padding: 0px;" width = "12%"><span class="tracker_title">Раздел</span></th>
+<th style="padding: 0px;"><span class="tracker_title">Заголовок</span></th>
+<th style="padding: 0px;" width = "15%"><span class="tracker_title">Время постинга</span></th>
 </tr>
 </thead>
 <tfoot>

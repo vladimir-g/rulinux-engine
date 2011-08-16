@@ -14,6 +14,8 @@ if($questions>0)
 		fclose($file); 
 		$quest = strip_tags($questions[$z]['question']);
 		$boxlet_content = str_replace('[question]', $quest, $boxlet_content);
+		$link = 'faq#q'.$questions[$z]['id'];
+		$boxlet_content = str_replace('[link]', $link, $boxlet_content);
 	}
 }
 $boxlet_content = str_replace('[title]', $name, $boxlet_content);

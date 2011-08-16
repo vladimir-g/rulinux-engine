@@ -28,13 +28,14 @@ $(function()
 </div>
 		
 <div class=forum>
-<table width="100%" class="message-table">
+<table width="100%" class="message-table" cellspacing="0">
 <thead>
-<tr>
-<th>Управление</th>
-<th width = "70%">Заголовок</th>
-<th>Число ответов
-<br>всего/день/час</th>
+<tr class="msg_table_title_tr">
+<?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
+<th style="padding: 0px;"><span class="msg_table_title">Управление</span></th>
+<?}?>
+<th style="padding: 0px;" width = "70%"><span class="msg_table_title">Заголовок</span></th>
+<th style="padding: 0px;"><span class="msg_table_title">Число ответов</span></th>
 </tr>
 </thead>
 

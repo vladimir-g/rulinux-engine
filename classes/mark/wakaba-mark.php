@@ -97,10 +97,21 @@ function str_to_html($string)
 	$vt = preg_match_all($img_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{
-		if(!empty($match[4][$i]))
-			$string = preg_replace($img_re, "<img src=\"\$6\" align=\"$4\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		$imageinfo = getimagesize($match[5][$i]);
+		if($imageinfo[0] > 1024)
+		{
+			if(!empty($match[3][$i]))
+				$string = preg_replace($img_re, "<img src=\"\$6\" align=\"$4\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+			else
+				$string = preg_replace($img_re, "<img src=\"\$6\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		}
 		else
-			$string = preg_replace($img_re, "<img src=\"\$6\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		{
+			if(!empty($match[4][$i]))
+				$string = preg_replace($img_re, "<img src=\"\$6\" align=\"$4\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+			else
+				$string = preg_replace($img_re, "<img src=\"\$6\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		}
 	}
 	$string = preg_replace("#(\r\n|<p>|^)(>|&gt;)(.*?[^\n]?)(\n|$)#sim","\$1<i>>\$3</i><br>", $string);
 	$string = preg_replace("#(\r\n)+#", '<br>', $string);

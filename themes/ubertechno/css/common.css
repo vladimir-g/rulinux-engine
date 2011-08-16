@@ -82,6 +82,9 @@ DIV.newsblog2 H1
 {
 	text-align:center;
 	background-image: url(images/green_lines.jpg);
+	margin-bottom: 0;
+	margin-top: 0;
+	height: 27px;
 }
 
 H1 {
@@ -122,8 +125,11 @@ DIV.sign {
   padding-bottom: 1em;
 }
 
-.messages .highLighted {
-    border: red solid 1px;
+.messages .highLighted 
+{
+   border: solid 1px;
+   border-color: #c9bb91;
+   
 }
 
 .cloud0 { font-size: 0.5em; }
@@ -167,8 +173,9 @@ div.code {
   font-family: monospace;
 }
 
-pre {
-    white-space: pre-wrap;
+pre 
+{
+    white-space : pre-wrap;
 }
 
 .newsblog-left

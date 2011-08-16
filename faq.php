@@ -117,6 +117,7 @@ else
 	$questions = $faqC->get_questions();
 	for($i=0; $i<count($questions); $i++)
 	{
+		$id = $questions[$i]['id'];
 		$subject = $questions[$i]['subject'];
 		$question = $questions[$i]['question'];
 		if($coreC->validate_boolean($questions[$i]['answered']))

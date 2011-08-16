@@ -1,3 +1,3 @@
-<h2><span class="boxlet_title">[title]</span></h2>
+<div class="boxlet_title_div"><span class="boxlet_title">[title]</span></div>
 <div class="boxlet_content">
 <ul>

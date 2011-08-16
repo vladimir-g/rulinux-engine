@@ -23,6 +23,12 @@ class object
 			$gmt = $sel[0]['gmt'];
 		else
 			$gmt = '+0';
+		
+		if($_SESSION['user_id'] == 1)
+		{
+			if(!empty($_COOKIE['gmt']))
+				$gmt = $_COOKIE['gmt'];
+		}
 		$timest = date("Y-m-d H:i:s", mktime($hour, $minute, $second, $month, $day, $year)+($gmt*3600));
 		return $timest;
 	}

@@ -1,8 +1,10 @@
 <h2><a href="<?=$thr_link?>" id="newsheader" style="text-decoration:none"><?=$subject?></a></h2>
+<?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
 <div>
 <a href="<?=$aprove_link?>">Подтвердить</a> |  
 <a href="<?=$edit_link?>">Редактировать</a>
 </div>
+<?}?>
 <table cellspacing="0" border="0"><tr><td style="vertical-align:top">
 <table>
 <tr>

@@ -67,10 +67,21 @@ function str_to_html($string)
 	$vt = preg_match_all($img_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{
-		if(empty($match[3][$i]))
-			$string = preg_replace($img_re, "<img src=\"\$6\" align=\"$3\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		$imageinfo = getimagesize($match[5][$i]);
+		if($imageinfo[0] > 1024)
+		{
+			if(!empty($match[3][$i]))
+				$string = preg_replace($img_re, "<img src=\"\$6\" align=\"$3\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+			else
+				$string = preg_replace($img_re, "<img src=\"\$6\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		}
 		else
-			$string = preg_replace($img_re, "<img src=\"\$6\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		{
+			if(empty($match[3][$i]))
+				$string = preg_replace($img_re, "<img src=\"\$6\" align=\"$3\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+			else
+				$string = preg_replace($img_re, "<img src=\"\$6\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		}
 	}
  	$user_re = "#(&lt;span class=&quot;user&quot;&gt;)((?!&lt;/span&gt;).*?)(&lt;/span&gt;)#suim";
  	$arr = preg_match_all($user_re, $string, $match);

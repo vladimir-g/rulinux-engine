@@ -31,7 +31,9 @@ $(function()
 <table width="100%" class="message-table">
 <thead>
 <tr>
+<?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
 <th>Управление</th>
+<?}?>
 <th width = "70%">Заголовок</th>
 <th>Число ответов
 <br>всего/день/час</th>

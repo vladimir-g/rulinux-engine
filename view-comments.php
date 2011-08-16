@@ -12,6 +12,14 @@ if(!empty($_GET['user']))
 else
 	$user = $profile_name;
 $limit = 50;
+if(count($msg)<$limit)
+	$next_offset = $offset;
+else
+	$next_offset = $offset+$limit;
+if($offset>$limit)
+	$prev_offset = $offset-$limit;
+else
+	$prev_offset = 0;
 if(isset($_GET['resp']))
 {
 	$backward_link = 'replys_offset_'.$prev_offset.'_'.$user;
@@ -42,14 +50,6 @@ for($i=0; $i<count($msg); $i++)
 	$timestamp = core::to_local_time_zone($msg[$i]['timest']);
 	require 'themes/'.$theme.'/templates/view_comments/middle.tpl.php';
 }
-if(count($msg)<$limit)
-	$next_offset = $offset;
-else
-	$next_offset = $offset+$limit;
-if($offset>$limit)
-	$prev_offset = $offset-$limit;
-else
-	$prev_offset = 0;
 if(isset($_GET['resp']))
 {
 	require 'themes/'.$theme.'/templates/view_comments/resp_bottom.tpl.php';

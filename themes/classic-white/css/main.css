@@ -17,7 +17,7 @@ H2 { color: #000000; }
 
 H1 A { text-decoration: none; }
 
-DIV.boxlet H2
+.boxlet_title_div
    { 
     text-align: center; 
     color: white; 
@@ -35,7 +35,7 @@ DIV.boxlet H3
     font-size: small;
    }
 
-DIV.boxlet H2 A { text-decoration: none; color: white }
+.boxlet_title_div A { text-decoration: none; color: white }
 DIV.boxlet A { text-decoration: none; }
 DIV.boxlet A:link {color: #0000ee}
 DIV.boxlet {
@@ -146,4 +146,16 @@ DIV.notes
 
 .messages .highLighted {
     border: red solid 1px;
+}
+
+.root 
+{ 
+	color: red; 
+	font-weight: bold; 
+} 
+
+.moder 
+{ 
+	color: red; 
+	font-weight: bold; 
 }

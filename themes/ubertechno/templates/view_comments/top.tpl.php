@@ -1,10 +1,10 @@
 <h1>Последние комментарии пользователя <?=$user?></h1>
 <table width="100%" class="message-table">
 <thead>
-<tr>
-<th>Раздел</th>
-<th>Заглавие темы</th>
-<th>Дата</th>
+<tr class="msg_table_title_tr">
+<th style="padding: 0px;"><span class="comments_title">Раздел</span></th>
+<th style="padding: 0px;"><span class="comments_title">Заглавие темы</span></th>
+<th style="padding: 0px;"><span class="comments_title">Дата</span></th>
 </tr>
 </thead>
 <tfoot>

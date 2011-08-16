@@ -2,8 +2,8 @@
 <br>
 <table width="100%" class="message-table">
 <thead>
-<tr>
-<th>Список пользователей</th>
+<tr class="msg_table_title_tr">
+<th style="padding: 0px;"><span class="msg_table_title">Список пользователей</span></th>
 </tr>
 </thead>
 <tfoot>

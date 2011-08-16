@@ -1,6 +1,6 @@
 <?php
 $subsection_id = (int)$_GET['id'];
-$page = (int)$_GET['page'];
+$_GET['page'] > 1 ? $page = (int)$_GET['page'] : $page=1;
 require 'classes/core.php';
 $subsect_arr = $sectionsC->get_subsection(4, $subsection_id);
 $sect_arr = $sectionsC->get_section(4);
@@ -30,7 +30,7 @@ for($i=0; $i<count($subsct);$i++)
 }
 require 'themes/'.$theme.'/templates/group/nav_bottom.tpl.php';
 require 'themes/'.$theme.'/templates/group/top.tpl.php';
-$threads_count = $threadsC->get_threads_count(4, $subsection_id);
+$threads_count = $threadsC->get_threads_count($section_id, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1?	$begin=$threads_on_page*($page-1):$begin = 0;

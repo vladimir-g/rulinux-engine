@@ -11,43 +11,17 @@
  *                                                                         *
  ***************************************************************************/
 
-/********* HOW TO USE PHPMATHPUBLISHER ****************************
-1) Fix the path to the fonts and the images directory (see PARAMETERS TO MODIFY below)
-2) Include this script in your php page :
-include("mathpublisher.php") ;
-3) Just call the mathfilter($text,$size,$pathtoimg) function in your php page.
-$text is the text with standard html tags and mathematical expressions (defined by the <m>...</m> tag).
-$size is the size of the police used for the formulas.
-$pathtoimg is the relative path between the html pages and the images directory.
-With a simple "echo mathfilter($text,$size,$pathtoimg);", you can display text with mathematical formulas.
-The mathfilter function will replace all the math tags (<m>formula</m>) in $text by <img src=the formula image >.
-Example : 
-mathfilter("A math formula : <m>f(x)=sqrt{x}</m>,12,"img/") will return :
-"A math formula : <img src=\"img/math_988.5_903b2b36fc716cfb87ff76a65911a6f0.png\" style=\"vertical-align:-11.5px; display: inline-block ;\" alt=\"f(x)=sqrt{x}\" title=\"f(x)=sqrt{x}\">"
-The image corresponding to a formula is created only once. Then the image is stocked into the image directories.
-The first time that mathfilter is called, the images corresponding to the formulas are created, but the next times mathfilter will only return the html code.
-
-NOTE : if the free latex fonts furnished with this script don't work well (very tiny formulas - that's could happened with some GD configurations), you should try to use the bakoma versions of these fonts (downloadable here : http://www.ctan.org/tex-archive/fonts/cm/ps-type1/bakoma/ttf/ )
-*******************************************************************/
-
-//********* PARAMETERS TO MODIFY *********************************
-// The four global variables. Uncomment the line if you need it.
-//global $dirfonts,$dirimg,$symboles,$fontesmath;
-
-// choose the type of the declaration according to your server settings (some servers don't accept the dirname(__FILE__) command for security reasons).
-
-// NEW in 0.3 version : no more / at the end of $dirfonts and $dirimg
-
-// absolute path to the fonts directory
 $dirfonts=$_SERVER["DOCUMENT_ROOT"]."/librarys/phpmathpublisher/fonts";
-// or $dirfonts=dirname(__FILE__)."/phpmathpublisher/fonts";
-
-// absolute path to the images directory
 $dirimg=$_SERVER["DOCUMENT_ROOT"]."/images/formulas/";
-// or $dirimg=dirname(__FILE__)."/phpmathpublisher/img";
+$backR = 255;
+$backG = 255;
+$backB = 255;
+$fontR = 0;
+$fontG = 0;
+$fontB = 0;
+$transperent = false;
 
 
-//******************************************************************
 $symboles = array(
 '~'=>' ',
 'alpha'=>'&#174;',
@@ -376,36 +350,36 @@ return $result;
 // ugly hack, but GD is not very good with truetype fonts (especially with latex fonts)
 function affiche_symbol($texte,$haut)
 {
-global $symboles, $fontesmath, $dirfonts;
+global $symboles, $fontesmath, $dirfonts, $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $texte=trim(stripslashes($texte));
 switch($texte)
 	{
 	case '':
 	$img = ImageCreate(1, max($haut,1));
-	$blanc=ImageColorAllocate($img,255,255,255);
-	$blanc=imagecolortransparent($img,$blanc);
+	$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
 	ImageFilledRectangle($img,0,0,1,$haut,$blanc);
 	break;
 	case '~':
 	$img = ImageCreate(1, max($haut,1));
-	$blanc=ImageColorAllocate($img,255,255,255);
+	$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
 	$blanc=imagecolortransparent($img,$blanc);
 	ImageFilledRectangle($img,0,0,1,$haut,$blanc);
 	break;
 	case 'vert':
 	$img = ImageCreate(6, max($haut,1));
-	$blanc=ImageColorAllocate($img,255,255,255);
-	$blanc=imagecolortransparent($img,$blanc);
-	$noir=ImageColorAllocate($img,0,0,0);
+	$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
+	$noir=ImageColorAllocate($img,$fontR,$fontG,$fontB);
 	ImageFilledRectangle($img,0,0,6,$haut,$blanc);
 	ImageFilledRectangle($img,2,0,2,$haut,$noir);
 	ImageFilledRectangle($img,4,0,4,$haut,$noir);
 	break;
 	case '|':
 	$img = ImageCreate(5, max($haut,1));
-	$blanc=ImageColorAllocate($img,255,255,255);
-	$blanc=imagecolortransparent($img,$blanc);
-	$noir=ImageColorAllocate($img,0,0,0);
+	$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
+	$noir=ImageColorAllocate($img,$fontR,$fontG,$fontB);
 	ImageFilledRectangle($img,0,0,5,$haut,$blanc);
 	ImageFilledRectangle($img,2,0,2,$haut,$noir);
 	break;
@@ -417,9 +391,9 @@ switch($texte)
 	$tmp_largeur = abs($tmp_dim[2] - $tmp_dim[0])+2;
 	$tmp_hauteur = abs($tmp_dim[3] - $tmp_dim[5])+2;
 	$tmp_img = ImageCreate(max($tmp_largeur,1), max($tmp_hauteur,1));
-	$tmp_noir=ImageColorAllocate($tmp_img,0,0,0);
-	$tmp_blanc=ImageColorAllocate($tmp_img,255,255,255);
-	$tmp_blanc=imagecolortransparent($tmp_img,$tmp_blanc);
+	$tmp_noir=ImageColorAllocate($tmp_img,$fontR,$fontG,$fontB);
+	$tmp_blanc=ImageColorAllocate($tmp_img,$backR,$backG,$backB);
+	if($transperent){ $tmp_blanc=imagecolortransparent($tmp_img,$tmp_blanc);}
 	ImageFilledRectangle($tmp_img,0,0,$tmp_largeur,$tmp_hauteur,$tmp_blanc);
 	ImageTTFText($tmp_img, $t, 0,0,$tmp_hauteur,$tmp_noir, $font,$texte);
 	$toutblanc=true;
@@ -447,8 +421,8 @@ switch($texte)
 	$nx = abs($ex - $sx);
 	$ny = abs($ey - $sy);
 	$img = ImageCreate(max($nx+4,1),max($ny+4,1));
-	$blanc=ImageColorAllocate($img,255,255,255);
-	$blanc=imagecolortransparent($img,$blanc);
+	$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
 	ImageFilledRectangle($img,0,0,$nx+4,$ny+4,$blanc);
 	ImageCopy($img,$tmp_img,2,2,$sx,$sy,min($nx+2,$tmp_largeur-$sx),min($ny+2,$tmp_hauteur-$sy));
 	break;
@@ -460,9 +434,9 @@ switch($texte)
 	$tmp_largeur = abs($tmp_dim[2] - $tmp_dim[0]);
 	$tmp_hauteur = abs($tmp_dim[3] - $tmp_dim[5])*4;
 	$tmp_img = ImageCreate(max($tmp_largeur,1), max($tmp_hauteur,1));
-	$tmp_noir=ImageColorAllocate($tmp_img,0,0,0);
-	$tmp_blanc=ImageColorAllocate($tmp_img,255,255,255);
-	$tmp_blanc=imagecolortransparent($tmp_img,$tmp_blanc);
+	$tmp_noir=ImageColorAllocate($tmp_img,$fontR,$fontG,$fontB);
+	$tmp_blanc=ImageColorAllocate($tmp_img,$backR,$backG,$backB);
+	if($transperent){ $tmp_blanc=imagecolortransparent($tmp_img,$tmp_blanc); }
 	ImageFilledRectangle($tmp_img,0,0,$tmp_largeur,$tmp_hauteur,$tmp_blanc);
 	ImageTTFText($tmp_img, $t, 0,0,$tmp_hauteur,$tmp_noir, $font,$texte);
 	$toutblanc=true;
@@ -491,8 +465,8 @@ switch($texte)
 	$nx = abs($ex - $sx);
 	$ny = abs($ey - $sy);
 	$img = ImageCreate(max($nx+4,1),max($ny+4,1));
-	$blanc=ImageColorAllocate($img,255,255,255);
-	$blanc=imagecolortransparent($img,$blanc);
+	$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
 	ImageFilledRectangle($img,0,0,$nx+4,$ny+4,$blanc);
 	ImageCopy($img,$tmp_img,2,2,$sx,$sy,min($nx+2,$tmp_largeur-$sx),min($ny+2,$tmp_hauteur-$sy));
 	break;
@@ -512,9 +486,9 @@ switch($texte)
 	$tmp_largeur = abs($tmp_dim[2] - $tmp_dim[0])*2;
 	$tmp_hauteur = abs($tmp_dim[3] - $tmp_dim[5])*2;
 	$tmp_img = ImageCreate(max($tmp_largeur,1), max($tmp_hauteur,1));
-	$tmp_noir=ImageColorAllocate($tmp_img,0,0,0);
-	$tmp_blanc=ImageColorAllocate($tmp_img,255,255,255);
-	$tmp_blanc=imagecolortransparent($tmp_img,$tmp_blanc);
+	$tmp_noir=ImageColorAllocate($tmp_img,$fontR,$fontG,$fontB);
+	$tmp_blanc=ImageColorAllocate($tmp_img,$backR,$backG,$backB);
+	if($transperent){ $tmp_blanc=imagecolortransparent($tmp_img,$tmp_blanc); }
 	ImageFilledRectangle($tmp_img,0,0,$tmp_largeur,$tmp_hauteur,$tmp_blanc);
 	ImageTTFText($tmp_img, $t,0,5,$tmp_hauteur/2,$tmp_noir, $font,$texte);
 	$img=$tmp_img;
@@ -545,15 +519,15 @@ switch($texte)
 	if ($toutblanc)
 		{
 		$img = ImageCreate(1, max($haut,1));
-		$blanc=ImageColorAllocate($img,255,255,255);
-		$blanc=imagecolortransparent($img,$blanc);
+		$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+		if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
 		ImageFilledRectangle($img,0,0,1,$haut,$blanc);
 		}
 	else
 		{
 		$img = ImageCreate(max($nx+4,1),max($ny+4,1));
-		$blanc=ImageColorAllocate($img,255,255,255);
-		$blanc=imagecolortransparent($img,$blanc);
+		$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+		if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
 		ImageFilledRectangle($img,0,0,$nx+4,$ny+4,$blanc);
 		ImageCopy($img,$tmp_img,2,2,$sx,$sy,min($nx+2,$tmp_largeur-$sx),min($ny+2,$tmp_hauteur-$sy));
 		}
@@ -573,9 +547,9 @@ switch($texte)
 	$tmp_largeur = abs($tmp_dim[2] - $tmp_dim[0])*2;
 	$tmp_hauteur = abs($tmp_dim[3] - $tmp_dim[5])*2;
 	$tmp_img = ImageCreate(max($tmp_largeur,1), max($tmp_hauteur,1));
-	$tmp_noir=ImageColorAllocate($tmp_img,0,0,0);
-	$tmp_blanc=ImageColorAllocate($tmp_img,255,255,255);
-	$tmp_blanc=imagecolortransparent($tmp_img,$tmp_blanc);
+	$tmp_noir=ImageColorAllocate($tmp_img,$fontR,$fontG,$fontB);
+	$tmp_blanc=ImageColorAllocate($tmp_img,$backR,$backG,$backB);
+	if($transperent){ $tmp_blanc=imagecolortransparent($tmp_img,$tmp_blanc); }
 	ImageFilledRectangle($tmp_img,0,0,$tmp_largeur,$tmp_hauteur,$tmp_blanc);
 	ImageTTFText($tmp_img, $t, 0,0,$tmp_hauteur/4,$tmp_noir, $font,$texte);
 // 	ImageTTFText($tmp_img, $t, 0,5,5,$tmp_noir, $font,$texte);
@@ -607,15 +581,15 @@ switch($texte)
 	if ($toutblanc)
 		{
 		$img = ImageCreate(1, max($haut,1));
-		$blanc=ImageColorAllocate($img,255,255,255);
-		$blanc=imagecolortransparent($img,$blanc);
+		$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+		if($transperent){ $blanc=imagecolortransparent($img,$blanc);}
 		ImageFilledRectangle($img,0,0,1,$haut,$blanc);
 		}
 	else
 		{
 		$img = ImageCreate(max($nx+4,1),max($ny+4,1));
-		$blanc=ImageColorAllocate($img,255,255,255);
-		$blanc=imagecolortransparent($img,$blanc);
+		$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+		if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
 		ImageFilledRectangle($img,0,0,$nx+4,$ny+4,$blanc);
 		ImageCopy($img,$tmp_img,2,2,$sx,$sy,min($nx+2,$tmp_largeur-$sx),min($ny+2,$tmp_hauteur-$sy));
 		}
@@ -628,7 +602,7 @@ return $img;
 
 function affiche_texte($texte, $taille)
 {
-global $dirfonts;
+global $dirfonts, $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $taille=max($taille,6);
 $texte=stripslashes($texte);
 $font = $dirfonts."/cmr10.ttf";
@@ -638,9 +612,9 @@ $wdim = ImageTTFBBox($taille, 0, $font, $texte);
 $dx = max($wdim[2], $wdim[4]) - min($wdim[0], $wdim[6])+ceil($taille /8);
 $dy = max($hdim[1], $hdim[3]) - min($hdim[5], $hdim[7])+ ceil($taille /8);
 $img = ImageCreate(max($dx,1), max($dy,1));
-$noir=ImageColorAllocate($img,0,0,0);
-$blanc=ImageColorAllocate($img,255,255,255);
-$blanc=imagecolortransparent($img,$blanc);
+$noir=ImageColorAllocate($img,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
 ImageFilledRectangle($img,0,0,$dx,$dy,$blanc);
 //ImageRectangle($img,0,0,$dx-1,$dy-1,$noir);
 ImageTTFText($img, $taille, $angle, 0, -min($hdim[5], $hdim[7]), $noir, $font, $texte);
@@ -652,6 +626,7 @@ function affiche_math($texte, $taille)
 global $dirfonts;
 $taille=max($taille,6);
 global $symboles, $fontesmath;
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $texte=stripslashes($texte);
 if(isset($fontesmath[$texte])) $font = $dirfonts."/".$fontesmath[$texte].".ttf";
 elseif (ereg("[a-zA-Z]", $texte)) $font = $dirfonts."/cmmi10.ttf";
@@ -663,9 +638,9 @@ $wdim = ImageTTFBBox($taille, 0, $font, $texte);
 $dx = max($wdim[2], $wdim[4]) - min($wdim[0], $wdim[6])+ceil($taille /8);
 $dy = max($hdim[1], $hdim[3]) - min($hdim[5], $hdim[7])+ ceil($taille /8);
 $img = ImageCreate(max($dx,1), max($dy,1));
-$noir=ImageColorAllocate($img,0,0,0);
-$blanc=ImageColorAllocate($img,255,255,255);
-$blanc=imagecolortransparent($img,$blanc);
+$noir=ImageColorAllocate($img,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($img,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($img,$blanc); }
 ImageFilledRectangle($img,0,0,$dx,$dy,$blanc);
 //ImageRectangle($img,0,0,$dx-1,$dy-1,$noir);
 ImageTTFText($img, $taille, 0, 0, -min($hdim[5], $hdim[7]), $noir, $font, $texte);
@@ -680,6 +655,7 @@ return $image;
 
 function alignement2($image1,$base1,$image2,$base2)
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $largeur1=imagesx($image1);
 $hauteur1=imagesy($image1);
 $largeur2=imagesx($image2);
@@ -689,9 +665,9 @@ $dessous=max($hauteur1-$base1,$hauteur2-$base2);
 $largeur=$largeur1+$largeur2;
 $hauteur=$dessus+$dessous;
 $result = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($result,0,0,0);
-$blanc=ImageColorAllocate($result,255,255,255);
-$blanc=imagecolortransparent($result,$blanc);
+$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($result, $image1,0,$dessus - $base1, 0, 0,$largeur1,$hauteur1);
 ImageCopy($result, $image2,$largeur1,$dessus - $base2, 0, 0,$largeur2,$hauteur2);
@@ -701,6 +677,7 @@ return $result;
 
 function alignement3($image1,$base1,$image2,$base2,$image3,$base3)
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $largeur1=imagesx($image1);
 $hauteur1=imagesy($image1);
 $largeur2=imagesx($image2);
@@ -712,9 +689,9 @@ $dessous=max($hauteur1-$base1,$hauteur2-$base2,$hauteur3-$base3);
 $largeur=$largeur1+$largeur2+$largeur3;
 $hauteur=$dessus+$dessous;
 $result = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($result,0,0,0);
-$blanc=ImageColorAllocate($result,255,255,255);
-$blanc=imagecolortransparent($result,$blanc);
+$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($result, $image1,0,$dessus - $base1, 0, 0,$largeur1,$hauteur1);
 ImageCopy($result, $image2,$largeur1,$dessus - $base2, 0, 0,$largeur2,$hauteur2);
@@ -967,6 +944,7 @@ default:
 
 function dessine_expression($taille)
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $largeur=1;
 $hauteur=1;
 $dessus=1;
@@ -1000,9 +978,9 @@ for($i = 0; $i < count($this->noeuds); $i++)
        	}
 $this->base_verticale = $dessus;
 $result = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($result,0,0,0);
-$blanc=ImageColorAllocate($result,255,255,255);
-$blanc=imagecolortransparent($result,$blanc);
+$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 $pos = 0;
 for($i = 0; $i < count($img); $i++)
@@ -1018,6 +996,7 @@ $this->image=$result;
 
 function dessine_fraction($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $this->noeuds[0]->dessine($taille*0.9);
 $img1=$this->noeuds[0]->image;
 $base1=$this->noeuds[0]->base_verticale;
@@ -1031,9 +1010,9 @@ $largeur2=imagesx($img2);
 $largeur = max($largeur1,$largeur2);
 $hauteur = $hauteur1+$hauteur2+4;
 $result = ImageCreate(max($largeur+5,1), max($hauteur,1));
-$noir=ImageColorAllocate($result,0,0,0);
-$blanc=ImageColorAllocate($result,255,255,255);
-$blanc=imagecolortransparent($result,$blanc);
+$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 $this->base_verticale=$hauteur1+2;
 ImageFilledRectangle($result,0,0,$largeur+4,$hauteur-1,$blanc);
 ImageCopy($result, $img1, ($largeur - $largeur1)/2, 0, 0, 0,$largeur1,$hauteur1);
@@ -1044,6 +1023,7 @@ $this->image=$result;
 
 function dessine_exposant($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $this->noeuds[0]->dessine($taille);
 $img1=$this->noeuds[0]->image;
 $base1=$this->noeuds[0]->base_verticale;
@@ -1060,9 +1040,9 @@ if ($hauteur1 >= $hauteur2)
 	$hauteur = ceil($hauteur2/2+$hauteur1);
 	$this->base_verticale=$hauteur2/2+ $base1;
 	$result = ImageCreate(max($largeur,1), max($hauteur,1));
-	$noir=ImageColorAllocate($result,0,0,0);
-	$blanc=ImageColorAllocate($result,255,255,255);
-	$blanc=imagecolortransparent($result,$blanc);
+	$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+	$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 	ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 	ImageCopy($result, $img1, 0, ceil($hauteur2/2), 0, 0, $largeur1, $hauteur1);
 	ImageCopy($result, $img2, $largeur1, 0, 0, 0, $largeur2,$hauteur2);
@@ -1072,9 +1052,9 @@ else
 	$hauteur = ceil($hauteur1/2+$hauteur2);
 	$this->base_verticale=$hauteur2-$base1+$hauteur1/2;
 	$result = ImageCreate(max($largeur,1), max($hauteur,1));
-	$noir=ImageColorAllocate($result,0,0,0);
-	$blanc=ImageColorAllocate($result,255,255,255);
-	$blanc=imagecolortransparent($result,$blanc);
+	$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+	$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 	ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 	ImageCopy($result, $img1, 0, ceil($hauteur2-$hauteur1/2), 0, 0, $largeur1, $hauteur1);
 	ImageCopy($result, $img2, $largeur1, 0, 0, 0, $largeur2,$hauteur2);
@@ -1084,6 +1064,7 @@ $this->image=$result;
 
 function dessine_indice($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $this->noeuds[0]->dessine($taille);
 $img1=$this->noeuds[0]->image;
 $base1=$this->noeuds[0]->base_verticale;
@@ -1100,9 +1081,9 @@ if ($hauteur1 >= $hauteur2)
 	$hauteur = ceil($hauteur2/2+$hauteur1);
 	$this->base_verticale=$base1;
 	$result = ImageCreate(max($largeur,1), max($hauteur,1));
-	$noir=ImageColorAllocate($result,0,0,0);
-	$blanc=ImageColorAllocate($result,255,255,255);
-	$blanc=imagecolortransparent($result,$blanc);
+	$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+	$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 	ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 	ImageCopy($result, $img1, 0, 0, 0, 0, $largeur1, $hauteur1);
 	ImageCopy($result, $img2, $largeur1,ceil($hauteur1-$hauteur2/2) , 0, 0, $largeur2,$hauteur2);
@@ -1112,9 +1093,9 @@ else
 	$hauteur = ceil($hauteur1/2+$hauteur2);
 	$this->base_verticale=$base1;
 	$result = ImageCreate(max($largeur,1), max($hauteur,1));
-	$noir=ImageColorAllocate($result,0,0,0);
-	$blanc=ImageColorAllocate($result,255,255,255);
-	$blanc=imagecolortransparent($result,$blanc);
+	$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+	$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+	if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 	ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 	ImageCopy($result, $img1, 0, 0, 0, 0, $largeur1, $hauteur1);
 	ImageCopy($result, $img2, $largeur1,ceil($hauteur1/2), 0, 0, $largeur2,$hauteur2);
@@ -1124,6 +1105,7 @@ $this->image=$result;
 
 function dessine_racine($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $this->noeuds[1]->dessine($taille);
 $imgexp=$this->noeuds[1]->image;
 $baseexp=$this->noeuds[1]->base_verticale;
@@ -1138,9 +1120,9 @@ $baserac=$hauteurrac/2;
 $largeur=$largeurrac+$largeurexp;
 $hauteur=max($hauteurexp,$hauteurrac);
 $result = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($result,0,0,0);
-$blanc=ImageColorAllocate($result,255,255,255);
-$blanc=imagecolortransparent($result,$blanc);
+$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($result, $imgrac,0,0, 0, 0,$largeurrac,$hauteurrac);
 ImageCopy($result, $imgexp,$largeurrac,$hauteur-$hauteurexp, 0, 0,$largeurexp,$hauteurexp);
@@ -1152,6 +1134,7 @@ $this->image=$result;
 
 function dessine_root($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $this->noeuds[1]->dessine($taille*0.6);
 $imgroot=$this->noeuds[1]->image;
 $baseroot=$this->noeuds[1]->base_verticale;
@@ -1172,9 +1155,9 @@ $baserac=$hauteurrac/2;
 $largeur=$largeurrac+$largeurexp;
 $hauteur=max($hauteurexp,$hauteurrac);
 $result = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($result,0,0,0);
-$blanc=ImageColorAllocate($result,255,255,255);
-$blanc=imagecolortransparent($result,$blanc);
+$noir=ImageColorAllocate($result,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($result,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($result,$blanc); }
 ImageFilledRectangle($result,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($result, $imgrac,0,0, 0, 0,$largeurrac,$hauteurrac);
 ImageCopy($result, $imgexp,$largeurrac,$hauteur-$hauteurexp, 0, 0,$largeurexp,$hauteurexp);
@@ -1187,6 +1170,7 @@ $this->image=$result;
 
 function dessine_grandoperateur($taille,$caractere) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $this->noeuds[1]->dessine($taille*0.8);
 $img1=$this->noeuds[1]->image;
 $base1=$this->noeuds[1]->base_verticale;
@@ -1214,9 +1198,9 @@ $basesymbole=$hauteursymbole/2;
 $hauteurgauche=$hauteursymbole+$hauteur1+$hauteur2;
 $largeurgauche=max($largeursymbole,$largeur1,$largeur2);
 $imggauche=ImageCreate(max($largeurgauche,1), max($hauteurgauche,1));
-$noir=ImageColorAllocate($imggauche,0,0,0);
-$blanc=ImageColorAllocate($imggauche,255,255,255);
-$blanc=imagecolortransparent($imggauche,$blanc);
+$noir=ImageColorAllocate($imggauche,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imggauche,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imggauche,$blanc); }
 ImageFilledRectangle($imggauche,0,0,$largeurgauche-1,$hauteurgauche-1,$blanc);
 ImageCopy($imggauche, $imgsymbole,($largeurgauche-$largeursymbole)/2, $hauteur2, 0, 0,$largeursymbole,$hauteursymbole);
 ImageCopy($imggauche, $img2,($largeurgauche-$largeur2)/2,0, 0, 0,$largeur2,$hauteur2);
@@ -1228,6 +1212,7 @@ $this->base_verticale=max($basesymbole+$hauteur2,$baseexp+$hauteur2);
 
 function dessine_dessus($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $this->noeuds[2]->dessine($taille*0.8);
 $imgsup=$this->noeuds[2]->image;
 $basesup=$this->noeuds[2]->base_verticale;
@@ -1244,9 +1229,9 @@ $hauteursup=imagesy($imgsup);
 $hauteur=$hauteurexp+$hauteursup;
 $largeur=max($largeursup,$largeurexp)+ceil($taille/8);
 $imgfin = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($imgfin, $imgsup,($largeur-$largeursup)/2, 0, 0, 0,$largeursup,$hauteursup);
 ImageCopy($imgfin, $imgexp,($largeur-$largeurexp)/2, $hauteursup, 0, 0,$largeurexp,$hauteurexp);
@@ -1256,6 +1241,7 @@ $this->base_verticale=$baseexp+$hauteursup;
 
 function dessine_dessous($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $this->noeuds[2]->dessine($taille*0.8);
 $imginf=$this->noeuds[2]->image;
 $baseinf=$this->noeuds[2]->base_verticale;
@@ -1272,9 +1258,9 @@ $hauteurinf=imagesy($imginf);
 $hauteur=$hauteurexp+$hauteurinf;
 $largeur=max($largeurinf,$largeurexp)+ceil($taille/8);
 $imgfin = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($imgfin, $imgexp,($largeur-$largeurexp)/2, 0, 0, 0,$largeurexp,$hauteurexp);
 ImageCopy($imgfin, $imginf,($largeur-$largeurinf)/2, $hauteurexp, 0, 0,$largeurinf,$hauteurinf);
@@ -1284,6 +1270,7 @@ $this->base_verticale=$baseexp;
 
 function dessine_matrice($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $padding=8;
 $nbligne=$this->noeuds[1]->noeuds[0]->texte;
 $nbcolonne=$this->noeuds[2]->noeuds[0]->texte;
@@ -1332,9 +1319,9 @@ for($col = 0; $col <$nbcolonne; $col++)
 $hauteurfin-=$padding;
 $largeurfin-=$padding;
 $imgfin = ImageCreate(max($largeurfin,1), max($hauteurfin,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeurfin-1,$hauteurfin-1,$blanc);
 $i=0;
 $h=$padding/2-1;
@@ -1360,6 +1347,7 @@ $this->base_verticale=imagesy($imgfin)/2;
 
 function dessine_tableau($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $padding=8;
 $typeligne=$this->noeuds[1]->noeuds[0]->texte;
 $typecolonne=$this->noeuds[2]->noeuds[0]->texte;
@@ -1408,9 +1396,9 @@ for($col = 0; $col <$nbcolonne; $col++)
 	$largeurfin+=$largeur_colonne[$col]+$padding;
 	}
 $imgfin = ImageCreate(max($largeurfin,1), max($hauteurfin,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeurfin-1,$hauteurfin-1,$blanc);
 $i=0;
 $h=$padding/2-1;
@@ -1438,6 +1426,7 @@ $this->base_verticale=imagesy($imgfin)/2;
 
 function dessine_vecteur($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 //expression
 $this->noeuds[1]->dessine($taille);
 $imgexp=$this->noeuds[1]->image;
@@ -1452,9 +1441,9 @@ $hauteursup=imagesy($imgsup);
 $hauteur=$hauteurexp+$hauteursup;
 $largeur=$largeurexp;
 $imgfin = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($imgfin, $imgsup,$largeur-6, 0,$largeursup-6, 0,$largeursup,$hauteursup);
 imagesetthickness($imgfin,1);
@@ -1466,6 +1455,7 @@ $this->base_verticale=$baseexp+$hauteursup;
 
 function dessine_overline($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 //expression
 $this->noeuds[1]->dessine($taille);
 $imgexp=$this->noeuds[1]->image;
@@ -1476,9 +1466,9 @@ $hauteurexp=imagesy($imgexp);
 $hauteur=$hauteurexp+2;
 $largeur=$largeurexp;
 $imgfin = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeur-1,$hauteur-1,$blanc);
 imagesetthickness($imgfin,1);
 imageline($imgfin,0,1, $largeur,1, $noir);
@@ -1489,6 +1479,7 @@ $this->base_verticale=$baseexp+2;
 
 function dessine_underline($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 //expression
 $this->noeuds[1]->dessine($taille);
 $imgexp=$this->noeuds[1]->image;
@@ -1499,9 +1490,9 @@ $hauteurexp=imagesy($imgexp);
 $hauteur=$hauteurexp+2;
 $largeur=$largeurexp;
 $imgfin = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeur-1,$hauteur-1,$blanc);
 imagesetthickness($imgfin,1);
 imageline($imgfin,0,$hauteurexp+1, $largeur,$hauteurexp+1, $noir);
@@ -1512,7 +1503,7 @@ $this->base_verticale=$baseexp;
 
 function dessine_chapeau($taille) 
 {
-
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $imgsup=affiche_symbol("_hat",$taille);
 
 $this->noeuds[1]->dessine($taille);
@@ -1528,9 +1519,9 @@ $hauteursup=imagesy($imgsup);
 $hauteur=$hauteurexp+$hauteursup;
 $largeur=max($largeursup,$largeurexp)+ceil($taille/8);
 $imgfin = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($imgfin, $imgsup,($largeur-$largeursup)/2, 0, 0, 0,$largeursup,$hauteursup);
 ImageCopy($imgfin, $imgexp,($largeur-$largeurexp)/2, $hauteursup, 0, 0,$largeurexp,$hauteurexp);
@@ -1540,6 +1531,7 @@ $this->base_verticale=$baseexp+$hauteursup;
 
 function dessine_limite($taille) 
 {
+global $backR, $backG, $backB, $fontR, $fontG, $fontB, $transperent;
 $imglim=affiche_math("_lim",$taille);
 $largeurlim=imagesx($imglim);
 $hauteurlim=imagesy($imglim);
@@ -1560,9 +1552,9 @@ $hauteurexp=imagesy($imgexp);
 $hauteur=$hauteurlim+$hauteurinf;
 $largeur=max($largeurinf,$largeurlim)+ceil($taille/8);
 $imgfin = ImageCreate(max($largeur,1), max($hauteur,1));
-$noir=ImageColorAllocate($imgfin,0,0,0);
-$blanc=ImageColorAllocate($imgfin,255,255,255);
-$blanc=imagecolortransparent($imgfin,$blanc);
+$noir=ImageColorAllocate($imgfin,$fontR,$fontG,$fontB);
+$blanc=ImageColorAllocate($imgfin,$backR,$backG,$backB);
+if($transperent){ $blanc=imagecolortransparent($imgfin,$blanc); }
 ImageFilledRectangle($imgfin,0,0,$largeur-1,$hauteur-1,$blanc);
 ImageCopy($imgfin, $imglim,($largeur-$largeurlim)/2, 0, 0, 0,$largeurlim,$hauteurlim);
 ImageCopy($imgfin, $imginf,($largeur-$largeurinf)/2, $hauteurlim, 0, 0,$largeurinf,$hauteurinf);
@@ -1639,17 +1631,6 @@ return '<img src="'.$pathtoimg."math_".$v."_".$nameimg.'" style="vertical-align:
 
 function mathfilter($text,$size,$pathtoimg) 
 {
-/* THE MAIN FUNCTION
-1) the content of the math tags (<m></m>) are extracted in the $t variable (you can replace <m></m> by your own tag).
-2) the "mathimage" function replaces the $t code by <img src=...></img> according to this method :
-- if the image corresponding to the formula doesn't exist in the $dirimg cache directory (detectimg($nameimg)=0), the script creates the image and returns the "<img src=...></img>" code.
-- otherwise, the script returns only the <img src=...></img>" code.
-To align correctly the formula image with the text, the "valign" parameter of the image is required.
-That's why a parameter (1000+valign) is recorded in the name of the image file (the "detectimg" function returns this parameter if the image exists in the cache directory)
-To be sure that the name of the image file is unique and to allow the script to retrieve the valign parameter without re-creating the image, the syntax of the image filename is :
-math_(1000+valign)_md5(formulatext.size).png.
-(1000+valign is used instead of valign directly to avoid a negative number)
-*/
 $text=stripslashes($text);
 $size=max($size,10);
 $size=min($size,24);

@@ -1,6 +1,6 @@
 <?php
-$page = (int)$_GET['page'];
 require 'classes/core.php';
+$page = (int)$_GET['page'];
 $title = ' - Пользователи';
 $rss_link='rss';
 require 'header.php';

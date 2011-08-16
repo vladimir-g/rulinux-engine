@@ -1,6 +1,6 @@
 <?php
 $subsection_id = (int)$_GET['id'];
-$page = (int)$_GET['page'];
+$_GET['page'] > 1 ? $page = (int)$_GET['page'] : $page=1;
 require 'classes/core.php';
 $subsect_arr = $sectionsC->get_subsection(3, $subsection_id);
 $sect_arr = $sectionsC->get_section(3);
@@ -31,7 +31,7 @@ for($i=0; $i<count($subsct);$i++)
 require 'themes/'.$theme.'/templates/gallery/nav_bottom.tpl.php';
 
 require 'themes/'.$theme.'/templates/gallery/top.tpl.php';
-$threads_count = $threadsC->get_threads_count(3, $subsection_id);
+$threads_count = $threadsC->get_threads_count($section_id, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1 ? $begin=$threads_on_page*($page-1) : $begin = 0;
@@ -110,5 +110,6 @@ for($i=0; $i<count($gal); $i++)
 	$cmnt_link = 'comment_into_'.$thread_id.'_on_'.$comment_id;
 	require 'themes/'.$theme.'/templates/gallery/middle.tpl.php';
 }
+require 'themes/'.$theme.'/templates/gallery/bottom.tpl.php';
 require 'footer.php';
 ?>

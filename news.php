@@ -2,6 +2,7 @@
 $subsection_id = (int)$_GET['id'];
 if(empty($subsection_id))
 	$subsection_id = 1;
+$_GET['page'] > 1 ? $page = (int)$_GET['page'] : $page=1;
 require 'classes/core.php';
 $subsect_arr = $sectionsC->get_subsection(1, $subsection_id);
 $sect_arr = $sectionsC->get_section(1);
@@ -31,8 +32,8 @@ for($i=0; $i<count($subsct);$i++)
 require 'themes/'.$theme.'/templates/news/nav_bottom.tpl.php';
 
 require 'themes/'.$theme.'/templates/news/top.tpl.php';
-$threads_count = $threadsC->get_threads_count(1, $subsection_id);
-$threads_on_page = $uinfo['threads_on_page'];
+$threads_count = $threadsC->get_threads_count($section_id, $subsection_id);
+$threads_on_page = $uinfo['news_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1 ? $begin=$threads_on_page*($page-1) : $begin = 0;
 if($pages_count > 1)
@@ -106,7 +107,10 @@ for($i=0; $i<count($gal); $i++)
 		$attach_text = 'Прикрепить';
 	}
 	$cmnt_link = 'comment_into_'.$thread_id.'_on_'.$comment_id;
+	if(!empty($gal[$i]['prooflink']))
+			$prooflink='>>> <a href="'.$gal[$i]['prooflink'].'">Подробнее</a>';
 	require 'themes/'.$theme.'/templates/news/middle.tpl.php';
 }
+require 'themes/'.$theme.'/templates/news/bottom.tpl.php';
 require 'footer.php';
 ?>

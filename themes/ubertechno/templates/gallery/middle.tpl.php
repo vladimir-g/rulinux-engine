@@ -1,9 +1,11 @@
 <h2><a href="<?=$thr_link?>" style="text-decoration:none"><?=$subject?></a></h2>
+<?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
 <div>
 <a href="<?=$edit_link?>">Редактировать</a> | 
 <a href="<?=$attach_link?>"><?=$attach_text?></a>
 </div>
-<table cellspacing="0" border="0"><tr><td style="vertical-align:top">
+<?}?>
+<table cellspacing="0" border="0" width="100%"><tr><td style="vertical-align:top">
 <table>
 <tr>
 <td style="vertical-align:top"><a href="<?=$img_link?>"><img src="<?=$img_thumb_link?>" alt="gallery"></a></td>
@@ -13,7 +15,7 @@
 </td>
 </tr>
 </table>
-<p style="font-style:italic"><?=$author?> (<a href="<?=$author_profile?>">*</a>) (<?=$timestamp?>)</p>[<a href="<?=$thr_link?>"><?=$comments_count?></a>]&nbsp;[<a href="<?=$cmnt_link?>">Добавить комментарий</a>]
+<table width="100%"><tr><td style="text-align:left"><a href="<?=$thr_link?>"><?=$comments_count?></a>&nbsp;/&nbsp;<a href="<?=$cmnt_link?>">Комментировать</a></td><td style="text-align:right"><?=$author?> (<a href="<?=$author_profile?>">*</a>) (<?=$timestamp?>)</td></tr></table>
 <br>
 <br>
 </td>

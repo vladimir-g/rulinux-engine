@@ -1,3 +1,3 @@
-<div class="boxlet" style="padding: 2px">
+<div class="boxlet">
 <?=$boxlet_content?>
 </div>

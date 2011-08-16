@@ -38,37 +38,21 @@ A:hover
 hr 
 { 
 	color: #446347;
-	/*border: 1px;
-	border-color: #446347;*/
 }
 
 H1 
 { 
-	color: #000000; 
+	color: #a3d1ab; 
 }
 
 H2 
 { 
-	color: #000000; 
+	color: #a3d1ab; 
 }
 
 H1 A 
 { 
 	text-decoration: none; 
-}
-
-DIV.boxlet H2
-{ 
-	text-align: center; 
-	color: #a3d1ab; 
-	font-size: medium; 
-	background-color: #446347;
-	border: 1px;
-	border-color: #446347;
-	font-weight: bold;
-	margin-top: 0px;
-	background-image: url(images/green_lines.jpg);
-	height: 25px;
 }
 
 DIV.boxlet H3
@@ -116,7 +100,6 @@ DIV.columnimg
 	text-align: center; 
 }
 
-/* news items */
 .news H2 
 { 
 	margin-bottom: 5px; 
@@ -140,7 +123,7 @@ DIV.columnimg
 { 
 	width:100%
 }
-/* view-forum */
+
 DIV.forum A
 {
 	text-decoration: none
@@ -157,54 +140,96 @@ DIV.forum A
 	background: #f0f0f0;
 }
 
-table.nav>tbody>tr>td {
+table.nav>tbody>tr>td 
+{
 	background-color: #18251a;
 	border: 1px;
 	border-color: #446347;
 	border-style: solid;
 }
 
-.newsblog, .nav {
-	background-color: white;
-}
-
-.newsblog2, .nav
+.newsblog, .nav 
 {
-	
-}
-
-.entry-body .nav {
 	background-color: white;
 }
 
-.pageinfo {
+.entry-body .nav 
+{
+	background-color: white;
+}
+
+.pageinfo 
+{
 	border: #c0c0c0 1px solid;
 	background: #f0f0f0;
 }
 
-TR.color2 { background: #f0f0f0; }
-.message-table {
-	background: #c0c0c0;
+TR.color2 
+{ 
+	background: #f0f0f0; 
+}
+.message-table 
+{
+	background: #446347;
 	border-spacing: 1px;
+	
 }
 
-.message-table td {
+.message-table td 
+{
 	padding: 0;
 }
 
-.message-table tbody {
-	background: #f0f0f0;
+.message-table tbody 
+{
+	background-color: #18251a;
+	border: 1px;
+	border-color: #446347;
+	border-style: solid;
 }
 
-.entry-body .nav A {
+.entry-body .nav A 
+{
 	text-decoration: underline;
 	margin-bottom: 0;
 }
 
-div.messages, div.title { background-color: #4876ff; }
-.messages .comment .title { background: #90ff90; }
-div.messages, div.msg { background: #f0f0f0; }
-.messages .comment .nav { text-align: left; font-style: italic; }
+div.messages
+{ 
+	background: #446347;
+	background-image: url(images/green_lines.jpg);
+	
+}
+
+div.title 
+{ 
+	background: #446347;
+	background-image: url(images/green_lines.jpg);
+	padding: 0;
+	border: 1px;
+	border-color: #446347;
+	border-style: solid;
+	
+	
+}
+
+.messages .comment .title 
+{ 
+	background: #446347;
+	background-image: url(images/green_lines.jpg);
+	margin: 0;
+}
+div.messages, div.msg 
+{ 
+	background: #18251a; 
+	margin: 0;
+	padding: 0;
+}
+.messages .comment .nav 
+{ 
+	text-align: left; 
+	font-style: italic; 
+}
 
 /* general */
 DIV.notes 
@@ -216,20 +241,38 @@ DIV.notes
 	border: solid black;
 }
 
-.head-main A { text-decoration: none; color: black }
-.head-main A:visited { text-decoration: none; color: black }
+.head-main A 
+{ 
+	text-decoration: none; 
+	color: black 
+}
+.head-main A:visited 
+{ 
+	text-decoration: none; 
+	color: black 
+}
 
-.head-main table {
+.head-main table 
+{
 	border-collapse: collapse;
 	margin-top: 5px;
 	border-style: solid;
 	border-color: white;
 }
 
-.head-main td { border: 1px solid #c0c0c0; padding: 3px; text-align: right; }
+.head-main td 
+{ 
+	border: 1px solid #c0c0c0; 
+	padding: 3px; 
+	text-align: right; 
+}
 
-.messages .msg {
-	border: 1px solid #f0f0f0;
+.messages .msg 
+{
+	background: #18251a; 
+	border: 1px;
+	border-color: #446347;
+	border-style: solid;
 }
 
 .messages .highLighted {
@@ -238,26 +281,41 @@ DIV.notes
 
 .boxlet_title
 {
-	background: #18251a;
+	background: #446347;
 	padding-right: 10px;
 	padding-left: 10px;
-	padding-top: 3px;
-	padding-bottom: 8px;
+	display: inline-block;
+	height: 25px;
 	
 }
 
 .news_title
 {
-	background: #18251a;
+	background: #446347;
 	padding-right: 10px;
 	padding-left: 10px;
-	padding-top: 4px;
-	padding-bottom: 3px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	display: inline-block;
+	height: 25px;
+	font-size: medium; 
 }
 
 .news_title A
 {
 	color: #a3d1ab;
+}
+
+.pages_title
+{
+	background: #446347;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	display: inline-block;
+	height: 25px;
+	font-size: medium; 
 }
 
 .comment_links
@@ -267,6 +325,100 @@ DIV.notes
 
 .boxlet_content
 {
-	/*text-align: center;*/
 	padding-left: 15px;
+	
+}
+
+.title_table
+{
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	background-image: url(images/green_lines.jpg);
+	height: 25px;
+}
+
+.boxlet_title_div
+{
+	padding-left: 25px;
+	text-align: left; 
+	color: #a3d1ab; 
+	font-weight: bold;
+	font-size: medium; 
+	background-color: #446347;
+	border: 1px;
+	border-color: #446347;
+	margin-top: 0px;
+	background-image: url(images/green_lines.jpg);
+	height: 25px;
+}
+
+.msg_table_title
+{
+	background: #446347;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	display: inline-block;
+	height: 20px;
+}
+
+.msg_table_title_tr
+{
+	background: #446347;
+	background-image: url(images/green_lines.jpg);
+	padding: 0px;
+}
+
+.tracker_title_tr
+{
+	background: #446347;
+	background-image: url(images/green_lines.jpg);
+}
+
+.tracker_title
+{
+	background: #446347;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	display: inline-block;
+	height: 20px;
+}
+
+.comments_title
+{
+	background: #446347;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	display: inline-block;
+	height: 20px;
+}
+
+.msg_resp
+{
+	background: #446347;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	display: inline-block;
+	height: 20px;
+}
+
+.root 
+{ 
+	color: red; 
+	font-weight: bold; 
+} 
+
+.moder 
+{ 
+	color: red; 
+	font-weight: bold; 
 }

@@ -28,7 +28,7 @@ H2 { color: #ffffff; }
 
 H1 A { text-decoration: none; }
 
-DIV.boxlet H2
+.boxlet_title_div
    { 
     text-align: center; 
     color: white; 
@@ -46,7 +46,7 @@ DIV.boxlet H3
     font-size: small;
    }
 
-DIV.boxlet H2 A { text-decoration: none; color: white }
+.boxlet_title_div A { text-decoration: none; color: white }
 DIV.boxlet A { text-decoration: none; }
 DIV.boxlet A:link {color: #D0D0F0}
 DIV.boxlet {
