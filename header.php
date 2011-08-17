@@ -1,5 +1,5 @@
 <?php
-//ob_start("ob_gzhandler", 9);
+ob_start("ob_gzhandler", 9);
 $user_theme = $usersC->get_user_theme();
 $theme = $user_theme['directory'];
 $site_name = $_SERVER["HTTP_HOST"];
