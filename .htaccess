@@ -8,6 +8,7 @@ RewriteRule ^gallery$ view-section.php\?id=3
 RewriteRule ^forum$ view-section.php\?id=4
 RewriteRule ^links$ links.php
 RewriteRule ^mark$ mark.php
+RewriteRule ^mark_([0-9]*)$ mark.php?id=$1
 RewriteRule ^register$ register.php
 RewriteRule ^faq$ faq.php
 RewriteRule ^users$ users.php
@@ -47,6 +48,7 @@ RewriteRule ^approve_thread_([0-9]*)$ moder.php?action=approve_thread&tid=$1
 RewriteRule ^detach_thread_([0-9]*)$ moder.php?action=detach_thread&tid=$1
 RewriteRule ^attach_thread_([0-9]*)$ moder.php?action=attach_thread&tid=$1
 RewriteRule ^move_thread_([0-9]*)$ moder.php?action=move_thread&tid=$1
+RewriteRule ^profile$ profile.php
 RewriteRule ^user_([a-zA-Z0-9\_\-]{2,})$ profile.php?user=$1
 RewriteRule ^user_([a-zA-Z0-9\_\-]{2,}):edit$ profile.php?user=$1&edit=1
 RewriteRule ^rss$ view-rss.php

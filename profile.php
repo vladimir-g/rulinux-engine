@@ -155,7 +155,7 @@ else if($_POST['action']=="info")
 		$legend = 'Пользовательская информация успешно изменена';
 		$text = 'Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit">');  
+		die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/user_'.$user.':edit">');  
 	}
 	else
 	{
