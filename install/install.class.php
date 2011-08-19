@@ -1,31 +1,11 @@
 <?php
 class install
 {
-	function delTree($dir) 
-	{
-		$files = glob( $dir . '*', GLOB_MARK );
-		foreach( $files as $file )
-		{
-			if( substr( $file, -1 ) == '/' )
-				self::delTree( $file );
-			else
-				unlink( $file );
-		}
-		if (is_dir($dir)) 
-		{
-			rmdir($dir);
-			return 1;
-		}
-		else 
-			return 0;
-	} 
-	
 	function get_db_modules()
 	{
 		/*очередная заглушка с заделом на будущее*/
 		return array(array("name"=>'postgresql', "file"=>'postgresql.php', "sql"=>'postgresql.sql'), array("name"=>'mysql', "file"=>'mysql.php', "sql"=>'mysql.sql'), array("name"=>'mysqli', "file"=>'mysqli.php', "sql"=>'mysql.sql'));
 	}
-	
 	function set_db_settings($module, $login, $password, $host, $port,  $dbname, $charset='utf8')
 	{
 		$ini = new TIniFileEx('../config/database.ini');
@@ -44,7 +24,7 @@ class install
 		if(empty($bynarys_path))
 			$bynarys_path = '/usr/bin';
 		$rest = substr($bynarys_path, strlen($bynarys_path)-1, strlen($bynarys_path));
-		if($rest = '/')
+		if($rest == '/')
 			$bynarys_path = substr($bynarys_path, 0, strlen($bynarys_path)-1);
 		$database = parse_ini_file($path.'../config/database.ini', 1);
 		$subd = $database['global']['subd'];
@@ -97,14 +77,19 @@ class install
 		config::include_database('../');
 		$title = htmlspecialchars($title);
 		$pass_phrase = htmlspecialchars($pass_phrase);
-		$ret = base::update('settings', 'value', $title, 'name', 'title');
+		$ret = base::update('settings', 'value', $pass_phrase, 'name', 'register_pass_phrase');
 		if($ret >0)
 		{
-			$ret = base::update('settings', 'value', $pass_phrase, 'name', 'register_pass_phrase');
-			if($ret >0)
-				return 1;
+			if(!empty($title))
+			{
+				$ret = base::update('settings', 'value', $title, 'name', 'title');
+				if($ret >0)
+					return 1;
+				else
+					return -1;
+			}
 			else
-				return -1;
+				return 1;
 		}
 		else
 			return -1;
@@ -115,7 +100,6 @@ class install
 		$ini = new TIniFileEx('../config/install.ini');
 		$ini->write('global','installed',true);
 		$ini->updateFile();
-// 		self::delTree('install');
 	}
 }
 ?>
