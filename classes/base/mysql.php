@@ -6,7 +6,7 @@ final class base implements baseInterface
 	{
 		if (self::$connection)
 			return;
-		self::$connection = mysql_connect($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass']);
+		self::$connection = mysql_connect($GLOBALS['db_host'].':'.$GLOBALS['db_port'], $GLOBALS['db_user'], $GLOBALS['db_pass']);
 		if (self::$connection)
 		{
 			mysql_selectdb($GLOBALS['db_name']);

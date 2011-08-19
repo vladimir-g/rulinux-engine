@@ -19,6 +19,12 @@ config::include_database();
 require_once "classes/object.class.php";
 require_once "classes/core.class.php";
 $coreC = new core;
+$installed = $coreC->is_installed();
+if(!$installed)
+{
+	echo 'Проведите первичную инициализацию. Если вы уже проводили первичную инициализацию, но видите это сообщение по-прежнему, то выствите в файле config/install.ini значение 1 параметру installed.';
+	exit;
+}
 require_once "classes/search.class.php";
 $searchC = new search;
 require_once "classes/users.class.php";

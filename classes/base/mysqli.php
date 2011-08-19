@@ -6,7 +6,7 @@ final class base implements baseInterface
 	{
 		if (self::$connection)
 			return;
-		self::$connection = new mysqli($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass'], $GLOBALS['db_name']);
+		self::$connection = new mysqli($GLOBALS['db_host'].':'.$GLOBALS['db_port'], $GLOBALS['db_user'], $GLOBALS['db_pass'], $GLOBALS['db_name']);
 		if (self::$connection)
 		{
 			self::$connection->query('SET CHARACTER SET \''.$GLOBALS['db_charset'].'\'');

@@ -177,5 +177,18 @@ class core extends object
 		else
 			return -1;
 	}
+	function is_installed()
+	{
+		$file = 'config/install.ini';
+		if(!is_file($file))
+			return 0;
+		$ini = parse_ini_file($file, 1);
+		$installed = $ini['global']['installed'];
+		if($installed == 1)
+			return 1;
+		else
+			return 0;
+		
+	}
 }
 ?>
