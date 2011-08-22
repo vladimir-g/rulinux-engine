@@ -12,6 +12,8 @@ final class messages extends object
 		$tid = $thr[0]['tid']+1;
 		$raw_message = $message;
 		$subject = htmlspecialchars($subject);
+		if(strlen($subject) > 255)
+			$subject = substr($subject, 0, 252).'...';
 		$message = str_to_html($message);
 		$useragent = htmlspecialchars($_SERVER['HTTP_USER_AGENT']);
 		$uid = $_SESSION['user_id'];
@@ -22,7 +24,7 @@ final class messages extends object
 		$referer = (int)$referer;
 		$filters = '';
 		$md5 = md5(rand().$timest);
-		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('changed_for', ''), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5));
+		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('changed_for', ''), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5), array('session_id', session_id()));
 		$ret = self::$baseC->insert('comments', $msg_arr);
 		$subsection = (int)$subsection;
 		$section = (int)$section;
@@ -46,6 +48,8 @@ final class messages extends object
 	{
 		$raw_message = $message;
 		$subject = htmlspecialchars($subject);
+		if(strlen($subject) > 255)
+			$subject = substr($subject, 0, 252).'...';
 		$message = str_to_html($message);
 		$useragent = htmlspecialchars($_SERVER['HTTP_USER_AGENT']);
 		$tid = (int)$tid;
@@ -56,7 +60,7 @@ final class messages extends object
 		$timest = $changing_timest = gmdate("Y-m-d H:i:s");
 		$referer = (int)$referer;
 		$filters = '';
-		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5));
+		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5), array('session_id', session_id()));
 		$ret = self::$baseC->insert('comments', $msg_arr);
 	}
 	function get_messages_for_tracker($hours)
@@ -74,6 +78,8 @@ final class messages extends object
 	{
 		$raw_message = $message;
 		$subject = htmlspecialchars($subject);
+		if(strlen($subject) > 255)
+			$subject = substr($subject, 0, 252).'...';
 		$message = str_to_html($message);
 		$changing_timest = gmdate("Y-m-d H:i:s");
 		$changed_by = $_SESSION['user_id'];
@@ -86,6 +92,8 @@ final class messages extends object
 	{
 		$raw_message = $message;
 		$subject = htmlspecialchars($subject);
+		if(strlen($subject) > 255)
+			$subject = substr($subject, 0, 252).'...';
 		$message = str_to_html($message);
 		$changing_timest = gmdate("Y-m-d H:i:s");
 		$changed_by = $_SESSION['user_id'];

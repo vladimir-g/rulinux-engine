@@ -4,14 +4,6 @@ require 'classes/core.php';
 $rss_link='rss';
 if(!empty($_POST['sbm']))
 {
-	if($_SESSION['user_id'] == 1)
-	{
-		$legend = 'Действие запрещено';
-		$text = 'Вы не можете выставлять фильтры на это сообщение';
-		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'footer.php';
-		exit();
-	}
 	if($_POST['msg_uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 	{
 		for($i=1; $i<=$_POST['filters_count']; $i++)
@@ -31,16 +23,19 @@ if(!empty($_POST['sbm']))
 	}
 }
 $title = ' - Установить фильтр на сообщение';
+$msg = $messagesC->get_message($message_id);
 if($_SESSION['user_id'] == 1)
 {
-	require 'header.php';
-	$legend = 'Действие запрещено';
-	$text = 'Вы не можете выставлять фильтры на это сообщение';
-	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-	require 'footer.php';
-	exit();
+	if($msg['session_id'] != session_id())
+	{
+		require 'header.php';
+		$legend = 'Действие запрещено';
+		$text = 'Вы не можете выставлять фильтры на это сообщение';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'footer.php';
+		exit();
+	}
 }
-$msg = $messagesC->get_message($message_id);
 if($msg['uid'] == $_SESSION['user_id'] || $uinfo['gid']==2 || $uinfo['gid']==3)
 {
 	require 'header.php';

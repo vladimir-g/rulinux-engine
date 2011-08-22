@@ -105,7 +105,8 @@ final class base implements baseInterface
 		}
 		else 
 			 return -1;
-		if(pg_query($query))
+                $query_res = pg_query($query);
+		if($query_res)
 			return 1;
 		else 
 			return -1;

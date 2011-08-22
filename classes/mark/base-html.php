@@ -3,12 +3,12 @@ function str_to_html($string)
 {
 	$code = array();
  	$lang = array();
- 	$re = '#(<fieldset>)(<legend>(abap|actionscript|actionscript3|ada|apache|applescript|apt_sources|asm|asp|autoit|avisynth|bash|basic4gl|bf|bibtex|blitzbasic|bnf|boo|c|c_mac|caddcl|cadlisp|cfdg|cfm|cil|cmake|cobol|cpp|cpp-qt|csharp|css|d|dcs|delphi|diff|div|dos|dot|eiffel|e-mail|erlang|fo|fortran|freebasic|genero|gettext|glsl|gml|gnuplot|groovy|haskell|hq9plus|html4strict|idl|ini|inno|intercal|io|java|java5|javascript|kixtart|klonec|latex|lisp|locobasic|lolcode|lotusformulas|lotusscript|lscript|lsl2|lua|m68k|make|matlab|mirc|modula3|mpasm|mxml|mysql|nsis|oberon2|objc|ocaml|ocaml-brief|oobas|oracle11|oracle8|pascal|per|perl|php|php-brief|pic16|pixelbender|plsql|povray|powershell|progress|prolog|providex||python|qbasic|rails|rebol|reg|robots|ruby|sas|scala|scheme|scilab|sdlbasic|smalltalk|smarty|sql|tcl|teraterm|text|thinbasic|tsql|typoscript|vb|vbnet|verilog|vhdl|vim|visualfoxpro|visualprolog|whitespace|whois|winbatch|xml|xorg_conf|xpp|z80)</legend>)?((?!</fieldset>).*?)(</fieldset>)#suim';
+ 	$re = '#(<code)([ ]?lang=["]?(abap|actionscript|actionscript3|ada|apache|applescript|apt_sources|asm|asp|autoit|avisynth|bash|basic4gl|bf|bibtex|blitzbasic|bnf|boo|c|c_mac|caddcl|cadlisp|cfdg|cfm|cil|cmake|cobol|cpp|cpp-qt|csharp|css|d|dcs|delphi|diff|div|dos|dot|eiffel|e-mail|erlang|fo|fortran|freebasic|genero|gettext|glsl|gml|gnuplot|groovy|haskell|hq9plus|html4strict|idl|ini|inno|intercal|io|java|java5|javascript|kixtart|klonec|latex|lisp|locobasic|lolcode|lotusformulas|lotusscript|lscript|lsl2|lua|m68k|make|matlab|mirc|modula3|mpasm|mxml|mysql|nsis|oberon2|objc|ocaml|ocaml-brief|oobas|oracle11|oracle8|pascal|per|perl|php|php-brief|pic16|pixelbender|plsql|povray|powershell|progress|prolog|providex||python|qbasic|rails|rebol|reg|robots|ruby|sas|scala|scheme|scilab|sdlbasic|smalltalk|smarty|sql|tcl|teraterm|text|thinbasic|tsql|typoscript|vb|vbnet|verilog|vhdl|vim|visualfoxpro|visualprolog|whitespace|whois|winbatch|xml|xorg_conf|xpp|z80)["]?)?(>)((?!</code>).*?)(</code>)#suim';
 	$vh = preg_match_all($re, $string, $match);
 	for($i=0;$i<$vh;$i++)
 	{
 		$lang[$i]=$match[3][$i];
-		$with_breaks = mark::highlight(html_entity_decode($match[4][$i], ENT_QUOTES), $match[3][$i], "librarys/geshi/geshi");
+		$with_breaks = mark::highlight(html_entity_decode($match[5][$i], ENT_QUOTES), $match[3][$i], "librarys/geshi/geshi");
 		$code[$i] = $with_breaks;
 		$string = str_replace($match[0][$i], '⓬'.$i.'⓬', $string);
 	}
@@ -32,7 +32,7 @@ function str_to_html($string)
 	$string = str_replace('imgh://', 'http://', $string);
 	$string = str_replace('imghs://', 'https://', $string);
 	$string = preg_replace("#(&lt;) ?(br) ?/?(&gt;)#suim","<br>", $string);
-	$qoute_re = "#(&lt;fieldset class=&quot;quote&quot;&gt;)(.*?(?!&lt;fieldset))(&lt;/fieldset&gt;)#suim";
+	$qoute_re = "#(&lt;q&gt;)(.*?(?!&lt;q))(&lt;/q&gt;)#suim";
 	$vt = preg_match_all($qoute_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{

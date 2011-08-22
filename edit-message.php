@@ -5,16 +5,19 @@ $title = ' - Редактировать сообщение';
 $rss_link='rss';
 if(empty($_POST['sbm']))
 {
+	$msg = $messagesC->get_message($message_id);
 	if($_SESSION['user_id'] == 1)
 	{
-		require 'header.php';
-		$legend = 'Действие запрещено';
-		$text = 'Вы не можете редактировать это сообщение';
-		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'footer.php';
-		exit();
+		if($msg['session_id'] != session_id())
+		{
+			require 'header.php';
+			$legend = 'Действие запрещено';
+			$text = 'Вы не можете редактировать это сообщение';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
 	}
-	$msg = $messagesC->get_message($message_id);
 	if(empty($msg))
 	{
 		require 'header.php';
@@ -36,6 +39,7 @@ if(empty($_POST['sbm']))
 			$captcha = '';
 		$sect = $sectionsC->get_section_by_tid($msg['tid']);
 		$sel = $threadsC->get_tid_by_cid($msg['id']);
+		$msg_uid = $msg['uid'];
 		if(!empty($sel))
 		{
 			if($sect['id']==1)
@@ -68,15 +72,6 @@ if(empty($_POST['sbm']))
 }
 else
 {
-	if($_SESSION['user_id'] == 1)
-	{
-		require 'header.php';
-		$legend = 'Действие запрещено';
-		$text = 'Вы не можете редактировать это сообщение';
-		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'footer.php';
-		exit();
-	}
 	if($usersC->get_captcha_level($_SESSION['user_id']) > -1)
 	{
 		if(empty($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])

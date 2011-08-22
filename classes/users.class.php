@@ -180,7 +180,7 @@ final class users extends object
 					return -2;
 			$current_date = gmdate("y-m-d H:i:s");
 			$pass = md5($pass);
-			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '0'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
+			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '-1'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
 			$ret = self::$baseC->insert('users', $user_arr);
 			return $ret;
 	}
@@ -218,28 +218,23 @@ final class users extends object
 	}
 	function modify_user_info($field, $value, $id)
 	{
-		if ($field != '' && $value != '')
+		if($id != 1)
 		{
-			if($id != 1)
+			$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
+			$sel = self::$baseC->select('users', '', '*', $where_arr);
+			if(!empty($sel))
 			{
-				$where_arr = array(array("key"=>'id', "value"=>$id, "oper"=>'='));
-				$sel = self::$baseC->select('users', '', '*', $where_arr);
-				if(!empty($sel))
-				{
-					$ret = self::$baseC->update('users', $field, $value, 'id', $id);
-					return $ret;
-				}
-				else
-					return -2;
+				$ret = self::$baseC->update('users', $field, $value, 'id', $id);
+				return $ret;
 			}
 			else
-			{
-				setcookie ($field, $value,time()+31536000);
-				return 1;
-			}
+				return -1;
 		}
-		else 
-			return -1;
+		else
+		{
+			setcookie ($field, $value,time()+31536000);
+			return 1;
+		}
 	}
 	function modify_user_read_settings($id, $theme, $news_on_page, $comments_on_page, $threads_on_page, $show_photos, $show_ua, $sort_to, $show_resp, $mark)
 	{
@@ -283,11 +278,14 @@ final class users extends object
 			exit();
 		}
 		$show_email = empty($show_email) ? 0 : 1;
-		if(!filter_var($user_im, FILTER_VALIDATE_EMAIL))
+		if(!empty($user_im))
 		{
-			echo 'IM указан не верно';
-			include 'themes/'.$theme.'/templates/footer.tpl.php';
-			exit();
+			if(!filter_var($user_im, FILTER_VALIDATE_EMAIL))
+			{
+				echo 'IM указан не верно';
+				include 'themes/'.$theme.'/templates/footer.tpl.php';
+				exit();
+			}
 		}
 		$show_im = empty($show_im) ? 0 : 1;
 		$country = htmlspecialchars($country);

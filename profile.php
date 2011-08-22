@@ -320,7 +320,7 @@ else if($_POST['action']=="admin")
 			$legend = 'Администраторские настройки успешно изменены';
 			$text = 'Администраторские настройки успешно изменены<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit=1">');  
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'user_'.$user.':edit">');  
 		}
 		else
 		{
@@ -362,7 +362,7 @@ else if($_POST['action']=="main_page")
 			$legend = 'Вид главной страницы успешно изменен';
 			$text = 'Вид главной страницы успешно изменен<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit=1">');  
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'profile.php?user='.$user.'&edit">');  
 		}
 		else
 		{

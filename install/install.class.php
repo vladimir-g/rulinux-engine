@@ -112,7 +112,17 @@ class install
 			return 1;
 		else
 			return 0;
-
+	}
+	
+	function create_root($login, $password)
+	{
+		config::include_database('../');
+		if (!preg_match('/^([a-zA-Z][a-zA-Z0-9\_\-]*){2,}$/', $login))
+			return -1;
+		$password = md5($password);
+		$param_arr = array($login, $password);
+		$ret = base::query('INSERT INTO users(gid, nick, password, name, lastname, birthday, gender, email, show_email, im, show_im, country, city, photo, register_date, last_visit, captcha, blocks, additional, news_on_page, comments_on_page, threads_on_page, show_avatars, show_ua, show_resp, theme, gmt, filters, mark, banned, sort_to) VALUES(2, \'::0::\', \'::1::\', \'Администратор сайта\', \'\', \'2000-01-01 00:00:00\', true, \'noemail@rulinux.net\', false, \'nojabber@rulinux.net\', false, \'\', \'\', \'\', \'2000-01-01 00:00:00\', \'2000-01-01 00:00:00\', -1, \'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4,faq:r:1\', \'Администратор сайта добавленный автоматически\', 10, 50, 30, false, true, false, \'1\', \'+4\', \'\', 1, false, false);', 'assoc_array', $param_arr);
+		return $ret;
 	}
 }
 ?>

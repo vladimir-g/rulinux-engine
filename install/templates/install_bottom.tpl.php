@@ -82,6 +82,22 @@
 <input type="text" name="pass_phrase">
 </td>
 </tr>
+<tr>
+<td>
+Имя новой учетной записи администратора<sup>*</sup>:
+</td>
+<td>
+<input type="text" name="admin_login">
+</td>
+</tr>
+<tr>
+<td>
+Пароль администратора<sup>*</sup>:
+</td>
+<td>
+<input type="password" name="admin_pass">
+</td>
+</tr>
 </table>
 </fieldset>
 <br>

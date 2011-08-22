@@ -53,6 +53,16 @@ else
 		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Не указана парольная фраза</head></html>';
 		exit;
 	}
+	if(empty($_POST['admin_login']))
+	{
+		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Не указан логин администратора</head></html>';
+		exit;
+	}
+	if(empty($_POST['admin_pass']))
+	{
+		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Не указан пароль администратора</head></html>';
+		exit;
+	}
 	$db_set = install::set_db_settings($_POST['db_module'], $_POST['login'], $_POST['password'], $_POST['host'], $_POST['db_port'],  $_POST['db_name'], $_POST['charset']);
 	if($db_set<0)
 	{
@@ -72,6 +82,12 @@ else
 	if($sql<0)
 	{
 		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Не удалось создать или заполнить таблицы в БД</head></html>';
+		exit;
+	}
+	$adm = install::create_root($_POST['admin_login'], $_POST['admin_pass']);
+	if($adm<0)
+	{
+		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Не удалось создать учетную запись администратора</head></html>';
 		exit;
 	}
 	$dir = install::create_directories();

@@ -28,13 +28,16 @@
 </td>
 </tr>
 <tr>
+<td></td>
 <td>
 <?=$captcha?>
 </td>
 </tr>
 <tr>
+<td></td>
 <td>
 <input name="sbm" type=submit value="Изменить">
+<input name="msg_uid" type=hidden value="<?=$msg_uid?>">
 </td>
 </tr>
 </table>

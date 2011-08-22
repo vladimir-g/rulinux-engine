@@ -281,6 +281,24 @@ else
 				exit();
 			}
 		}
+		if (empty($_POST['subject']))
+		{
+			require 'header.php';
+			$legend = 'Не заполнено поле \'Тема\'.';
+			$text = 'Не заполнено поле \'Тема\'';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
+		if (empty($_POST['comment']))
+		{
+			require 'header.php';
+			$legend = 'Не заполнено поле \'Ваш коментарий\'';
+			$text = 'Не заполнено поле \'Ваш коментарий\'';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
 		if(!empty($_POST['user_field']))
 		{
 			require 'header.php';

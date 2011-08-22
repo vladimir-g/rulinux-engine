@@ -13,7 +13,7 @@ if(!empty($_POST['sbm']))
 		$text = 'Не заполнено поле \'Тема\'';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		define(SUBJ_SET, false);
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	else
@@ -26,7 +26,7 @@ if(!empty($_POST['sbm']))
 		$text = 'Не заполнено поле \'Ваш коментарий\'';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		define(COMM_SET, false);
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	else
@@ -39,7 +39,7 @@ if(!empty($_POST['sbm']))
 		$text = 'Заполнено поле не требующее заполнения';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		define(SUBJ_SET, false);
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 	else
@@ -57,7 +57,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 		{
 			if(isset($_SESSION['captcha_keystring'] ) && $_SESSION['captcha_keystring']  == $_POST['keystring'])
 			{
-				$messagesC->add_message($_POST['subject'], $_POST['comment'], $thread_id, $message_id);
+				$messagesC->add_message($_POST['subject'], $_POST['comment'], $thread_id, $message_id, $md5);
 				$mess_arr = $threadsC->get_msg_number($thread_id, $md5);
 				$message_number = $mess_arr['message_number'];
 				$msg_id = $mess_arr['msg_id'];
@@ -79,7 +79,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 				$legend = 'Неверно введен ответ с картинки';
 				$text = 'Неверно введен ответ с картинки';
 				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-				require 'themes/'.$theme.'/templates/footer.tpl.php';
+				require 'footer.php';
 				exit();
 			}
 		}
@@ -108,7 +108,7 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 		$legend = 'Вы не можете отправить сообщение';
 		$text = 'Постинг из-под данного аккаунта был заблокирован модератором';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		require 'themes/'.$theme.'/templates/footer.tpl.php';
+		require 'footer.php';
 		exit();
 	}
 }

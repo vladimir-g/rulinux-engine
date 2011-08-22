@@ -6,7 +6,6 @@ class simple
 		global $captcha_font_path,$captcha_img_path;
 	
 		$rand = preg_replace("/([0-9])/e","chr((\\1+112))",rand(100000,999999));
-		echo "<br>";    
 		for ($i=0;$i<strlen($rand);$i++)
 		{
 			$color = imagecolorallocate($canvas, rand(100,255),rand(100,255) , rand(100,255));
