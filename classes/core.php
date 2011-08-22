@@ -22,7 +22,7 @@ $coreC = new core;
 $installed = $coreC->is_installed();
 if(!$installed)
 {
-	echo 'Проведите первичную инициализацию. Если вы уже проводили первичную инициализацию, но видите это сообщение по-прежнему, то выствите в файле config/install.ini значение 1 параметру installed.';
+	echo '<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>Проведите <a href="install/install.php">первичную инициализацию</a>. Если вы уже проводили первичную инициализацию, но по-прежнему видите это сообщение, то выствите в файле config/install.ini значение 1 параметру installed.</html>';
 	exit;
 }
 require_once "classes/search.class.php";
