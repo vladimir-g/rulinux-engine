@@ -20,15 +20,21 @@ class torsion
 		for($i=0; $i<count($msg_words); $i++)
 		{
 			$word = strip_tags($msg_words[$i]);
-			if(in_array($word , $words))
-				return 1;
+			if(!empty($word))
+			{
+				if(in_array($word , $words))
+					return 1;
+			}
 		}
 		$ret = 0;
 		for($i=0; $i<count($msg_words); $i++)
 		{
 			$word = strip_tags($msg_words[$i]);
-			if(in_array($word, $semi_mass_words))
-				$ret = $ret + 0.5;
+			if(!empty($word))
+			{
+				if(in_array($word, $semi_mass_words))
+					$ret = $ret + 0.5;
+			}
 			if($ret == 1)
 				return 1;
 		}

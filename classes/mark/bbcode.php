@@ -35,7 +35,7 @@ function str_to_html($string)
 	(
 		'list' => '<ul>',
 		'num' => '<ol>',
-		'quote' => '<fieldset class="quote"><ol start="1">',
+		'quote' => '<div class="quote"><pre>',
 	);
 	foreach ($tags as $tag => $val)
 	{
@@ -45,7 +45,7 @@ function str_to_html($string)
 			$vt = preg_match_all($re, $string, $match);
 			for($i=0;$i<$vt;$i++)
 			{
-				$string = preg_replace($re, "$val$2</ul>", $string, 1);
+				$string = preg_replace($re, "$val\$2</ul>", $string, 1);
 				$with_breaks = str_replace('[*]', '<li>&nbsp;', $match[2][$i]);
 				$string = str_replace($match[2][$i], $with_breaks, $string);
 			}
@@ -56,7 +56,7 @@ function str_to_html($string)
 			$vt = preg_match_all($re, $string, $match);
 			for($i=0;$i<$vt;$i++)
 			{
-				$string = preg_replace($re, "$val$2</ol>", $string, 1);
+				$string = preg_replace($re, "$val\$2</ol>", $string, 1);
 				$with_breaks = str_replace('[*]', '<li>&nbsp;', $match[2][$i]);
 				$string = str_replace($match[2][$i], $with_breaks, $string);
 			}
@@ -67,8 +67,8 @@ function str_to_html($string)
 			$vt = preg_match_all($re, $string, $match);
 			for($i=0;$i<$vt;$i++)
 			{
-				$string = preg_replace($re, "$val$2</ol></fieldset>", $string, 1);
-				$with_breaks = preg_replace('/\n|^/', '<li>&nbsp;', $match[2][$i]);
+				$string = preg_replace($re, "$val\$2</pre></div>", $string, 1);
+				$with_breaks = $match[2][$i];
 				$string = str_replace($match[2][$i], $with_breaks, $string);
 			}
 		}

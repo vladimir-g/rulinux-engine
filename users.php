@@ -1,6 +1,6 @@
 <?php
 require 'classes/core.php';
-$page = (int)$_GET['page'];
+empty($_GET['page']) ? $page = 1 : $page = (int)$_GET['page'];
 $title = ' - Пользователи';
 $rss_link='rss';
 require 'header.php';

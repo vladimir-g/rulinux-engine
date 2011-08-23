@@ -30,6 +30,8 @@ else
 	$message_useragent = $topic_start['useragent'];
 $message_timestamp = $coreC->to_local_time_zone($topic_start['timest']);
 $message_id = $topic_start['id'];
+$user_filter = $usersC->get_filter($_SESSION['user_id']);
+$user_filter_arr = $filtersC->parse_filter_string($user_filter);
 if($messagesC->is_filtered($message_id, $user_filter_arr))
 	$message_comment = 'Это сообщение отфильтрованно в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.';
 else
@@ -165,8 +167,6 @@ if($messages_count>1)
 		$message_resp_link = 'thread_'.$thread_id.'_page_'.$resp_page.'#msg'.$cmnt[$i]['referer'];
 		$message_edit_link = 'message_'.$message_id.':edit';
 		$message_subject = $cmnt[$i]['subject'];
-		$user_filter = users::get_filter($_SESSION['user_id']);
-		$user_filter_arr = filters::parse_filter_string($user_filter);
 		if($messagesC->is_filtered($cmnt[$i]['id'], $user_filter_arr))
 			$message_comment = 'Это сообщение отфильтрованно в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.';
 		else

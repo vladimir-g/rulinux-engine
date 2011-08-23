@@ -1,16 +1,23 @@
 <?php
 ini_set('register_globals','Off');
-$db_name='lorng';
-$db_user='rluser';
-$db_host='localhost';
-$db_pass='rluser';
+//$db_name='lorng';
+//$db_user='rluser';
+//$db_host='localhost';
+//$db_pass='rluser';
 $db_charset='utf8';
 $tbl_prefix='';
+
+
+$db_name='rulinux';
+$db_user='rulinux';
+$db_host='nixl.net';
+$db_pass='kRd8HdPy1tGa';
+
 $connection = mysql_connect($db_host, $db_user, $db_pass) or die('Could not connect to database');;
 mysql_select_db($db_name);
 mysql_query('SET CHARACTER SET \''.$db_charset.'\'');
 /**************************конвертация*таблички*users*************************************/
-$query = 'SELECT * FROM users';
+/*$query = 'SELECT * FROM users';
 $res = mysql_query($query);
 while ($arr = mysql_fetch_assoc($res))
 {
@@ -19,6 +26,8 @@ while ($arr = mysql_fetch_assoc($res))
 	else
 		$gid = $arr['gid'];
 	$nick = '\''.$arr['nick'].'\'';
+	if($nick == 'anonymous')
+		continue;
 	$password = '\''.$arr['pass'].'\'';
 	$name = '\''.$arr['name'].'\'';
 	$lastname = '\'\'';
@@ -118,14 +127,28 @@ while ($arr = mysql_fetch_assoc($res))
 	$banned = '\'0\'';
 	$sort_to = '\''.$arr['sort_to'].'\'';
 	$query = "INSERT INTO users(gid, nick, password, name, lastname, birthday, gender, email, show_email, im, show_im, country, city, photo, register_date, last_visit, captcha, blocks, additional, news_on_page, comments_on_page, threads_on_page, show_avatars, show_ua, show_resp, theme, gmt, filters, mark, banned, sort_to) VALUES($gid, $nick, $password, $name, $lastname, $birthday, $gender, $email, $show_email, $im, $show_im, $country, $city, $photo, $register_date, $last_visit, $captcha, $blocks, $additional, $news_on_page, $comments_on_page, $threads_on_page, $show_avatars, $show_ua, $show_resp, $theme, $gmt, $filters, $mark, $banned, $sort_to);";
-	echo $query.'<br>';
+	$str = $str.'
+	'.$query;
 	$i++;
 }
+
+file_put_contents('users.sql', $str);*/
+
+
 /**************************конвертация*тредов*************************************/
-
-
-
-
-
-
+echo 'yes';
+exit;
+$query = 'SELECT MAX(tid) AS mtid FROM comments';
+$res = mysql_query($query);
+$arr = mysql_fetch_assoc($res);
+for($i=0; $i< $arr['mtid']; $i++)
+{
+	$query = "SELECT * FROM comments WHERE tid = $i ORDER BY cid";
+	$res = mysql_query($query);
+	$arr = mysql_fetch_assoc($res);
+	if(empty($arr))
+		echo $i;
+	else
+		echo $arr['cid'];
+}
 ?>

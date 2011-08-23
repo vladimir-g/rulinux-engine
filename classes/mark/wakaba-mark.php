@@ -56,19 +56,18 @@ function str_to_html($string)
 	$string = preg_replace("#(>>|&gt;&gt;)(.*?(^>>|&gt;&gt;)?)(>>|&gt;&gt;)#sim","<p align=\"right\">\$2</p>", $string);
 	$string = preg_replace("#(<<|&lt;&lt;)(.*?(^<<|&lt;&lt;)?)(<<|&lt;&lt;)#sim","<p align=\"left\">\$2</p>", $string);
 	$string = preg_replace("#(<>|&lt;&gt;)(.*?(^<>|&lt;&gt;)?)(<>|&lt;&gt;)#sim","<p align=\"center\">\$2</p>", $string);
-
+	$quote = array();
 	$re = '#(`)([^`].*?[^`]?)(`)#sim';
 	$vt = preg_match_all($re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{
-		$string = preg_replace($re, "<fieldset class=\"quote\"><ol start=\"1\"><li>&nbsp;$2</ol></fieldset>", $string, 1);
+		$string = preg_replace($re, "<div class=\"quote\"><pre>\$2</pre></div>", $string, 1);
 		$with_breaks = preg_replace('/^(\\r\\n)+/', '', $match[2][$i]);
 		$with_breaks = preg_replace('/(\\r\\n)+$/', '', $with_breaks);
-		$with_breaks = preg_replace('/\n/', '<li>&nbsp;', $with_breaks);
-		$string = str_replace($match[2][$i], $with_breaks, $string);
+		//$with_breaks = preg_replace('/\n/', '<li>&nbsp;', $with_breaks);
+		$quote[$i] = $with_breaks;
+		$string = str_replace($match[2][$i], '⓬⓬'.$i.'⓬⓬', $string);
 	}
-
-
 	$user_re = "#(\\^)(.*?[^\\^]?)(\\^)#sim";
 	$arr = preg_match_all($user_re, $string, $match);
 	for($i=0;$i<$arr;$i++)
@@ -80,7 +79,6 @@ function str_to_html($string)
 		else
 			$string = preg_replace($user_re, "\$2", $string, 1);
 	}
-
 	$url_re = '#(~)((@)(.*?[^@]?)(@))?(.*?[^~]?)(~)#sim';
 	$vt = preg_match_all($url_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
@@ -115,6 +113,12 @@ function str_to_html($string)
 	}
 	$string = preg_replace("#(\r\n|<p>|^)(>|&gt;)(.*?[^\n]?)(\n|$)#sim","\$1<i>>\$3</i><br>", $string);
 	$string = preg_replace("#(\r\n)+#", '<br>', $string);
+	$re = "#(⓬⓬)([0-9]+)(⓬⓬)#sim";
+	$vt = preg_match_all($re, $string, $match);
+	for($i=0;$i<$vt;$i++)
+	{
+		$string = str_replace('⓬⓬'.$match[2][$i].'⓬⓬',$quote[$match[2][$i]], $string);
+	}
 	$re = "#(⓬)([0-9]+)(⓬)#sim";
 	$vt = preg_match_all($re, $string, $match);
 	for($i=0;$i<$vt;$i++)

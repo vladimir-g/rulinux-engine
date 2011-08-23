@@ -36,10 +36,9 @@ function str_to_html($string)
 	$vt = preg_match_all($qoute_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{
-		$string = preg_replace($qoute_re, "<fieldset class=\"quote\"><ol start=\"1\"><li>&nbsp;\$2</ol></fieldset>", $string, 1);
+		$string = preg_replace($qoute_re, "<div class=\"quote\"><pre>\$2</pre></div>", $string, 1);
 		$with_breaks = preg_replace('/^(\\r\\n)+/', '', $match[2][$i]);
 		$with_breaks = preg_replace('/(\\r\\n)+$/', '', $with_breaks);
-		$with_breaks = str_replace('&lt;li&gt;', '<li>&nbsp;', $with_breaks);
 		$string = str_replace($match[2][$i], $with_breaks, $string);
 	}
 	$list_re = "#(&lt;ul&gt;)(.*?(?!ul&gt;))(&lt;/ul&gt;)#suim";

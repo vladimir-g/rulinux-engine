@@ -47,18 +47,21 @@ class filthylang
 		for($i=0; $i<count($msg_words); $i++)
 		{
 			$word = strip_tags($msg_words[$i]);
-			if(in_array($word , $hui))
-				return 1;
-			else if(in_array($word , $her))
-				return 1;
-			else if(in_array($word , $pizda))
-				return 1;
-			else if(in_array($word , $suka))
-				return 1;
-			else if(in_array($word , $bljad))
-				return 1;
-			else if(in_array($word , $eblya))
-				return 1;
+			if(!empty($word))
+			{
+				if(in_array($word , $hui))
+					return 1;
+				else if(in_array($word , $her))
+					return 1;
+				else if(in_array($word , $pizda))
+					return 1;
+				else if(in_array($word , $suka))
+					return 1;
+				else if(in_array($word , $bljad))
+					return 1;
+				else if(in_array($word , $eblya))
+					return 1;
+			}
 		}
 		return 0;
 	}
