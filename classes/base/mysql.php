@@ -9,7 +9,7 @@ final class base implements baseInterface
 		self::$connection = mysql_connect($GLOBALS['db_host'].':'.$GLOBALS['db_port'], $GLOBALS['db_user'], $GLOBALS['db_pass']);
 		if (self::$connection)
 		{
-			mysql_selectdb($GLOBALS['db_name']);
+			mysql_select_db($GLOBALS['db_name']);
 			mysql_query('SET CHARACTER SET \''.$GLOBALS['db_charset'].'\'');
 		}
 		else

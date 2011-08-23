@@ -21,7 +21,6 @@ $thread_next_subject = $next['subject'];
 $topic_start = $messagesC->get_topic_start_message($thread_id);
 $thread_this_link = 'thread_'.$thread_id.'_page_'.$page;
 $message_subject = $thread_subject = $topic_start['subject'];
-$message_comment = $topic_start['comment'];
 $msg_autor = $usersC->get_user_info($topic_start['uid']);
 $coreC->validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
 $message_autor_profile_link = 'user_'.$msg_autor['nick'];
@@ -31,6 +30,10 @@ else
 	$message_useragent = $topic_start['useragent'];
 $message_timestamp = $coreC->to_local_time_zone($topic_start['timest']);
 $message_id = $topic_start['id'];
+if($messagesC->is_filtered($message_id, $user_filter_arr))
+	$message_comment = 'Это сообщение отфильтрованно в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.';
+else
+	$message_comment = $topic_start['comment'];
 $message_set_filter_link = 'set_filter_'.$message_id;
 $message_add_answer_link = 'comment_into_'.$thread_id.'_on_'.$message_id;
 $message_edit_link = 'message_'.$message_id.':edit';
