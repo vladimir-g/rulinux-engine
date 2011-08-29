@@ -141,7 +141,7 @@ function str_to_html($string)
 	}
 	$string = '<p>'.$string.'</p>';
 	$string = preg_replace("#(\r\n\r\n|<p>|^)(>|&gt;)(.*?[^\n]?)(\n|$)#sim","\$1<i>>\$3</i><br>", $string);
-	$string = str_replace("\r\n\r\n", '</p><p>', $string);
+	$string = str_replace("\r\n\r\n", '<br><br>', $string);
 	$string = str_replace("\r\n", ' ', $string);
 	$re = "#(⓬)([0-9]+)(⓬)#sim";
 	$vt = preg_match_all($re, $string, $match);

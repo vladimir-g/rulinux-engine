@@ -44,7 +44,7 @@ if(!empty($topic_start['changed_by']))
 {
 	$usr = $usersC->get_user_info($topic_start['changed_by']);
 	$reason = empty($topic_start['changed_for']) ? '"не указана"' : $topic_start['changed_for'];
-	$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
+	$changed = '<i><b>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
 }
 $title = ' - '.$section_name.' - '.$subsection_name.' - '.$thread_subject;
 $rss_link='rss_from_sect_'.$section_id.'_subsect_'.$subsection_id.'_thread_'.$thread_id;
@@ -185,7 +185,7 @@ if($messages_count>1)
 		{
 			$usr = $usersC->get_user_info($cmnt[$i]['changed_by']);
 			$reason = empty($cmnt[$i]['changed_for']) ? '"не указана"' : $cmnt[$i]['changed_for'];
-			$changed = '<b><i>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
+			$changed = '<i><b>Отредактированно '.$usr['nick'].' по причине '.$reason.'</b></i>';
 		}
 		else
 			$changed='';
