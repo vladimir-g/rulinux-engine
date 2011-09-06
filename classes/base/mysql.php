@@ -23,7 +23,7 @@ final class base implements baseInterface
 			$value = mysql_real_escape_string($value);
 		return $value;
 	}
-	function select($table, $dist, $sel_expr, $where_arr = '', $where_oper = '', $order_by = 'id', $order_by_sort = 'ASC', $limit_begin = '0', $limit_end = '', $group_by = '')
+	public function select($table, $dist, $sel_expr, $where_arr = '', $where_oper = '', $order_by = 'id', $order_by_sort = 'ASC', $limit_begin = '0', $limit_end = '', $group_by = '')
 	{
 		self::connect();
 		if(!empty($group_by))
@@ -92,7 +92,7 @@ final class base implements baseInterface
 		else
 			echo mysql_error();
 	}
-	function insert($table, $arr)
+	public function insert($table, $arr)
 	{
 		self::connect();
 		$table=self::escape_string($table);
@@ -122,7 +122,7 @@ final class base implements baseInterface
 		else 
 			return -1;
 	}
-	function update($table, $field, $value, $id_field='id', $id)
+	public function update($table, $field, $value, $id_field='id', $id)
 	{
 		self::connect();
 		$table=self::escape_string($table);
@@ -139,7 +139,7 @@ final class base implements baseInterface
 		else 
 			return -1;
 	}
-	function delete($table, $id_field='id', $id)
+	public function delete($table, $id_field='id', $id)
 	{
 		self::connect();
 		$table=self::escape_string($table);
@@ -154,7 +154,7 @@ final class base implements baseInterface
 		else 
 			return -1;
 	}
-	function query($query, $returnas = 'assoc_array', $param_array)
+	public function query($query, $returnas = 'assoc_array', $param_array)
 	{
 		self::connect();
 		for($i=0; $i<count($param_array); $i++)
