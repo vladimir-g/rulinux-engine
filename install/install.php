@@ -6,7 +6,7 @@ require_once 'install.class.php';
 
 if(install::is_installed())
 {
-	echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Первичная иницмализация уже была проведена</head></html>';
+	echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Первичная инициализация уже была проведена</head></html>';
 	exit;
 }
 

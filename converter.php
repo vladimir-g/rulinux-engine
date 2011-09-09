@@ -24,10 +24,10 @@ while ($arr = mysql_fetch_assoc($res))
 	if($arr['nick'] == 'anonymous')
 		continue;
 	$password = '\''.$arr['pass'].'\'';
-	$name = '\''.$arr['name'].'\'';
+	$name = '\''.pg_escape_string($arr['name']).'\'';
 	$lastname = '\'\'';
 	if($arr['birthday'] != '0000-00-00')
-		$birthday = '\''.$arr['birthday'].' 00:00:00'.'\'';
+		$birthday = '\''.pg_escape_string($arr['birthday']).' 00:00:00'.'\'';
 	else
 		$birthday = '\'2000-01-01 00:00:00\'';
 	if($arr['gender'] == '1' || $arr['gender']=='m' || empty($arr['gender']))
@@ -35,33 +35,33 @@ while ($arr = mysql_fetch_assoc($res))
 	else
 		$gender = '\'0\'';
 	if(!empty($arr['email']))
-		$email = '\''.$arr['email'].'\'';
+		$email = '\''.pg_escape_string($arr['email']).'\'';
 	else
 		$email = '\'\'';
-	$show_email = '\''.$arr['show_email'].'\'';
+	$show_email = '\''.pg_escape_string($arr['show_email']).'\'';
 	if(!empty($arr['im']))
-		$im = '\''.$arr['im'].'\'';
+		$im = '\''.pg_escape_string($arr['im']).'\'';
 	else
 		$im = '\'\'';
-	$show_im = '\''.$arr['show_im'].'\'';
+	$show_im = '\''.pg_escape_string($arr['show_im']).'\'';
 	if(!empty($arr['country']))
-		$country = '\''.$arr['country'].'\'';
+		$country = '\''.pg_escape_string($arr['country']).'\'';
 	else
 		$country = '\'\'';
 	if(!empty($arr['city']))
-		$city = '\''.$arr['city'].'\'';
+		$city = '\''.pg_escape_string($arr['city']).'\'';
 	else
 		$city = '\'\'';
 	if(!empty($arr['photo']))
-		$photo = '\''.$arr['photo'].'\'';
+		$photo = '\''.pg_escape_string($arr['photo']).'\'';
 	else
 		$photo = '\'\'';
-	$register_date = '\''.$arr['registered'].' 00:00:00'.'\'';
+	$register_date = '\''.pg_escape_string($arr['registered']).' 00:00:00'.'\'';
 	if($arr['last_visit'] != '0000-00-00')
-		$last_visit = '\''.$arr['last_visit'].' 00:00:00'.'\'';
+		$last_visit = '\''.pg_escape_string($arr['last_visit']).' 00:00:00'.'\'';
 	else
 		$last_visit = '\'2000-01-01 00:00:00\'';
-	$captcha = '\''.$arr['captcha'].'\'';
+	$captcha = '\''.pg_escape_string($arr['captcha']).'\'';
 	$blocks = '';
 	$blocks_arr = array("authorization"=>'auth', "tracker"=>'tracker', "gallery"=>'gall', "faq"=>'faq', "links"=>'links');
 	foreach($blocks_arr as $key => $value)
@@ -95,7 +95,7 @@ while ($arr = mysql_fetch_assoc($res))
 		$blocks = $blocks.$key.':n:1;';
 	}
 	$blocks = '\''.substr($blocks, 0, strlen($blocks)-1).'\'';
-	$additional = '\''.$arr['additional'].'\'';
+	$additional = '\''.pg_escape_string($arr['additional']).'\'';
 	$news_on_page = $arr['news_on_page'];
 	$comments_on_page = $arr['comments_on_page'];
 	$threads_on_page = $arr['threads_on_page'];
