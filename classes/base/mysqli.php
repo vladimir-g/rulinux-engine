@@ -196,8 +196,6 @@ final class base implements baseInterface
 				$ret_res->free();
 				return $ret;
 			}
-			else
-				return 1;
 		}
 		if(strlen(self::$connection->error) > 0)
 			echo '<fieldset><legend>MySQL Error</legend>Error: '.self::$connection->error.'<br>In query: '.$query.'<br></fieldset>';

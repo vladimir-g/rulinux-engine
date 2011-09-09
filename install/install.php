@@ -99,7 +99,7 @@ else
 	$set = install::set_settings($_POST['title'], $_POST['pass_phrase']);
 	if($set<0)
 	{
-		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Не удалось внести изменения в настройки сайта, вы можете сдетать это позднее в разделе администратора</head></html>';
+		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Не удалось внести изменения в настройки сайта, вы можете сделать это позднее в разделе администратора</head></html>';
 		exit;
 	}
 	install::finish_installation();
