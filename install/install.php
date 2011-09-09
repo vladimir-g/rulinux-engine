@@ -100,7 +100,7 @@ else
 	if($set<0)
 	{
 		echo '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">Не удалось внести изменения в настройки сайта, вы можете сделать это позднее в разделе администратора</head></html>';
-		exit;
+		//exit;
 	}
 	install::finish_installation();
 	die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');  
