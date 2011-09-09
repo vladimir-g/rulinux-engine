@@ -86,6 +86,7 @@ final class base implements baseInterface
 				$ret[$i]=$arr;
 				$i++;
 			}
+                        $c_res->free();
 			return $ret;
 		}
 		else
@@ -164,32 +165,39 @@ final class base implements baseInterface
 		$query = str_replace('[prefix]', $GLOBALS['tbl_prefix'], $query);
 		if ($ret_res = self::$connection->query($query))
 		{
-			$i = 0;
-			switch ($returnas)
+			 if($ret_res->num_rows>0)
 			{
-			case 'array':
-				while ($r = $ret_res->fetch_array())
+				
+				$i = 0;
+				switch ($returnas)
 				{
-					$ret[$i] = $r;
-					$i++;
+				case 'array':
+					while ($r = $ret_res->fetch_array())
+					{
+						$ret[$i] = $r;
+						$i++;
+					}
+					break;
+				case 'assoc_array':
+					while ($r = $ret_res->fetch_assoc())
+					{
+						$ret[$i] = $r;
+						$i++;
+					}
+					break;
+				case 'object':
+					while ($r = $ret_res->fetch_object())
+					{
+						$ret[$i] = $r;
+						$i++;
+					}
+					break;
 				}
-				break;
-			case 'assoc_array':
-				while ($r = $ret_res->fetch_assoc())
-				{
-					$ret[$i] = $r;
-					$i++;
-				}
-				break;
-			case 'object':
-				while ($r = $ret_res->fetch_object())
-				{
-					$ret[$i] = $r;
-					$i++;
-				}
-				break;
+				$ret_res->free();
+				return $ret;
 			}
-			return $ret;
+			else
+				return 1;
 		}
 		if(strlen(self::$connection->error) > 0)
 			echo '<fieldset><legend>MySQL Error</legend>Error: '.self::$connection->error.'<br>In query: '.$query.'<br></fieldset>';
