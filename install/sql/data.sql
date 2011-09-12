@@ -1,3 +1,5 @@
+SET NAMES 'UTF8';
+
 INSERT INTO themes(name, description, directory) VALUES('classic-black', 'Классическая черная тема взятая с ЛОРа', 'classic-black');
 INSERT INTO themes(name, description, directory) VALUES('Cozzy-green', 'Зеленая тема скопированная с темы для IPB', 'Cozzy-green');
 INSERT INTO themes(name, description, directory) VALUES('classic-white', 'Классическая белая тема взятая с ЛОРа', 'classic-white');

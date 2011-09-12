@@ -319,6 +319,16 @@ final class admin extends object
 	
 	function remove_subsection($id)
 	{
+		$param_arr = array($id);
+		$sel = self::$baseC->query('SELECT id FROM THREADS WHERE subsection = (SELECT sort FROM subsections WHERE id = \'::0::\')', 'assoc_array', $param_arr);
+		if(!empty($sel))
+		{
+			for($i=0; $i<count($sel); $i++)
+			{
+				self::remove_thread($sel[$i]['id']);
+				echo $sel[$i]['id'].'<br>';
+			}
+		}
 		$ret = self::$baseC->delete('subsections', 'id', $id);
 		self::log('user with id = '.$_SESSION['user_id'].' removed subsection with id =  '.$id);
 		return $ret;
