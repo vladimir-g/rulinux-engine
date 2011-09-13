@@ -10,7 +10,7 @@ final class messages extends object
 	{
 		$thr = self::$baseC->query('SELECT MAX(id) AS tid FROM threads', 'assoc_array');
 		$tid = $thr[0]['tid']+1;
-		$raw_message = $message;
+		$raw_message = str_replace('\\', '&#92;', $message);
 		$subject = htmlspecialchars($subject);
 		if(strlen($subject) > 255)
 			$subject = substr($subject, 0, 252).'...';
@@ -46,7 +46,7 @@ final class messages extends object
 	}
 	function add_message($subject, $message, $tid, $referer, $md5)
 	{
-		$raw_message = $message;
+		$raw_message = str_replace('\\', '&#92;', $message);
 		$subject = htmlspecialchars($subject);
 		if(strlen($subject) > 255)
 			$subject = substr($subject, 0, 252).'...';
