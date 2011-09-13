@@ -1,17 +1,12 @@
 <div class="messages">
 <div class="comment" id="cmm<?=$message_id?>">
-<table class="title" cellspacing="0" width="100%">
-<tr>
-<td style="padding-bottom: 0px; padding-top: 0px;" width="72">
+<div class="title">
+<span class="msg_resp">
 <a href="<?=$thread_this_link?>#msg<?=$message_id?>"><img border="0" src="themes/<?=$theme?>/id.png" alt="[#]"></a>
 <a href="<?=$message_set_filter_link?>"><img border="0" src="themes/<?=$theme?>/filter.png" alt="[Добавить метку]"></a>
 <a href="<?=$message_edit_link?>"><img border="0" src="themes/<?=$theme?>/edit.png" alt="[Редактировать]"></a>
-</td>
-<td style="padding-bottom: 0px; padding-top: 0px;">
-<span class="msg_resp">Ответ на: <a href="<?=$message_resp_link?>"><?=$message_resp_title?> </a> от <?=$message_resp_user?>  <?=$message_resp_timestamp?></span>
-</td>
-</tr>
-</table>
+Ответ на: <a href="<?=$message_resp_link?>"><?=$message_resp_title?> </a> от <?=$message_resp_user?>  <?=$message_resp_timestamp?></span>
+</div>
 <div class=msg id="msg<?=$message_id?>">
 <table cellspacing="0" width="100%">
 <tr>
