@@ -116,7 +116,8 @@ require 'header.php';
 if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Предпросмотр')
 {
 	$subj = $message_subject = $_POST['subject'];
-	$comment = $message_comment = $_POST['comment'];
+	$comment = $_POST['comment'];
+	$message_comment = str_to_html($_POST['comment']);
 	$message_timestamp = gmdate("Y-m-d H:i:s");
 	$msg_autor = $usersC->get_user_info($_SESSION['user_id']);
 	$message_autor = $msg_autor['nick'];
