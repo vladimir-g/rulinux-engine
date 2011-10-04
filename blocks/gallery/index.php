@@ -22,7 +22,7 @@ for($y=0; $y<$max; $y++)
 	$sel = base::query('SELECT max(id) AS max FROM threads WHERE section = 3','assoc_array');
 	if(empty($end))
 		$end = $sel[0]['max'];
-	$ret = base::query('SELECT t.id, t.cid, c.subject, t.file, t.file_size, t.image_size, t.extension, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.id = c.tid WHERE t.approved=true AND c.id IN (SELECT cid FROM threads WHERE t.section=3) ORDER BY id DESC LIMIT 3', 'assoc_array', array());
+	$ret = base::query('SELECT t.id, t.cid, c.subject, t.file, t.file_size, t.image_size, t.extension, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=true AND t.section=3 ORDER BY id DESC LIMIT 3', 'assoc_array', array());
 	$where_arr = array(array("key"=>'id', "value"=>$ret[$y]['uid'], "oper"=>'='));
 	$author = base::select('users', '', 'nick', $where_arr);
 	$boxlet_content = str_replace('[author]', $author[0]['nick'], $boxlet_content);

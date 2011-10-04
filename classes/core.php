@@ -1,5 +1,11 @@
 <?php
 session_start();
+function timeMeasure()
+{
+    list($msec, $sec) = explode(chr(32), microtime());
+    return ($sec+$msec);
+}
+define('TIMESTART', timeMeasure());
 if (get_magic_quotes_gpc()) 
 {
 	function stripslashes_deep($value)

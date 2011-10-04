@@ -26,7 +26,7 @@ if($_GET['action']=='manage_blocks_ui')
 	{
 		require 'header.php';
 		require 'themes/'.$theme.'/templates/admin/manage_blocks/remove_block_top.tpl.php';
-		$blocks = $coreC->get_blocks();
+		$blocks = $coreC->get_block('all');
 		for($i=0; $i<count($blocks);$i++)
 		{
 			$id = $blocks[$i]['id'];

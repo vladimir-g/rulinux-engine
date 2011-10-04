@@ -102,27 +102,14 @@ class core extends object
 		$ret = array(array("name"=>'Нет', "value"=>-1), array("name"=>'0', "value"=>0), array("name"=>'1', "value"=>1), array("name"=>'2', "value"=>2), array("name"=>'3', "value"=>3), array("name"=>'4', "value"=>4));
 		return $ret;
 	}
-	function block_exists($name)
+	function block_exists($name, $blocks)
 	{
-		$param_arr = array($name);
-		$sel = self::$baseC->query('SELECT * FROM blocks WHERE name=\'::0::\' ORDER BY id ASC','assoc_array', $param_arr);
-		if(!empty($sel))
+		foreach($blocks as $blck)
 		{
-			if($sel!=-1)
+			if($blck['name']==$name)
 				return 1;
-			else
-				return 0;
-			
 		}
-		else
-			return 0;
-		
-	}
-	function get_blocks()
-	{
-		$ret = array();
-		$sel = self::$baseC->select('blocks', '', '*');
-		return $sel;
+		return 0;
 	}
 	function get_block($name='all')
 	{
@@ -137,6 +124,15 @@ class core extends object
 			return $sel;
 		else
 			return -1;
+	}
+	function sort_block($name, $blocks)
+	{
+		foreach($blocks as $blck)
+		{
+			if($blck['name']==$name)
+				return $blck;
+		}
+		return -1;
 	}
 	function get_blocks_count()
 	{

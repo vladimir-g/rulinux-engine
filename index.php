@@ -7,16 +7,17 @@ $_GET['page'] > 1 ? $page = (int)$_GET['page'] : $page=1;
 $blocks = $usersC->get_blocks($_SESSION['user_id']);
 $lerf_arr = array();
 $right_arr=array();
+$exists_blocks = $coreC->get_block('all');
 for($i=0; $i<count($blocks); $i++)
 {
 	if($blocks[$i]['position']=='l')
 	{
-		if($coreC->block_exists($blocks[$i]['name']))
+		if($coreC->block_exists($blocks[$i]['name'], $exists_blocks))
 			$left_arr[] = $blocks[$i];
 	}
 	else if($blocks[$i]['position']=='r')
 	{
-		if($coreC->block_exists($blocks[$i]['name']))
+		if($coreC->block_exists($blocks[$i]['name'], $exists_blocks))
 			$right_arr[] = $blocks[$i];
 	}
 }
@@ -125,9 +126,9 @@ if(!empty($left_arr))
 	require 'themes/'.$theme.'/templates/index/column_top.tpl.php';
 	for($i=0; $i<count($left_arr); $i++)
 	{
-		$blck = $coreC->get_block($left_arr[$i]['name']);
-		$name = $blck[0]['description'];
-		$directory = $blck[0]['directory'];
+		$blck = $coreC->sort_block($left_arr[$i]['name'], $exists_blocks);
+		$name = $blck['description'];
+		$directory = $blck['directory'];
 		include 'blocks/'.$directory.'/index.php';
 		include 'themes/'.$theme.'/templates/index/boxlet.tpl.php';
 		$name ='';
@@ -143,9 +144,9 @@ if(!empty($right_arr))
 	require 'themes/'.$theme.'/templates/index/column_top.tpl.php';
 	for($i=0; $i<count($right_arr); $i++)
 	{
-		$blck = $coreC->get_block($right_arr[$i]['name']);
-		$name = $blck[0]['description'];
-		$directory = $blck[0]['directory'];
+		$blck = $coreC->sort_block($right_arr[$i]['name'], $exists_blocks);
+		$name = $blck['description'];
+		$directory = $blck['directory'];
 		include 'blocks/'.$directory.'/index.php';
 		include 'themes/'.$theme.'/templates/index/boxlet.tpl.php';
 		$name ='';

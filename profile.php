@@ -547,7 +547,7 @@ else
 		{
 			require 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_top.tpl.php';
 			$usr_blocks = $usersC->get_blocks($uid);
-			$blocks = $coreC->get_blocks();
+			$blocks = $coreC->get_block('all');
 			for($i=0; $i<count($blocks); $i++)
 			{
 				$block_id = $i;

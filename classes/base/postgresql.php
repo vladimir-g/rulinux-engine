@@ -20,6 +20,7 @@ final class base implements baseInterface
 	}
 	public function select($table, $dist, $sel_expr, $where_arr = '', $where_oper = '', $order_by = 'id', $order_by_sort = 'ASC', $limit_begin = '0', $limit_end = 'NULL', $group_by = '')
 	{
+		$begin_time = timeMeasure();
 		self::connect();
 		if(!empty($group_by))
 			$group = ' GROUP BY '.$group_by.' ';
@@ -65,7 +66,7 @@ final class base implements baseInterface
 		$limit_begin=self::escape_string($limit_begin);
 		$limit_end=self::escape_string($limit_end);
 		$query = 'SELECT '.$dist.' '.$sel_expr.' FROM '.$table.' '.$where.$group.$order.' OFFSET '.$limit_begin.' LIMIT '.$limit_end;
-//		echo $query.'<br />';
+// 		echo $query.'<br />';
 		if($c_res=pg_query($query))
 		{
 			$ret = array();
@@ -78,10 +79,12 @@ final class base implements baseInterface
 		}
 		else
 			echo pg_last_error();
+		echo '<!-- Запрос '.$query.' выполнен за '.round(timeMeasure()-$begin_time, 6).' сек.-->';
 		return $ret;
 	}
 	public function insert($table, $arr)
 	{
+		$begin_time = timeMeasure();
 		self::connect();
 		$table=self::escape_string($table);
 		$i=0;
@@ -98,7 +101,7 @@ final class base implements baseInterface
 			if (!empty($fields))
 			{
 				$query='INSERT INTO '.$GLOBALS['tbl_prefix'].$table.'('.$fields.') VALUES( '.$values.');';
-// 				echo $query.'<br />';
+//  				echo $query.'<br />';
 			}
 			else 
 				return -1;
@@ -106,6 +109,7 @@ final class base implements baseInterface
 		else 
 			 return -1;
                 $query_res = pg_query($query);
+                echo '<!-- Запрос '.$query.' выполнен за '.round(timeMeasure()-$begin_time, 6).' сек.-->';
 		if($query_res)
 			return 1;
 		else 
@@ -113,6 +117,7 @@ final class base implements baseInterface
 	}
 	public function update($table, $field, $value, $id_field='id', $id)
 	{
+		$begin_time = timeMeasure();
 		self::connect();
 		$table=self::escape_string($table);
 		$field=self::escape_string($field);
@@ -123,14 +128,18 @@ final class base implements baseInterface
 			$query='UPDATE '.$GLOBALS['tbl_prefix'].$table.' SET '.$field.'=\''.$value.'\' WHERE '.$id_field.'=\''.$id.'\' ';
 		else 
 			 return -1;
-// 		echo $query.'<br>';
+//  		echo $query.'<br>';
 		if(pg_query($query))
+		{
+			echo '<!-- Запрос '.$query.' выполнен за '.round(timeMeasure()-$begin_time, 6).' сек.-->';
 			return 1;
+		}
 		else 
 			return -1;
 	}
 	public function delete($table, $id_field='id', $id)
 	{
+		$begin_time = timeMeasure();
 		self::connect();
 		$table=self::escape_string($table);
 		$id=self::escape_string($id);
@@ -139,21 +148,25 @@ final class base implements baseInterface
 			$query='DELETE FROM '.$GLOBALS['tbl_prefix'].$table.' WHERE '.$id_field.'=\''.$id.'\' ';
 		else 
 			 return -1;
-// 		echo $query.'<br>';
+//  		echo $query.'<br>';
 		if(pg_query($query))
+		{
+			echo '<!-- Запрос '.$query.' выполнен за '.round(timeMeasure()-$begin_time, 6).' сек.-->';
 			return 1;
+		}
 		else 
 			return -1;
 	}
 	public function query($query, $returnas = 'assoc_array', $param_array)
 	{
+		$begin_time = timeMeasure();
 		self::connect();
 		for($i=0; $i<count($param_array); $i++)
 		{
 			$param_array[$i] = self::escape_string($param_array[$i]);
 			$query = str_replace('::'.$i.'::', $param_array[$i], $query);
 		}
-// 		echo $query.'<br>';
+//  		echo $query.'<br>';
 		$query = str_replace('[prefix]', $GLOBALS['tbl_prefix'], $query);
 		if ($ret_res = pg_query($query))
 		{
@@ -182,6 +195,7 @@ final class base implements baseInterface
 					}
 				break;
 			}
+			echo '<!-- Запрос '.$query.' выполнен за '.round(timeMeasure()-$begin_time, 6).' сек.-->';
 			return $ret;
 		}
 		if(strlen(pg_last_error()) > 0)

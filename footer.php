@@ -1,4 +1,5 @@
 <?php
 require 'themes/'.$theme.'/templates/footer.tpl.php';
-ob_end_flush();
+echo '<!--Страница сгенерировалась за '.round(timeMeasure()-TIMESTART, 6).' сек.-->';
+// ob_end_flush();
 ?>
