@@ -69,37 +69,29 @@ final class threads  extends object
 		$where_arr = array(array("key"=>'id', "value"=>$thr[0]['cid'], "oper"=>'='));
 		$cmnt = self::$baseC->select('comments', '', 'subject, timest, uid', $where_arr);
 		$param_arr = array($id);
-		$cmnts_in_thr_all = self::$baseC->query('SELECT count(*) AS cnt FROM comments WHERE tid =\'::0::\'', 'assoc_array', $param_arr);
-		if(empty($cmnts_in_thr_all[0]['cnt']))
-			$cmnts_in_thr_all[0]['cnt'] = '-';
-		$param_arr = array($timest_day, $id);
-		$cmnts_in_thr_day = self::$baseC->query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
-		if(empty($cmnts_in_thr_day[0]['cnt']))
-			$cmnts_in_thr_day[0]['cnt'] = '-';
-		$param_arr = array($timest_hour, $id);
-		$cmnts_in_thr_hour = self::$baseC->query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
-		if(empty($cmnts_in_thr_hour[0]['cnt']))
-			$cmnts_in_thr_hour[0]['cnt'] = '-';
-		$ret = array("id"=>$thr[0]['id'], "thread_subject"=>$cmnt[0]['subject'], "uid"=>$cmnt[0]['uid'], "comments_in_thread_all"=>$cmnts_in_thr_all[0]['cnt'], "comments_in_thread_day"=>$cmnts_in_thr_day[0]['cnt'], "comments_in_thread_hour"=>$cmnts_in_thr_hour[0]['cnt'], "attached"=>$thr[0]['attached'], "section"=>$thr[0]['section'], "subsection"=>$thr[0]['subsection'], "prooflink"=>$thr[0]['prooflink']);
+// 		$cmnts_in_thr_all = self::$baseC->query('SELECT count(*) AS cnt FROM comments WHERE tid =\'::0::\'', 'assoc_array', $param_arr);
+// 		if(empty($cmnts_in_thr_all[0]['cnt']))
+// 			$cmnts_in_thr_all[0]['cnt'] = '-';
+// 		$param_arr = array($timest_day, $id);
+// 		$cmnts_in_thr_day = self::$baseC->query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
+// 		if(empty($cmnts_in_thr_day[0]['cnt']))
+// 			$cmnts_in_thr_day[0]['cnt'] = '-';
+// 		$param_arr = array($timest_hour, $id);
+// 		$cmnts_in_thr_hour = self::$baseC->query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
+// 		if(empty($cmnts_in_thr_hour[0]['cnt']))
+// 			$cmnts_in_thr_hour[0]['cnt'] = '-';
+		$param_arr = array($id, $timest_day, $timest_hour);
+		$sel = self::$baseC->query('SELECT count(1) AS cnt_all, sum(CASE WHEN timest > \'::1::\' THEN 1 ELSE 0 END) AS cnt_24h, sum(CASE WHEN timest > \'::2::\' THEN 1 ELSE 0 END) AS cnt_1h FROM comments WHERE tid =\'::0::\'', 'assoc_array', $param_arr);
+		$ret = array("id"=>$thr[0]['id'], "thread_subject"=>$cmnt[0]['subject'], "uid"=>$cmnt[0]['uid'], "comments_in_thread_all"=>$sel[0]['cnt_all'], "comments_in_thread_day"=>$sel[0]['cnt_24h'], "comments_in_thread_hour"=>$sel[0]['cnt_1h'], "attached"=>$thr[0]['attached'], "section"=>$thr[0]['section'], "subsection"=>$thr[0]['subsection'], "prooflink"=>$thr[0]['prooflink']);
 		return $ret;
 	}
 	function get_thread_times($id)
 	{
 		$timest_day = gmdate('Y-m-d H:i:s',strtotime('-1 day'));
 		$timest_hour = gmdate('Y-m-d H:i:s',strtotime('-1 hour'));
-		$param_arr = array($id);
-		$cmnts_in_thr_all = self::$baseC->query('SELECT count(*) AS cnt FROM comments WHERE tid =\'::0::\'', 'assoc_array', $param_arr);
-		if(empty($cmnts_in_thr_all[0]['cnt']))
-			$cmnts_in_thr_all[0]['cnt'] = '-';
-		$param_arr = array($timest_day, $id);
-		$cmnts_in_thr_day = self::$baseC->query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
-		if(empty($cmnts_in_thr_day[0]['cnt']))
-			$cmnts_in_thr_day[0]['cnt'] = '-';
-		$param_arr = array($timest_hour, $id);
-		$cmnts_in_thr_hour = self::$baseC->query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
-		if(empty($cmnts_in_thr_hour[0]['cnt']))
-			$cmnts_in_thr_hour[0]['cnt'] = '-';
-		$ret = array("comments_in_thread_all"=>$cmnts_in_thr_all[0]['cnt'], "comments_in_thread_day"=>$cmnts_in_thr_day[0]['cnt'], "comments_in_thread_hour"=>$cmnts_in_thr_hour[0]['cnt']);
+		$param_arr = array($id, $timest_day, $timest_hour);
+		$sel = self::$baseC->query('SELECT count(1) AS cnt_all, sum(CASE WHEN timest > \'::1::\' THEN 1 ELSE 0 END) AS cnt_24h, sum(CASE WHEN timest > \'::2::\' THEN 1 ELSE 0 END) AS cnt_1h FROM comments WHERE tid =\'::0::\'', 'assoc_array', $param_arr);
+		$ret = array("comments_in_thread_all"=>$sel[0]['cnt_all'], "comments_in_thread_day"=>$sel[0]['cnt_24h'], "comments_in_thread_hour"=>$sel[0]['cnt_1h']);
 		return $ret;
 	}
 	function get_news_count()

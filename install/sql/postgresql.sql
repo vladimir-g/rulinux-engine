@@ -46,6 +46,9 @@ CREATE TABLE comments (id SERIAL, tid integer, uid integer REFERENCES users(id) 
 CREATE TABLE threads(id SERIAL, cid integer REFERENCES comments(id) ON DELETE CASCADE, section integer REFERENCES sections(id) ON DELETE CASCADE, subsection integer REFERENCES subsections(id) ON DELETE CASCADE, attached boolean, approved boolean, approved_by integer, approve_timest timestamp without time zone, file varchar(32), file_size integer, image_size varchar(9), extension varchar(4), md5 varchar(32), prooflink varchar(2047), timest timestamp without time zone, changing_timest timestamp without time zone, PRIMARY KEY(id), UNIQUE(md5));
 CREATE TABLE sessions(id SERIAL, session_id varchar(32), uid integer REFERENCES users(id) ON DELETE CASCADE, tid integer REFERENCES threads(id) ON DELETE CASCADE, timest timestamp without time zone, PRIMARY KEY(id), UNIQUE(uid), UNIQUE(session_id));
 
+CREATE INDEX tid_index ON comments USING btree (tid);
+CREATE INDEX timest_index ON comments USING btree (timest);
+
 CREATE LANGUAGE 'plpgsql';
 
 CREATE OR REPLACE FUNCTION "ANONYMOUS_UPD"()
