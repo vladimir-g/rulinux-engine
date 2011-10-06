@@ -1,6 +1,7 @@
 RewriteEngine On
 RewriteBase /
 Options +FollowSymlinks
+#RewriteRule ^.*$ index.html
 RewriteRule ^.htaccess$ - [F]
 RewriteRule ^news$ view-section.php\?id=1
 RewriteRule ^articles$ view-section.php\?id=2

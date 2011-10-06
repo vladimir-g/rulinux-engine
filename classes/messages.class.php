@@ -76,7 +76,7 @@ final class messages extends object
 	}
 	function edit_message($id, $subject, $message, $reason)
 	{
-		$raw_message = $message;
+		$raw_message = str_replace('\\', '&#92;', $message);
 		$subject = htmlspecialchars($subject);
 		if(strlen($subject) > 255)
 			$subject = substr($subject, 0, 252).'...';
@@ -90,7 +90,7 @@ final class messages extends object
 	}
 	function edit_news($id, $subject, $message, $reason, $tid, $link, $subsection)
 	{
-		$raw_message = $message;
+		$raw_message = str_replace('\\', '&#92;', $message);
 		$subject = htmlspecialchars($subject);
 		if(strlen($subject) > 255)
 			$subject = substr($subject, 0, 252).'...';
