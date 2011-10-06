@@ -6,11 +6,9 @@ final class mark extends object
 	{
 		self::$baseC = new base;
 	}
-	function get_mark_file($uid)
+	function get_mark_file($mark_id)
 	{
-		$where_arr = array(array("key"=>'id', "value"=>$uid, "oper"=>'='));
-		$mark_id = self::$baseC->select('users', '', 'mark', $where_arr);
-		$where_file_arr = array(array("key"=>'id', "value"=>$mark_id[0]['mark'], "oper"=>'='));
+		$where_file_arr = array(array("key"=>'id', "value"=>$mark_id, "oper"=>'='));
 		$mark_file = self::$baseC->select('marks', '', 'file', $where_file_arr);
 		return $mark_file[0]['file'];
 	}

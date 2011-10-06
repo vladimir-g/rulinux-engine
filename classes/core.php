@@ -40,7 +40,7 @@ $authC = new auth;
 $uinfo = $usersC->get_user_info($_SESSION['user_id']);
 require_once "classes/mark.class.php";
 $markC = new mark;
-$mark_file = $markC->get_mark_file($_SESSION['user_id']);
+$mark_file = $markC->get_mark_file($uinfo['mark']);
 require_once 'mark/'.$mark_file;
 require_once "classes/filters.class.php";
 $filtersC = new filters;
