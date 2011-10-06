@@ -50,9 +50,9 @@ for($i=0; $i<count($thr); $i++)
 		$attached = '';
 	}
 	$thread_id = $thr[$i]['id'];
-	$cur_thr = $threadsC->get_thread_info($thread_id);
-	$thread_subject = $cur_thr['thread_subject'];
-	$thr_autor = $usersC->get_user_info($cur_thr['uid']);
+	$cur_thr = $threadsC->get_thread_times($thread_id);
+	$thread_subject = $thr[$i]['subject'];
+	$thr_autor = $usersC->get_user_info($thr[$i]['uid']);
 	$coreC->validate_boolean($thr_autor['banned']) ? $thread_author = '<s>'.$thr_autor['nick'].'</s>' : $thread_author = $thr_autor['nick'];
 	$comments_in_thread_all =$cur_thr['comments_in_thread_all'];
 	$comments_in_thread_day = $cur_thr['comments_in_thread_day'];

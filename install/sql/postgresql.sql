@@ -43,7 +43,7 @@ CREATE TABLE settings(id SERIAL, name varchar(255), value text, PRIMARY KEY(id),
 CREATE TABLE sections(id SERIAL, name varchar(64), rewrite varchar(64), description varchar(255), file varchar(128), PRIMARY KEY(id), UNIQUE(name));
 CREATE TABLE subsections(id SERIAL, section integer REFERENCES sections(id)  ON DELETE CASCADE, name varchar(255), description varchar(512), shortfaq text, rewrite varchar(255), sort integer, icon varchar(255), PRIMARY KEY(id));
 CREATE TABLE comments (id SERIAL, tid integer, uid integer REFERENCES users(id) ON DELETE CASCADE, referer integer, timest timestamp without time zone, subject text, comment text, raw_comment text, useragent varchar(512), changing_timest timestamp without time zone, changed_by integer DEFAULT 0, changed_for varchar(512), filters varchar(512), show_ua boolean, md5 varchar(32), session_id varchar(32), PRIMARY KEY(id));
-CREATE TABLE threads(id SERIAL, cid integer REFERENCES comments(id) ON DELETE CASCADE, section integer REFERENCES sections(id) ON DELETE CASCADE, subsection integer REFERENCES subsections(id) ON DELETE CASCADE, attached boolean, approved boolean, approved_by integer, approve_timest timestamp without time zone, file varchar(32), file_size integer, image_size varchar(9), extension varchar(4), md5 varchar(32), prooflink varchar(2047), PRIMARY KEY(id), UNIQUE(md5));
+CREATE TABLE threads(id SERIAL, cid integer REFERENCES comments(id) ON DELETE CASCADE, section integer REFERENCES sections(id) ON DELETE CASCADE, subsection integer REFERENCES subsections(id) ON DELETE CASCADE, attached boolean, approved boolean, approved_by integer, approve_timest timestamp without time zone, file varchar(32), file_size integer, image_size varchar(9), extension varchar(4), md5 varchar(32), prooflink varchar(2047), timest timestamp without time zone, changing_timest timestamp without time zone, PRIMARY KEY(id), UNIQUE(md5));
 CREATE TABLE sessions(id SERIAL, session_id varchar(32), uid integer REFERENCES users(id) ON DELETE CASCADE, tid integer REFERENCES threads(id) ON DELETE CASCADE, timest timestamp without time zone, PRIMARY KEY(id), UNIQUE(uid), UNIQUE(session_id));
 
 CREATE LANGUAGE 'plpgsql';
@@ -94,3 +94,26 @@ BEFORE DELETE
 ON users 
 FOR EACH ROW 
 EXECUTE PROCEDURE "ANONYMOUS_DEL"();
+
+
+CREATE OR REPLACE FUNCTION "THREAD_CH_TIMEST_UPDATE"()
+  RETURNS trigger AS
+$BODY$
+DECLARE
+ch_timest timestamp without time zone = NEW.changing_timest;
+tid INTEGER = NEW.tid;
+BEGIN
+IF EXISTS (SELECT * FROM threads WHERE id = tid)
+THEN
+UPDATE threads SET changing_timest = ch_timest WHERE id = tid;
+END IF;
+RETURN NEW;
+END
+$BODY$
+LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER "THREAD_CH_TIMEST_UPDATE_TRIGGER"
+BEFORE INSERT OR UPDATE
+ON comments
+FOR EACH ROW
+EXECUTE PROCEDURE "THREAD_CH_TIMEST_UPDATE"();

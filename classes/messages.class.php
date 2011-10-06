@@ -35,7 +35,7 @@ final class messages extends object
 		$approved = 'false';
 		$approved_by = '0';
 		$approve_timest = $timest;
-		$msg_arr = array(array('id', $tid), array('cid', $cid), array('section', $section), array('subsection', $subsection), array('attached', $attached), array('approved', $approved), array('approved_by', $approved_by), array('approve_timest', $approve_timest) , array('file', $file), array('file_size', $file_size), array('image_size', $image_size), array('extension', $extension), array('md5', $md5), array('prooflink', $prooflink));
+		$msg_arr = array(array('id', $tid), array('cid', $cid), array('section', $section), array('subsection', $subsection), array('attached', $attached), array('approved', $approved), array('approved_by', $approved_by), array('approve_timest', $approve_timest) , array('file', $file), array('file_size', $file_size), array('image_size', $image_size), array('extension', $extension), array('md5', $md5), array('prooflink', $prooflink), array('timest', $timest), array('changing_timest', $changing_timest));
 		$ret = self::$baseC->insert('threads', $msg_arr);
 		$where_arr = array(array("key"=>'md5', "value"=>$md5, "oper"=>'='));
 		$sel = self::$baseC->select('threads', '', 'id', $where_arr, 'AND');

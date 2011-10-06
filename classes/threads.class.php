@@ -31,12 +31,12 @@ final class threads  extends object
 		if($section == 2)
 		{
 			$param_arr = array($section, $subsection, $sort, $end, $begin);
-			$sel = self::$baseC->query('SELECT t.id, t.attached, c.subject, c.changing_timest, c.timest FROM threads t INNER JOIN (SELECT tm.tid, tm.subject, tm.timest, max(ch.changing_timest) AS changing_timest FROM comments ch INNER JOIN (SELECT tid, timest, subject FROM comments WHERE timest IN (SELECT min(timest) FROM comments WHERE tid IN (SELECT id FROM threads WHERE section=\'::0::\' AND subsection=\'::1::\' AND approved = true)  GROUP BY tid)) tm ON ch.tid = tm.tid WHERE ch.tid IN (SELECT id FROM threads WHERE section=\'::0::\' AND subsection=\'::1::\' AND approved = true)  GROUP BY ch.tid, tm.timest, tm.subject, tm.tid) c ON t.id = c.tid WHERE t.section =\'::0::\' AND t.subsection = \'::1::\' AND approved = true ORDER BY t.attached <>true ASC, ::2:: DESC LIMIT ::3:: OFFSET ::4::', 'assoc_array', $param_arr);
+			$sel = self::$baseC->query('SELECT t.id, t.attached, c.subject, t.changing_timest, t.timest, c.uid FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.section =\'::0::\' AND t.subsection = \'::1::\' AND approved = true ORDER BY t.attached <>true ASC, ::2:: DESC LIMIT ::3:: OFFSET ::4::', 'assoc_array', $param_arr);
 		}
 		else
 		{
 			$param_arr = array($section, $subsection, $sort, $end, $begin);
-			$sel = self::$baseC->query('SELECT t.id, t.attached, c.subject, c.changing_timest, c.timest FROM threads t INNER JOIN (SELECT tm.tid, tm.subject, tm.timest, max(ch.changing_timest) AS changing_timest FROM comments ch INNER JOIN (SELECT tid, timest, subject FROM comments WHERE timest IN (SELECT min(timest) FROM comments WHERE tid IN (SELECT id FROM threads WHERE section=\'::0::\' AND subsection=\'::1::\')  GROUP BY tid)) tm ON ch.tid = tm.tid WHERE ch.tid IN (SELECT id FROM threads WHERE section=\'::0::\' AND subsection=\'::1::\')  GROUP BY ch.tid, tm.timest, tm.subject, tm.tid) c ON t.id = c.tid WHERE t.section =\'::0::\' AND t.subsection = \'::1::\' ORDER BY t.attached <>true ASC, ::2:: DESC LIMIT ::3:: OFFSET ::4::', 'assoc_array', $param_arr);
+			$sel = self::$baseC->query('SELECT t.id, t.attached, c.subject, t.changing_timest, t.timest, c.uid FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.section =\'::0::\' AND t.subsection = \'::1::\' ORDER BY t.attached <>true ASC, ::2:: DESC LIMIT ::3:: OFFSET ::4::', 'assoc_array', $param_arr);
 		}
 		return $sel;
 	}
@@ -81,6 +81,25 @@ final class threads  extends object
 		if(empty($cmnts_in_thr_hour[0]['cnt']))
 			$cmnts_in_thr_hour[0]['cnt'] = '-';
 		$ret = array("id"=>$thr[0]['id'], "thread_subject"=>$cmnt[0]['subject'], "uid"=>$cmnt[0]['uid'], "comments_in_thread_all"=>$cmnts_in_thr_all[0]['cnt'], "comments_in_thread_day"=>$cmnts_in_thr_day[0]['cnt'], "comments_in_thread_hour"=>$cmnts_in_thr_hour[0]['cnt'], "attached"=>$thr[0]['attached'], "section"=>$thr[0]['section'], "subsection"=>$thr[0]['subsection'], "prooflink"=>$thr[0]['prooflink']);
+		return $ret;
+	}
+	function get_thread_times($id)
+	{
+		$timest_day = gmdate('Y-m-d H:i:s',strtotime('-1 day'));
+		$timest_hour = gmdate('Y-m-d H:i:s',strtotime('-1 hour'));
+		$param_arr = array($id);
+		$cmnts_in_thr_all = self::$baseC->query('SELECT count(*) AS cnt FROM comments WHERE tid =\'::0::\'', 'assoc_array', $param_arr);
+		if(empty($cmnts_in_thr_all[0]['cnt']))
+			$cmnts_in_thr_all[0]['cnt'] = '-';
+		$param_arr = array($timest_day, $id);
+		$cmnts_in_thr_day = self::$baseC->query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
+		if(empty($cmnts_in_thr_day[0]['cnt']))
+			$cmnts_in_thr_day[0]['cnt'] = '-';
+		$param_arr = array($timest_hour, $id);
+		$cmnts_in_thr_hour = self::$baseC->query('SELECT ALL count(*) AS cnt FROM comments WHERE timest > \'::0::\' AND tid = \'::1::\'', 'assoc_array', $param_arr);
+		if(empty($cmnts_in_thr_hour[0]['cnt']))
+			$cmnts_in_thr_hour[0]['cnt'] = '-';
+		$ret = array("comments_in_thread_all"=>$cmnts_in_thr_all[0]['cnt'], "comments_in_thread_day"=>$cmnts_in_thr_day[0]['cnt'], "comments_in_thread_hour"=>$cmnts_in_thr_hour[0]['cnt']);
 		return $ret;
 	}
 	function get_news_count()
