@@ -180,7 +180,7 @@ if($messages_count>1)
 			$message_useragent = $cmnt[$i]['useragent'];
 		$message_timestamp = $coreC->to_local_time_zone($cmnt[$i]['timest']);
 		$message_add_answer_link = 'comment_into_'.$thread_id.'_on_'.$message_id;
-		$message_avatar = empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$msg_autor['photo'];
+		$message_avatar = $coreC->validate_boolean($uinfo['show_avatars'], 'FILTER_VALIDATE_FAILURE') == 0 || empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$msg_autor['photo'];
 		if(!empty($cmnt[$i]['changed_by']))
 		{
 			$usr = $usersC->get_user_info($cmnt[$i]['changed_by']);

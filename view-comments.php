@@ -12,7 +12,8 @@ if(!empty($_GET['user']))
 else
 	$user = $profile_name;
 $limit = 50;
-if(count($msg)<$limit)
+$msg_count = $usersC->get_message_count_by_nick($user);
+if($msg_count<$limit)
 	$next_offset = $offset;
 else
 	$next_offset = $offset+$limit;
@@ -22,15 +23,15 @@ else
 	$prev_offset = 0;
 if(isset($_GET['resp']))
 {
-	$backward_link = 'replys_offset_'.$prev_offset.'_'.$user;
-	$forward_link = 'replys_offset_'.$next_offset.'_'.$user;
+	$backward_link = ($offset == 0) ? '#' : 'replys_offset_'.$prev_offset.'_'.$user;
+	$forward_link = ($msg_count <= $next_offset) ? '#' : 'replys_offset_'.$next_offset.'_'.$user;
 	require 'themes/'.$theme.'/templates/view_comments/resp_top.tpl.php';
 	$msg = $messagesC->get_user_reply($user, $limit, $offset);
 }
 else
 {
-	$backward_link = 'comments_offset_'.$prev_offset.'_'.$user;
-	$forward_link = 'comments_offset_'.$next_offset.'_'.$user;
+	$backward_link = ($offset == 0) ? '#' : 'comments_offset_'.$prev_offset.'_'.$user;
+	$forward_link = ($msg_count <= $next_offset) ? '#' : 'comments_offset_'.$next_offset.'_'.$user;
 	require 'themes/'.$theme.'/templates/view_comments/top.tpl.php';
 	$msg = $messagesC->get_user_messages($user, $limit, $offset);
 }

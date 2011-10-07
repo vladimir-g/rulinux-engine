@@ -344,7 +344,7 @@ else if($_POST['action']=="admin")
 }
 else if($_POST['action']=="main_page")
 {
-	if($user == $profile_name || $uinfo['gid']==2)
+	if($uid == $uinfo['id'] || $uinfo['gid']==2)
 	{
 		$blocks_str = '';
 		for($i=0; $i<(int)$_POST['count'];$i++)
@@ -394,7 +394,7 @@ else
 		$lastname = $usr['lastname'];
 		$gender = $coreC->validate_boolean($usr['gender']) ? 'Мужской' : 'Женский';
 		$birthday = $usr['birthday'];
-		$photo = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$usr['photo'];
+		$photo = $coreC->validate_boolean($uinfo['show_avatars'], 'FILTER_VALIDATE_FAILURE') == 0 || empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$usr['photo'];
 		if($uinfo['gid']==3 || $uinfo['gid']==2)
 			$email = $usr['email'];
 		else
@@ -435,7 +435,7 @@ else
 			require 'footer.php';
 			exit();
 		}
-		if($user == $profile_name || $uinfo['gid']==2)
+		if($uid == $uinfo['id'] || $uinfo['gid']==2)
 		{
 			if($uid!=1)
 			{
@@ -455,7 +455,7 @@ else
 				require 'themes/'.$theme.'/templates/profile/userinfo_edit/userinfo_edit.tpl.php';
 			}
 		}
-		if($user == $profile_name || $uinfo['gid']==2|| $uinfo['gid']==3)
+		if($uid == $uinfo['id'] || $uinfo['gid']==2|| $uinfo['gid']==3)
 		{
 			$timest = gmdate("Y-m-d H:i:s");
 			$news_on_page = $usr['news_on_page'];
@@ -543,7 +543,7 @@ else
 				require 'themes/'.$theme.'/templates/profile/admin_edit/bottom.tpl.php';
 			}
 		}
-		if($user == $profile_name || $uinfo['gid']==2)
+		if($uid == $uinfo['id'] || $uinfo['gid']==2)
 		{
 			require 'themes/'.$theme.'/templates/profile/mainpage_edit/mainpage_edit_top.tpl.php';
 			$usr_blocks = $usersC->get_blocks($uid);

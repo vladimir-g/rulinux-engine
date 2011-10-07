@@ -168,7 +168,7 @@ final class threads  extends object
 	function get_msg_number($thread_id, $md5)
 	{
 		$param_arr = array($thread_id);
-		$sel = self::$baseC->query('SELECT id,md5 FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\')','assoc_array', $param_arr);
+		$sel = self::$baseC->query('SELECT id,md5 FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\') ORDER BY id ASC','assoc_array', $param_arr);
 		for($i=0;$i<count($sel);$i++)
 		{
 			if($sel[$i]['md5']==$md5)
@@ -185,7 +185,7 @@ final class threads  extends object
 		$param_arr = array($message_id);
 		$thr = self::$baseC->query('SELECT tid FROM comments WHERE id = \'::0::\'','assoc_array', $param_arr);
 		$param_arr = array($thr[0]['tid']);
-		$sel = self::$baseC->query('SELECT id FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\') ORDER BY id','assoc_array', $param_arr);
+		$sel = self::$baseC->query('SELECT id FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\') ORDER BY id ASC','assoc_array', $param_arr);
 		$msg_id = $message_id;
                 for($i=0;$i<count($sel);$i++)
 		{

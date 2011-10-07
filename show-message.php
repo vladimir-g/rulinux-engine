@@ -33,7 +33,7 @@ else
 	$message_useragent = $msg['useragent'];
 $message_timestamp = $coreC->to_local_time_zone($msg['timest']);
 $message_add_answer_link = 'new_thread_into_'.$msg['tid'].'_on_'.$message_id;
-$message_avatar = empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$msg_autor['photo'];
+$message_avatar = $coreC->validate_boolean($uinfo['show_avatars'], 'FILTER_VALIDATE_FAILURE') == 0 || empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$msg_autor['photo'];
 $message_set_filter_link = 'set_filter_'.$message_id;
 $message_edit_link = 'message_'.$message_id.':edit';
 require 'themes/'.$theme.'/templates/show_message/show_message.tpl.php';

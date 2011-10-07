@@ -413,7 +413,10 @@ else
 		if($section_id==1 || $section_id==2 || $section_id==3)
 			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'unconfirmed">');
 		else if($section_id==4)
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'forum_'.$_POST['subsection_id'].'_page_1">');
+		{
+			$thr_id = $threadsC->get_tid_by_cid($cid);
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thr_id[0]['id'].'_page_1">');
+		}
 	}
 }
 ?>

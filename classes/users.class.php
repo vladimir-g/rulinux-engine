@@ -69,6 +69,11 @@ final class users extends object
 		else
 			return -1;
 	}
+	function get_message_count_by_nick($nick)
+	{
+		$cnt = self::$baseC->query('SELECT count(*) AS cnt FROM comments WHERE uid = (SELECT id FROM users WHERE nick = \'::0::\')', 'assoc_array', array($nick));
+		return $cnt[0]['cnt'];
+	}
 	function get_user_info($uid)
 	{
 		$where_arr = array(array("key"=>'id', "value"=>$uid, "oper"=>'='));
@@ -258,7 +263,7 @@ final class users extends object
 			setcookie ('news_on_page', $news_on_page,time()+31536000);
 			setcookie ('comments_on_page', $comments_on_page,time()+31536000);
 			setcookie ('threads_on_page', $threads_on_page,time()+31536000);
-			setcookie ('show_photos', $show_photos,time()+31536000);
+			setcookie ('show_avatars', $show_photos,time()+31536000);
 			setcookie ('show_ua', $show_ua,time()+31536000);
 			setcookie ('sort_to', $sort_to,time()+31536000);
 			setcookie ('show_resp', $show_resp,time()+31536000);
