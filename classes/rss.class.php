@@ -79,8 +79,8 @@ final class rss extends object
 		$ret = array();
 		if(!empty($tid))
 		{
-			$param_arr = array($tid);
-			$sel = self::$baseC->query('SELECT c.thread_name AS thread_name, sect.name AS section_name, subsect.name AS subsection_name FROM sections sect INNER JOIN (SELECT c.subject AS thread_name, t.section, t.subsection FROM comments c INNER JOIN (SELECT cid, section, subsection FROM threads WHERE id=\'::0::\') t ON c.id = t.cid) c ON c.section = sect.id INNER JOIN subsections subsect ON c.subsection = subsect.sort', 'assoc_array', $param_arr);
+			$param_arr = array($section, $subsection, $tid);
+			$sel = self::$baseC->query('SELECT c.subject AS thread_name, sect.name AS section_name, subsect.name AS subsection_name FROM comments c CROSS JOIN (SELECT name FROM sections WHERE id = \'::0::\') sect CROSS JOIN (SELECT name FROM subsections WHERE section = \'::0::\' AND sort = \'::1::\') subsect WHERE id=(SELECT min(id) FROM comments WHERE tid = \'::2::\')', 'assoc_array', $param_arr);
 			$ret=array("section_name"=>$sel[0]['section_name'], "subsection_name"=>$sel[0]['subsection_name'], "thread_name"=>$sel[0]['thread_name']);
 		}
 		else
