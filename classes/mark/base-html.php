@@ -22,6 +22,7 @@ function str_to_html($string)
 		$string = str_replace($match[0][$i], 'ᴥ'.$i.'ᴥ', $string);
 	}
 	$string = htmlspecialchars($string);
+	$string = str_replace('\\', '&#92;', $string);
 	$string = preg_replace("#(&lt;b&gt;)(.*?[^&lt;/b&gt;]?)(&lt;/b&gt;)#suim","<b>\$2</b>", $string);
 	$string = preg_replace("#(&lt;span class=&quot;spoiler&quot;&gt;)((?!&lt;/span&gt).*?)(&lt;/span&gt;)#suim","<span class=\"spoiler\">\$2</span>", $string);
 	$string = preg_replace("#(&lt;i&gt;)(.*?[^&lt;/i&gt;]?)(&lt;/i&gt;)#suim","<i>\$2</i>", $string);
@@ -48,7 +49,7 @@ function str_to_html($string)
 		$string = preg_replace($list_re, "<ul>\$2</ul>", $string, 1);
 		$with_breaks = preg_replace('/^(\\r\\n)+/', '', $match[2][$i]);
 		$with_breaks = preg_replace('/(\\r\\n)+$/', '', $with_breaks);
-		$with_breaks = str_replace('&lt;li&gt;', '<li>&nbsp;', $with_breaks);
+		$with_breaks = preg_replace('#&lt;li&gt;#suim', '<li>&nbsp;', $with_breaks);
 		$string = str_replace($match[2][$i], $with_breaks, $string);
 	}
 	$num_re = "#(&lt;ol&gt;)(.*?(?!ol&gt;))(&lt;/ol&gt;)#suim";
@@ -58,7 +59,7 @@ function str_to_html($string)
 		$string = preg_replace($num_re, "<ol start=\"1\">\$2</ol>", $string, 1);
 		$with_breaks = preg_replace('/^(\\r\\n)+/', '', $match[2][$i]);
 		$with_breaks = preg_replace('/(\\r\\n)+$/', '', $with_breaks);
-		$with_breaks = str_replace('&lt;li&gt;', '<li>&nbsp;', $with_breaks);
+		$with_breaks = preg_replace('#&lt;li&gt;#suim', '<li>&nbsp;', $with_breaks);
 		$string = str_replace($match[2][$i], $with_breaks, $string);
 	}
 	$string = preg_replace('#(&lt;p align=&quot;)(left|right|center)(&quot;&gt;)(.*?(^/p&gt;)?)(&lt;/p&gt;)#suim',"<p align=\"\$2\">\$4</p>", $string);

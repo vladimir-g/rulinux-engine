@@ -22,6 +22,7 @@ function str_to_html($string)
 		$string = str_replace($match[0][$i], 'ᴥ'.$i.'ᴥ', $string);
 	}
 	$string = htmlspecialchars($string);
+	$string = str_replace('\\', '&#92;', $string);
 	$string = preg_replace("#(\\[b\\])(.*?[^\\[/b\\]]?)(\\[/b\\])#sim","<b>\$2</b>", $string);
 	$string = preg_replace("#(\\[spoiler\\])(.*?[^\\[/spoiler\\]]?)(\\[/spoiler\\])#sim","<span class=\"spoiler\">\$2</span>", $string);
 	$string = preg_replace("#(\\[i\\])(.*?[^\\[/i\\]]?)(\\[/i\\])#sim","<i>\$2</i>", $string);

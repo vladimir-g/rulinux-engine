@@ -59,13 +59,13 @@ $rdrs_arr = $coreC->get_readers($thread_id);
 for($i=0;$i<count($rdrs_arr);$i++)
 {
 	if($rdrs_arr[$i]['gid']==2)
-		$rdrs = $rdrs.', <div class="root">'.$rdrs_arr[$i]['nick'].'</div>';
+		$rdrs = $rdrs.'<div class="root">'.$rdrs_arr[$i]['nick'].'</div>';
 	elseif($rdrs_arr[$i]['gid']==3)
-		$rdrs = $rdrs.', <div class="moder"'.$rdrs_arr[$i]['nick'].'</div>';
+		$rdrs = $rdrs.'<div class="moder">'.$rdrs_arr[$i]['nick'].'</div>';
 	else
-		$rdrs = $rdrs.', <b>'.$rdrs_arr[$i]['nick'].'</b>';
+		$rdrs = $rdrs.'<div class="user">'.$rdrs_arr[$i]['nick'].'</div>';
 }
-$rdrs = substr_replace($rdrs, '', 0, 2);
+//$rdrs = substr_replace($rdrs, '', 0, 2);
 $readers = $readers.$rdrs;
 if($pages_count > 1)
 {

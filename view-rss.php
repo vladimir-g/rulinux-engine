@@ -55,6 +55,7 @@ if(!empty($feed))
 		$newItem->setLink($feed[$i]['link']);
 		$newItem->setDate($feed[$i]['time']);
 		$newItem->setDescription($feed[$i]['description']);
+		$TestFeed->setImage($feed[$i]['title'],$feed[$i]['link'],'/favicon.ico');
 		$TestFeed->addItem($newItem);
 	}
 }

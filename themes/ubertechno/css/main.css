@@ -419,6 +419,11 @@ DIV.notes
 
 .moder 
 { 
-	color: red; 
+	color: blue; 
+	font-weight: bold; 
+}
+
+.user
+{ 
 	font-weight: bold; 
 }
