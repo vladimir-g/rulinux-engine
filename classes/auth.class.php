@@ -8,12 +8,14 @@ final class auth extends object
 		if (isset($_COOKIE['login']) && isset($_COOKIE['password']))
 		{
 			$_COOKIE['login'] = preg_replace('/[\'\/\*\s]/', '', $_COOKIE['login']);
-			$where_arr = array(array("key"=>'nick', "value"=>$_COOKIE['login'], "oper"=>'='), array("key"=>'password', "value"=>$_COOKIE['password'], "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
+                        $login = strtolower($_COOKIE['login']);
+			$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$_COOKIE['password'], "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
 			$sel = self::$baseC->select('users', '', 'nick', $where_arr, 'AND');
 			if(!empty($sel))
 			{
-				if($sel[0]['nick']==$_COOKIE['login'])
-					self::auth_user($_COOKIE['login'], $_COOKIE['password'], true);
+                                $lower_nick = strtolower($sel[0]['nick']);
+				if($lower_nick==$login)
+					self::auth_user($login, $_COOKIE['password'], true);
 				else
 					self::auth_user('anonymous', '', true);
 			}
@@ -38,7 +40,8 @@ final class auth extends object
 	{
 		if (!$encrypted)
 			$pass = md5($pass);
-		$where_arr = array(array("key"=>'nick', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$pass, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
+		$login = strtolower($login);
+		$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$pass, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
 		$sel = self::$baseC->select('users', '', 'id, nick, gid', $where_arr, 'AND');
 		if(!empty($sel))
 		{

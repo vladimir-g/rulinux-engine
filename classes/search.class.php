@@ -23,7 +23,7 @@ final class search extends object
 		}
 		else if($date=='year')
 		{
-			$month = gmdate("Y")-1;
+			$year = gmdate("Y")-1;
 			$timestamp = $year.'-'.gmdate("m-d H:i:s");
 			$query = $query.' AND timest > \''.$timestamp.'\'';
 		}
@@ -31,7 +31,7 @@ final class search extends object
 		if($section !=0)
 			$query = $query.' AND tid IN (SELECT id FROM threads WHERE section = \'::1::\')';
 		if(!empty($username))
-			$query = $query.' AND uid IN(SELECT id FROM users WHERE nick = \'::2::\')';
+			$query = $query.' AND uid IN(SELECT id FROM users WHERE lower(nick) = lower(\'::2::\'))';
 		$query = $query.' ORDER BY timest DESC';
 		$param_arr = array($str, $section, $username);
 		$sel = self::$baseC->query($query, 'assoc_array', $param_arr);
@@ -55,7 +55,7 @@ final class search extends object
 		}
 		else if($date=='year')
 		{
-			$month = gmdate("Y")-1;
+			$year = gmdate("Y")-1;
 			$timestamp = $year.'-'.gmdate("m-d H:i:s");
 			$query = $query.' AND timest > \''.$timestamp.'\'';
 		}
@@ -63,7 +63,7 @@ final class search extends object
 		if($section !=0)
 			$query = $query.' AND tid IN (SELECT id FROM threads WHERE section = \'::1::\')';
 		if(!empty($username))
-			$query = $query.' AND uid IN(SELECT id FROM users WHERE nick = \'::2::\')';
+			$query = $query.' AND uid IN(SELECT id FROM users WHERE lower(nick) = lower(\'::2::\'))';
 		if(!empty($filters_arr))
 		{
 			$query = $query.' AND (';

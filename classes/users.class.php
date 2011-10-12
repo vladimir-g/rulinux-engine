@@ -185,6 +185,11 @@ final class users extends object
 					return -2;
 			$current_date = gmdate("y-m-d H:i:s");
 			$pass = md5($pass);
+			$lw_nick = strtolower($nick);
+			$where_arr = array(array("key"=>'lower(nick)', "value"=>$lw_nick, "oper"=>'='));
+			$user_exists = self::$baseC->select('users', '', 'lower(nick)', $where_arr, '', '');
+			if(!empty($user_exists))
+				return -1;
 			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '-1'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
 			$ret = self::$baseC->insert('users', $user_arr);
 			return $ret;

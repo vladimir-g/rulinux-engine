@@ -15,8 +15,8 @@ if(!empty($msg))
 		$subj = substr($msg[$z]['subject'], 0, 128);
 		$boxlet_content = str_replace('[subject]', $subj, $boxlet_content);
 		$comment = substr($msg[$z]['comment'], 0, 255);
-		$re = '/<img src="((?!").*?)" (width="[0-9]+") ((?!>).*?)>/suim';
-		$comment = preg_replace($re, "<img src=\"\$1\" width=\"200\" \$3>", $comment);
+		$re = '/<img src="((?!").*?)" (width="[0-9]+ ")?((?!>).*?)>/suim';
+		$comment = preg_replace($re, "<img src=\"big2small.php?pixmap=\$1&size=200\" width=\"200\" \$3>", $comment);
 		$boxlet_content = str_replace('[comment]', $comment, $boxlet_content);
 		$author = users::get_user_info($msg[$z]['uid']);
 		$boxlet_content = str_replace('[author]', $author['nick'], $boxlet_content);
