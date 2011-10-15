@@ -116,7 +116,7 @@ else if($_POST['action']=="info")
 			{
 				if(preg_match("/$item\$/i", $_FILES['user_photo']['name'])) 
 				{
-					$error = 'photo_error';
+					$error = 'Недопустимое расширение файла';
 				}
 			}
 			$uploaddir = 'images/avatars/';
@@ -127,27 +127,61 @@ else if($_POST['action']=="info")
 			$uploadfile = $uploaddir.$filename.'.'.$ext[1];
 			if(file_exists('./'.$uploadfile)) unlink('./'.$uploadfile);
 			$imageinfo = getimagesize($_FILES['user_photo']['tmp_name']);
-			if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg'  && $imageinfo['mime'] != 'image/png') 
+			if(!in_array($imageinfo[2], array(IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF)))
 			{
-				$error = 'photo_error';
+				$error = 'Неправильный формат файла';
 			}
-			if(($_FILES['user_photo']['size']/1000) > 30)
+			if(($_FILES['user_photo']['size']/1000) > 500)
 				$error = 'Слишком большой размер файла';
-			if(($imageinfo[0] < 50 || $imageinfo[0] > 150) || ($imageinfo[1] < 50 || $imageinfo[1] > 150))
-				$error = 'Ошибка загрузки файла';
+			$width = $imageinfo[0];
+			$height = $imageinfo[1];
+			$max = 150;
+			/* Resize image if needed */
+			if (empty($error) && ($width > $max || $height > $max))
+			{
+				if ($width > $height)
+					$ratio = $max / $width;
+				else
+					$ratio = $max / $height;
+				$target_width = round($width * $ratio);
+				$target_height = round($height * $ratio);
+				$img = imagecreatetruecolor($target_width, $target_height);
+				switch ($imageinfo[2])
+				{
+				case IMAGETYPE_JPEG:
+					$src = imagecreatefromjpeg($_FILES['user_photo']['tmp_name']);
+					imagecopyresampled($img, $src, 0, 0, 0, 0, $target_width, $target_height, $width, $height);
+					imagejpeg($img, $_FILES['user_photo']['tmp_name']);
+					break;
+				case IMAGETYPE_GIF:
+					$src = imagecreatefromgif($_FILES['user_photo']['tmp_name']);
+					imagecopyresampled($img, $src, 0, 0, 0, 0, $target_width, $target_height, $width, $height);
+					imagegif($img, $_FILES['user_photo']['tmp_name']);
+					break;
+				case IMAGETYPE_PNG:
+					$src = imagecreatefrompng($_FILES['user_photo']['tmp_name']);
+					imagecopyresampled($img, $src, 0, 0, 0, 0, $target_width, $target_height, $width, $height);
+					imagepng($img, $_FILES['user_photo']['tmp_name']);
+					break;
+				}
+				imagedestroy($img);
+				imagedestroy($src);
+			}
 			if (empty($error))
 			{
 				move_uploaded_file($_FILES['user_photo']['tmp_name'], $uploadfile);
 				$val = $usersC->modify_user_info('photo', $filename.'.'.$ext[1], $uid);
-				if($val != 1)
-				{
-					require 'header.php';
-					$legend = 'Произошла ошибка при смене информации';
-					$text = 'Произошла ошибка при смене информации';
-					require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-					require 'footer.php';
-					exit();
-				}
+				if ($val != 1)
+					$error = 'Ошибка при сохранении данных';
+			}
+			if(!empty($error))
+			{
+				require 'header.php';
+				$legend = 'Произошла ошибка при смене информации';
+				$text = 'Произошла ошибка при смене информации'.': '.$error;
+				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+				require 'footer.php';
+				exit();
 			}
 		}
 		$val = $usersC->modify_user_info_settings($uid, $_POST['user_name'], $_POST['user_lastname'], $_POST['gender'], $_POST['user_email'], $_POST['showEmail'], $_POST['user_im'], $_POST['showIM'], $_POST['user_country'], $_POST['user_city'], $_POST['user_additional']);
