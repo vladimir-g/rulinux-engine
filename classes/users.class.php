@@ -174,8 +174,8 @@ final class users extends object
 		$headers= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-type: text/html; charset=UTF-8\r\n";
 		$headers .= "From: root <root@rulinux.net>\r\n";
-		$headers .= "Cc: root@rulinux.net\r\n";
-		$headers .= "Bcc: root@rulinux.net\r\n";
+// 		$headers .= "Cc: root@rulinux.net\r\n";
+// 		$headers .= "Bcc: root@rulinux.net\r\n";
 		$ret = mail($address, $subject, $message, $headers);
 		return $ret;
 	}

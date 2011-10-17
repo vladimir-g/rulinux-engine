@@ -6,7 +6,7 @@
 <table>
 <tr>
 <td style="vertical-align:top"><img src="<?=$subsection_image?>"></td>
-<td style="vertical-align:top"><p><?=$comment?>
+<td style="vertical-align:top"><p><?=$preview_comment?>
 </p>
 >>> <a href="<?=$prooflink?>">Подробнее</a>
 </td>

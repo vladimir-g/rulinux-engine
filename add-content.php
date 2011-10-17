@@ -154,6 +154,7 @@ else
 		require 'header.php';
 		$prooflink = $_POST['news_link'];
 		$comment = $_POST['comment'];
+		$preview_comment = str_to_html($_POST['comment']);
 		$subject = $_POST['subject'];
 		$user_field = $_POST['user_field'];
 		$section_id = (int)$_GET['section'];

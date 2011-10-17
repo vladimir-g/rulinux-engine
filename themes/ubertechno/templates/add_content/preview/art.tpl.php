@@ -5,7 +5,7 @@
 <table cellspadding="0" cellspacing="0" border="0"><tr><td style="vertical-align:top">
 <table>
 <tr>
-<td style="vertical-align:top"><p><p><?=$comment?></p></p>
+<td style="vertical-align:top"><p><p><?=$preview_comment?></p></p>
 </td>
 <tr>
 </table>
