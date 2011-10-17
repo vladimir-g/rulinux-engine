@@ -4,6 +4,7 @@ $title = '';
 $rss_link='rss';
 if(isset($_GET['logout']))
 {
+// 	require 'header.php';
 	$_SESSION['user_id']='';
 	$_SESSION['user_admin']='';
 	$_SESSION['user_moder']='';
@@ -11,6 +12,9 @@ if(isset($_GET['logout']))
 	setcookie('login', '', time()-3600);
 	setcookie('password', '', time()-3600);
 	session_destroy();
+// 	$legend = 'Вы разлогинились';
+// 	$text = 'Вы разлогинились. Если у вас отключена переадресация нажмите <a href="/">сюда</a>';
+// 	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 	die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');
 }
 else
@@ -31,6 +35,10 @@ else
 			$_POST['user'] = preg_replace('/[\'\/\*\s]/', '', $_POST['user']);
 			$authC->auth_user($_POST['user'], $_POST['password'], false);
 		}
+		require 'header.php';
+		$legend = 'Вы авторизованны на сайте';
+		$text = 'Вы авторизованны на сайте. Если у вас отключена переадресация нажмите <a href="/">сюда</a>';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');  
 	}
 	else

@@ -106,7 +106,7 @@ final class users extends object
 		$topics_dates = self::$baseC->query('SELECT min(timest) AS min, max(timest) AS max FROM comments WHERE id IN (SELECT min(id) FROM comments WHERE uid = \'::0::\' GROUP BY tid ORDER BY tid)', 'assoc_array', $param_arr);
 		$comments_dates = self::$baseC->query('SELECT min(timest) AS min, max(timest) AS max FROM comments WHERE id NOT IN (SELECT min(id) FROM comments WHERE uid = \'::0::\' GROUP BY tid ORDER BY tid)', 'assoc_array', $param_arr);
 		$comments_count = self::$baseC->query('SELECT count(*) AS cnt FROM comments WHERE uid = \'::0::\'', 'assoc_array', $param_arr); 
-		$topics_count = self::$baseC->query('SELECT count(*) AS cnt FROM (SELECT min(id) FROM comments WHERE uid = \'::0::\' GROUP BY tid ORDER BY tid) AS t', 'assoc_array', $param_arr); 
+		$topics_count = self::$baseC->query('SELECT count(*) AS cnt FROM threads WHERE EXISTS (SELECT id FROM comments WHERE uid = \'::0::\' AND id = cid)', 'assoc_array', $param_arr); 
 		$ret = array("first_topic_date"=>$topics_dates[0]['min'], "last_topic_date"=>$topics_dates[0]['max'], "first_comment_date"=>$comments_dates[0]['min'], "last_comment_date"=>$comments_dates[0]['max'], "comments_count"=>$comments_count[0]['cnt'], "topics_count"=>$topics_count[0]['cnt']);
 		return $ret;
 	}

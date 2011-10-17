@@ -411,11 +411,21 @@ else
 		$str = $filtersC->set_auto_filter($cid, $str);
 		$val = $messagesC->set_filter($cid, $str);
 		if($section_id==1 || $section_id==2 || $section_id==3)
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'unconfirmed">');
+		{
+			require 'header.php';
+			$legend = 'Тред успешно создан';
+			$text = 'Тред успешно создан<br>Через три секунды вы будете перенаправлены в список неподтвержденного.<br>Если вы не хотите ждать, нажмите <a href="unconfirmed">сюда</a>.';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'unconfirmed">');
+		}
 		else if($section_id==4)
 		{
+			require 'header.php';
 			$thr_id = $threadsC->get_tid_by_cid($cid);
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thr_id[0]['id'].'_page_1">');
+			$legend = 'Тред успешно создан';
+			$text = 'Тред успешно создан<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thr_id[0]['id'].'_page_1">сюда</a>.';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thr_id[0]['id'].'_page_1">');
 		}
 	}
 }

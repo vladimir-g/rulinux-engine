@@ -71,7 +71,11 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 				}
 				$str = $filtersC->set_auto_filter($msg_id, $str);
 				$val = $messagesC->set_filter($msg_id, $str);
-				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');
+				require 'header.php';
+				$legend = 'Коментарий успешно добавлен';
+				$text = 'Коментарий успешно добавлен<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">сюда</a>.';
+				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+				die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');
 			}
 			else 
 			{
@@ -99,7 +103,11 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 			}
 			$str = $filtersC->set_auto_filter($msg_id, $str);
 			$val = $messagesC->set_filter($msg_id, $str);
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');  
+			require 'header.php';
+			$legend = 'Коментарий успешно добавлен';
+			$text = 'Коментарий успешно добавлен<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">сюда</a>.';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');  
 		}
 	}
 	else

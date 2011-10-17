@@ -81,18 +81,30 @@ else if($_GET['action']=='attach_thread')
 {
 	$threadsC->attach_thread($_GET['tid'], 'true');
 	$referer = getenv("HTTP_REFERER");
+	require 'header.php';
+	$legend = 'Тред прикреплен';
+	$text = 'Тред прикреплен. Если у вас отключена переадресация нажмите <a href="'.$referer.'">сюда</a>.';
+	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 	die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
 }
 else if($_GET['action']=='detach_thread')
 {
 	$threadsC->attach_thread($_GET['tid'], 'false');
 	$referer = getenv("HTTP_REFERER");
+	require 'header.php';
+	$legend = 'Тред откреплен';
+	$text = 'Тред откреплен. Если у вас отключена переадресация нажмите <a href="'.$referer.'">сюда</a>.';
+	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 	die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
 }
 else if($_GET['action']=='approve_thread')
 {
 	$threadsC->approve_thread($_GET['tid']);
 	$referer = getenv("HTTP_REFERER");
+	require 'header.php';
+	$legend = 'Тред подтвержден';
+	$text = 'Тред подтвержден. Если у вас отключена переадресация нажмите <a href="'.$referer.'">сюда</a>.';
+	require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 	die('<meta http-equiv="Refresh" content="0; URL='.$referer.'">');
 }
 else
