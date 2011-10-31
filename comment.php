@@ -2,7 +2,7 @@
 require 'classes/core.php';
 $message_id = (int)$_GET['cid'];
 $thread_id = (int)$_GET['answerto'];
-$title = 'Добавить коментарий';
+$title = ' - Добавить коментарий';
 $rss_link='rss';
 if(!empty($_POST['sbm']))
 {

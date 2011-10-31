@@ -36,7 +36,7 @@
 			
 		// Setting default value for assential channel elements
 		$this->channels['title']        = $version . ' Feed';
-		$this->channels['link']         = 'http://www.ajaxray.com/blog';
+		$this->channels['link']         = 'http://rulinux.net/';
 				
 		//Tag names to encode in CDATA
 		$this->CDATAEncoding = array('description', 'content:encoded', 'summary');

@@ -54,7 +54,7 @@ INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, ico
 INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, icon) VALUES(1, 'Security', 'Новости касающиеся вопросов безопастности', 'security', '', 10, 'security.png');
 INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, icon) VALUES(1, 'Linux в России', 'Новости о продвижении GNU/Linux в нашей стране', 'linux-in-russia', '', 11, 'linux_in_russia.png');
 INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, icon) VALUES(1, 'Коммерческое ПО', 'Новости о комерческом програмном обеспечении под *nix', 'commercial', '', 12, 'commercial.png');
-INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, icon) VALUES(1, 'Linux kernel', 'Новости о ядре Linux', 'kernel', '', 13, 'kernal.png');
+INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, icon) VALUES(1, 'Linux kernel', 'Новости о ядре Linux', 'kernel', '', 13, 'kernel.png');
 INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, icon) VALUES(1, 'Hardware and Drivers', 'Новости касающиеся вопросов оборудования', 'hardware', '', 14, 'drivers.png');
 INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, icon) VALUES(1, 'BSD', 'Новости о BSD системах', 'bsd', '', 15, 'bsd.png');
 INSERT INTO subsections(section, name, description, rewrite, shortfaq, sort, icon) VALUES(1, 'Debian', 'Новости о дистрибутиве Debian', 'debian', '', 16, 'debian.png');
