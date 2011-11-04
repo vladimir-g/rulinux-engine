@@ -14,7 +14,7 @@ if(!empty($msg))
 		fclose($file); 
 		$subj = substr($msg[$z]['subject'], 0, 128);
 		$boxlet_content = str_replace('[subject]', $subj, $boxlet_content);
-		$comment = substr($msg[$z]['comment'], 0, 255);
+		$comment = $coreC->truncate($msg[$z]['comment'], 255);
 		$re = '/<img src="((?!").*?)" (width="[0-9]+ ")?((?!>).*?)>/suim';
 		$comment = preg_replace($re, "<img src=\"big2small.php?size=200&pixmap=\$1\" width=\"200\" \$3>", $comment);
 		$boxlet_content = str_replace('[comment]', $comment, $boxlet_content);
