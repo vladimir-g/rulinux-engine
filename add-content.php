@@ -164,6 +164,10 @@ else
 		$author_profile = 'user_'.$usr['nick'];
 		$timestamp = $coreC->to_local_time_zone(gmdate("Y-m-d H:i:s"));
 		$form_preview_link = 'new_thread_in_sect_'.$section_id;
+		if ($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1)
+			$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha" alt="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
+		else
+			$captcha = '';
 		if($section_id == 1)
 		{
 			$subsection_image = '/themes/'.$theme.'/icons/'.$sectionsC->get_subsection_icon($subsection_id);
