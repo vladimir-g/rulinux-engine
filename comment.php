@@ -2,7 +2,7 @@
 require 'classes/core.php';
 $message_id = (int)$_GET['cid'];
 $thread_id = (int)$_GET['answerto'];
-$title = ' - Добавить коментарий';
+$title = ' - Добавить комментарий';
 $rss_link='rss';
 if(!empty($_POST['sbm']))
 {
@@ -22,8 +22,8 @@ if(!empty($_POST['sbm']))
 	if (empty($_POST['comment']))
 	{
 		require 'header.php';
-		$legend = 'Не заполнено поле \'Ваш коментарий\'';
-		$text = 'Не заполнено поле \'Ваш коментарий\'';
+		$legend = 'Не заполнено поле \'Ваш комментарий\'';
+		$text = 'Не заполнено поле \'Ваш комментарий\'';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		define(COMM_SET, false);
 		require 'footer.php';
@@ -72,8 +72,8 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 				$str = $filtersC->set_auto_filter($msg_id, $str);
 				$val = $messagesC->set_filter($msg_id, $str);
 				require 'header.php';
-				$legend = 'Коментарий успешно добавлен';
-				$text = 'Коментарий успешно добавлен<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">сюда</a>.';
+				$legend = 'Комментарий успешно добавлен';
+				$text = 'Комментарий успешно добавлен<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">сюда</a>.';
 				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 				die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');
 			}
@@ -104,8 +104,8 @@ if (SUBJ_SET && COMM_SET && $_POST['sbm'] == 'Поместить')
 			$str = $filtersC->set_auto_filter($msg_id, $str);
 			$val = $messagesC->set_filter($msg_id, $str);
 			require 'header.php';
-			$legend = 'Коментарий успешно добавлен';
-			$text = 'Коментарий успешно добавлен<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">сюда</a>.';
+			$legend = 'Комментарий успешно добавлен';
+			$text = 'Комментарий успешно добавлен<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');  
 		}

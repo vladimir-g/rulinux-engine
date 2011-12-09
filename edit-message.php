@@ -96,8 +96,8 @@ else
 		$message_number = $mess_arr[0];
 		$page = ceil($message_number/$uinfo['comments_on_page']);
 		require 'header.php';
-		$legend = 'Коментарий успешно изменен';
-		$text = 'Коментарий успешно изменен<br>Через три секунды вы будете перенаправлены в тред содержащий это сообщение.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$mess_arr[1].'_page_'.$page.'#msg'.$message_id.'">сюда</a>.';
+		$legend = 'Комментарий успешно изменен';
+		$text = 'Комментарий успешно изменен<br>Через три секунды вы будете перенаправлены в тред содержащий это сообщение.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$mess_arr[1].'_page_'.$page.'#msg'.$message_id.'">сюда</a>.';
 		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 		die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$mess_arr[1].'_page_'.$page.'#msg'.$message_id.'">');  
 	}

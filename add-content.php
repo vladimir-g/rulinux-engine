@@ -298,8 +298,8 @@ else
 		if (empty($_POST['comment']))
 		{
 			require 'header.php';
-			$legend = 'Не заполнено поле \'Ваш коментарий\'';
-			$text = 'Не заполнено поле \'Ваш коментарий\'';
+			$legend = 'Не заполнено поле \'Ваш комментарий\'';
+			$text = 'Не заполнено поле \'Ваш комментарий\'';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			require 'footer.php';
 			exit();
