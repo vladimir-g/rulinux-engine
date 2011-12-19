@@ -295,7 +295,7 @@
 		}
 		else
 		{
-			$nodeText .= (in_array($tagName, $this->CDATAEncoding))? $tagContent : htmlentities($tagContent, ENT_QUOTES, 'UTF-8');
+			$nodeText .= (in_array($tagName, $this->CDATAEncoding))? $tagContent : htmlspecialchars($tagContent, ENT_QUOTES, 'UTF-8');
 		}           
 			
 		$nodeText .= (in_array($tagName, $this->CDATAEncoding))? "]]></$tagName>" : "</$tagName>";
