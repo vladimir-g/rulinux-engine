@@ -36,7 +36,8 @@
 			
 		// Setting default value for assential channel elements
 		$this->channels['title']        = $version . ' Feed';
-		$this->channels['link']         = 'http://rulinux.net/';
+		$this->channels['link']         = 'http://'.$_SERVER["HTTP_HOST"].'/';
+		$this->channels['description']  = 'Портал о GNU/Linux и не только';
 				
 		//Tag names to encode in CDATA
 		$this->CDATAEncoding = array('description', 'content:encoded', 'summary');
@@ -215,6 +216,7 @@
 			$out .= '<rss version="2.0"
 					xmlns:content="http://purl.org/rss/1.0/modules/content/"
 					xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+					xmlns:atom="http://www.w3.org/2005/Atom"
 				  >' . PHP_EOL;
 		}    
 		elseif($this->version == RSS1)
@@ -264,7 +266,7 @@
 	* @param    array   Attributes(if any) in 'attrName' => 'attrValue' format
 	* @return   string  formatted xml tag
 	*/
-	private function makeNode($tagName, $tagContent, $attributes = null)
+	private function makeNode($tagName, $tagContent, $attributes = null, $void = false)
 	{        
 		$nodeText = '';
 		$attrText = '';
@@ -277,15 +279,22 @@
 			}
 		}
 		
+	
 		if(is_array($tagContent) && $this->version == RSS1)
 		{
 			$attrText = ' rdf:parseType="Resource"';
 		}
-		
+
+		if ($void)
+		{
+			$nodetext = "<{$tagName}{$attrText} />";
+			return $nodetext . PHP_EOL;
+		}		
 		
 		$attrText .= (in_array($tagName, $this->CDATAEncoding) && $this->version == ATOM)? ' type="html" ' : '';
 		$nodeText .= (in_array($tagName, $this->CDATAEncoding))? "<{$tagName}{$attrText}><![CDATA[" : "<{$tagName}{$attrText}>";
-		 
+
+	 
 		if(is_array($tagContent))
 		{ 
 			foreach ($tagContent as $key => $value) 
@@ -295,7 +304,7 @@
 		}
 		else
 		{
-			$nodeText .= (in_array($tagName, $this->CDATAEncoding))? $tagContent : htmlspecialchars($tagContent, ENT_QUOTES, 'UTF-8');
+			$nodeText .= (in_array($tagName, $this->CDATAEncoding))? $tagContent : htmlspecialchars(html_entity_decode($tagContent, ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8');
 		}           
 			
 		$nodeText .= (in_array($tagName, $this->CDATAEncoding))? "]]></$tagName>" : "</$tagName>";
@@ -314,7 +323,9 @@
 		switch ($this->version) 
 		{
 		   case RSS2: 
-				echo '<channel>' . PHP_EOL;        
+				echo '<channel>' . PHP_EOL;
+				/* Print atom:link */
+				echo $this->makeNode('atom:link', '', array('rel' => 'self', 'type' => 'application/rss+xml', 'href' => $this->channels['link'].'rss'), true);
 				break;
 		   case RSS1: 
 				echo (isset($this->data['ChannelAbout']))? "<channel rdf:about=\"{$this->data['ChannelAbout']}\">" : "<channel rdf:about=\"{$this->channels['link']}\">";

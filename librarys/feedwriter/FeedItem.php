@@ -138,6 +138,7 @@
 		if($this->version == RSS2 || $this->version == RSS1)
 		{
 			$this->addElement('link', $link);
+			$this->addElement('guid', $link);
 		}
 		else
 		{

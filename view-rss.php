@@ -46,6 +46,7 @@ $TestFeed = new FeedWriter(RSS2);
 $site_name = $_SERVER["HTTP_HOST"];
 $title = $site_name.$section_name.$subsection_name.$thread_name;
 $TestFeed->setTitle($title);
+$TestFeed->setImage($title, 'http://'.$site_name.'/', 'http://'.$site_name.'/rss_icon.png');
 if(!empty($feed))
 {
 	for($i=0; $i<count($feed); $i++)
@@ -55,7 +56,6 @@ if(!empty($feed))
 		$newItem->setLink($feed[$i]['link']);
 		$newItem->setDate($feed[$i]['time']);
 		$newItem->setDescription($feed[$i]['description']);
-		$TestFeed->setImage($feed[$i]['title'],$feed[$i]['link'],'/favicon.ico');
 		$TestFeed->addItem($newItem);
 	}
 }
