@@ -117,7 +117,7 @@ switch($section_id)
 	case 1:
 		$news_approve_moder_name = $usersC->get_user_info($topic_start['approved_by']);
 		if($coreC->validate_boolean($topic_start['approved']))
-			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
+			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$coreC->to_local_time_zone($topic_start['approve_timest']).')';
 		if(!empty($topic_start['prooflink']))
 			$prooflink='>>> <a href="'.$topic_start['prooflink'].'">Подробнее</a>';
 		require 'themes/'.$theme.'/templates/message/news.tpl.php';
@@ -125,13 +125,13 @@ switch($section_id)
 	case 2:
 		$news_approve_moder_name = $usersC->get_user_info($topic_start['approved_by']);
 		if($coreC->validate_boolean($topic_start['approved']))
-			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
+			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$coreC->to_local_time_zone($topic_start['approve_timest']).')';
 		require 'themes/'.$theme.'/templates/message/article.tpl.php';
 		break;
 	case 3:
 		$news_approve_moder_name = $usersC->get_user_info($topic_start['approved_by']);
 		if($coreC->validate_boolean($topic_start['approved']))
-			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$topic_start['approve_timest'].')';
+			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$coreC->to_local_time_zone($topic_start['approve_timest']).')';
 		$gallery_file_name = $topic_start['file'];
 		$gallery_file_extension = $topic_start['extension'];
 		$gallery_image_size = $topic_start['image_size'];
