@@ -325,7 +325,7 @@
 		   case RSS2: 
 				echo '<channel>' . PHP_EOL;
 				/* Print atom:link */
-				echo $this->makeNode('atom:link', '', array('rel' => 'self', 'type' => 'application/rss+xml', 'href' => $this->channels['link'].'rss'), true);
+				echo $this->makeNode('atom:link', '', array('rel' => 'self', 'type' => 'application/rss+xml', 'href' => htmlspecialchars('http://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'])), true);
 				break;
 		   case RSS1: 
 				echo (isset($this->data['ChannelAbout']))? "<channel rdf:about=\"{$this->data['ChannelAbout']}\">" : "<channel rdf:about=\"{$this->channels['link']}\">";
