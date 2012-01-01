@@ -197,3 +197,8 @@ DIV.notes
 {
 	background-color:#c8c8c8;
 }
+
+p.error {
+	color: red;
+	font-weight: bold;
+}

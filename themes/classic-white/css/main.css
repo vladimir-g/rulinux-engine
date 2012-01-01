@@ -164,3 +164,8 @@ DIV.notes
 { 
 	font-weight: bold; 
 }
+
+p.error {
+	color: red;
+	font-weight: bold;
+}

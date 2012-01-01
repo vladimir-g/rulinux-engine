@@ -1,4 +1,5 @@
 <br />
+<p class="error"><?=$errors['msg'];?></p>
 <div class="messages">
 <div class="comment" id="cmm<?=$message_id?>">
 <div class=title>
@@ -17,11 +18,13 @@
 </div>
 
 <form action="<?=$form_link?>" method="post">
+<? if (!empty($errors)):?><p class="error">Форма содержит ошибки</p><? endif;?>
 <table border="0">
 <tr>
 <td style="vertical-align:top;">Тема:</td>
 <td>
 <input type="text" name="subject" style="width:100%" value="<?=$subj?>">
+<p class="error"><?=$errors['subject'];?></p>
 </td>
 </tr>
 <tr>
@@ -30,6 +33,7 @@
 </td>
 <td>
 <textarea name="comment" id="comment" rows="20"  cols="80"><?=$comment?></textarea>
+<p class="error"><?=$errors['comment'];?></p>
 </td>
 </tr>
 <tr>

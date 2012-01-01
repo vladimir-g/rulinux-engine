@@ -237,3 +237,8 @@ color: white
 {
 	background-color:black
 }
+
+p.error {
+	color: red;
+	font-weight: bold;
+}
