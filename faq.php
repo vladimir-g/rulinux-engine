@@ -129,22 +129,25 @@ else
 	$add_question_link = 'add_question';
 	require 'themes/'.$theme.'/templates/faq/top.tpl.php';
 	$questions = $faqC->get_questions();
-	for($i=0; $i<count($questions); $i++)
+	if ($questions != -1)
 	{
-		$id = $questions[$i]['id'];
-		$subject = $questions[$i]['subject'];
-		$question = $questions[$i]['question'];
-		if($coreC->validate_boolean($questions[$i]['answered']))
-			$answer = $questions[$i]['answer'];
-		else
-			$answer = 'ждите ответа';
-		require 'themes/'.$theme.'/templates/faq/middle.tpl.php';
-		if(!$coreC->validate_boolean($questions[$i]['answered']))
+		for($i=0; $i<count($questions); $i++)
 		{
-			if($uinfo['gid']==2)
+			$id = $questions[$i]['id'];
+			$subject = $questions[$i]['subject'];
+			$question = $questions[$i]['question'];
+			if($coreC->validate_boolean($questions[$i]['answered']))
+				$answer = $questions[$i]['answer'];
+			else
+				$answer = 'ждите ответа';
+			require 'themes/'.$theme.'/templates/faq/middle.tpl.php';
+			if(!$coreC->validate_boolean($questions[$i]['answered']))
 			{
-				$add_answer_link = 'add_answer_'.$questions[$i]['id'];
-				require 'themes/'.$theme.'/templates/faq/answer_link.tpl.php';
+				if($uinfo['gid']==2)
+				{
+					$add_answer_link = 'add_answer_'.$questions[$i]['id'];
+					require 'themes/'.$theme.'/templates/faq/answer_link.tpl.php';
+				}
 			}
 		}
 	}
