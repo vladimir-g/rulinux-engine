@@ -17,6 +17,11 @@
 <textarea name="comment" id="editor" rows="20" cols="80"></textarea>
 </td>
 </tr>
+<tr>
+<td colspan="2">
+<?=$captcha?>
+</td>
+</tr>
 </tbody>
 </table>
 <input type="submit" name="submit_form" value="Отправить">

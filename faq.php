@@ -24,6 +24,16 @@ if($action == 'add_question')
 			require 'footer.php';
 			exit();
 		}
+		if (($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1) &&
+		    (!isset($_SESSION['captcha_keystring'] ) || $_SESSION['captcha_keystring'] != $_POST['keystring']))
+		{
+			require 'header.php';
+			$legend = 'Неверно введен ответ с картинки';
+			$text = 'Неверно введен ответ с картинки';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+		}
 		$ret = $faqC->add_question($_POST['subject'], $_POST['comment']);
 		if($ret<0)
 		{
@@ -45,6 +55,10 @@ if($action == 'add_question')
 	}
 	else
 	{
+		if ($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1)
+			$captcha = '<img src="ucaptcha/index.php?'.session_name().'='.session_id().'" id="captcha" alt="captcha"><br>Введите символы либо ответ (если на картинке задача):<br><input type="text" name="keystring"><br>';
+		else
+			$captcha = '';
 		require 'header.php';
 		$add_question = 'add_question';
 		require 'themes/'.$theme.'/templates/faq/add_question.tpl.php';
