@@ -52,8 +52,8 @@
 </tr>
 </table>
 <br>
-Дополнительно: 
-<span style="font-style:italic"><br><?=$additional?></span>
+Дополнительно:
+<br><?=$additional?>
 <br>
 <table>
 <tr>

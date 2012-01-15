@@ -53,7 +53,7 @@
 </table>
 <br>
 Дополнительно: 
-<span style="font-style:italic"><br><?=$additional?></span>
+<br><?=$additional?>
 <br>
 <table>
 <tr>

@@ -190,7 +190,9 @@ final class users extends object
 			$user_exists = self::$baseC->select('users', '', 'lower(nick)', $where_arr, '', '');
 			if(!empty($user_exists))
 				return -1;
-			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '-1'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
+			$raw_additional = str_replace('\\', '&#92;', $additional);
+			$additional = str_to_html($additional);
+			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '-1'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('raw_additional', $raw_additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
 			$ret = self::$baseC->insert('users', $user_arr);
 			return $ret;
 	}
@@ -300,10 +302,12 @@ final class users extends object
 		$show_im = empty($show_im) ? 0 : 1;
 		$country = htmlspecialchars($country);
 		$city = htmlspecialchars($city);
-		$additional = htmlspecialchars($additional);
-		$photo = htmlspecialchars($photo);
-		$param_arr = array($id, $user_name, $user_lastname, $gender, $user_email, $show_email, $user_im, $show_im, $country, $city, $additional);
-		$ret = self::$baseC->query('UPDATE users SET name = \'::1::\', lastname = \'::2::\', gender = \'::3::\', email = \'::4::\', show_email = \'::5::\', im = \'::6::\', show_im = \'::7::\', country = \'::8::\', city = \'::9::\', additional = \'::10::\'  WHERE id = \'::0::\'', 'assoc_array', $param_arr);
+		$raw_additional = str_replace('\\', '&#92;', $additional);
+		$additional = str_to_html($additional);
+		$photo = htmlspecialchars($photo);                
+		$param_arr = array($id, $user_name, $user_lastname, $gender, $user_email, $show_email, $user_im, $show_im, $country, $city, $additional,
+				   $raw_additional);
+		$ret = self::$baseC->query('UPDATE users SET name = \'::1::\', lastname = \'::2::\', gender = \'::3::\', email = \'::4::\', show_email = \'::5::\', im = \'::6::\', show_im = \'::7::\', country = \'::8::\', city = \'::9::\', additional = \'::10::\', raw_additional = \'::11::\' WHERE id = \'::0::\'', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	function filter_users($filter, $value)

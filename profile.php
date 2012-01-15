@@ -484,7 +484,7 @@ else
 				$show_im_ch = $coreC->validate_boolean($usr['show_im']) ? 'checked' : '';
 				$country = $usr['country'];
 				$city = $usr['city'];
-				$additional = $usr['additional'];
+				$additional = $usr['raw_additional'];
 				$coreC->validate_boolean($usr['gender']) ? $checkedMale = 'selected' : $checkedFemale = 'selected';
 				require 'themes/'.$theme.'/templates/profile/userinfo_edit/userinfo_edit.tpl.php';
 			}
