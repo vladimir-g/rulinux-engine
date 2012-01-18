@@ -169,7 +169,7 @@ final class users extends object
 		$message = str_replace('[site]', $_SERVER['HTTP_HOST'], $message);
 		$where_arr = array(array("key"=>'name', "value"=>'register_pass_phrase', "oper"=>'='));
 		$pass_phrase = self::$baseC->select('settings', '', 'value', $where_arr, 'AND');
-		$link = '<a href="'.$_SERVER['HTTP_HOST'].'/register.php?action=register&login='.$nick.'&password='.$password.'&email='.$address.'&hash='.md5($nick.$password.$pass_phrase[0]['value']).'">'.$_SERVER['HTTP_HOST'].'/register.php?action=register&login='.$nick.'&password='.$password.'&email='.$address.'&hash='.md5($nick.$password.$pass_phrase[0]['value']).'</a>';
+		$link = '<a href="http://'.$_SERVER['HTTP_HOST'].'/register.php?action=register&login='.$nick.'&password='.$password.'&email='.$address.'&hash='.md5($nick.$password.$pass_phrase[0]['value']).'">'.$_SERVER['HTTP_HOST'].'/register.php?action=register&login='.$nick.'&password='.$password.'&email='.$address.'&hash='.md5($nick.$password.$pass_phrase[0]['value']).'</a>';
 		$message = str_replace('[link]', $link, $message);
 		$headers= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-type: text/html; charset=UTF-8\r\n";
@@ -181,20 +181,20 @@ final class users extends object
 	}
 	function add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt)
 	{
-			if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-					return -2;
-			$current_date = gmdate("y-m-d H:i:s");
-			$pass = md5($pass);
-			$lw_nick = strtolower($nick);
-			$where_arr = array(array("key"=>'lower(nick)', "value"=>$lw_nick, "oper"=>'='));
-			$user_exists = self::$baseC->select('users', '', 'lower(nick)', $where_arr, '', '');
-			if(!empty($user_exists))
-				return -1;
-			$raw_additional = str_replace('\\', '&#92;', $additional);
-			$additional = str_to_html($additional);
-			$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '-1'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('raw_additional', $raw_additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
-			$ret = self::$baseC->insert('users', $user_arr);
-			return $ret;
+		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+			return -3;
+		$current_date = gmdate("y-m-d H:i:s");
+		$pass = md5($pass);
+		$lw_nick = strtolower($nick);
+		$where_arr = array(array("key"=>'lower(nick)', "value"=>$lw_nick, "oper"=>'='));
+		$user_exists = self::$baseC->select('users', '', 'lower(nick)', $where_arr, '', '');
+		if(!empty($user_exists))
+			return -2;
+		$raw_additional = str_replace('\\', '&#92;', $additional);
+		$additional = str_to_html($additional);
+		$user_arr = array(array('gid', '1'), array('nick', $nick), array('password', $pass), array('name', $name), array('lastname', $lastname), array('birthday', '2011-03-29 12:31:26') , array('gender', $gender), array('email', $email), array('show_email', $show_email), array('im', $im), array('show_im', $show_im), array('country', $country), array('city', $city), array('photo', ''), array('register_date', $current_date), array('last_visit', $current_date), array('captcha', '-1'), array('blocks', 'authorization:l:1,links:l:2,gallery:l:3,tracker:l:4'), array('additional', $additional), array('raw_additional', $raw_additional), array('news_on_page', '10'), array('comments_on_page', '50'), array('threads_on_page', '30'), array('show_avatars', 'false'), array('show_ua', 'true'), array('show_resp', 'false'), array('theme', '1'), array('gmt', $gmt), array('filters', ''), array('mark', '1'), array('banned', 'false'), array('sort_to', 'false'));
+		$ret = self::$baseC->insert('users', $user_arr);
+		return $ret;
 	}
 	function ban_user($id, $state)
 	{
