@@ -181,8 +181,6 @@ final class users extends object
 	}
 	function add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt)
 	{
-		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-			return -3;
 		$current_date = gmdate("y-m-d H:i:s");
 		$pass = md5($pass);
 		$lw_nick = strtolower($nick);

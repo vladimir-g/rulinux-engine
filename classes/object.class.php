@@ -58,6 +58,16 @@ class object
 		return array_map('self::trim_array', $Input);
 	}
 
+	/* Set provided array keys to empty string if corresponding value isn't set */
+	function set_missing_array_keys(&$array, $keys)
+	{
+		for ($i = 0; $i < count($keys); $i++)
+		{
+			if (!isset($array[$keys[$i]]))
+				$array[$keys[$i]] = '';
+		}
+	}
+
 	/* From CakePHP */
 	function truncate($text, $length, $html = true, $ending = '...')
 	{
