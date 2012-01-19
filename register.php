@@ -113,9 +113,9 @@ else if($_POST['action']=='second_sbm')
 		$lastname = $_POST['user_lastname'];
 		$gender = $_POST['gender'];
 		$email = $_POST['user_email'];
-		$show_email = filter_var($_POST['showEmail'], FILTER_VALIDATE_BOOLEAN);
+		$show_email = $coreC->validate_boolean(filter_var($_POST['showEmail'], FILTER_VALIDATE_BOOLEAN));
 		$im = $_POST['user_im'];
-		$show_im = filter_var($_POST['showIM'], FILTER_VALIDATE_BOOLEAN);
+		$show_im = $coreC->validate_boolean(filter_var($_POST['showIM'], FILTER_VALIDATE_BOOLEAN));
 		$country = $_POST['user_country'];
 		$city = $_POST['user_city'];
 		$additional = $_POST['user_additional'];
