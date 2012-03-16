@@ -2,9 +2,25 @@
 final class search extends object
 {
 	static $baseC = null;
+	private static $timest_fmt = 'Y-m-d H:i:s';
 	function __construct()
 	{
 		self::$baseC = new base;
+	}
+	private function get_timest($date)
+	{
+		switch ($date)
+		{
+		case '3month':
+			$timestamp = gmdate(self::$timest_fmt, strtotime('-3 Month'));
+			break;
+		case 'year':
+			$timestamp = gmdate(self::$timest_fmt, strtotime('-1 Year'));
+			break;
+		default:
+			$timestamp = null;
+		}
+		return $timestamp;
 	}
 	function find($str, $include, $date, $section, $username)
 	{
@@ -15,18 +31,9 @@ final class search extends object
 			$query = $query.'comment LIKE \'%::0::%\'';
 		else
 			$query = $query.'(subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\')';
-		if($date=='3month')
-		{
-			$month = gmdate("m")-3;
-			$timestamp = gmdate("Y").'-'.$month.'-'.gmdate("d H:i:s");
+		$timestamp = $this->get_timest($date);
+		if ($timestamp)
 			$query = $query.' AND timest > \''.$timestamp.'\'';
-		}
-		else if($date=='year')
-		{
-			$year = gmdate("Y")-1;
-			$timestamp = $year.'-'.gmdate("m-d H:i:s");
-			$query = $query.' AND timest > \''.$timestamp.'\'';
-		}
 		$section = (int)$section;
 		if($section !=0)
 			$query = $query.' AND tid IN (SELECT id FROM threads WHERE section = \'::1::\')';
@@ -47,18 +54,9 @@ final class search extends object
 			$query = $query.'comment LIKE \'%::0::%\'';
 		else
 			$query = $query.'(subject LIKE \'%::0::%\' OR comment LIKE \'%::0::%\')';
-		if($date=='3month')
-		{
-			$month = gmdate("m")-3;
-			$timestamp = gmdate("Y").'-'.$month.'-'.gmdate("d H:i:s");
+		$timestamp = $this->get_timest($date);
+		if ($timestamp)
 			$query = $query.' AND timest > \''.$timestamp.'\'';
-		}
-		else if($date=='year')
-		{
-			$year = gmdate("Y")-1;
-			$timestamp = $year.'-'.gmdate("m-d H:i:s");
-			$query = $query.' AND timest > \''.$timestamp.'\'';
-		}
 		$section = (int)$section;
 		if($section !=0)
 			$query = $query.' AND tid IN (SELECT id FROM threads WHERE section = \'::1::\')';
