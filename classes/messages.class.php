@@ -21,10 +21,9 @@ final class messages extends object
 		$sel = self::$baseC->select('users', '', 'show_ua', $where_arr, 'AND');
 		$show_ua = $sel[0]['show_ua'];
 		$timest = $changing_timest = gmdate("Y-m-d H:i:s");
-		$referer = (int)$referer;
 		$filters = '';
 		$md5 = md5(rand().$timest);
-		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('changed_for', ''), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5), array('session_id', session_id()));
+		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', 0), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('changed_for', ''), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5), array('session_id', session_id()));
 		$ret = self::$baseC->insert('comments', $msg_arr);
 		$subsection = (int)$subsection;
 		$section = (int)$section;
