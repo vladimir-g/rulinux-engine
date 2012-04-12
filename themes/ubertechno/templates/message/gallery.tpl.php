@@ -15,7 +15,7 @@
 <tr>
 <td style="vertical-align:top"><a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png"></td>
 <td style="vertical-align:top"><?=$message_comment?>
-<br><span style="font-style: italic">1<?=$gallery_image_size?>, <?=$gallery_file_size?></span><br><br>
+<br><span style="font-style: italic"><?=$gallery_image_size?>, <?=$gallery_file_size?></span><br><br>
 >>> <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>">Просмотр</a>
 </td>
 <tr>
