@@ -102,6 +102,7 @@ if (!empty($_POST['submit_form']))
 		if (($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1) &&
 		    (!isset($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring']))
 			$errors['captcha'] = 'Неверно введен ответ с картинки';
+		$_SESSION['captcha_keystring'] = '';
 		/* Add content */
 		if (empty($errors))
 		{

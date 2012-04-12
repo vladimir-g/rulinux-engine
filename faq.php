@@ -29,8 +29,8 @@ if ($action == 'add_question')
 
 		if (($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1) &&
 		    (!isset($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring']))
-			$errors['captcha'] = 'Неверно введен ответ с картинки';
-	
+			$errors['captcha'] = 'Неверно введен ответ с картинки';	
+		$_SESSION['captcha_keystring'] = '';
 		if (empty($errors))
 		{
 			$ret = $faqC->add_question($subject, $comment);
