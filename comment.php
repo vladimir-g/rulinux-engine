@@ -37,10 +37,11 @@ if(!empty($_POST['sbm']))
 
 	if ($_POST['sbm'] == 'Поместить')
 	{
-		if (($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1) && /* Check if captcha enabled for this user */
-		    (!isset($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])) /* Check if captcha is valid */
+		if (!isset($_POST['keystring']))
+			$_POST['keystring'] = null;
+		if (!$captchaC->check($_POST['keystring']))
 			$errors['captcha'] = 'Неверно введен ответ с картинки';
-		$_SESSION['captcha_keystring'] = '';
+		$captchaC->reset();
 		if (empty($errors))
 		{
 			$md5 = md5(rand().gmdate("Y-m-d H:i:s"));

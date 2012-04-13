@@ -99,10 +99,11 @@ if (!empty($_POST['submit_form']))
 	}
 	elseif ($_POST['submit_form'] == 'Отправить')
 	{
-		if (($_SESSION['user_id'] == 1 || $usersC->get_captcha_level($_SESSION['user_id']) > -1) &&
-		    (!isset($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring']))
+		if (!isset($_POST['keystring']))
+			$_POST['keystring'] = null;
+		if (!$captchaC->check($_POST['keystring']))
 			$errors['captcha'] = 'Неверно введен ответ с картинки';
-		$_SESSION['captcha_keystring'] = '';
+		$captchaC->reset();
 		/* Add content */
 		if (empty($errors))
 		{

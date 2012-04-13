@@ -60,4 +60,6 @@ require_once "classes/faq.class.php";
 $faqC = new faq;
 require 'classes/rss.class.php';
 $rssC = new rss;
+require 'ucaptcha/ucaptcha.php';
+$captchaC = new ucaptcha;
 ?>
