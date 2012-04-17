@@ -70,7 +70,6 @@ final class messages extends object
 		else
 			$str = '- 1 hour';
 		$timestamp = gmdate('Y-m-d H:i:s', strtotime($str));
-		$where_arr = array(array("key"=>'timest', "value"=>$timestamp, "oper"=>'>'));
 		$sel = self::$baseC->query('SELECT * FROM comments WHERE timest > \'::0::\' ORDER BY timest DESC, id DESC',
 					   'assoc_array', array($timestamp));
 		return $sel;
