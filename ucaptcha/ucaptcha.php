@@ -23,7 +23,37 @@ class ucaptcha
 			$captcha = $generator->generate_image($canvas);
 		}
 		return $captcha;
-	} 
+	}
+
+	public function check($val)
+	{
+		global $usersC;
+		/* Check if user has captcha level */
+		if ($_SESSION['user_id'] != 1 && $usersC->get_captcha_level($_SESSION['user_id']) < 0)
+			return true;
+
+		if (!isset($_SESSION['captcha_keystring']))
+			return false;
+		$answer = $_SESSION['captcha_keystring'];
+
+		/* Check captcha type */
+		$type = gettype($answer);
+		switch ($type)
+		{
+		case 'integer':
+		case 'double':
+			if (!is_numeric($val))
+				return false;
+		}
+
+		return ($val == $answer);
+	}
+
+	public function reset()
+	{
+		$_SESSION['captcha_keystring'] = null;
+	}
+
 	function db_store_answer($uuid, $answer)
 	{
 		//echo $uuid ." is ". $answer. "<br>";

@@ -5,6 +5,6 @@ interface baseInterface
 	public function insert($table, $arr);
 	public function update($table, $field, $value, $id_field='id', $id);
 	public function delete($table, $id_field='id', $id);
-	public function query($query, $returnas = 'assoc_array', $param_array);
+	public function query($query, $returnas = 'assoc_array', $param_array = array());
 }
 ?>

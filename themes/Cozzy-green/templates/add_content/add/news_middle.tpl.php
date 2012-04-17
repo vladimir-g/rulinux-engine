@@ -7,6 +7,7 @@
 <td style="vertical-align:top;">Текст новости:</td>
 <td>
 <textarea name="comment" id="editor" rows="20" cols="80"><?=$comment?></textarea>
+<p class="error"><?=$errors['comment'];?></p>
 </td>
 </tr>
 <tr>

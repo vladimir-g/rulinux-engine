@@ -87,6 +87,7 @@ final class base implements baseInterface
 		self::connect();
 		$table=self::escape_string($table);
 		$i=0;
+		$fields = $values = '';
 		while ($i<count($arr))
 		{
 			$fields = $fields.', '.self::escape_string($arr[$i][0]);
@@ -156,7 +157,7 @@ final class base implements baseInterface
 		else 
 			return -1;
 	}
-	public function query($query, $returnas = 'assoc_array', $param_array)
+	public function query($query, $returnas = 'assoc_array', $param_array = array())
 	{
 
 		self::connect();

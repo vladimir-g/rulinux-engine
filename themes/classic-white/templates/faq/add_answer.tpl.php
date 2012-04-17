@@ -1,3 +1,4 @@
+<p class="error"><?=$errors['msg'];?></p>
 <br />
 <div class="messages">
 <div class=title>
@@ -22,7 +23,8 @@
 Ваш ответ:
 </td>
 <td>
-<textarea name="answer" id="comment" rows="20"  cols="80"></textarea>
+<textarea name="answer" id="comment" rows="20"  cols="80"><?=$answer;?></textarea>
+<p class="error"><?=$errors['answer'];?></p>
 </td>
 </tr>
 <tr>

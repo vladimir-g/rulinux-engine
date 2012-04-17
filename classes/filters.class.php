@@ -56,6 +56,7 @@ final class filters extends object
 			}
 			$checked_arr[$i] = array($filters[$i]['id'], $state);
 		}
+		$str = '';
 		foreach($checked_arr as $key => $value)
 			$str = $str.$value[0].':'.$value[1].';';
 		return $str;

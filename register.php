@@ -16,8 +16,11 @@ if ($_POST['first_smb'])
 {
 	$errors = array();
 	$coreC->set_missing_array_keys($_POST, array('nick', 'password_1', 'password_2', 'e-mail', 'keystring'));
-	if(!isset($_SESSION['captcha_keystring'] ) || $_SESSION['captcha_keystring'] != $_POST['keystring'])
+	if (!isset($_POST['keystring']))
+		$_POST['keystring'] = null;
+	if (!$captchaC->check($_POST['keystring']))
 		$errors[] = 'Неверно введен ответ с картинки';
+	$captchaC->reset();
 	if($_POST['password_2'] != $_POST['password_1'])
 		$errors[] = 'Текст в поле Пароль не совпадает с текстом введенным в поле Подверждения пароля';
 	if (!preg_match('/^([a-zA-Z][a-zA-Z0-9\_\-]*){2,}$/', $_POST['nick']))

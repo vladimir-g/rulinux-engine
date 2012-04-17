@@ -17,6 +17,12 @@ if (get_magic_quotes_gpc())
 	$_GET = array_map('stripslashes_deep', $_GET);
 	$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
 }
+/* Constants */
+define('NEWS_SECTION_ID', 1);
+define('ARTICLES_SECTION_ID', 2);
+define('GALLERY_SECTION_ID', 3);
+define('FORUM_SECTION_ID', 4);
+
 require_once 'librarys/geshi/geshi.php';
 require_once 'librarys/phpmathpublisher/mathpublisher.php';
 require_once 'classes/base/base_interface.php';
@@ -54,4 +60,6 @@ require_once "classes/faq.class.php";
 $faqC = new faq;
 require 'classes/rss.class.php';
 $rssC = new rss;
+require 'ucaptcha/ucaptcha.php';
+$captchaC = new ucaptcha;
 ?>
