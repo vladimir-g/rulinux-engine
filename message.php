@@ -171,16 +171,15 @@ if($messages_count>1)
 			$message_comment = 'Это сообщение отфильтрованно в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.';
 		else
 			$message_comment = $cmnt[$i]['comment'];
-		$msg_autor = $usersC->get_user_info($cmnt[$i]['uid']);
-		$coreC->validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
-		$message_autor_profile_link = 'user_'.$msg_autor['nick'];
+		$coreC->validate_boolean($cmnt[$i]['banned']) ? $message_autor = '<s>'.$cmnt[$i]['nick'].'</s>' :$message_autor = $cmnt[$i]['nick'];
+		$message_autor_profile_link = 'user_'.$cmnt[$i]['nick'];
 		if(!$coreC->validate_boolean($cmnt[$i]['show_ua']))
 			$message_useragent = '';
 		else
 			$message_useragent = $cmnt[$i]['useragent'];
 		$message_timestamp = $coreC->to_local_time_zone($cmnt[$i]['timest']);
 		$message_add_answer_link = 'comment_into_'.$thread_id.'_on_'.$message_id;
-		$message_avatar = $coreC->validate_boolean($uinfo['show_avatars'], 'FILTER_VALIDATE_FAILURE') == 0 || empty($msg_autor['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$msg_autor['photo'];
+		$message_avatar = $coreC->validate_boolean($uinfo['show_avatars'], 'FILTER_VALIDATE_FAILURE') == 0 || empty($cmnt[$i]['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$cmnt[$i]['photo'];
 		if(!empty($cmnt[$i]['changed_by']))
 		{
 			$usr = $usersC->get_user_info($cmnt[$i]['changed_by']);

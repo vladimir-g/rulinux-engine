@@ -128,14 +128,12 @@ final class messages extends object
 	}
 	function get_comments_on_page($tid, $begin = 0, $end = '')
 	{
-		$tid = (int)$tid;
-		$param_arr = array($tid);
-		$sel = self::$baseC->query('SELECT max(id) AS max, min(id) AS min FROM comments WHERE tid = \'::0::\'', 'assoc_array', $param_arr);
-		if(empty($end))
+		$param_arr = array((int)$tid);
+		$sel = self::$baseC->query('SELECT max(id) AS max, min(id) AS min FROM comments WHERE tid = ::0::', 'assoc_array', array($tid));
+		if (empty($end))
 			$end = $sel[0]['max'];
-		$where_arr = array(array("key"=>'tid', "value"=>$tid, "oper"=>'='), array("key"=>'id', "value"=>$sel[0]['min'], "oper"=>'>'));
-		$sel = self::$baseC->select('comments', '', '*', $where_arr, 'AND', 'id', 'ASC', $begin, $end);
-		return $sel;
+		$result = self::$baseC->query("SELECT c.*, u.nick, u.photo, u.banned FROM comments c INNER JOIN users u ON c.uid = u.id WHERE c.tid = ::0:: AND c.id > ::1:: ORDER BY c.id ASC OFFSET ::2:: LIMIT ::3::", 'assoc_array', array($tid, $sel[0]['min'], $begin, $end));
+		return $result;
 	}
 	function set_filter($cid, $str)
 	{
