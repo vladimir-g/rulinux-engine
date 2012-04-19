@@ -128,8 +128,7 @@ final class messages extends object
 	}
 	function get_comments_on_page($tid, $begin = 0, $end = '')
 	{
-		$param_arr = array((int)$tid);
-		$sel = self::$baseC->query('SELECT max(id) AS max, min(id) AS min FROM comments WHERE tid = ::0::', 'assoc_array', array($tid));
+		$sel = self::$baseC->query('SELECT max(id) AS max, min(id) AS min FROM comments WHERE tid = ::0::', 'assoc_array', array((int)$tid));
 		if (empty($end))
 			$end = $sel[0]['max'];
 		$result = self::$baseC->query("SELECT c.*, u.nick, u.photo, u.banned FROM comments c INNER JOIN users u ON c.uid = u.id WHERE c.tid = ::0:: AND c.id > ::1:: ORDER BY c.id ASC OFFSET ::2:: LIMIT ::3::", 'assoc_array', array($tid, $sel[0]['min'], $begin, $end));
