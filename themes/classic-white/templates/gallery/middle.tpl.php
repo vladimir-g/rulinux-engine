@@ -8,10 +8,16 @@
 <table cellspacing="0" border="0"><tr><td style="vertical-align:top">
 <table>
 <tr>
-<td style="vertical-align:top"><a href="<?=$img_link?>"><img src="<?=$img_thumb_link?>" alt="gallery"></a></td>
+  <td style="vertical-align:top">
+    <? if (!$filtered):?>
+    <a href="<?=$img_link?>"><img src="<?=$img_thumb_link?>" alt="gallery"></a>
+    <? endif;?>
+  </td>
 <td style="vertical-align:top"><?=$comment?><br>
 <i><?=$size?></i><br><br>
+<? if (!$filtered):?>
 >>> <a href="<?=$img_link?>">Просмотр</a>
+<? endif;?>
 </td>
 </tr>
 </table>

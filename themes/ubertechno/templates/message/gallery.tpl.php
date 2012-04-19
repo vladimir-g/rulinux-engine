@@ -1,6 +1,5 @@
 <div class=messages>
 <div class="title">
-<span class="msg_resp">
 <a href="<?=$thread_this_link?>#msg<?=$message_id?>"><img border="0" src="themes/<?=$theme?>/id.png" alt="[#]"></a>
 <?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
 <a href="<?=$thread_move_link?>"><img border="0" src="themes/<?=$theme?>/move.png" alt="[Переместить]"></a>
@@ -8,15 +7,22 @@
 <?}?>
 <a href="<?=$message_set_filter_link?>"><img border="0" src="themes/<?=$theme?>/filter.png" alt="[Добавить метку]"></a>
 <a href="<?=$message_edit_link?>"><img border="0" src="themes/<?=$theme?>/edit.png" alt="[Редактировать]"></a>
-</span>
 </div>
 <div class="msg" id="msg<?=$message_id?>"><h2 class="nt"><?=$message_subject?></h2>
 <table>
 <tr>
-<td style="vertical-align:top"><a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png"></td>
+<td style="vertical-align:top">
+<? if (!$is_filtered):?>
+  <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png">
+<? endif;?>
+</td>
 <td style="vertical-align:top"><?=$message_comment?>
+
+<? if (!$is_filtered):?>
 <br><span style="font-style: italic"><?=$gallery_image_size?>, <?=$gallery_file_size?></span><br><br>
 >>> <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>">Просмотр</a>
+<? endif;?>
+
 </td>
 <tr>
 </table>

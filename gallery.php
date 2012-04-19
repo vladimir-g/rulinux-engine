@@ -79,15 +79,28 @@ if($pages_count > 1)
 		$pages = $pages.'<a href="gallery_'.$subsection_id.'_page_'.$pages_count.'" title="В Конец">→</a>&nbsp;';
 	}
 }
+$user_filter = $usersC->get_filter($_SESSION['user_id']);
+$user_filter_arr = $filtersC->parse_filter_string($user_filter);
 $gal = $threadsC->get_gallery($subsection_id, $begin, $threads_on_page);
 for($i=0; $i<count($gal); $i++)
 {
 	$comment_id = $gal[$i]['cid'];
-	$subject = $gal[$i]['subject'];
-	$comment = $gal[$i]['comment'];
-	$img_link = 'images/gallery/'.$gal[$i]['file'].'.'.$gal[$i]['extension'];
-	$img_thumb_link = 'images/gallery/thumbs/'.$gal[$i]['file'].'_small.png';
-	$size = $gal[$i]['image_size'].', '.$gal[$i]['file_size'];
+	if ($messagesC->is_filtered($user_filter_arr, $gal[$i]['filters']))
+	{
+		$subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
+		$comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$comment_id.'">сюда</a>.<br>';
+                $size = '';
+                $filtered = true;
+	}
+	else
+	{
+		$subject = $gal[$i]['subject'];
+		$comment = $gal[$i]['comment'];
+                $size = $gal[$i]['image_size'].', '.$gal[$i]['file_size'];
+                $filtered = false;
+	}
+        $img_link = 'images/gallery/'.$gal[$i]['file'].'.'.$gal[$i]['extension'];
+        $img_thumb_link = 'images/gallery/thumbs/'.$gal[$i]['file'].'_small.png';
 	$usr = $usersC->get_user_info($gal[$i]['uid']);
 	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];
 	$author_profile = 'user_'.$usr['nick'];

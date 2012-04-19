@@ -80,14 +80,29 @@ if($pages_count > 1)
 }
 require 'themes/'.$theme.'/templates/index/nav.tpl.php';
 require 'themes/'.$theme.'/templates/index/top.tpl.php';
+$user_filter = $usersC->get_filter($_SESSION['user_id']);
+$user_filter_arr = $filtersC->parse_filter_string($user_filter);
 $gal = $threadsC->get_all_news($begin, $threads_on_page);
 for($i=0; $i<count($gal); $i++)
 {
 	$comment_id = $gal[$i]['cid'];
-	$subject = $gal[$i]['subject'];
+	if ($messagesC->is_filtered($user_filter_arr, $gal[$i]['filters']))
+	{
+		$subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
+		$comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$comment_id.'">сюда</a>.<br>';
+		$prooflink = '';
+	}
+	else
+	{
+		$subject = $gal[$i]['subject'];
+		$comment = $gal[$i]['comment'];
+		if (!empty($gal[$i]['prooflink']))
+			$prooflink = '>>> <a href="'.$gal[$i]['prooflink'].'">Подробнее</a>';
+		else
+			$prooflink = '';
+	}
 	$image = $sectionsC->get_subsection_icon($gal[$i]['subsection']);
 	$subsection_image = 'themes/'.$theme.'/icons/'.$image;
-	$comment = $gal[$i]['comment'];
 	$usr = $usersC->get_user_info($gal[$i]['uid']);
 	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
 	$author_profile = 'user_'.$usr['nick'];
@@ -97,8 +112,6 @@ for($i=0; $i<count($gal); $i++)
 	$comments_count = $coreC->declOfNum($count, array('сообщение', 'сообщения', 'сообщений'));
 	$thr_link = 'thread_'.$thread_id.'_page_1';
 	$edit_link = 'message_'.$comment_id.':edit';
-	if(!empty($gal[$i]['prooflink']))
-			$prooflink='>>> <a href="'.$gal[$i]['prooflink'].'">Подробнее</a>';
 	if($coreC->validate_boolean($gal[$i]['attached']))
 	{
 		$attach_link = 'detach_thread_'.$thread_id;

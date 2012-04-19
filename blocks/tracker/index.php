@@ -6,6 +6,8 @@ fclose($file);
 $msg = messages::get_messages_for_tracker(1);;
 if(!empty($msg))
 {
+	$user_filter = $usersC->get_filter($_SESSION['user_id']);
+	$user_filter_arr = $filtersC->parse_filter_string($user_filter);
 	for($z=0; $z<count($msg); $z++)
 	{
 		$filename = 'blocks/'.$directory.'/templates/message.tpl.php';
@@ -13,10 +15,20 @@ if(!empty($msg))
 		$boxlet_content = $boxlet_content.fread($file, filesize($filename));
 		fclose($file); 
 		$subj = substr($msg[$z]['subject'], 0, 128);
+		if ($messagesC->is_filtered($user_filter_arr, $msg[$z]['filters']))
+		{
+			$subj = 'Сообщение отфильтровано';
+			$comment = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$msg[$z]['id'].'">сюда</a><br>';
+		}
+		else
+		{
+			$comment = $coreC->truncate($msg[$z]['comment'], 255);
+			$re = '/<img src="((?!").*?)" (width="[0-9]+ ")?((?!>).*?)>/suim';
+			$comment = preg_replace($re, "<img src=\"big2small.php?size=200&pixmap=\$1\" width=\"200\" \$3>", $comment);
+			$subj = substr($msg[$z]['subject'], 0, 128);
+		}
+
 		$boxlet_content = str_replace('[subject]', $subj, $boxlet_content);
-		$comment = $coreC->truncate($msg[$z]['comment'], 255);
-		$re = '/<img src="((?!").*?)" (width="[0-9]+ ")?((?!>).*?)>/suim';
-		$comment = preg_replace($re, "<img src=\"big2small.php?size=200&pixmap=\$1\" width=\"200\" \$3>", $comment);
 		$boxlet_content = str_replace('[comment]', $comment, $boxlet_content);
 		$author = users::get_user_info($msg[$z]['uid']);
 		$boxlet_content = str_replace('[author]', $author['nick'], $boxlet_content);

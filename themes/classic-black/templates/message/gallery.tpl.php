@@ -11,10 +11,18 @@
 <div class="msg" id="msg<?=$message_id?>"><h2 class="nt"><?=$message_subject?></h2>
 <table>
 <tr>
-<td style="vertical-align:top"><a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png"></td>
+<td style="vertical-align:top">
+<? if (!$is_filtered):?>
+  <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png">
+<? endif;?>
+</td>
 <td style="vertical-align:top"><?=$message_comment?>
+
+<? if (!$is_filtered):?>
 <br><span style="font-style: italic"><?=$gallery_image_size?>, <?=$gallery_file_size?></span><br><br>
 >>> <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>">Просмотр</a>
+<? endif;?>
+
 </td>
 <tr>
 </table>

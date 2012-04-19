@@ -20,7 +20,6 @@ $thread_next_link = 'thread_'.$next['id'].'_page_1';
 $thread_next_subject = $next['subject'];
 $topic_start = $messagesC->get_topic_start_message($thread_id);
 $thread_this_link = 'thread_'.$thread_id.'_page_'.$page;
-$message_subject = $thread_subject = $topic_start['subject'];
 $msg_autor = $usersC->get_user_info($topic_start['uid']);
 $coreC->validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
 $message_autor_profile_link = 'user_'.$msg_autor['nick'];
@@ -32,10 +31,18 @@ $message_timestamp = $coreC->to_local_time_zone($topic_start['timest']);
 $message_id = $topic_start['id'];
 $user_filter = $usersC->get_filter($_SESSION['user_id']);
 $user_filter_arr = $filtersC->parse_filter_string($user_filter);
-if($messagesC->is_filtered($message_id, $user_filter_arr))
-	$message_comment = 'Это сообщение отфильтрованно в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.';
+if ($messagesC->is_filtered($user_filter_arr, $topic_start['filters']))
+{
+        $message_subject = $thread_subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
+	$message_comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.<br>';
+	$is_filtered = true;
+}
 else
+{
+        $message_subject = $thread_subject = $topic_start['subject'];
 	$message_comment = $topic_start['comment'];
+	$is_filtered = false;
+}
 $message_set_filter_link = 'set_filter_'.$message_id;
 $message_add_answer_link = 'comment_into_'.$thread_id.'_on_'.$message_id;
 $message_edit_link = 'message_'.$message_id.':edit';
@@ -114,21 +121,23 @@ if($pages_count > 1)
 require 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
 switch($section_id)
 {
-	case 1:
+	case NEWS_SECTION_ID:
 		$news_approve_moder_name = $usersC->get_user_info($topic_start['approved_by']);
 		if($coreC->validate_boolean($topic_start['approved']))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$coreC->to_local_time_zone($topic_start['approve_timest']).')';
-		if(!empty($topic_start['prooflink']))
-			$prooflink='>>> <a href="'.$topic_start['prooflink'].'">Подробнее</a>';
+		if (!empty($topic_start['prooflink']))
+			$prooflink = '>>> <a href="'.$topic_start['prooflink'].'">Подробнее</a>';
+		else
+			$prooflink = '';
 		require 'themes/'.$theme.'/templates/message/news.tpl.php';
 		break;
-	case 2:
+	case ARTICLES_SECTION_ID:
 		$news_approve_moder_name = $usersC->get_user_info($topic_start['approved_by']);
 		if($coreC->validate_boolean($topic_start['approved']))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$coreC->to_local_time_zone($topic_start['approve_timest']).')';
 		require 'themes/'.$theme.'/templates/message/article.tpl.php';
 		break;
-	case 3:
+	case GALLERY_SECTION_ID:
 		$news_approve_moder_name = $usersC->get_user_info($topic_start['approved_by']);
 		if($coreC->validate_boolean($topic_start['approved']))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$coreC->to_local_time_zone($topic_start['approve_timest']).')';
@@ -139,7 +148,7 @@ switch($section_id)
 		
 		require 'themes/'.$theme.'/templates/message/gallery.tpl.php';
 		break;
-	case 4:
+	case FORUM_SECTION_ID:
 		require 'themes/'.$theme.'/templates/message/forum.tpl.php';
 		break;
 	default:
@@ -155,7 +164,10 @@ if($messages_count>1)
 		$message_id = $cmnt[$i]['id'];
 		$message_set_filter_link = 'set_filter_'.$message_id;
 		$msg_resp = $messagesC->get_message($cmnt[$i]['referer']);
-		$message_resp_title = $msg_resp['subject'];
+		if ($messagesC->is_filtered($user_filter_arr, $msg_resp['filters']))
+                        $message_resp_title = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
+		else
+                        $message_resp_title = $msg_resp['subject'];
 		$message_resp_timestamp = $coreC->to_local_time_zone($msg_resp['timest']);
 		$msg_resp_autor = $usersC->get_user_info($msg_resp['uid']);
 		$message_resp_user = $msg_resp_autor['nick'];
@@ -166,11 +178,16 @@ if($messages_count>1)
 			$resp_page = 1;
 		$message_resp_link = 'thread_'.$thread_id.'_page_'.$resp_page.'#msg'.$cmnt[$i]['referer'];
 		$message_edit_link = 'message_'.$message_id.':edit';
-		$message_subject = $cmnt[$i]['subject'];
-		if($messagesC->is_filtered($cmnt[$i]['id'], $user_filter_arr))
-			$message_comment = 'Это сообщение отфильтрованно в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.';
+		if ($messagesC->is_filtered($user_filter_arr, $cmnt[$i]['filters']))
+                {
+                        $message_subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
+			$message_comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.<br>';
+                }
 		else
+                {
+                        $message_subject = $cmnt[$i]['subject'];
 			$message_comment = $cmnt[$i]['comment'];
+                }
 		$coreC->validate_boolean($cmnt[$i]['banned']) ? $message_autor = '<s>'.$cmnt[$i]['nick'].'</s>' :$message_autor = $cmnt[$i]['nick'];
 		$message_autor_profile_link = 'user_'.$cmnt[$i]['nick'];
 		if(!$coreC->validate_boolean($cmnt[$i]['show_ua']))

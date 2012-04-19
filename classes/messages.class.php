@@ -146,9 +146,10 @@ final class messages extends object
 		$sel = self::$baseC->select('comments', '', 'filters', $where_arr);
 		return $sel[0]['filters'];
 	}
-	function is_filtered($cid, $user_filter_arr)
+	function is_filtered($user_filter_arr, $msg_filter = null, $cid = null)
 	{
-		$msg_filter = self::get_filter($cid);
+		if ($msg_filter == null)
+			$msg_filter = self::get_filter($cid);
 		$msg_filter_arr = filters::parse_filter_string($msg_filter);
 		for($i=0; $i<count($user_filter_arr);$i++)
 		{
