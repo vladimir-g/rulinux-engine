@@ -92,8 +92,7 @@ final class threads  extends object
 	}
 	function get_news_count()
 	{
-		$param_arr = array('1');
-		$sel = self::$baseC->query('SELECT count(*) AS cnt FROM threads where section = \'::0::\'','assoc_array', $param_arr);
+		$sel = self::$baseC->query('SELECT count(*) AS cnt FROM threads WHERE section = ::0:: AND approved=true', 'assoc_array', array(NEWS_SECTION_ID));
 		return $sel[0]['cnt'];
 	}
 	function get_all_news($begin= 0, $end = '')
