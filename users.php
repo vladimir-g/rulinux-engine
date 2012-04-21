@@ -14,7 +14,7 @@ if($pages_count > 1)
 	if($page>1)
 	{
 		$pg = $page-1;
-		$pages = $pages.'<a href="users_page_1" title=В Начало>←</a>&nbsp;';
+		$pages = $pages.'<a href="users_page_1" title="В начало">←</a>&nbsp;';
 		$pages = $pages.'<a href="users_page_'.$pg.'" title="Назад">≪</a>&nbsp;';
 	}
 	if($pages_count>10)
@@ -50,7 +50,7 @@ if($pages_count > 1)
 	{
 		$pg = $page+1;
 		$pages = $pages.'<a href="users_page_'.$pg.'" title="Вперед">≫</a>&nbsp;';
-		$pages = $pages.'<a href="users_page_'.$pages_count.'" title="В Конец">→</a>&nbsp;';
+		$pages = $pages.'<a href="users_page_'.$pages_count.'" title="В конец">→</a>&nbsp;';
 	}
 }
 

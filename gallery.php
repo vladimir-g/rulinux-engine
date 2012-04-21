@@ -40,7 +40,7 @@ if($pages_count > 1)
 	if($page>1)
 	{
 		$pg = $page-1;
-		$pages = $pages.'<a href="gallery_'.$subsection_id.'_page_1" title=В Начало>←</a>&nbsp;';
+		$pages = $pages.'<a href="gallery_'.$subsection_id.'_page_1" title="В начало">←</a>&nbsp;';
 		$pages = $pages.'<a href="gallery_'.$subsection_id.'_page_'.$pg.'" title="Назад">≪</a>&nbsp;';
 	}
 	if($pages_count>10)
@@ -76,7 +76,7 @@ if($pages_count > 1)
 	{
 		$pg = $page+1;
 		$pages = $pages.'<a href="gallery_'.$subsection_id.'_page_'.$pg.'" title="Вперед">≫</a>&nbsp;';
-		$pages = $pages.'<a href="gallery_'.$subsection_id.'_page_'.$pages_count.'" title="В Конец">→</a>&nbsp;';
+		$pages = $pages.'<a href="gallery_'.$subsection_id.'_page_'.$pages_count.'" title="В конец">→</a>&nbsp;';
 	}
 }
 $user_filter = $usersC->get_filter($_SESSION['user_id']);
