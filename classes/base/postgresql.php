@@ -166,7 +166,7 @@ final class base implements baseInterface
 			$param_array[$i] = self::escape_string($param_array[$i]);
 			$query = str_replace('::'.$i.'::', $param_array[$i], $query);
 		}
-//  		echo $query.'<br>';
+ 		echo $query.'<br>';
 		$query = str_replace('[prefix]', $GLOBALS['tbl_prefix'], $query);
 		if ($ret_res = pg_query($query))
 		{
