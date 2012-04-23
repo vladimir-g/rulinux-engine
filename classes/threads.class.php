@@ -6,6 +6,13 @@ final class threads  extends object
 	{
 		self::$baseC = new base;
 	}
+
+	function get_thread($tid)
+	{
+		$thread = self::$baseC->query('SELECT * FROM threads WHERE id = ::0::', 'assoc_array', array((int)$tid));
+		return $thread[0];
+	}
+
 	function get_threads_count($section, $subsection)
 	{
 		$param_arr = array($section, $subsection);
@@ -31,12 +38,12 @@ final class threads  extends object
 		if($section == 2)
 		{
 			$param_arr = array($section, $subsection, $sort, $end, $begin);
-			$sel = self::$baseC->query('SELECT t.id, t.attached, c.subject, t.changing_timest, t.timest, c.uid FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.section =\'::0::\' AND t.subsection = \'::1::\' AND approved = true ORDER BY t.attached <>true ASC, ::2:: DESC LIMIT ::3:: OFFSET ::4::', 'assoc_array', $param_arr);
+			$sel = self::$baseC->query('SELECT t.id, t.attached, c.subject, t.changing_timest, t.timest, c.uid, c.filters FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.section =\'::0::\' AND t.subsection = \'::1::\' AND approved = true ORDER BY t.attached <>true ASC, ::2:: DESC LIMIT ::3:: OFFSET ::4::', 'assoc_array', $param_arr);
 		}
 		else
 		{
 			$param_arr = array($section, $subsection, $sort, $end, $begin);
-			$sel = self::$baseC->query('SELECT t.id, t.attached, c.subject, t.changing_timest, t.timest, c.uid FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.section =\'::0::\' AND t.subsection = \'::1::\' ORDER BY t.attached <>true ASC, ::2:: DESC LIMIT ::3:: OFFSET ::4::', 'assoc_array', $param_arr);
+			$sel = self::$baseC->query('SELECT t.id, t.attached, c.subject, t.changing_timest, t.timest, c.uid, c.filters FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.section =\'::0::\' AND t.subsection = \'::1::\' ORDER BY t.attached <>true ASC, ::2:: DESC LIMIT ::3:: OFFSET ::4::', 'assoc_array', $param_arr);
 		}
 		return $sel;
 	}
@@ -47,7 +54,7 @@ final class threads  extends object
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$param_arr = array($subsection, $end, $begin);
-		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=true AND t.section=3 AND t.subsection = \'::0::\' ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
+		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, c.subject, c.comment, c.uid, c.timest, c.filters FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=true AND t.section=3 AND t.subsection = \'::0::\' ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	function get_news($subsection, $begin= 0, $end = '')
@@ -57,7 +64,7 @@ final class threads  extends object
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$param_arr = array($subsection, $end, $begin);
-		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.prooflink, t.approved, t.approved_by, t.approve_timest, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=true AND t.section=1 AND t.subsection = \'::0::\' ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
+		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.prooflink, t.approved, t.approved_by, t.approve_timest, c.subject, c.comment, c.uid, c.timest, c.filters FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=true AND t.section=1 AND t.subsection = \'::0::\' ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	function get_thread_info($id)
@@ -85,23 +92,21 @@ final class threads  extends object
 	}
 	function get_news_count()
 	{
-		$param_arr = array('1');
-		$sel = self::$baseC->query('SELECT count(*) AS cnt FROM threads where section = \'::0::\'','assoc_array', $param_arr);
+		$sel = self::$baseC->query('SELECT count(*) AS cnt FROM threads WHERE section = ::0:: AND approved=true', 'assoc_array', array(NEWS_SECTION_ID));
 		return $sel[0]['cnt'];
 	}
 	function get_all_news($begin= 0, $end = '')
 	{
-		$param_arr = array($subsection);
 		$sel = self::$baseC->query('SELECT max(id) AS max FROM threads WHERE section = 1', 'assoc_array', $param_arr);
 		if(empty($end))
 			$end = $sel[0]['max'];
-		$param_arr = array($subsection, $end, $begin);
-		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.prooflink, t.approved, t.approved_by, t.approve_timest, t.subsection, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=true AND t.section=1 ORDER BY t.attached <>true ASC, id DESC LIMIT ::1:: OFFSET ::2::', 'assoc_array', $param_arr);
+		$param_arr = array($end, $begin);
+		$ret = self::$baseC->query('SELECT t.id, t.cid, t.attached, t.prooflink, t.approved, t.approved_by, t.approve_timest, t.subsection, c.subject, c.comment, c.uid, c.timest, c.filters FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=true AND t.section=1 ORDER BY t.attached <>true ASC, id DESC LIMIT ::0:: OFFSET ::1::', 'assoc_array', $param_arr);
 		return $ret;
 	}
 	function get_unconfirmed()
 	{
-		$ret = self::$baseC->query('SELECT t.id, t.cid, t.section, t.subsection, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, c.subject, c.comment, c.uid, c.timest FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=false AND (t.section=1 OR t.section=2 OR t.section=3) ORDER BY t.attached <>true ASC, id DESC', 'assoc_array', array());
+		$ret = self::$baseC->query('SELECT t.id, t.cid, t.section, t.subsection, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, c.subject, c.comment, c.uid, c.timest, c.filters FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=false AND (t.section=1 OR t.section=2 OR t.section=3) ORDER BY t.attached <>true ASC, id DESC', 'assoc_array', array());
 		return $ret;
 	}
 	function move_thread($tid, $section, $subsection)

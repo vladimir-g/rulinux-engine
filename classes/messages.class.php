@@ -128,14 +128,11 @@ final class messages extends object
 	}
 	function get_comments_on_page($tid, $begin = 0, $end = '')
 	{
-		$tid = (int)$tid;
-		$param_arr = array($tid);
-		$sel = self::$baseC->query('SELECT max(id) AS max, min(id) AS min FROM comments WHERE tid = \'::0::\'', 'assoc_array', $param_arr);
-		if(empty($end))
+		$sel = self::$baseC->query('SELECT max(id) AS max, min(id) AS min FROM comments WHERE tid = ::0::', 'assoc_array', array((int)$tid));
+		if (empty($end))
 			$end = $sel[0]['max'];
-		$where_arr = array(array("key"=>'tid', "value"=>$tid, "oper"=>'='), array("key"=>'id', "value"=>$sel[0]['min'], "oper"=>'>'));
-		$sel = self::$baseC->select('comments', '', '*', $where_arr, 'AND', 'id', 'ASC', $begin, $end);
-		return $sel;
+		$result = self::$baseC->query("SELECT c.*, u.nick, u.photo, u.banned FROM comments c INNER JOIN users u ON c.uid = u.id WHERE c.tid = ::0:: AND c.id > ::1:: ORDER BY c.id ASC OFFSET ::2:: LIMIT ::3::", 'assoc_array', array($tid, $sel[0]['min'], $begin, $end));
+		return $result;
 	}
 	function set_filter($cid, $str)
 	{
@@ -148,9 +145,10 @@ final class messages extends object
 		$sel = self::$baseC->select('comments', '', 'filters', $where_arr);
 		return $sel[0]['filters'];
 	}
-	function is_filtered($cid, $user_filter_arr)
+	function is_filtered($user_filter_arr, $msg_filter = null, $cid = null)
 	{
-		$msg_filter = self::get_filter($cid);
+		if ($msg_filter == null)
+			$msg_filter = self::get_filter($cid);
 		$msg_filter_arr = filters::parse_filter_string($msg_filter);
 		for($i=0; $i<count($user_filter_arr);$i++)
 		{

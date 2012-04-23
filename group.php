@@ -30,6 +30,8 @@ for($i=0; $i<count($subsct);$i++)
 }
 require 'themes/'.$theme.'/templates/group/nav_bottom.tpl.php';
 require 'themes/'.$theme.'/templates/group/top.tpl.php';
+$user_filter = $usersC->get_filter($_SESSION['user_id']);
+$user_filter_arr = $filtersC->parse_filter_string($user_filter);
 $threads_count = $threadsC->get_threads_count($section_id, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
@@ -51,7 +53,10 @@ for($i=0; $i<count($thr); $i++)
 	}
 	$thread_id = $thr[$i]['id'];
 	$cur_thr = $threadsC->get_thread_times($thread_id);
-	$thread_subject = $thr[$i]['subject'];
+	if ($messagesC->is_filtered($user_filter_arr, $thr[$i]['filters']))
+		$thread_subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
+	else
+		$thread_subject = $thr[$i]['subject'];
 	$thr_autor = $usersC->get_user_info($thr[$i]['uid']);
 	$coreC->validate_boolean($thr_autor['banned']) ? $thread_author = '<s>'.$thr_autor['nick'].'</s>' : $thread_author = $thr_autor['nick'];
 	$comments_in_thread_all =$cur_thr['comments_in_thread_all'];
@@ -65,7 +70,7 @@ if($pages_count > 1)
 	if($page>1)
 	{
 		$pg = $page-1;
-		$pages = $pages.'<a href="forum_'.$subsection_id.'_page_1" title=В Начало>←</a>&nbsp;';
+		$pages = $pages.'<a href="forum_'.$subsection_id.'_page_1" title="В начало">←</a>&nbsp;';
 		$pages = $pages.'<a href="forum_'.$subsection_id.'_page_'.$pg.'" title="Назад">≪</a>&nbsp;';
 	}
 	if($pages_count>10)
@@ -101,7 +106,7 @@ if($pages_count > 1)
 	{
 		$pg = $page+1;
 		$pages = $pages.'<a href="forum_'.$subsection_id.'_page_'.$pg.'" title="Вперед">≫</a>&nbsp;';
-		$pages = $pages.'<a href="forum_'.$subsection_id.'_page_'.$pages_count.'" title="В Конец">→</a>&nbsp;';
+		$pages = $pages.'<a href="forum_'.$subsection_id.'_page_'.$pages_count.'" title="В конец">→</a>&nbsp;';
 	}
 }
 require 'themes/'.$theme.'/templates/group/bottom.tpl.php';
