@@ -74,8 +74,11 @@ class core extends object
 			for($i=0; $i<count($subsect); $i++)
 				self::$baseC->delete('sessions', 'id', $subsect[$i]['id']);
 		}
-		self::$baseC->delete('sessions', 'session_id', $session_id);
-		self::$baseC->delete('sessions', 'uid', $uid);
+		if($uid != 1)
+		{
+			self::$baseC->delete('sessions', 'session_id', $session_id);
+			self::$baseC->delete('sessions', 'uid', $uid);
+		}
 		$timest = gmdate("Y-m-d H:i:s");
 		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timest));
 		$ret = self::$baseC->insert('sessions', $msg_arr);
