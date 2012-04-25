@@ -15,6 +15,7 @@
 </tr>
 </table>
 <p align="center">
+<input type="hidden" name="auth_system" value="this">
 <input  type="submit" name="login" value="отправить">
 </p>
 </form>

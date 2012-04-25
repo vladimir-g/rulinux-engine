@@ -25,6 +25,7 @@ define('FORUM_SECTION_ID', 4);
 
 require_once 'librarys/geshi/geshi.php';
 require_once 'librarys/phpmathpublisher/mathpublisher.php';
+require_once 'librarys/simpleopenid/class.openid.php';
 require_once 'classes/base/base_interface.php';
 require_once "classes/config.class.php";
 config::include_database();

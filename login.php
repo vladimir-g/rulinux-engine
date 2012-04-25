@@ -9,6 +9,7 @@ if(isset($_GET['logout']))
 	$_SESSION['user_admin']='';
 	$_SESSION['user_moder']='';
 	$_SESSION['user_name']='';
+	$_SESSION['openid']=false;
 	setcookie('login', '', time()-3600);
 	setcookie('password', '', time()-3600);
 	session_destroy();
@@ -28,23 +29,111 @@ else
 		require 'footer.php';
 		exit();
 	}
+	if($_GET['openid_mode'] == 'id_res')
+	{
+		$openid = new SimpleOpenID;
+		$openid->SetIdentity($_GET['openid_identity']);
+		$openid_validation_result = $openid->ValidateWithServer();
+		if ($openid_validation_result == true)
+		{
+			$identity = $openid->GetIdentity();
+			$nick = $identity;
+			$nick = preg_replace('#^http://(.*)#sim', '$1', $nick);
+			$nick = preg_replace('#^https://(.*)#sim', '$1', $nick);
+			if($usersC->user_exists($nick))
+			{
+				$authC->auth_user($nick, '', false, true);
+				require 'header.php';
+				$legend = 'Вы авторизованны на сайте';
+				$text = 'Вы авторизованны на сайте. Если у вас отключена переадресация нажмите <a href="/">сюда</a>';
+				require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+				die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');
+			}
+			else 
+			{
+				$pass_phrase = $coreC->get_settings_by_name('register_pass_phrase');
+				$password = '';
+				$address = 'noemail@rulinux.net';
+				$link = '/register.php?action=register&system=openid&login='.$nick.'&password='.$password.'&email='.$address.'&hash='.md5($nick.$password.$pass_phrase);
+				die('<meta http-equiv="Refresh" content="0; URL='.$link.'">');
+			}
+		}
+		else if($openid->IsError() == true)
+		{
+			require 'header.php';
+			$error = $openid->GetError();
+			$legend = 'Неудачная авторизация';
+			$text = 'Неудачная авторизация. Код ошибки '. $error['code'] .'. '.$error['description'];
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+		}
+		else
+		{
+			require 'header.php';
+			$legend = 'Неудачная авторизация';
+			$text = 'Неудачная авторизация. Неизвестная ошибка';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+		}
+		exit();
+	}
+	else if ($_GET['openid_mode'] == 'cancel')
+	{
+		$legend = 'Неудачная авторизация';
+		$text = 'Неудачная авторизация. Действие отменено пользователем';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+	}
 	if(!empty($_POST['login']))
 	{
-		if(isset($_POST['user']) && isset($_POST['password']))
+		if($_POST['auth_system'] == 'this')
 		{
-			$_POST['user'] = preg_replace('/[\'\/\*\s]/', '', $_POST['user']);
-			$authC->auth_user($_POST['user'], $_POST['password'], false);
+			if(isset($_POST['user']) && isset($_POST['password']))
+			{
+				$_POST['user'] = preg_replace('/[\'\/\*\s]/', '', $_POST['user']);
+				$authC->auth_user($_POST['user'], $_POST['password'], false);
+			}
+			require 'header.php';
+			$legend = 'Вы авторизованны на сайте';
+			$text = 'Вы авторизованны на сайте. Если у вас отключена переадресация нажмите <a href="/">сюда</a>';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');
 		}
-		require 'header.php';
-		$legend = 'Вы авторизованны на сайте';
-		$text = 'Вы авторизованны на сайте. Если у вас отключена переадресация нажмите <a href="/">сюда</a>';
-		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-		die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');  
+		else 
+		{
+			if ($_POST['openid_action'] == "login")
+			{
+				$openid = new SimpleOpenID;
+				$openid->SetIdentity($_POST['openid_url']);
+				$openid->SetTrustRoot('http://' . $_SERVER["HTTP_HOST"]);
+				$openid->SetRequiredFields(array('email','fullname'));
+				$openid->SetOptionalFields(array('dob','gender','postcode','country','language','timezone'));
+				if ($openid->GetOpenIDServer())
+				{
+					$openid->SetApprovedURL('http://' . $_SERVER["HTTP_HOST"].'/login.php');
+					$openid->Redirect();
+				}
+				else
+				{
+					$error = $openid->GetError();
+					echo "ERROR CODE: " . $error['code'] . "<br>";
+					echo "ERROR DESCRIPTION: " . $error['description'] . "<br>";
+				}
+				exit;
+			}
+		}
+		
 	}
 	else
 	{
 		require 'header.php';
-		include 'themes/'.$theme.'/templates/login/form.tpl.php';
+		$auth_system = $_POST['auth_system'];
+		if($auth_system == 'this')
+			$coreC->include_theme_file($theme, 'templates/login/site.tpl.php');
+		elseif($auth_system == 'openid')
+			$coreC->include_theme_file($theme, 'templates/login/openid.tpl.php');
+		else
+			$coreC->include_theme_file($theme, 'templates/login/auth_system.tpl.php');
+		
 		require 'footer.php';
 	}
 }

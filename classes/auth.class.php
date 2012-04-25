@@ -5,25 +5,30 @@ final class auth extends object
 	function __construct()
 	{
 		self::$baseC = new base;
-		if (isset($_COOKIE['login']) && isset($_COOKIE['password']))
+		if(!$_SESSION['openid'])
 		{
-			$_COOKIE['login'] = preg_replace('/[\'\/\*\s]/', '', $_COOKIE['login']);
-                        $login = strtolower($_COOKIE['login']);
-			$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$_COOKIE['password'], "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
-			$sel = self::$baseC->select('users', '', 'nick', $where_arr, 'AND');
-			if(!empty($sel))
+			if (isset($_COOKIE['login']) && isset($_COOKIE['password']))
 			{
-                                $lower_nick = strtolower($sel[0]['nick']);
-				if($lower_nick==$login)
-					self::auth_user($login, $_COOKIE['password'], true);
+				$_COOKIE['login'] = preg_replace('/[\'\/\*\s]/', '', $_COOKIE['login']);
+				$login = strtolower($_COOKIE['login']);
+				$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$_COOKIE['password'], "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
+				$sel = self::$baseC->select('users', '', 'nick', $where_arr, 'AND');
+				if(!empty($sel))
+				{
+					$lower_nick = strtolower($sel[0]['nick']);
+					if($lower_nick==$login)
+					{
+						self::auth_user($login, $_COOKIE['password'], true);
+					}
+					else
+						self::auth_user('anonymous', '', true);
+				}
 				else
 					self::auth_user('anonymous', '', true);
 			}
 			else
 				self::auth_user('anonymous', '', true);
 		}
-		else
-			self::auth_user('anonymous', '', true);
 		if( empty($_SESSION['user_id']) || !isset($_SESSION['user_id']))
 		{
 			session_register("user_id");
@@ -34,14 +39,20 @@ final class auth extends object
 			$user_admin="";
 			session_register("user_moder");
 			$user_moder="";
+			session_register("openid");
+			$user_moder=false;
 		}
 	}
-	function auth_user($login, $pass, $encrypted)
+	function auth_user($login, $pass="", $encrypted=false, $openid=false)
 	{
 		if (!$encrypted)
 			$pass = md5($pass);
 		$login = strtolower($login);
-		$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$pass, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
+		$where_arr = array();
+		if(!$openid)
+			$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$pass, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
+		else 
+			$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
 		$sel = self::$baseC->select('users', '', 'id, nick, gid', $where_arr, 'AND');
 		if(!empty($sel))
 		{
@@ -67,6 +78,8 @@ final class auth extends object
 				$_SESSION['user_moder']='';
 				$_SESSION['user_admin']='';
 			}
+			if($openid)
+				$_SESSION['openid']=true;
 		}
 	}
 }

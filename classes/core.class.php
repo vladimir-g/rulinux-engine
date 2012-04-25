@@ -153,8 +153,21 @@ class core extends object
 		else
 			return -1;
 	}
-	
-	function remove_spam()
+	function include_theme_file($theme, $filepath)
+	{
+		$path = 'themes/'.$theme.'/'.$filepath;
+		if(file_exists($path))
+		{
+			include $path;
+		}
+		else 
+		{
+			include 'themes/default/'.$filepath;
+		}
+		
+		
+	}
+	function remove_spam()//функция не применяется
 	{
 		$yesterday = gmdate('Y-m-d', strtotime('-1 day')).' '.gmdate("H:i:s");
 		$param_arr = array($yesterday);

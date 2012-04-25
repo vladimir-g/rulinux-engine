@@ -11,6 +11,7 @@
 <td><input type="password" name="password"></td>
 </tr>
 </table>
+<input type="hidden" name="auth_system" value="this">
 <input  type="submit" name="login" value="Войти">
 </form>
 <br>

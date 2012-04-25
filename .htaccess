@@ -50,8 +50,8 @@ RewriteRule ^detach_thread_([0-9]*)$ moder.php?action=detach_thread&tid=$1
 RewriteRule ^attach_thread_([0-9]*)$ moder.php?action=attach_thread&tid=$1
 RewriteRule ^move_thread_([0-9]*)$ moder.php?action=move_thread&tid=$1
 RewriteRule ^profile$ profile.php
-RewriteRule ^user_([a-zA-Z0-9\_\-]{2,})$ profile.php?user=$1
-RewriteRule ^user_([a-zA-Z0-9\_\-]{2,}):edit$ profile.php?user=$1&edit=1
+RewriteRule ^user_([a-zA-Z0-9\_\-\/\:\.]{2,})$ profile.php?user=$1
+RewriteRule ^user_([a-zA-Z0-9\_\-\/\:\.]{2,}):edit$ profile.php?user=$1&edit=1
 RewriteRule ^rss$ view-rss.php
 RewriteRule ^rss_from_sect_([0-9]*)$ view-rss.php?section=$1
 RewriteRule ^rss_from_sect_([0-9]*)_subsect_([0-9]*)$ view-rss.php?section=$1&subsection=$2
