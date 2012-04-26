@@ -126,14 +126,7 @@ else
 	else
 	{
 		require 'header.php';
-		$auth_system = $_POST['auth_system'];
-		if($auth_system == 'this')
-			$coreC->include_theme_file($theme, 'templates/login/site.tpl.php');
-		elseif($auth_system == 'openid')
-			$coreC->include_theme_file($theme, 'templates/login/openid.tpl.php');
-		else
-			$coreC->include_theme_file($theme, 'templates/login/auth_system.tpl.php');
-		
+		$coreC->include_theme_file($theme, 'templates/login/login.tpl.php');
 		require 'footer.php';
 	}
 }

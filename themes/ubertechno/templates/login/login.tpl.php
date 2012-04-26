@@ -1,7 +1,18 @@
-<div class="boxlet_title_div"><span class="boxlet_title">[title]</span></div>
-<div class="boxlet_content">
-<form action="login" method="post">
-<table width=>
+<br>
+<br>
+<table width=80% align="center">
+<tr>
+<td>
+<h2>This Site: </h2>
+</td>
+<td>
+<h2>OpenID: </h2>
+</td>
+</tr>
+<tr>
+<td>
+<form action="login.php" method="post">
+<table>
 <tr>
 <td>Логин: </td>
 <td>
@@ -17,17 +28,19 @@
 <tr>
 <td></td>
 <td>
+<br>
 <input type="hidden" name="auth_system" value="this">
 <input  type="submit" name="login" value="отправить">
 </td>
 </tr>
 </table>
 </form>
-<br>
+</td>
+<td>
 <form action="login.php" method="post">
 <table>
 <tr>
-<td>OpenID: </td>
+<td>URL: </td>
 <td>
 <input type="text" name="openid_url">
 </td>
@@ -42,10 +55,37 @@
 </tr>
 </table>
 </form>
-<br>
-* <a href="user_[user]">Профиль</a><br>
-* <a href="rules">Правила ресурса</a><br><br>
-* <a href="comments">Мои комментарии</a><br>
-* <a href="replys">Ответы на мои комментарии</a><br>
-* <a href="register">Регистрация</a>
-</div>
+</td>
+</tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
