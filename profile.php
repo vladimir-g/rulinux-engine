@@ -188,6 +188,7 @@ else if($_POST['action']=="info")
 		$identity = $_POST['openid'];
 		$identity = preg_replace('#^http://(.*)#sim', '$1', $identity);
 		$identity = preg_replace('#^https://(.*)#sim', '$1', $identity);
+		$identity = preg_replace('#(.*)\/$#sim', '$1', $identity);
 		$usersC->modify_user_info('openid', $identity, $uid);
 		require 'header.php';
 		$legend = 'Пользовательская информация успешно изменена';

@@ -39,6 +39,7 @@ else
 			$identity = $openid->GetIdentity();
 			$identity = preg_replace('#^http://(.*)#sim', '$1', $identity);
 			$identity = preg_replace('#^https://(.*)#sim', '$1', $identity);
+			$identity = preg_replace('#(.*)\/$#sim', '$1', $identity);
 			if($usersC->openid_exists($identity))
 			{
 				$authC->auth_user($identity, '', false, true);
