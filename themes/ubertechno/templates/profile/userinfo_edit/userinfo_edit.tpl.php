@@ -17,6 +17,10 @@
 <td><input type="text" name="user_name" value="<?=$name?>"></td>
 <td>&nbsp;</td>
 </tr>
+<td>OpenID:</td>
+<td><input type="text" name="openid" value="<?=$openid?>"></td>
+<td>&nbsp;</td>
+</tr>
 <tr>
 <td>Фамилия:</td>
 <td><input type="text" name="user_lastname" value="<?=$lastname?>"></td>

@@ -5,7 +5,7 @@ final class auth extends object
 	function __construct()
 	{
 		self::$baseC = new base;
-		if(!$_SESSION['openid'])
+		if(!$_SESSION['is_openid'])
 		{
 			if (isset($_COOKIE['login']) && isset($_COOKIE['password']))
 			{
@@ -39,8 +39,8 @@ final class auth extends object
 			$user_admin="";
 			session_register("user_moder");
 			$user_moder="";
-			session_register("openid");
-			$user_moder=false;
+			session_register("is_openid");
+			$is_openid=false;
 		}
 	}
 	function auth_user($login, $pass="", $encrypted=false, $openid=false)
@@ -52,7 +52,7 @@ final class auth extends object
 		if(!$openid)
 			$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$pass, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
 		else 
-			$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
+			$where_arr = array(array("key"=>'lower(openid)', "value"=>$login, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
 		$sel = self::$baseC->select('users', '', 'id, nick, gid', $where_arr, 'AND');
 		if(!empty($sel))
 		{
@@ -79,7 +79,7 @@ final class auth extends object
 				$_SESSION['user_admin']='';
 			}
 			if($openid)
-				$_SESSION['openid']=true;
+				$_SESSION['is_openid']=true;
 		}
 	}
 }

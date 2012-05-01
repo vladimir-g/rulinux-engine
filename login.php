@@ -37,12 +37,11 @@ else
 		if ($openid_validation_result == true)
 		{
 			$identity = $openid->GetIdentity();
-			$nick = $identity;
-			$nick = preg_replace('#^http://(.*)#sim', '$1', $nick);
-			$nick = preg_replace('#^https://(.*)#sim', '$1', $nick);
-			if($usersC->user_exists($nick))
+			$identity = preg_replace('#^http://(.*)#sim', '$1', $identity);
+			$identity = preg_replace('#^https://(.*)#sim', '$1', $identity);
+			if($usersC->openid_exists($identity))
 			{
-				$authC->auth_user($nick, '', false, true);
+				$authC->auth_user($identity, '', false, true);
 				require 'header.php';
 				$legend = 'Вы авторизованны на сайте';
 				$text = 'Вы авторизованны на сайте. Если у вас отключена переадресация нажмите <a href="/">сюда</a>';
@@ -52,9 +51,7 @@ else
 			else 
 			{
 				$pass_phrase = $coreC->get_settings_by_name('register_pass_phrase');
-				$password = '';
-				$address = 'noemail@rulinux.net';
-				$link = '/register.php?action=register&system=openid&login='.$nick.'&password='.$password.'&email='.$address.'&hash='.md5($nick.$password.$pass_phrase);
+				$link = '/register.php?action=register&system=openid&openid='.$identity.'&hash='.md5($identity.$pass_phrase);
 				die('<meta http-equiv="Refresh" content="0; URL='.$link.'">');
 			}
 		}

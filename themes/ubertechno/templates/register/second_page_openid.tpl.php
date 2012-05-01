@@ -8,12 +8,16 @@
 <tr>
 <td>Логин:</td>
 <td>
-<input type="text" name="nick_f" value="<?=$nick?>" disabled="disabled">
-<input type="hidden" name="nick" value="<?=$nick?>">
+<input type="text" name="nick" value="<?=$nick?>">
 </td>
 <td>&nbsp;</td>
 </tr>
-
+<tr>
+<td>OpenID:</td>
+<td>
+<input type="text" name="openid_f" value="<?=$openid?>" disabled="disabled">
+<input type="hidden" name="openid" value="<?=$openid?>">
+</td>
 <td>&nbsp;</td>
 </tr>
 <tr>
@@ -39,8 +43,7 @@
 <tr>
 <td>E-mail:</td>
 <td>
-<input type="text" name="user_email" value="<?=$email?>" disabled="disabled">
-<input type="hidden" name="user_email" value="<?=$email?>">
+<input type="text" name="user_email" value="<?=$email?>">
 </td>
 <td><input type="checkbox" name="showEmail" checked>Показывать</td>
 </tr>

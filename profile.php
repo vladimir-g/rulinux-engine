@@ -185,6 +185,7 @@ else if($_POST['action']=="info")
 			}
 		}
 		$val = $usersC->modify_user_info_settings($uid, $_POST['user_name'], $_POST['user_lastname'], $_POST['gender'], $_POST['user_email'], $_POST['showEmail'], $_POST['user_im'], $_POST['showIM'], $_POST['user_country'], $_POST['user_city'], $_POST['user_additional']);
+		$usersC->modify_user_info('openid', $_POST['openid'], $uid);
 		require 'header.php';
 		$legend = 'Пользовательская информация успешно изменена';
 		$text = 'Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
@@ -425,6 +426,7 @@ else
 	{
 		$usr_add = $usersC->get_additional_user_info($uid);
 		$name = $usr['name'];
+		$openid = $usr['openid'];
 		$lastname = $usr['lastname'];
 		$gender = $coreC->validate_boolean($usr['gender']) ? 'Мужской' : 'Женский';
 		$birthday = $usr['birthday'];
@@ -476,6 +478,7 @@ else
 				require 'themes/'.$theme.'/templates/profile/edit.tpl.php';
 				require 'themes/'.$theme.'/templates/profile/password_edit/password_edit.tpl.php';
 				$name = $usr['name'];
+				$openid = $usr['openid'];
 				$lastname = $usr['lastname'];
 				$avatar = empty($usr['photo']) ? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$usr['photo'];
 				$email = $usr['email'];

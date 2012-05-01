@@ -63,30 +63,54 @@ else if (isset($_GET['action']) && $_GET['action'] == 'register')
 	$errors = array();
 	$pass_phrase = $coreC->get_settings_by_name('register_pass_phrase');
 	$coreC->set_missing_array_keys($_GET, array('login', 'password', 'email', 'hash'));
-
-	if ($_GET['hash'] != md5($_GET['login'].$_GET['password'].$pass_phrase))
-		$errors[] = 'Ваш логин и пароль указанный в ссылке не прошел проверку на соответствие с хешем. Регистрация будет превана.';
-	if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL))
-		$errors[] = 'Указанный вами электронный адрес не прошел проверку на валидность';
-
-	require 'header.php';
-	if (!empty($errors))
+	if($_GET['system']!="openid")
 	{
-		/* Errors */
-		$legend = 'Ошибка';
-		$text = '<ul><li>'.implode('</li><li>', $errors).'</li></ul>';
-		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		if ($_GET['hash'] != md5($_GET['login'].$_GET['password'].$pass_phrase))
+			$errors[] = 'Ваш логин и пароль указанный в ссылке не прошел проверку на соответствие с хешем. Регистрация будет превана.';
+		if (!filter_var($_GET['email'], FILTER_VALIDATE_EMAIL))
+			$errors[] = 'Указанный вами электронный адрес не прошел проверку на валидность';
+
+		require 'header.php';
+		if (!empty($errors))
+		{
+			/* Errors */
+			$legend = 'Ошибка';
+			$text = '<ul><li>'.implode('</li><li>', $errors).'</li></ul>';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		}
+		else 
+		{
+			/* Valid data */
+			$time = gmdate("Y-m-d H:i:s");
+			$nick = $_GET['login'];
+			$pass = $_GET['password'];
+			$email = $_GET['email'];
+			require 'themes/'.$theme.'/templates/register/second_page.tpl.php';
+		}
+		require 'footer.php';
 	}
 	else 
 	{
-		/* Valid data */
-		$time = gmdate("Y-m-d H:i:s");
-		$nick = $_GET['login'];
-		$pass = $_GET['password'];
-		$email = $_GET['email'];
-		require 'themes/'.$theme.'/templates/register/second_page.tpl.php';
+		if ($_GET['hash'] != md5($_GET['openid'].$pass_phrase))
+			$errors[] = 'Ваш OpenID указанный в ссылке не прошел проверку на соответствие с хешем. Регистрация будет превана.';
+		require 'header.php';
+		if (!empty($errors))
+		{
+			/* Errors */
+			$legend = 'Ошибка';
+			$text = '<ul><li>'.implode('</li><li>', $errors).'</li></ul>';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		}
+		else 
+		{
+			/* Valid data */
+			$time = gmdate("Y-m-d H:i:s");
+			$openid = $_GET['openid'];
+			require 'themes/'.$theme.'/templates/register/second_page_openid.tpl.php';
+		}
+		require 'footer.php';
 	}
-	require 'footer.php';
+	
 }
 /* Final registration step */
 else if ($_POST['action'] == 'second_sbm')
@@ -119,6 +143,7 @@ else if ($_POST['action'] == 'second_sbm')
 	{
 		$nick = $_POST['nick'];
 		$pass = $_POST['pass'];
+		$openid = $_POST['openid'];
 		$name = $_POST['user_name'];
 		$lastname = $_POST['user_lastname'];
 		$gender = $_POST['gender'];
@@ -130,14 +155,14 @@ else if ($_POST['action'] == 'second_sbm')
 		$city = $_POST['user_city'];
 		$additional = $_POST['user_additional'];
 		$gmt = $_POST['user-gmt'];
-		$ret= $usersC->add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt);
+		$ret= $usersC->add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt, $openid);
 		if ($ret < 0)
 		{
 			$legend = 'Вы не были зарегистрированны';
 			switch ($ret)
 			{
 			case -2:
-				$text = 'Вы не можете зарегистрировать пользователя с таким именем, так как такой пользователь уже существует';
+				$text = 'Вы не можете зарегистрировать пользователя с таким именем или OpenID, так как такой пользователь уже существует';
 				break;
 			default:				
 				$text = 'Произошла ошибка при обращении к базе данных';
