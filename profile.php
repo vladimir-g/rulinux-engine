@@ -185,7 +185,10 @@ else if($_POST['action']=="info")
 			}
 		}
 		$val = $usersC->modify_user_info_settings($uid, $_POST['user_name'], $_POST['user_lastname'], $_POST['gender'], $_POST['user_email'], $_POST['showEmail'], $_POST['user_im'], $_POST['showIM'], $_POST['user_country'], $_POST['user_city'], $_POST['user_additional']);
-		$usersC->modify_user_info('openid', $_POST['openid'], $uid);
+		$identity = $_POST['openid'];
+		$identity = preg_replace('#^http://(.*)#sim', '$1', $identity);
+		$identity = preg_replace('#^https://(.*)#sim', '$1', $identity);
+		$usersC->modify_user_info('openid', $identity, $uid);
 		require 'header.php';
 		$legend = 'Пользовательская информация успешно изменена';
 		$text = 'Пользовательская информация успешно изменена<br>Через три секунды вы будете перенаправлены на страницу изменения профиля.<br>Если вы не хотите ждать, нажмите <a href="user_'.$user.':edit">сюда</a>.';
