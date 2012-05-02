@@ -1,5 +1,8 @@
 <?php
 require 'classes/core.php';
+$templatesC = new templates;
+$templatesC->set_theme($uinfo['theme']);
+$templatesC->set_file('message.tpl');
 $thread_id = (int)$_GET['newsid'];
 $page = (int)$_GET['page'];
 $coreC->update_sessions_table(session_id(),$_SESSION[user_id], $thread_id);
@@ -72,7 +75,6 @@ for($i=0;$i<count($rdrs_arr);$i++)
 	else
 		$rdrs = $rdrs.'<div class="user">'.$rdrs_arr[$i]['nick'].'</div>';
 }
-//$rdrs = substr_replace($rdrs, '', 0, 2);
 $readers = $readers.$rdrs;
 if($pages_count > 1)
 {
@@ -118,7 +120,14 @@ if($pages_count > 1)
 		$pages = $pages.'<a href="thread_'.$thread_id.'_page_'.$pages_count.'" title="В конец">→</a>&nbsp;';
 	}
 }
-require 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
+
+$templatesC->assign('section_link', $section_link);
+$templatesC->assign('section_name', $section_name);
+$templatesC->assign('subsection_link', $subsection_link);
+$templatesC->assign('subsection_name', $subsection_name);
+$templatesC->assign('rss_link', $rss_link);
+$templatesC->draw('nav_form');
+//require 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
 switch($section_id)
 {
 	case NEWS_SECTION_ID:

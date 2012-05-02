@@ -4,7 +4,10 @@ empty($_GET['page']) ? $page = 1 : $page = (int)$_GET['page'];
 $title = ' - Пользователи';
 $rss_link='rss';
 require 'header.php';
-require 'themes/'.$theme.'/templates/users/top.tpl.php';
+$templatesC = new templates;
+$templatesC->set_theme($uinfo['theme']);
+$templatesC->set_file('users.tpl');
+$templatesC->draw('top');
 $users_on_page = 20;
 $users_count = $usersC->get_users_count();
 $pages_count = ceil(($users_count)/$users_on_page);
@@ -57,17 +60,19 @@ if($pages_count > 1)
 $users = $usersC->get_users($begin, $users_on_page);
 for($i=0; $i<count($users); $i++)
 {
-	$avatar = $coreC->validate_boolean($uinfo['show_avatars'], 'FILTER_VALIDATE_FAILURE') == 0 || empty($users[$i]['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$users[$i]['photo'];
-	$nick = $users[$i]['nick'];
-	$group_info = $usersC->get_group($users[$i]['gid']);
-	$group_name = $group_info['name'];
-	$name = $users[$i]['name'];
-	$city = !empty($users[$i]['city'])? $users[$i]['city'] : 'город не указан';
-	$country = !empty($users[$i]['country'])? $users[$i]['country'] : 'страна не указана';
-	$email = $coreC->validate_boolean($users[$i]['show_email']) ? $users[$i]['email'] : 'скрыт';
-	$im = $coreC->validate_boolean($users[$i]['show_im']) ? $users[$i]['im'] : 'скрыт';
-	require 'themes/'.$theme.'/templates/users/middle.tpl.php';
+	$templatesC->assign('avatar', $coreC->validate_boolean($uinfo['show_avatars'], 'FILTER_VALIDATE_FAILURE') == 0 || empty($users[$i]['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$users[$i]['photo']);
+	$templatesC->assign('nick', $users[$i]['nick']);
+	$templatesC->assign('group_info', $usersC->get_group($users[$i]['gid']));
+	$templatesC->assign('group_name', $group_info['name']);
+	$templatesC->assign('name', $users[$i]['name']);
+	$templatesC->assign('city', !empty($users[$i]['city'])? $users[$i]['city'] : 'город не указан');
+	$templatesC->assign('country', !empty($users[$i]['country'])? $users[$i]['country'] : 'страна не указана');
+	$templatesC->assign('email', $coreC->validate_boolean($users[$i]['show_email']) ? $users[$i]['email'] : 'скрыт');
+	$templatesC->assign('im', $coreC->validate_boolean($users[$i]['show_im']) ? $users[$i]['im'] : 'скрыт');
+	$templatesC->draw('middle');
 }
-require 'themes/'.$theme.'/templates/users/bottom.tpl.php';
+$templatesC->clear_variables();
+$templatesC->assign('pages', $pages);
+$templatesC->draw('bottom');
 require 'footer.php';
 ?>

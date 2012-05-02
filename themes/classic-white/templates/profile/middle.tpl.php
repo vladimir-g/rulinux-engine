@@ -7,6 +7,10 @@
 <td><?=$user?></td>
 </tr>
 <tr>
+<td>OpenID: </td>
+<td><?=$openid?></td>
+</tr>
+<tr>
 <td>Имя: </td>
 <td><?=$name?></td>
 </tr>
@@ -52,7 +56,7 @@
 </tr>
 </table>
 <br>
-Дополнительно:
+Дополнительно: 
 <br><?=$additional?>
 <br>
 <table>

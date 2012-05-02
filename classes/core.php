@@ -38,6 +38,8 @@ if(!$installed)
 	echo '<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>Проведите <a href="install/install.php">первичную инициализацию</a>. <br><b>ВНИМАНИЕ:</b> при проведении первичной нинциализации все данные из базы будут удалены<br>Если вы уже проводили первичную инициализацию, но по-прежнему видите это сообщение, то выствите в файле config/install.ini значение 1 параметру installed.</html>';
 	exit;
 }
+require_once "classes/templates.class.php";
+// $templatesC = new templates;
 require_once "classes/search.class.php";
 $searchC = new search;
 require_once "classes/users.class.php";
