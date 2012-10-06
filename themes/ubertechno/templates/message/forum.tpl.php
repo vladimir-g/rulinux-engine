@@ -1,6 +1,5 @@
 <div class=messages>
 <div class="title">
-<span class="msg_resp">
 <a href="<?=$thread_this_link?>#msg<?=$message_id?>"><img border="0" src="themes/<?=$theme?>/id.png" alt="[#]"></a>
 <?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
 <a href="<?=$thread_move_link?>"><img border="0" src="themes/<?=$theme?>/move.png" alt="[Переместить]"></a>
@@ -8,10 +7,21 @@
 <?}?>
 <a href="<?=$message_set_filter_link?>"><img border="0" src="themes/<?=$theme?>/filter.png" alt="[Добавить метку]"></a>
 <a href="<?=$message_edit_link?>"><img border="0" src="themes/<?=$theme?>/edit.png" alt="[Редактировать]"></a>
-</span>
+<?php if (!empty($filter_list)):?><a href="#" data-fblock="#filters-<?=$message_id;?>" class="filter-link">Фильтры</a><?php endif;?>
 </div>
-<div class="msg" id="msg<?=$message_id?>"><h2 class="nt"><?=$message_subject?></h2>
+<div class="msg" id="msg<?=$message_id?>">
+<?php if (!empty($filter_list)):?>
+<div id="filters-<?=$message_id;?>" class="filters">
+  <ul>
+    <?php foreach ($filter_list as $item):?>
+    <li><?=$item['name'];?></li>
+    <?php endforeach;?>
+  </ul>
+</div>
+<?php endif;?>
+<h2 class="nt"><?=$message_subject?></h2>
 <?=$message_comment?>
+<?php if ($is_filtered):?><p><strong>Причины фильтрации: <?=$active_filters;?></strong></p><?php endif;?>
 <p>
 <i><?=$message_autor?>(<a href="<?=$message_autor_profile_link?>">*</a>) (<?=$message_timestamp?>)</i>
 <br><?=$changed?><br><i><?=$message_useragent?></i>

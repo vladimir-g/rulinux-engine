@@ -9,13 +9,14 @@
 <table>
 <tr>
   <td style="vertical-align:top">
-    <? if (!$filtered):?>
+    <? if (!$is_filtered):?>
     <a href="<?=$img_link?>"><img src="<?=$img_thumb_link?>" alt="gallery"></a>
     <? endif;?>
   </td>
 <td style="vertical-align:top"><?=$comment?><br>
+<?php if ($is_filtered):?><p><strong>Причины фильтрации: <?=$active_filters;?></strong></p><?php endif;?>
 <i><?=$size?></i><br><br>
-<? if (!$filtered):?>
+<? if (!$is_filtered):?>
 >>> <a href="<?=$img_link?>">Просмотр</a>
 <? endif;?>
 </td>

@@ -1,0 +1,58 @@
+div.title {
+    overflow: hidden;
+}
+
+a.filter-link {
+    float: right;
+    margin-right: 20px;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+    outline: 0;
+}
+
+.js a.filter-link:before {
+    content: "↓ ";
+}
+
+.js a.filter-link.opened:before {
+    content: "↑ ";
+}
+
+div.filters {
+    float: right;
+    overflow: hidden;
+}
+
+.js div.filters {
+    display: none;
+}    
+
+div.filters ul {
+    border-width: 1px;
+    border-color: lightgray;
+    border-style: solid;
+    border-radius: 4px;
+    float: right;
+    margin: 0px auto;
+    padding: 5px 5px 5px 20px;
+    list-style-type: square;    /* It's fun */
+}
+
+div.msg-hidden {
+    display: none;
+    border-width: 1px 0px;
+    border-color: darkgray;
+    border-style: solid;
+    padding: 5px 0px;
+}
+
+div.msg-content a.toggle-hidden { 
+    display: none; 
+    border-bottom: 1px dashed;
+    text-decoration: none;
+}
+
+div.msg-hidden a.toggle-hidden {
+    display: inline;
+}
+    

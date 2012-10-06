@@ -2,9 +2,14 @@
 final class filters extends object
 {
 	static $baseC = null;
+	private static $filters = array();
 	function __construct()
 	{
 		self::$baseC = new base;
+		/* Populate inner cache of filters */
+		$filters_res = self::$baseC->select('filters', '', '*');
+		foreach ($filters_res as $filter)
+			self::$filters[$filter['id']] = $filter;
 	}
 	function get_filters()
 	{
@@ -60,6 +65,28 @@ final class filters extends object
 		foreach($checked_arr as $key => $value)
 			$str = $str.$value[0].':'.$value[1].';';
 		return $str;
+	}
+	/* Get list of applied filters in readable format */
+	function get_filter_list($filter_str)
+	{
+		$result = array();
+		$raw_list = explode(';', $filter_str);
+		foreach ($raw_list as $item)
+		{
+			if ((int)$item[2] == 1)
+				$result[(int)$item[0]] = self::$filters[(int)$item[0]];
+		}
+		return $result;
+	}
+	/* Get filters used on some item  */
+	function get_active_filters($list1, $list2)
+	{
+		$active_filters_list = array();
+		foreach (array_intersect_key($list1, $list2) as $filter)
+		{
+			$active_filters_list[] = $filter['name'];
+		}
+		return implode(', ', $active_filters_list);
 	}
 }
 ?>

@@ -32,6 +32,7 @@ require 'themes/'.$theme.'/templates/art/nav_bottom.tpl.php';
 require 'themes/'.$theme.'/templates/art/top.tpl.php';
 $user_filter = $usersC->get_filter($_SESSION['user_id']);
 $user_filter_arr = $filtersC->parse_filter_string($user_filter);
+$user_filter_list = $filtersC->get_filter_list($user_filter);
 $threads_count = $threadsC->get_threads_count($section_id, $subsection_id);
 $threads_on_page = $uinfo['threads_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
@@ -52,10 +53,18 @@ for($i=0; $i<count($thr); $i++)
 		$attached = '';
 	}
 	$thread_id = $thr[$i]['id'];
+	$filter_list = $filtersC->get_filter_list($thr[$i]['filters']);
+	$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
 	if ($messagesC->is_filtered($user_filter_arr, $thr[$i]['filters']))
+	{
 		$thread_subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
+		$is_filtered = true;
+	}
 	else
+	{
 		$thread_subject = $thr[$i]['subject'];
+		$is_filtered = false;
+	}
 	$cur_thr = $threadsC->get_thread_times($thread_id);
 	$thr_autor = $usersC->get_user_info($thr[$i]['uid']);
 	$coreC->validate_boolean($thr_autor['banned']) ? $thread_author = '<s>'.$thr_autor['nick'].'</s>' : $thread_author = $thr_autor['nick'];

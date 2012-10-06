@@ -8,7 +8,7 @@
 &nbsp<a href="<?=$section_link?>"><?=$section?></a>/<a href="<?=$subsection_link?>"><?=$subsection?></a>&nbsp
 </td>
 <td>
-<a href="<?=$link?>"><?=$subject?></a>(<?=$author?><?=$resp?>)
+<a href="<?=$link?>"<?php if ($is_filtered):?> title="Причины фильтрации: <?=$active_filters;?>"<?php endif;?>><?=$subject?></a>(<?=$author?><?=$resp?>)
 </td>
 <td align='center'><?=$timestamp?></td>
 </tr>

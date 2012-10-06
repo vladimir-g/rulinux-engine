@@ -12,13 +12,24 @@
 <a href="<?=$message_edit_link?>"><img border="0" src="themes/<?=$theme?>/edit.png" alt="[Редактировать]"></a>
 </td>
 <td>
+<?php if (!empty($filter_list)):?><a href="#" data-fblock="#filters-<?=$message_id;?>" class="filter-link">Фильтры</a><?php endif;?>
 <h2 class="nt"><?=$message_subject?></h2>
 </td>
 </tr>
 </table>
 </div>
 <div class="msg" id="msg<?=$message_id?>">
+<?php if (!empty($filter_list)):?>
+<div id="filters-<?=$message_id;?>" class="filters">
+  <ul>
+    <?php foreach ($filter_list as $item):?>
+    <li><?=$item['name'];?></li>
+    <?php endforeach;?>
+  </ul>
+</div>
+<?php endif;?>
 <?=$message_comment?>
+<?php if ($is_filtered):?><p><strong>Причины фильтрации: <?=$active_filters;?></strong></p><?php endif;?>
 <p>
 <i><?=$message_autor?>(<a href="<?=$message_autor_profile_link?>">*</a>) (<?=$message_timestamp?>)<br><?=$changed?><br><?=$message_useragent?></i>
 <br><?=$approve?>

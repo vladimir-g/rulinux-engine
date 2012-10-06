@@ -6,22 +6,25 @@ require 'header.php';
 require 'themes/'.$theme.'/templates/view_all/top.tpl.php';
 $user_filter = $usersC->get_filter($_SESSION['user_id']);
 $user_filter_arr = $filtersC->parse_filter_string($user_filter);
+$user_filter_list = $filtersC->get_filter_list($user_filter);
 $unconfirmed = $threadsC->get_unconfirmed();
 for ($i = 0; $i < count($unconfirmed); $i++)
 {
 	$thread_id = $unconfirmed[$i]['id'];
 	$comment_id = $unconfirmed[$i]['cid'];
+	$filter_list = $filtersC->get_filter_list($unconfirmed[$i]['filters']);
+	$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
 	if ($messagesC->is_filtered($user_filter_arr, $unconfirmed[$i]['filters']))
 	{
 		$subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
 		$comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$comment_id.'">сюда</a>.<br>';
-                $filtered = true;
+                $is_filtered = true;
 	}
 	else
 	{
 		$subject = $unconfirmed[$i]['subject'];
 		$comment = $unconfirmed[$i]['comment'];
-                $filtered = false;
+                $is_filtered = false;
 	}
 	$usr = $usersC->get_user_info($unconfirmed[$i]['uid']);
 	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
@@ -42,7 +45,7 @@ for ($i = 0; $i < count($unconfirmed); $i++)
 	case GALLERY_SECTION_ID:
 		$img_link = '/images/gallery/'.$unconfirmed[$i]['file'].'.'.$unconfirmed[$i]['extension'];
 		$img_thumb_link = '/images/gallery/thumbs/'.$unconfirmed[$i]['file'].'_small.png';
-		if ($filtered)
+		if ($is_filtered)
 			$size = '';
 		else
 			$size = $unconfirmed[$i]['image_size'].', '.$unconfirmed[$i]['file_size'];

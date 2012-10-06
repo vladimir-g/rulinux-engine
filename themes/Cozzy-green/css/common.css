@@ -171,3 +171,7 @@ pre
 {
 	margin-right: 245px;
 }
+
+a.filter-link:hover {
+    color: #0E2503;
+}

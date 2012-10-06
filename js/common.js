@@ -35,3 +35,21 @@ function parseHash()
 }
 
 setInterval(parseHash, 1000);
+
+(function (h) { h.className = h.className + ' js'; })(document.documentElement);
+
+(function ($) {
+    
+    $(function () {
+        // Filter list
+        $('a.filter-link').click(function (e) {
+            e.preventDefault();
+            $($(this).data('fblock')).toggle();
+            if ($(this).hasClass('opened'))
+                $(this).removeClass('opened');
+            else
+                $(this).addClass('opened');
+        });
+    });
+
+})(jQuery);

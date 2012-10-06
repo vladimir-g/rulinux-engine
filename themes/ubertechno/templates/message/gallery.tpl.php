@@ -7,7 +7,17 @@
 <?}?>
 <a href="<?=$message_set_filter_link?>"><img border="0" src="themes/<?=$theme?>/filter.png" alt="[Добавить метку]"></a>
 <a href="<?=$message_edit_link?>"><img border="0" src="themes/<?=$theme?>/edit.png" alt="[Редактировать]"></a>
+<?php if (!empty($filter_list)):?><a href="#" data-fblock="#filters-<?=$message_id;?>" class="filter-link">Фильтры</a><?php endif;?>
 </div>
+<?php if (!empty($filter_list)):?>
+<div id="filters-<?=$message_id;?>" class="filters">
+  <ul>
+    <?php foreach ($filter_list as $item):?>
+    <li><?=$item['name'];?></li>
+    <?php endforeach;?>
+  </ul>
+</div>
+<?php endif;?>
 <div class="msg" id="msg<?=$message_id?>"><h2 class="nt"><?=$message_subject?></h2>
 <table>
 <tr>
@@ -17,7 +27,7 @@
 <? endif;?>
 </td>
 <td style="vertical-align:top"><?=$message_comment?>
-
+<?php if ($is_filtered):?><p><strong>Причины фильтрации: <?=$active_filters;?></strong></p><?php endif;?>
 <? if (!$is_filtered):?>
 <br><span style="font-style: italic"><?=$gallery_image_size?>, <?=$gallery_file_size?></span><br><br>
 >>> <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>">Просмотр</a>

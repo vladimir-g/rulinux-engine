@@ -9,7 +9,9 @@
 <table>
 <tr>
 <td style="vertical-align:top"><img src="<?=$subsection_image?>" alt="subsection"></td>
-<td style="vertical-align:top"><?=$comment?>
+<td style="vertical-align:top">
+<?=$comment?>
+<?php if ($is_filtered):?><p><strong>Причины фильтрации: <?=$active_filters;?></strong></p><?php endif;?>
 </td>
 </tr>
 </table>

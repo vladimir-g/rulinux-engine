@@ -8,6 +8,7 @@ require 'header.php';
 require 'themes/'.$theme.'/templates/tracker/nav.tpl.php';
 $user_filter = $usersC->get_filter($_SESSION['user_id']);
 $user_filter_arr = $filtersC->parse_filter_string($user_filter);
+$user_filter_list = $filtersC->get_filter_list($user_filter);
 $messages = $messagesC->get_messages_for_tracker($hours);
 $msg_count = count($messages);
 require 'themes/'.$theme.'/templates/tracker/top.tpl.php';
@@ -23,10 +24,18 @@ for($i=0; $i<count($messages);$i++)
 	if($page == 0)
 		$page = 1;
 	$link = 'thread_'.$messages[$i]['tid'].'_page_'.$page.'#msg'.$messages[$i]['id'];
+	$filter_list = $filtersC->get_filter_list($messages[$i]['filters']);
+	$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
 	if ($messagesC->is_filtered($user_filter_arr, $messages[$i]['filters']))
+	{
 		$subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
+		$is_filtered = true;
+	}
 	else
+	{
 		$subject = $messages[$i]['subject'];
+		$is_filtered = false;
+	}
 	$author_info = $usersC->get_user_info($messages[$i]['uid']);
 	$coreC->validate_boolean($author_info['banned']) ? $author = '<s>'.$author_info['nick'].'</s>' :$author = $author_info['nick'];
 	if($coreC->validate_boolean($uinfo['show_resp']))

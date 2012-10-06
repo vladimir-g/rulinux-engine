@@ -34,6 +34,9 @@ $message_timestamp = $coreC->to_local_time_zone($topic_start['timest']);
 $message_id = $topic_start['id'];
 $user_filter = $usersC->get_filter($_SESSION['user_id']);
 $user_filter_arr = $filtersC->parse_filter_string($user_filter);
+$user_filter_list = $filtersC->get_filter_list($user_filter);
+$filter_list = $filtersC->get_filter_list($topic_start['filters']);
+$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
 if ($messagesC->is_filtered($user_filter_arr, $topic_start['filters']))
 {
         $message_subject = $thread_subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
@@ -134,7 +137,7 @@ switch($section_id)
 		$news_approve_moder_name = $usersC->get_user_info($topic_start['approved_by']);
 		if($coreC->validate_boolean($topic_start['approved']))
 			$approve = 'Подтверждено: '.$news_approve_moder_name['nick'].'(<a href="user_'.$news_approve_moder_name['nick'].'">*</a>) ('.$coreC->to_local_time_zone($topic_start['approve_timest']).')';
-		if (!empty($topic_start['prooflink']))
+		if (!empty($topic_start['prooflink']) && !$is_filtered)
 			$prooflink = '>>> <a href="'.$topic_start['prooflink'].'">Подробнее</a>';
 		else
 			$prooflink = '';
@@ -173,6 +176,8 @@ if($messages_count>1)
 		$message_id = $cmnt[$i]['id'];
 		$message_set_filter_link = 'set_filter_'.$message_id;
 		$msg_resp = $messagesC->get_message($cmnt[$i]['referer']);
+		$filter_list = $filtersC->get_filter_list($cmnt[$i]['filters']);
+		$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
 		if ($messagesC->is_filtered($user_filter_arr, $msg_resp['filters']))
                         $message_resp_title = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
 		else
@@ -191,11 +196,13 @@ if($messages_count>1)
                 {
                         $message_subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
 			$message_comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$message_id.'">сюда</a>.<br>';
+			$is_filtered = true;
                 }
 		else
                 {
                         $message_subject = $cmnt[$i]['subject'];
 			$message_comment = $cmnt[$i]['comment'];
+			$is_filtered = false;
                 }
 		$coreC->validate_boolean($cmnt[$i]['banned']) ? $message_autor = '<s>'.$cmnt[$i]['nick'].'</s>' :$message_autor = $cmnt[$i]['nick'];
 		$message_autor_profile_link = 'user_'.$cmnt[$i]['nick'];

@@ -82,20 +82,25 @@ if($pages_count > 1)
 }
 $user_filter = $usersC->get_filter($_SESSION['user_id']);
 $user_filter_arr = $filtersC->parse_filter_string($user_filter);
+$user_filter_list = $filtersC->get_filter_list($user_filter);
 $gal = $threadsC->get_news($subsection_id, $begin, $threads_on_page);
 for($i=0; $i<count($gal); $i++)
 {
 	$comment_id = $gal[$i]['cid'];
+	$filter_list = $filtersC->get_filter_list($gal[$i]['filters']);
+	$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
 	if ($messagesC->is_filtered($user_filter_arr, $gal[$i]['filters']))
 	{
 		$subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
 		$comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$comment_id.'">сюда</a>.<br>';
 		$prooflink = '';
+		$is_filtered = true;
 	}
 	else
 	{
 		$subject = $gal[$i]['subject'];
 		$comment = $gal[$i]['comment'];
+		$is_filtered = false;
 		if (!empty($gal[$i]['prooflink']))
 			$prooflink = '>>> <a href="'.$gal[$i]['prooflink'].'">Подробнее</a>';
 		else
