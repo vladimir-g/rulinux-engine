@@ -121,7 +121,7 @@ $templatesC->assign('subsection_link', $subsection_link);
 $templatesC->assign('subsection_name', $subsection_name);
 $templatesC->assign('rss_link', $rss_link);
 $templatesC->draw('nav_form');
-//require 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
+require 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
 switch($section_id)
 {
 	case NEWS_SECTION_ID:
