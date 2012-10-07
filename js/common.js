@@ -50,6 +50,11 @@ setInterval(parseHash, 1000);
             else
                 $(this).addClass('opened');
         });
+        // Toggle filtered message
+        $('a.toggle-hidden').click(function (e) {
+            e.preventDefault();
+            $($(this).data('hidden')).toggle();
+        });
     });
 
 })(jQuery);

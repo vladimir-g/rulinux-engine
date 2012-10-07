@@ -14,18 +14,9 @@ for ($i = 0; $i < count($unconfirmed); $i++)
 	$comment_id = $unconfirmed[$i]['cid'];
 	$filter_list = $filtersC->get_filter_list($unconfirmed[$i]['filters']);
 	$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
-	if ($messagesC->is_filtered($user_filter_arr, $unconfirmed[$i]['filters']))
-	{
-		$subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
-		$comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$comment_id.'">сюда</a>.<br>';
-                $is_filtered = true;
-	}
-	else
-	{
-		$subject = $unconfirmed[$i]['subject'];
-		$comment = $unconfirmed[$i]['comment'];
-                $is_filtered = false;
-	}
+	$is_filtered = $messagesC->is_filtered($user_filter_arr, $unconfirmed[$i]['filters']);
+	$subject = $unconfirmed[$i]['subject'];
+	$comment = $unconfirmed[$i]['comment'];
 	$usr = $usersC->get_user_info($unconfirmed[$i]['uid']);
 	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' :$author = $usr['nick'];
 	$author_profile = 'user_'.$usr['nick'];
@@ -37,6 +28,10 @@ for ($i = 0; $i < count($unconfirmed); $i++)
 	{
 	case NEWS_SECTION_ID:
 		$subsection_image = '/themes/'.$theme.'/icons/'.sections::get_subsection_icon($unconfirmed[$i]['subsection']);
+		if (!empty($unconfirmed[$i]['prooflink']))
+			$prooflink = '>>> <a href="'.$unconfirmed[$i]['prooflink'].'">Подробнее</a>';
+		else
+			$prooflink = '';
 		require 'themes/'.$theme.'/templates/view_all/news.tpl.php';
 		break;
 	case ARTICLES_SECTION_ID:
@@ -45,10 +40,7 @@ for ($i = 0; $i < count($unconfirmed); $i++)
 	case GALLERY_SECTION_ID:
 		$img_link = '/images/gallery/'.$unconfirmed[$i]['file'].'.'.$unconfirmed[$i]['extension'];
 		$img_thumb_link = '/images/gallery/thumbs/'.$unconfirmed[$i]['file'].'_small.png';
-		if ($is_filtered)
-			$size = '';
-		else
-			$size = $unconfirmed[$i]['image_size'].', '.$unconfirmed[$i]['file_size'];
+		$size = $unconfirmed[$i]['image_size'].', '.$unconfirmed[$i]['file_size'];
 		require 'themes/'.$theme.'/templates/view_all/gallery.tpl.php';
 		break;
 	}

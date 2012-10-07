@@ -22,6 +22,8 @@ define('NEWS_SECTION_ID', 1);
 define('ARTICLES_SECTION_ID', 2);
 define('GALLERY_SECTION_ID', 3);
 define('FORUM_SECTION_ID', 4);
+define('FILTERED_HEADING', 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации');
+define('FILTERED_TEXT', 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br />Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите');
 
 require_once 'librarys/geshi/geshi.php';
 require_once 'librarys/phpmathpublisher/mathpublisher.php';

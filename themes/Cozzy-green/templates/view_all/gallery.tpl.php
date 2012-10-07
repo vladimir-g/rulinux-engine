@@ -1,4 +1,12 @@
-<h2><a href="<?=$thr_link?>" id="newsheader" style="text-decoration:none"><?=$subject?></a></h2>
+<h2 data-user="<?=$autor;?>">
+<a href="<?=$thr_link?>" style="text-decoration:none">
+<?php if ($is_filtered):?>
+<?=FILTERED_HEADING;?>
+<?php else:?>
+<?=$subject?>
+<?php endif;?>
+</a>
+</h2>
 <?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
 <div>
 <a href="<?=$aprove_link?>">Подтвердить</a> |  
@@ -13,12 +21,24 @@
     <a href="<?=$img_link?>"><img src="<?=$img_thumb_link?>" alt="gallery"></a>
     <? endif;?>
   </td>
-<td style="vertical-align:top"><?=$comment?><br>
-<?php if ($is_filtered):?><p><strong>Причины фильтрации: <?=$active_filters;?></strong></p><?php endif;?>
+<td style="vertical-align:top">
+
+<?php if ($is_filtered):?>
+<?=FILTERED_TEXT;?> <a class="toggle-hidden" data-hidden="#msg-content-<?=$comment_id;?>" href="message_<?=$comment_id;?>">сюда</a>.
+<p><strong>Причины фильтрации: <?=$active_filters;?></strong></p>
+<?php endif;?>
+
+<div id="msg-content-<?=$comment_id;?>" class="msg-content<?php if ($is_filtered):?> msg-hidden<?php endif;?>">
+<a class="toggle-hidden" data-hidden="#msg-content-<?=$comment_id;?>" href="#">Скрыть</a>
+<?php if ($is_filtered):?>
+<h2><a href="<?=$thr_link?>" style="text-decoration:none"><?=$subject?></a></h2>
+<a href="<?=$img_link?>"><img src="<?=$img_thumb_link?>" alt="gallery"></a>
+<?php endif;?>
+<?=$comment?><br>
 <i><?=$size?></i><br><br>
-<? if (!$is_filtered):?>
 >>> <a href="<?=$img_link?>">Просмотр</a>
-<? endif;?>
+</div>
+
 </td>
 </tr>
 </table>

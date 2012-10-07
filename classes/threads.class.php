@@ -106,7 +106,7 @@ final class threads  extends object
 	}
 	function get_unconfirmed()
 	{
-		$ret = self::$baseC->query('SELECT t.id, t.cid, t.section, t.subsection, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, c.subject, c.comment, c.uid, c.timest, c.filters FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=false AND (t.section=1 OR t.section=2 OR t.section=3) ORDER BY t.attached <>true ASC, id DESC', 'assoc_array', array());
+		$ret = self::$baseC->query('SELECT t.id, t.cid, t.section, t.subsection, t.approved, t.approved_by, t.approve_timest, t.file, t.file_size, t.image_size, t.extension, t.prooflink, c.subject, c.comment, c.uid, c.timest, c.filters FROM threads t INNER JOIN comments c ON t.cid = c.id WHERE t.approved=false AND (t.section=1 OR t.section=2 OR t.section=3) ORDER BY t.attached <>true ASC, id DESC', 'assoc_array', array());
 		return $ret;
 	}
 	function move_thread($tid, $section, $subsection)

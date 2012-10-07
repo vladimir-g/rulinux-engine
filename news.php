@@ -89,23 +89,13 @@ for($i=0; $i<count($gal); $i++)
 	$comment_id = $gal[$i]['cid'];
 	$filter_list = $filtersC->get_filter_list($gal[$i]['filters']);
 	$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
-	if ($messagesC->is_filtered($user_filter_arr, $gal[$i]['filters']))
-	{
-		$subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
-		$comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$comment_id.'">сюда</a>.<br>';
-		$prooflink = '';
-		$is_filtered = true;
-	}
+	$is_filtered = $messagesC->is_filtered($user_filter_arr, $gal[$i]['filters']);
+	$subject = $gal[$i]['subject'];
+	$comment = $gal[$i]['comment'];
+	if (!empty($gal[$i]['prooflink']))
+		$prooflink = '>>> <a href="'.$gal[$i]['prooflink'].'">Подробнее</a>';
 	else
-	{
-		$subject = $gal[$i]['subject'];
-		$comment = $gal[$i]['comment'];
-		$is_filtered = false;
-		if (!empty($gal[$i]['prooflink']))
-			$prooflink = '>>> <a href="'.$gal[$i]['prooflink'].'">Подробнее</a>';
-		else
-			$prooflink = '';
-	}
+		$prooflink = '';
 	$subsection_image = 'themes/'.$theme.'/icons/'.$subsect_arr['icon'];
 	$usr = $usersC->get_user_info($gal[$i]['uid']);
 	$coreC->validate_boolean($usr['banned']) ? $author = '<s>'.$usr['nick'].'</s>' : $author = $usr['nick'];

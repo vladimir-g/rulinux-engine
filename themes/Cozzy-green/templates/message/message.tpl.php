@@ -1,4 +1,4 @@
-<div class="messages">
+<div class="messages" data-user="<?=$message_autor;?>">
 <div class="comment" id="cmm<?=$message_id?>">
 <div class="title">
 <a href="<?=$thread_this_link?>#msg<?=$message_id?>"><img border="0" src="themes/<?=$theme?>/id.png" alt="[#]"></a>
@@ -20,9 +20,16 @@
   </ul>
 </div>
 <?php endif;?>
+<?php if ($is_filtered):?>
+<h2><?=FILTERED_HEADING;?></h2>
+<?=FILTERED_TEXT;?> <a class="toggle-hidden" data-hidden="#msg-content-<?=$message_id;?>" href="message_<?=$message_id;?>">сюда</a>.
+<p><strong>Причины фильтрации: <?=$active_filters;?></strong></p>
+<?php endif;?>
+<div id="msg-content-<?=$message_id;?>" class="msg-content<?php if ($is_filtered):?> msg-hidden<?php endif;?>">
+<a class="toggle-hidden" data-hidden="#msg-content-<?=$message_id;?>" href="#">Скрыть</a>
 <h2><?=$message_subject?></h2>
 <?=$message_comment?>
-<?php if ($is_filtered):?><p><strong>Причины фильтрации: <?=$active_filters;?></strong></p><?php endif;?>
+</div>
 <div class=sign><?=$message_autor?>(<a href="<?=$message_autor_profile_link?>">*</a>)(<?=$message_timestamp?>)<br><?=$changed?><br><?=$message_useragent?></div>
 <div class=reply>[<a href="<?=$message_add_answer_link?>">Ответить на это сообщение</a>]</div>
 </td>

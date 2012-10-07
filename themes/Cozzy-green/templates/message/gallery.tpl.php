@@ -1,4 +1,4 @@
-<div class=messages>
+<div class="messages" data-user="<?=$message_autor;?>">
 <div class="title">
 <a href="<?=$thread_this_link?>#msg<?=$message_id?>"><img border="0" src="themes/<?=$theme?>/id.png" alt="[#]"></a>
 <?if($uinfo['gid']==2 || $uinfo['gid']==3){?>
@@ -18,20 +18,27 @@
   </ul>
 </div>
 <?php endif;?>
-<div class="msg" id="msg<?=$message_id?>"><h2 class="nt"><?=$message_subject?></h2>
+<div class="msg" id="msg<?=$message_id?>"><h2 class="nt"><?php if ($is_filtered):?><?=FILTERED_HEADING;?><?php else:?><?=$message_subject?><?php endif;?></h2>
 <table>
 <tr>
 <td style="vertical-align:top">
 <? if (!$is_filtered):?>
-  <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png">
+  <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png"></a>
 <? endif;?>
 </td>
-<td style="vertical-align:top"><?=$message_comment?>
-<?php if ($is_filtered):?><p><strong>Причины фильтрации: <?=$active_filters;?></strong></p><?php endif;?>
-<? if (!$is_filtered):?>
+<td style="vertical-align:top">
+
+<?php if ($is_filtered):?>
+<?=FILTERED_TEXT;?> <a class="toggle-hidden" data-hidden="#msg-content-<?=$message_id;?>" href="message_<?=$message_id;?>">сюда</a>.
+<p><strong>Причины фильтрации: <?=$active_filters;?></strong></p>
+<?php endif;?>
+<div id="msg-content-<?=$message_id;?>" class="msg-content<?php if ($is_filtered):?> msg-hidden<?php endif;?>">
+<a class="toggle-hidden" data-hidden="#msg-content-<?=$message_id;?>" href="#">Скрыть</a>
+<?php if ($is_filtered):?><h2><?=$message_subject?></h2><a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>"><img src="images/gallery/thumbs/<?=$gallery_file_name?>_small.png"></a><?php endif;?>
+<?=$message_comment?>
 <br><span style="font-style: italic"><?=$gallery_image_size?>, <?=$gallery_file_size?></span><br><br>
 >>> <a href="images/gallery/<?=$gallery_file_name?>.<?=$gallery_file_extension?>">Просмотр</a>
-<? endif;?>
+</div>
 
 </td>
 <tr>

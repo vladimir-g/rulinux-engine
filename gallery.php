@@ -88,20 +88,10 @@ for($i=0; $i<count($gal); $i++)
 	$comment_id = $gal[$i]['cid'];
 	$filter_list = $filtersC->get_filter_list($gal[$i]['filters']);
 	$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
-	if ($messagesC->is_filtered($user_filter_arr, $gal[$i]['filters']))
-	{
-		$subject = 'Сообщение отфильтровано в соответствии с вашими настройками фильтрации';
-		$comment = 'Это сообщение отфильтровано в соответствии с вашими настройками фильтрации. <br>Для того чтобы прочесть это сообщение отключите фильтр в профиле или нажмите <a href="message_'.$comment_id.'">сюда</a>.<br>';
-                $size = '';
-                $is_filtered = true;
-	}
-	else
-	{
-		$subject = $gal[$i]['subject'];
-		$comment = $gal[$i]['comment'];
-                $size = $gal[$i]['image_size'].', '.$gal[$i]['file_size'];
-                $is_filtered = false;
-	}
+	$is_filtered = $messagesC->is_filtered($user_filter_arr, $gal[$i]['filters']);
+	$subject = $gal[$i]['subject'];
+	$comment = $gal[$i]['comment'];
+	$size = $gal[$i]['image_size'].', '.$gal[$i]['file_size'];
         $img_link = 'images/gallery/'.$gal[$i]['file'].'.'.$gal[$i]['extension'];
         $img_thumb_link = 'images/gallery/thumbs/'.$gal[$i]['file'].'_small.png';
 	$usr = $usersC->get_user_info($gal[$i]['uid']);
