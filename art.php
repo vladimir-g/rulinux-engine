@@ -62,7 +62,7 @@ for($i=0; $i<count($thr); $i++)
 	}
 	else
 	{
-		$thread_subject = $thr[$i]['subject'];
+		$thread_subject = (!empty($thr[$i]['subject'])) ? $thr[$i]['subject'] : '(no title)';
 		$is_filtered = false;
 	}
 	$cur_thr = $threadsC->get_thread_times($thread_id);

@@ -33,7 +33,7 @@ for($i=0; $i<count($messages);$i++)
 	}
 	else
 	{
-		$subject = $messages[$i]['subject'];
+		$subject = (!empty($messages[$i]['subject'])) ? $messages[$i]['subject'] : '(no title)';
 		$is_filtered = false;
 	}
 	$author_info = $usersC->get_user_info($messages[$i]['uid']);
