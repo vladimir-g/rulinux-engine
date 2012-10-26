@@ -33,6 +33,70 @@ function str_to_html($string)
 	$string = preg_replace("#\\\\br#sim","<br />", $string);
 	$string = str_replace('imgh://', 'http://', $string);
 	$string = str_replace('imghs://', 'https://', $string);
+	$url_re = '#(\\\\url)(\\[)?(.*?[^\\]]?)(\\])?({)(.*?[^}]?)(})#sim';
+	$vt = preg_match_all($url_re, $string, $match);
+	for($i=0;$i<$vt;$i++)
+	{
+		if(filter_var($match[6][$i], FILTER_VALIDATE_URL))
+		{
+			if(empty($match[3][$i]))
+				$string = preg_replace($url_re, "<a href=\"\$6\">\$6</a>", $string, 1);
+			else
+				$string = preg_replace($url_re, "<a href=\"\$6\">\$3</a>", $string, 1);
+		}
+	}
+	$user_re = "#(\\\\user{)(.*?[^}]?)(})#sim";
+	$arr = preg_match_all($user_re, $string, $match);
+	for($i=0;$i<$arr;$i++)
+	{
+		$where_arr = array(array("key"=>'nick', "value"=>$match[2][$i], "oper"=>'='));
+		$sel = base::select('users', '', '*', $where_arr, 'AND');
+		if(!empty($sel))
+			$string = preg_replace($user_re, "<b><a href=\"/profile.php?user=\$2\">\$2</a></b>", $string, 1);
+		else
+			$string = preg_replace($user_re, "\$2", $string, 1);
+	}
+	$img_re = '#(\\\\img)(\\[?) ?(left|right|middle|top|bottom)? ?(\\])?{(.*?[^}]?)(})#sim';
+	$vt = preg_match_all($img_re, $string, $match);
+	for($i=0;$i<$vt;$i++)
+	{
+		$imageinfo = getimagesize($match[5][$i]);
+		if($imageinfo[0] > 1024)
+		{
+			if(!empty($match[3][$i]))
+				$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+			else
+				$string = preg_replace($img_re, "<img src=\"\$5\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		}
+		else
+		{
+			if(!empty($match[3][$i]))
+				$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+			else
+				$string = preg_replace($img_re, "<img src=\"\$5\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
+		}
+	}
+	$tags1 = array
+	(
+		'center' => '<p align="center">',
+		'flushleft' => '<p align="left">',
+		'flushright' => '<p align="right">',
+	);
+	foreach ($tags1 as $tag1 => $val1)
+	{
+		$re = '#(\\\\begin{'.$tag1.'})(.*?[^\\\\end{'.$tag1.'}]?)(\\\\end{'.$tag1.'})#sim';
+		if ($tag1 == 'center' || $tag1 == 'flushleft' || $tag1 == 'flushright')
+		{
+			$vh = preg_match_all($re, $string, $match);
+			for($i=0;$i<$vh;$i++)
+			{
+				$string = preg_replace($re, $val1.'$2</p>', $string, 1);
+				$with_breaks = str_replace("\\", '<br>', $match[2][$i]);
+				$with_breaks = str_replace("\n", ' ', $with_breaks);
+				$string = str_replace($match[2][$i], $with_breaks, $string);
+			}
+		}
+	}
 	$tags = array
 	(
 		'list' => '<ul>',
@@ -74,70 +138,6 @@ function str_to_html($string)
 				$with_breaks = preg_replace('/(\\r\\n)+$/', '', $with_breaks);
 				$string = str_replace($match[3][$i], $with_breaks, $string);
 			}
-		}
-	}
-	$tags1 = array
-	(
-		'center' => '<p align="center">',
-		'flushleft' => '<p align="left">',
-		'flushright' => '<p align="right">',
-	);
-	foreach ($tags1 as $tag1 => $val1)
-	{
-		$re = '#(\\\\begin{'.$tag1.'})(.*?[^\\\\end{'.$tag1.'}]?)(\\\\end{'.$tag1.'})#sim';
-		if ($tag1 == 'center' || $tag1 == 'flushleft' || $tag1 == 'flushright')
-		{
-			$vh = preg_match_all($re, $string, $match);
-			for($i=0;$i<$vh;$i++)
-			{
-				$string = preg_replace($re, $val1.'$2</p>', $string, 1);
-				$with_breaks = str_replace("\\", '<br>', $match[2][$i]);
-				$with_breaks = str_replace("\n", ' ', $with_breaks);
-				$string = str_replace($match[2][$i], $with_breaks, $string);
-			}
-		}
-	}
-	$user_re = "#(\\\\user{)(.*?[^}]?)(})#sim";
-	$arr = preg_match_all($user_re, $string, $match);
-	for($i=0;$i<$arr;$i++)
-	{
-		$where_arr = array(array("key"=>'nick', "value"=>$match[2][$i], "oper"=>'='));
-		$sel = base::select('users', '', '*', $where_arr, 'AND');
-		if(!empty($sel))
-			$string = preg_replace($user_re, "<b><a href=\"/profile.php?user=\$2\">\$2</a></b>", $string, 1);
-		else
-			$string = preg_replace($user_re, "\$2", $string, 1);
-	}
-	$url_re = '#(\\\\url)(\\[)?(.*?[^\\]]?)(\\])?({)(.*?[^}]?)(})#sim';
-	$vt = preg_match_all($url_re, $string, $match);
-	for($i=0;$i<$vt;$i++)
-	{
-		if(filter_var($match[6][$i], FILTER_VALIDATE_URL))
-		{
-			if(empty($match[3][$i]))
-				$string = preg_replace($url_re, "<a href=\"\$6\">\$6</a>", $string, 1);
-			else
-				$string = preg_replace($url_re, "<a href=\"\$6\">\$3</a>", $string, 1);
-		}
-	}
-	$img_re = '#(\\\\img)(\\[?) ?(left|right|middle|top|bottom)? ?(\\])?{(.*?[^}]?)(})#sim';
-	$vt = preg_match_all($img_re, $string, $match);
-	for($i=0;$i<$vt;$i++)
-	{
-		$imageinfo = getimagesize($match[5][$i]);
-		if($imageinfo[0] > 1024)
-		{
-			if(!empty($match[3][$i]))
-				$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
-			else
-				$string = preg_replace($img_re, "<img src=\"\$5\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
-		}
-		else
-		{
-			if(!empty($match[3][$i]))
-				$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
-			else
-				$string = preg_replace($img_re, "<img src=\"\$5\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
 		}
 	}
 	$string = '<p>'.$string.'</p>';
