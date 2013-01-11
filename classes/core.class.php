@@ -50,23 +50,7 @@ class core extends object
 	}
 	function update_sessions_table($session_id, $uid, $tid)
 	{
-		if(gmdate("i")>=5)
-		{
-			$min = gmdate("i")-5;
-			$hour = gmdate("H");
-		}
-		else
-		{
-			$min = 60+gmdate("i")-5;
-			$hour = gmdate("H");
-			if($hour!="00")
-				$hour = gmdate("H")-1;
-			else
-				$hour = 23;
-		}
-		if($min<10)
-			$min = '0'.$min;
-		$timestamp = gmdate("Y-m-d").' '.$hour.':'.$min.':'.gmdate("s");
+		$timestamp =  gmdate("Y-m-d H:i:s", strtotime("-5 min", time()));
 		$where_arr = array(array("key"=>'timest', "value"=>$timestamp, "oper"=>'<'));
 		$subsect = self::$baseC->select('sessions', '', '*', $where_arr, 'AND');
 		if(!empty($subsect))
@@ -76,9 +60,9 @@ class core extends object
 		}
 		if($uid != 1)
 		{
-			self::$baseC->delete('sessions', 'session_id', $session_id);
 			self::$baseC->delete('sessions', 'uid', $uid);
 		}
+		self::$baseC->delete('sessions', 'session_id', $session_id);
 		$timest = gmdate("Y-m-d H:i:s");
 		$msg_arr = array(array('session_id', $session_id), array('uid', $uid), array('tid', $tid), array('timest', $timest));
 		$ret = self::$baseC->insert('sessions', $msg_arr);
