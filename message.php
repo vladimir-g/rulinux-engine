@@ -1,8 +1,8 @@
 <?php
 require 'classes/core.php';
-$templatesC = new templates;
-$templatesC->set_theme($uinfo['theme']);
-$templatesC->set_file('message.tpl');
+/* $templatesC = new templates; */
+/* $templatesC->set_theme($uinfo['theme']); */
+/* $templatesC->set_file('message.tpl'); */
 $thread_id = (int)$_GET['newsid'];
 $page = (int)$_GET['page'];
 $coreC->update_sessions_table(session_id(),$_SESSION[user_id], $thread_id);
@@ -115,12 +115,12 @@ if($pages_count > 1)
 	}
 }
 
-$templatesC->assign('section_link', $section_link);
-$templatesC->assign('section_name', $section_name);
-$templatesC->assign('subsection_link', $subsection_link);
-$templatesC->assign('subsection_name', $subsection_name);
-$templatesC->assign('rss_link', $rss_link);
-$templatesC->draw('nav_form');
+/* $templatesC->assign('section_link', $section_link); */
+/* $templatesC->assign('section_name', $section_name); */
+/* $templatesC->assign('subsection_link', $subsection_link); */
+/* $templatesC->assign('subsection_name', $subsection_name); */
+/* $templatesC->assign('rss_link', $rss_link); */
+/* $templatesC->draw('nav_form'); */
 require 'themes/'.$theme.'/templates/message/nav_form.tpl.php';
 switch($section_id)
 {
