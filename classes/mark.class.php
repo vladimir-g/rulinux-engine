@@ -2,9 +2,11 @@
 final class mark extends object
 {
 	static $baseC = null;
+	static $latex = null;
 	function __construct()
 	{
 		self::$baseC = new base;
+		self::$latex = new LaTeXMark('tmp/latex.log');
 	}
 	function get_mark_file($mark_id)
 	{
@@ -20,10 +22,19 @@ final class mark extends object
 	}
 	function make_formula($text)
 	{
+		if (self::$latex->is_available())
+			return self::$latex->make_image('$'.trim($text).'$');
 		$text = '<m>'.$text.'</m>';
 		$size = 10;
 		$pathtoimg = 'images/formulas/';
 		return mathfilter($text,$size,$pathtoimg);
+	}
+	function make_latex($text)
+	{
+		if (self::$latex->is_available())
+			return self::$latex->make_image($text);
+		return $text;
+
 	}
 	function highlight($code, $lang, $path)
 	{

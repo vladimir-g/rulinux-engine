@@ -49,6 +49,7 @@ $usersC = new users;
 require_once "classes/auth.class.php";
 $authC = new auth;
 $uinfo = $usersC->get_user_info($_SESSION['user_id']);
+require_once "classes/latex.class.php";
 require_once "classes/mark.class.php";
 $markC = new mark;
 $mark_file = $markC->get_mark_file($uinfo['mark']);

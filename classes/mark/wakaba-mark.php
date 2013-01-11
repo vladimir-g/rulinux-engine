@@ -13,6 +13,15 @@ function str_to_html($string)
 		$code[$i] = $with_breaks;
 		$string = str_replace($match[0][$i], '⓬'.$i.'⓬', $string);
 	}
+	$latex = array();
+	$latex_re = '#(\\{%\\{)(.*?)(\\}%\\})#suim';
+	$vh = preg_match_all($latex_re, $string, $match);
+	for($i=0;$i<$vh;$i++)
+	{
+		$with_breaks = mark::make_latex($match[2][$i]);
+		$latex[$i] = $with_breaks;
+		$string = str_replace($match[0][$i], '☣'.$i.'☣', $string);
+	}
 	$re = '#(\\{\\{)(.*?)(\\}\\})#suim';
 	$vh = preg_match_all($re, $string, $match);
 	for($i=0;$i<$vh;$i++)
@@ -130,6 +139,10 @@ function str_to_html($string)
 	$vt = preg_match_all($re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 		$string = str_replace('ᴥ'.$match[2][$i].'ᴥ', $math[$match[2][$i]], $string);
+	$re = "#(☣)([0-9]+)(☣)#suim";
+	$vt = preg_match_all($re, $string, $match);
+	for($i=0;$i<$vt;$i++)
+		$string = str_replace('☣'.$match[2][$i].'☣', $latex[$match[2][$i]], $string);
 	return $string;
 }
 
