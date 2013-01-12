@@ -6,7 +6,7 @@ final class mark extends object
 	function __construct()
 	{
 		self::$baseC = new base;
-		self::$latex = new LaTeXMark('tmp/latex.log');
+		self::$latex = new LaTeXMark();
 	}
 	function get_mark_file($mark_id)
 	{

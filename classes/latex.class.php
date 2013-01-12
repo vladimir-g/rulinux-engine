@@ -119,7 +119,7 @@ EOT;
 	{
 		exec('TEXMFVAR='.$this->tmp_dir.'texmf/ '.$cmd, $output, $code);
 		$this->log(implode("\n", $output));
-		return $code;
+		return array($code, $output);
 	}
 
 	/* Remove file or directory */
@@ -165,22 +165,26 @@ EOT;
 		fwrite($f, $doc);
 
 		/* Run latex */
-		$err = $this->exec($this->latex_path.' -interaction=nonstopmode -output-directory='.$this->dirname.' '.$fname_base.'.tex');
-		if ($err !== 0)	throw new Exception("latex can't process this text");
+		list($err, $out) = $this->exec($this->latex_path.' -interaction=nonstopmode -output-directory='.$this->dirname.' '.$fname_base.'.tex');
+		if ($err !== 0)	
+		{
+			$out = str_replace($_SERVER['DOCUMENT_ROOT'], '', implode("\n", array_slice($out, 1)));
+			throw new Exception('latex can\'t process this text <div class="quote"><pre>'.$out.'</pre></div>');
+		}
 
 		/* dvips->imagemagick */
 		if (!empty($this->dvips_path) && !empty($this->convert_path))
 		{
-			$err = $this->exec($this->dvips_path.' -E -o '.$fname_base.'.ps '.$fname_base.'.dvi');
+			list($err, $out) = $this->exec($this->dvips_path.' -E -o '.$fname_base.'.ps '.$fname_base.'.dvi');
 			if ($err !== 0)	throw new Exception('dvips error');
-			$err = $this->exec($this->convert_path. ' -density 150 -background "#fffffe" -flatten '.
+			list($err, $out) = $this->exec($this->convert_path. ' -density 150 -background "#fffffe" -flatten '.
 					   $fname_base.'.ps '.$result);
 			if ($err !== 0)	throw new Exception('convert error');
 		}
 		/* dvipng */
 		elseif (!empty($this->dvipng_path))
 		{
-			$err = $this->exec($this->dvipng_path. ' -D 150 -T tight '.
+			list($err, $out) = $this->exec($this->dvipng_path. ' -D 150 -T tight '.
 					   $fname_base.'.dvi -o '.$result);
 			if ($err !== 0)	throw new Exception('dvipng error');
 		}
