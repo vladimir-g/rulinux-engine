@@ -76,7 +76,7 @@ function str_to_html($string)
 	$vt = preg_match_all($img_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{
-		$imageinfo = getimagesize($match[5][$i]);
+		$imageinfo = getimagesize($match[6][$i]);
 		if($imageinfo[0] > 1024)
 		{
 			if(!empty($match[3][$i]))
