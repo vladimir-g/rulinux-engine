@@ -190,7 +190,7 @@ final class users extends object
 	}
 	function add_user($nick, $pass, $name, $lastname, $gender, $email, $show_email, $im, $show_im, $country, $city,$additional, $gmt, $openid='')
 	{
-		$current_date = gmdate("y-m-d H:i:s");
+		$current_date = gmdate("Y-m-d H:i:s");
 		$pass = md5($pass);
 		$lw_nick = strtolower($nick);
 		$where_arr = array(array("key"=>'lower(nick)', "value"=>$lw_nick, "oper"=>'='));
