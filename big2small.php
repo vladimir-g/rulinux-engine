@@ -4,7 +4,38 @@
 if(isset($_GET['pixmap']))
 	$pixmap=$_GET['pixmap'];
 else exit();
-list($w0,$h0,$type,$attr)=getimagesize($pixmap);
+
+/* Use custom fopen context to prevent problems with streaming content */
+if (stripos($pixmap, 'https', 0) === 0)
+	$method = 'https';
+else
+	$method = 'http';
+$context = stream_context_create(array($method => array('timeout' => 3.0)));
+/* Crate temporary file */
+if (false === ($tmp = tempnam(sys_get_temp_dir(), uniqid('rlimg'))))
+	exit();
+/* Open input and output streams */
+if (false === ($in = fopen($pixmap, 'rb', false, $context)) ||
+    false === ($out = fopen($tmp, 'wb')))
+{
+	unlink($tmpfname);
+	exit();
+}
+/* Copy to temp file, max size is 5mb */
+stream_copy_to_stream($in, $out, 5242880);
+
+/* Close streams */
+fclose($in); fclose($out);
+
+$info = getimagesize($tmp);
+
+unlink($tmp);
+
+if (!$info)
+	exit();
+
+list($w0,$h0,$type,$attr) = $info;
+
 $w=$_GET['size'];// Это размер твоего трекера и ширина превьюхи.
 $rt=$w/$w0;// Это коэффициент для пересчёта высоты превьюхи.
 switch($type)

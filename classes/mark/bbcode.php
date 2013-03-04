@@ -89,21 +89,10 @@ function str_to_html($string)
 	$vt = preg_match_all($img_re, $string, $match);
 	for($i=0;$i<$vt;$i++)
 	{
-		$imageinfo = getimagesize($match[5][$i]);
-		if($imageinfo[0] > 1024)
-		{
-			if(!empty($match[3][$i]))
-				$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
-			else
-				$string = preg_replace($img_re, "<img src=\"\$5\" width=\"1024\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
-		}
+		if(!empty($match[3][$i]))
+			$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" style=\"max-width: 1024px\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
 		else
-		{
-			if(empty($match[3][$i]))
-				$string = preg_replace($img_re, "<img src=\"\$5\" align=\"$3\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
-			else
-				$string = preg_replace($img_re, "<img src=\"\$5\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
-		}
+			$string = preg_replace($img_re, "<img src=\"\$5\" style=\"max-width: 1024px\" alt=\"[путь к изображению некорректен]\" />", $string, 1);
 	}
 	$user_re = "#(\\[user\\])(.*?[^\\[/user\\]]?)(\\[/user\\])#sim";
 	$arr = preg_match_all($user_re, $string, $match);
