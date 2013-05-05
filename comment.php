@@ -82,6 +82,7 @@ if(!empty($_POST['sbm']))
 	{
 		$errors['msg'] = 'Сообщение не было отправлено, проверьте правильность заполнения формы';
 	}
+	$subj = $coreC->html_escape($subj);
 }
 
 if (!$is_preview)

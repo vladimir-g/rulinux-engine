@@ -186,6 +186,8 @@ if (!empty($_POST['submit_form']))
 	}
 	if (!empty($errors))
 		$errors['msg'] = 'Сообщение не было отправлено, проверьте правильность заполнения формы';
+	$subject = $coreC->html_escape($subject);
+	$prooflink = $coreC->html_escape($prooflink);
 }
 
 /* Fill errors array with empty strings to prevent php notices */

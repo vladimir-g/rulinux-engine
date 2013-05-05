@@ -151,5 +151,11 @@ class object
 		
 		return $truncate;
 	}
+	
+	/* Execute htmlentities function with some predefined arguments */
+	function html_escape($str)
+	{
+		return htmlentities($str, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+	}
 }
 ?>
