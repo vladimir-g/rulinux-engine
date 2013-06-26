@@ -20,7 +20,14 @@ if(isset($_GET[session_name()]))
 }
 if(!empty($_COOKIE[session_name()]))
 {
-	$cpt_level = $_SESSION['user_id'] == 1 ? rand(1,2) : $usersC->get_captcha_level($_SESSION['user_id']);
+	if ($_SESSION['user_id'] == 1)
+		$cpt_level = rand(1,4);
+	else
+	{
+		$cpt_level = $usersC->get_captcha_level($_SESSION['user_id']);
+		if ($cpt_level == 0)
+			$cpt_level = rand(1,4);
+	}
 	$captcha = $cp->gen_image($cpt_level);
 	$_SESSION['captcha_keystring'] = $captcha[1];
 }

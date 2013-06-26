@@ -1,6 +1,6 @@
 <?php
 // [level][id]
-$captcha_plug[0][0]="simple";
+/* $captcha_plug[0][0]="simple"; */
 $captcha_plug[1][0]="lau";
 $captcha_plug[1][1]="moreless";
 $captcha_plug[1][2]="bookz";
