@@ -16,7 +16,7 @@ class ximia_atomic_number
 		$X[9]="F";
 		$X[10]="Ne";
 		$X[11]="Na";
-		$X[12]="Ma";
+		$X[12]="Mg";
 		$X[13]="Al";
 		$X[14]="Si";
 		$X[15]="P";
