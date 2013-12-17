@@ -15,7 +15,7 @@
 <option value="-3">GMT -03</option>
 <option value="-2">GMT -02</option>
 <option value="-1">GMT -01</option>
-<option value="0">GMT +00</option>
+<option value="+0">GMT +00</option>
 <option value="+1">GMT +01</option>
 <option value="+2">GMT +02</option>
 <option value="+3">GMT +03</option>
