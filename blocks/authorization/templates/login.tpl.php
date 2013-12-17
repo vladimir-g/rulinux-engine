@@ -5,13 +5,13 @@
 <tr>
 <td>Логин: </td>
 <td>
-<input type="text" name="user">
+<input type="text" class="auth-field" name="user">
 </td>
 </tr>
 <tr>
 <td>Пароль: </td>
 <td>
-<input type="password" name="password">
+<input type="password" class="auth-field" name="password">
 </td>
 </tr>
 <tr>
@@ -29,7 +29,7 @@
 <tr>
 <td>OpenID: </td>
 <td>
-<input type="text" name="openid_url">
+<input type="text" class="auth-field" name="openid_url">
 </td>
 </tr>
 <tr>
