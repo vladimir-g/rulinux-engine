@@ -86,8 +86,6 @@ final class messages extends object
 			$query .= " LEFT JOIN comments rc ON rc.id = c.referer LEFT JOIN users ru ON ru.id = rc.uid ";
 		$query .= "WHERE c.timest > '::0::' ORDER BY c.timest DESC, c.id DESC";
 		$sel = self::$baseC->query($query, 'assoc_array', array($timestamp));
-		/* $sel = self::$baseC->query('SELECT * FROM comments WHERE timest > \'::0::\' ORDER BY timest DESC, id DESC', */
-		/* 			   'assoc_array', array($timestamp)); */
 		return $sel;
 	}
 	function edit_message($id, $subject, $message, $reason)
