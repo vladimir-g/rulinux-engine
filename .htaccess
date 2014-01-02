@@ -44,6 +44,7 @@ RewriteRule ^gallery_([0-9]*)_page_([0-9]*)$ gallery.php?id=$1&page=$2
 RewriteRule ^gallery_([0-9]*)$ gallery.php?id=$1
 RewriteRule ^thread_([0-9]*)$ message.php?newsid=$1
 RewriteRule ^thread_([0-9]*)_page_([0-9]*)$ message.php?newsid=$1&page=$2
+RewriteRule ^thread_([0-9]*)_comment_([0-9]*)$ message.php?newsid=$1&commentid=$2
 RewriteRule ^profile$ profile.php
 RewriteRule ^approve_thread_([0-9]*)$ moder.php?action=approve_thread&tid=$1
 RewriteRule ^detach_thread_([0-9]*)$ moder.php?action=detach_thread&tid=$1

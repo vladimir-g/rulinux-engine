@@ -62,15 +62,32 @@ final class messages extends object
 		$msg_arr = array(array('tid', $tid), array('uid', $uid), array('referer', $referer), array('timest', $timest), array('subject', $subject) , array('comment', $message), array('raw_comment', $raw_message), array('useragent', $useragent), array('changing_timest', $changing_timest), array('changed_by', '0'), array('filters', $filters), array('show_ua', $show_ua), array('md5', $md5), array('session_id', session_id()));
 		$ret = self::$baseC->insert('comments', $msg_arr);
 	}
-	function get_messages_for_tracker($hours)
+	function get_messages_for_tracker($hours, $comment=False, $resp=False)
 	{
 		if($hours>1)
 			$str = '- '.$hours.' hours';
 		else
 			$str = '- 1 hour';
 		$timestamp = gmdate('Y-m-d H:i:s', strtotime($str));
-		$sel = self::$baseC->query('SELECT * FROM comments WHERE timest > \'::0::\' ORDER BY timest DESC, id DESC',
-					   'assoc_array', array($timestamp));
+		$query = 'SELECT c.id AS id, c.tid AS tid, s.rewrite AS rewrite, sub.name AS sub_name, '.
+			'sub.sort AS sub_id, s.name AS sect_name, c.filters AS filters, c.timest AS timest, '.
+			'c.subject AS subject, u.nick AS nick, u.banned AS banned';
+
+		if ($comment)
+			$query .= ', c.comment AS comment';
+		if ($resp)
+			$query .= ', c.referer AS referer, ru.nick AS resp_user';
+
+		$query .= " FROM comments c LEFT JOIN threads t ON t.id = c.tid ".
+			"LEFT JOIN sections s ON s.id = t.section ".
+			"LEFT JOIN subsections sub ON sub.sort = t.subsection AND sub.section = t.section ".
+			"LEFT JOIN users u ON u.id = c.uid ";
+		if ($resp)
+			$query .= " LEFT JOIN comments rc ON rc.id = c.referer LEFT JOIN users ru ON ru.id = rc.uid ";
+		$query .= "WHERE c.timest > '::0::' ORDER BY c.timest DESC, c.id DESC";
+		$sel = self::$baseC->query($query, 'assoc_array', array($timestamp));
+		/* $sel = self::$baseC->query('SELECT * FROM comments WHERE timest > \'::0::\' ORDER BY timest DESC, id DESC', */
+		/* 			   'assoc_array', array($timestamp)); */
 		return $sel;
 	}
 	function edit_message($id, $subject, $message, $reason)

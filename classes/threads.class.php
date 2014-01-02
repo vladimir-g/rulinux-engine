@@ -221,5 +221,6 @@ final class threads  extends object
 		}
 		return $message_number;
 	}
+
 }
 ?>

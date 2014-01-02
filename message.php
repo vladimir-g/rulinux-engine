@@ -4,12 +4,22 @@ require 'classes/core.php';
 /* $templatesC->set_theme($uinfo['theme']); */
 /* $templatesC->set_file('message.tpl'); */
 $thread_id = (int)$_GET['newsid'];
-$page = (int)$_GET['page'];
+
+if (!empty($_GET['commentid'])) {
+	/* Calculate page number */
+	$comment_id = (int)$_GET['commentid'];
+	$msg_num = $threadsC->get_msg_number_by_tid($thread_id, $comment_id);
+	$page = ceil($msg_num/$uinfo['comments_on_page']);
+	if ($page == 0) $page = 1;
+}
+else
+	$page = (int)$_GET['page'];
+
 $coreC->update_sessions_table(session_id(),$_SESSION[user_id], $thread_id);
 $section = $sectionsC->get_section_by_tid($thread_id);
 $section_id = $section['id'];
 $section_name = $section['name'];
-$section_link = $section['rewrite'];;
+$section_link = $section['rewrite'];
 $subsection_id = $section['subsection_id'];
 $subsection_name = $section['subsection_name'];
 $subsection_link = $section['rewrite'].'_'.$section['subsection_id'].'_page_1';
