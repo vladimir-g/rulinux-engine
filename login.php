@@ -29,7 +29,7 @@ else
 		require 'footer.php';
 		exit();
 	}
-	if($_GET['openid_mode'] == 'id_res')
+	if(!empty($_GET['openid_mode']) && $_GET['openid_mode'] == 'id_res')
 	{
 		$openid = new SimpleOpenID;
 		$openid->SetIdentity($_GET['openid_identity']);
@@ -75,7 +75,7 @@ else
 		}
 		exit();
 	}
-	else if ($_GET['openid_mode'] == 'cancel')
+	else if (!empty($_GET['openid_mode']) && $_GET['openid_mode'] == 'cancel')
 	{
 		$legend = 'Неудачная авторизация';
 		$text = 'Неудачная авторизация. Действие отменено пользователем';

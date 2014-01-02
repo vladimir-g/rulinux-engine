@@ -3,7 +3,7 @@ require 'classes/core.php';
 $title = '';
 $rss_link='rss';
 require 'header_main.php';
-$_GET['page'] > 1 ? $page = (int)$_GET['page'] : $page=1;
+(!empty($_GET['page']) && $_GET['page'] > 1) ? $page = (int)$_GET['page'] : $page=1;
 $blocks = $usersC->get_blocks($_SESSION['user_id']);
 $lerf_arr = array();
 $right_arr=array();
@@ -34,6 +34,7 @@ $threads_count = $threadsC->get_news_count();
 $threads_on_page = $uinfo['news_on_page'];
 $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1 ? $begin=$threads_on_page*($page-1) : $begin = 0;
+$pages = '';
 if($pages_count > 1)
 {
 	if($page>1)

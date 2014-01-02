@@ -5,7 +5,7 @@ final class auth extends object
 	function __construct()
 	{
 		self::$baseC = new base;
-		if(!$_SESSION['is_openid'])
+		if(empty($_SESSION['is_openid']) || !$_SESSION['is_openid'])
 		{
 			if (isset($_COOKIE['login']) && isset($_COOKIE['password']))
 			{

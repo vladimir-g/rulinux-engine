@@ -37,12 +37,11 @@ for($i=0; $i<count($messages);$i++)
 		$is_filtered = false;
 	}
 	$coreC->validate_boolean($msg['banned']) ? $author = '<s>'.$msg['nick'].'</s>' :$author = $msg['nick'];
+	$resp = '';
 	if($show_resp)
 	{
 		if (!empty($msg['resp_user']))
 			$resp = '→'.$msg['resp_user'];
-		else
-			$resp = '';
 	}
 	$timestamp = $coreC->to_local_time_zone($msg['timest']);
 	$filter_link = 'set_filter_'.$msg['id'];

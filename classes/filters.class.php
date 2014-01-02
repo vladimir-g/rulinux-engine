@@ -73,7 +73,7 @@ final class filters extends object
 		$raw_list = explode(';', $filter_str);
 		foreach ($raw_list as $item)
 		{
-			if ((int)$item[2] == 1)
+			if (!empty($item) && (int)$item[2] == 1)
 				$result[(int)$item[0]] = self::$filters[(int)$item[0]];
 		}
 		return $result;

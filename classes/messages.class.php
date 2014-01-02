@@ -167,7 +167,7 @@ final class messages extends object
 		$msg_filter_arr = filters::parse_filter_string($msg_filter);
 		for($i=0; $i<count($user_filter_arr);$i++)
 		{
-			if($user_filter_arr[$i][1] == 1)
+			if(count($user_filter_arr[$i]) > 1 && $user_filter_arr[$i][1] == 1)
 			{
 				if($msg_filter_arr[$i][1] == 1)
 					return 1;

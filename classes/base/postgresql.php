@@ -171,6 +171,7 @@ final class base implements baseInterface
 		if ($ret_res = pg_query($query))
 		{
 			$i = 0;
+			$ret = array();
 			switch ($returnas)
 			{
 				case 'array':

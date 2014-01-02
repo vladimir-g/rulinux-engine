@@ -97,7 +97,7 @@ final class threads  extends object
 	}
 	function get_all_news($begin= 0, $end = '')
 	{
-		$sel = self::$baseC->query('SELECT max(id) AS max FROM threads WHERE section = 1', 'assoc_array', $param_arr);
+		$sel = self::$baseC->query('SELECT max(id) AS max FROM threads WHERE section = 1', 'assoc_array');
 		if(empty($end))
 			$end = $sel[0]['max'];
 		$param_arr = array($end, $begin);
@@ -192,6 +192,7 @@ final class threads  extends object
 		$param_arr = array($thr[0]['tid']);
 		$sel = self::$baseC->query('SELECT id FROM comments WHERE tid = \'::0::\' AND id>(SELECT min(id) FROM comments WHERE tid=\'::0::\') ORDER BY id ASC','assoc_array', $param_arr);
 		$msg_id = $message_id;
+		$message_number = 1;
                 for($i=0;$i<count($sel);$i++)
 		{
 			if($sel[$i]['id'] == $message_id)
