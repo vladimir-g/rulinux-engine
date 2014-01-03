@@ -69,6 +69,14 @@ if(empty($_POST['sbm']))
 			require 'themes/'.$theme.'/templates/edit_message/message/edit_message.tpl.php';
 		require 'footer.php';
 	}
+	else {
+		require 'header.php';
+		$legend = 'Действие запрещено';
+		$text = 'Вы не можете редактировать это сообщение';
+		require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+		require 'footer.php';
+		exit();
+	}
 }
 else
 {
