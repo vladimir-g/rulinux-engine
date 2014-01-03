@@ -8,6 +8,7 @@
 <script src="/js/common.js" type="text/javascript">;</script> 
 <LINK REL=STYLESHEET TYPE="text/css" HREF="themes/<?=$theme?>/css/hover.css" TITLE="Normal">
 <link href="themes/<?=$theme?>/css/common.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="themes/<?=$theme?>/css/highlight.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><?=$title?></title>
 </head><body>

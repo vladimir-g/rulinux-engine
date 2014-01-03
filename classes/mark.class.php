@@ -41,9 +41,17 @@ final class mark extends object
 		if(empty($lang))
 			$lang = 'c';
 		$geshi = new GeSHi($code, $lang);
-		$geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS,1);
-		$code = geshi_highlight($code, $lang, $path, true);
-		return $code;
+		$geshi->enable_classes();
+		$geshi->set_overall_class('highlight');
+		$geshi->set_header_type(GESHI_HEADER_NONE);
+		/* Now this feature works, maybe activate it? */
+		/* $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 1); */
+		$result = $geshi->parse_code();
+		/* This thing fixes styles when line numbers are disabled */
+		$result = '<div class="highlight '.$lang.'">'.$result.'</div>';
+		if ($geshi->error())
+			$result = $code;
+		return $result;
 	}
 	function get_marks_count()
 	{
