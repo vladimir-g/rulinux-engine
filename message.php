@@ -191,7 +191,9 @@ if($messages_count>1)
 		$resp_page = ceil($message_number/$uinfo['comments_on_page']);
 		if($resp_page == 0)
 			$resp_page = 1;
-		$message_resp_link = 'thread_'.$thread_id.'_page_'.$resp_page.'#msg'.$cmnt[$i]['referer'];
+		/* $message_resp_link = 'thread_'.$thread_id.'_page_'.$resp_page.'#msg'.$cmnt[$i]['referer']; */
+		$message_this_link = 'thread_'.$thread_id.'_comment_'.$message_id.'#msg'.$message_id;
+		$message_resp_link = 'thread_'.$thread_id.'_comment_'.$msg_resp['id'].'#msg'.$cmnt[$i]['referer'];
 		$message_edit_link = 'message_'.$message_id.':edit';
 		$is_filtered = (bool)$messagesC->is_filtered($user_filter_arr, $cmnt[$i]['filters']);
 		$message_subject = $cmnt[$i]['subject'];

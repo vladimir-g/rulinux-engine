@@ -62,9 +62,9 @@ if(!empty($_POST['sbm']))
 			$val = $messagesC->set_filter($msg_id, $str);
 			require 'header.php';
 			$legend = 'Комментарий успешно добавлен';
-			$text = 'Комментарий успешно добавлен<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">сюда</a>.';
+			$text = 'Комментарий успешно добавлен<br>Через три секунды вы будете перенаправлены в тред.<br>Если вы не хотите ждать, нажмите <a href="thread_'.$thread_id.'_comment_'.$msg_id.'#msg'.$msg_id.'">сюда</a>.';
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="3; URL=http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'thread_'.$thread_id.'_page_'.$page.'#msg'.$msg_id.'">');
+			die('<meta http-equiv="Refresh" content="3; URL=/thread_'.$thread_id.'_comment_'.$msg_id.'#msg'.$msg_id.'">');
 		}
 	}
 	elseif ($_POST['sbm'] == 'Предпросмотр' && empty($errors))

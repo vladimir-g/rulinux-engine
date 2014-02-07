@@ -1,7 +1,7 @@
 <div class="messages" data-user="<?=$message_autor;?>">
 <div class="comment" id="cmm<?=$message_id?>">
 <div class="title">
-<a href="<?=$thread_this_link?>#msg<?=$message_id?>"><img border="0" src="themes/<?=$theme?>/id.png" alt="[#]"></a>
+<a href="<?=$message_this_link;?>"><img border="0" src="themes/<?=$theme?>/id.png" alt="[#]"></a>
 <a href="<?=$message_set_filter_link?>"><img border="0" src="themes/<?=$theme?>/filter.png" alt="[Добавить метку]"></a>
 <a href="<?=$message_edit_link?>"><img border="0" src="themes/<?=$theme?>/edit.png" alt="[Редактировать]"></a>
 Ответ на: <a href="<?=$message_resp_link?>"><?=$message_resp_title?> </a> от <?=$message_resp_user?>  <?=$message_resp_timestamp?>
