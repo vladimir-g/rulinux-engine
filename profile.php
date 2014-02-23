@@ -306,11 +306,9 @@ else if($_POST['action']=="moder")
 			require 'footer.php';
 			exit();
 		}
-		$banned = (int)$_POST['banned'];
-		$ban_ret = $usersC->ban_user($uid, $banned);
 		$value = (int)$_POST['captcha'];
 		$cpt_ret = $usersC->modify_user_info('captcha', $value, $uid);
-		if($ban_ret >=0 || $cpt_ret >=0)
+		if($cpt_ret >=0)
 		{
 			require 'header.php';
 			$legend = 'Модераторские настройки успешно изменены';
@@ -351,9 +349,11 @@ else if($_POST['action']=="admin")
 	}
 	if($uinfo['gid']==2)
 	{
+		$banned = (int)$_POST['banned'];
+		$ban_ret = $usersC->ban_user($uid, $banned);
 		$group = (int)$_POST['group'];
 		$ret = $usersC->modify_user_info('gid', $group, $uid);
-		if($ret >=0)
+		if($ban_ret >= 0 && $ret >=0)
 		{
 			require 'header.php';
 			$legend = 'Администраторские настройки успешно изменены';
