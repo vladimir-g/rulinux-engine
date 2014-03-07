@@ -33,6 +33,7 @@ $thread_next_link = 'thread_'.$next['id'].'_page_1';
 $thread_next_subject = $next['subject'];
 $topic_start = $messagesC->get_topic_start_message($thread_id);
 $thread_this_link = 'thread_'.$thread_id.'_page_'.$page;
+$current_user = $usersC->get_user_info($_SESSION['user_id']);
 $msg_autor = $usersC->get_user_info($topic_start['uid']);
 $coreC->validate_boolean($msg_autor['banned']) ? $message_autor = '<s>'.$msg_autor['nick'].'</s>' :$message_autor = $msg_autor['nick'];
 $message_autor_profile_link = 'user_'.$msg_autor['nick'];
@@ -176,24 +177,17 @@ if($messages_count>1)
 	{
 		$message_id = $cmnt[$i]['id'];
 		$message_set_filter_link = 'set_filter_'.$message_id;
-		$msg_resp = $messagesC->get_message($cmnt[$i]['referer']);
 		$filter_list = $filtersC->get_filter_list($cmnt[$i]['filters']);
 		$active_filters = $filtersC->get_active_filters($filter_list, $user_filter_list);
-		if ($messagesC->is_filtered($user_filter_arr, $msg_resp['filters']))
+		if ($messagesC->is_filtered($user_filter_arr, $cmnt[$i]['resp_filters']))
                         $message_resp_title = FILTERED_HEADING;
 		else
-                        $message_resp_title = $msg_resp['subject'];
-		$message_resp_timestamp = $coreC->to_local_time_zone($msg_resp['timest']);
-		$msg_resp_autor = $usersC->get_user_info($msg_resp['uid']);
-		$message_resp_user = $msg_resp_autor['nick'];
-		$mess_arr = $threadsC->get_msg_number_by_cid($msg_resp['id']);
-		$message_number = $mess_arr[0];
-		$resp_page = ceil($message_number/$uinfo['comments_on_page']);
-		if($resp_page == 0)
-			$resp_page = 1;
-		/* $message_resp_link = 'thread_'.$thread_id.'_page_'.$resp_page.'#msg'.$cmnt[$i]['referer']; */
+                        $message_resp_title = $cmnt[$i]['resp_subject'];
+		$message_resp_timestamp = $coreC->to_local_time_zone($cmnt[$i]['resp_timest'],
+								     $current_user['gmt']);
+		$message_resp_user = $cmnt[$i]['resp_user'];
 		$message_this_link = 'thread_'.$thread_id.'_comment_'.$message_id.'#msg'.$message_id;
-		$message_resp_link = 'thread_'.$thread_id.'_comment_'.$msg_resp['id'].'#msg'.$cmnt[$i]['referer'];
+		$message_resp_link = 'thread_'.$thread_id.'_comment_'.$cmnt[$i]['referer'].'#msg'.$cmnt[$i]['referer'];
 		$message_edit_link = 'message_'.$message_id.':edit';
 		$is_filtered = (bool)$messagesC->is_filtered($user_filter_arr, $cmnt[$i]['filters']);
 		$message_subject = $cmnt[$i]['subject'];
@@ -204,7 +198,7 @@ if($messages_count>1)
 			$message_useragent = '';
 		else
 			$message_useragent = $cmnt[$i]['useragent'];
-		$message_timestamp = $coreC->to_local_time_zone($cmnt[$i]['timest']);
+		$message_timestamp = $coreC->to_local_time_zone($cmnt[$i]['timest'], $current_user['gmt']);
 		$message_add_answer_link = 'comment_into_'.$thread_id.'_on_'.$message_id;
 		$message_avatar = $coreC->validate_boolean($uinfo['show_avatars'], 'FILTER_VALIDATE_FAILURE') == 0 || empty($cmnt[$i]['photo'])? 'themes/'.$theme.'/empty.gif' : 'images/avatars/'.$cmnt[$i]['photo'];
 		if(!empty($cmnt[$i]['changed_by']))

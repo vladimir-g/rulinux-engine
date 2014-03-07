@@ -146,7 +146,14 @@ final class messages extends object
 		$sel = self::$baseC->query('SELECT max(id) AS max, min(id) AS min FROM comments WHERE tid = ::0::', 'assoc_array', array((int)$tid));
 		if (empty($end))
 			$end = $sel[0]['max'];
-		$result = self::$baseC->query("SELECT c.*, u.nick, u.photo, u.banned FROM comments c INNER JOIN users u ON c.uid = u.id WHERE c.tid = ::0:: AND c.id > ::1:: ORDER BY c.id ASC OFFSET ::2:: LIMIT ::3::", 'assoc_array', array($tid, $sel[0]['min'], $begin, $end));
+		$query = 'SELECT c.*, u.nick, u.photo, u.banned, ru.nick AS resp_user, '.
+			'rc.subject AS resp_subject, rc.filters AS resp_filters, rc.timest as resp_timest '.
+			'FROM comments c '.
+			'INNER JOIN users u ON c.uid = u.id '.
+			'LEFT JOIN comments rc ON rc.id = c.referer LEFT JOIN users ru ON ru.id = rc.uid '.
+			'WHERE c.tid = ::0:: AND c.id > ::1:: '.
+			'ORDER BY c.id ASC OFFSET ::2:: LIMIT ::3::';
+		$result = self::$baseC->query($query, 'assoc_array', array($tid, $sel[0]['min'], $begin, $end));
 		return $result;
 	}
 	function set_filter($cid, $str)

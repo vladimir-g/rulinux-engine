@@ -6,7 +6,7 @@ class object
 	    $cases = array (2, 0, 1, 1, 1, 2);
 	    return $number." ".$titles[ ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)] ];
 	}
-	function to_local_time_zone($timest)
+	function to_local_time_zone($timest, $gmt=null)
 	{
 		$first_arr = explode(" ", $timest);
 		$second_arr = explode("-", $first_arr[0]);
@@ -18,12 +18,13 @@ class object
 		$minute = $third_arr[1];
 		$second = $third_arr[2];
 		$param_arr = array($_SESSION['user_id']);
-		$sel = base::query('SELECT gmt FROM users WHERE id = \'::0::\'','assoc_array', $param_arr);
-		if(!empty($sel))
-			$gmt = $sel[0]['gmt'];
-		else
-			$gmt = '+0';
-		
+		if ($gmt == null) {
+			$sel = base::query('SELECT gmt FROM users WHERE id = \'::0::\'','assoc_array', $param_arr);
+			if(!empty($sel))
+				$gmt = $sel[0]['gmt'];
+			else
+				$gmt = '+0';
+		}
 		if($_SESSION['user_id'] == 1)
 		{
 			if(!empty($_COOKIE['gmt']))
