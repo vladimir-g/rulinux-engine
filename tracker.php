@@ -43,7 +43,7 @@ for($i=0; $i<count($messages);$i++)
 		if (!empty($msg['resp_user']))
 			$resp = '→'.$msg['resp_user'];
 	}
-	$timestamp = $coreC->to_local_time_zone($msg['timest']);
+	$timestamp = $coreC->to_local_time_zone($msg['timest'], $uinfo['gmt']);
 	$filter_link = 'set_filter_'.$msg['id'];
 	require 'themes/'.$theme.'/templates/tracker/middle.tpl.php';
 }
