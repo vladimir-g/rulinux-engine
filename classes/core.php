@@ -64,6 +64,8 @@ require_once "classes/messages.class.php";
 $messagesC = new messages;
 require_once "classes/faq.class.php";
 $faqC = new faq;
+require_once "classes/security.class.php";
+$security = new Security($_SERVER['DOCUMENT_ROOT'].'config/security.ini');
 require 'classes/rss.class.php';
 $rssC = new rss;
 require 'ucaptcha/ucaptcha.php';

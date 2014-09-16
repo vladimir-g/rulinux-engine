@@ -29,8 +29,13 @@ if ($action == 'add_question')
 
 		if (!isset($_POST['keystring']))
 			$_POST['keystring'] = null;
-		if (!$captchaC->check($_POST['keystring']))
+		if (!$captchaC->check($_POST['keystring'])) {
 			$errors['captcha'] = 'Неверно введен ответ с картинки';
+			$security->log_action('post');
+		}
+		if (!$security->is_allowed())
+				$errors['captcha'] = 'Постинг временно заблокирован, так как '.
+						'вы несколько раз неправильно ввели капчу. Подумайте над своим поведением.';
 		$captchaC->reset();
 
 		if (empty($errors))
