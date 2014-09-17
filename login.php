@@ -85,16 +85,34 @@ else
 	{
 		if($_POST['auth_system'] == 'this')
 		{
+			if (!$security->is_allowed()) {
+					require 'header.php';
+					$legend = 'Ошибка';
+					$text = 'Вход временно заблокирован, так как '.
+							'вы несколько раз неправильно ввели логин, пароль или капчу.';
+					require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+					die();
+			}
+
 			if(isset($_POST['user']) && isset($_POST['password']))
 			{
 				$_POST['user'] = preg_replace('/[\'\/\*\s]/', '', $_POST['user']);
 				$authC->auth_user($_POST['user'], $_POST['password'], false);
 			}
-			require 'header.php';
-			$legend = 'Вы авторизованны на сайте';
-			$text = 'Вы авторизованны на сайте. Если у вас отключена переадресация нажмите <a href="/">сюда</a>';
-			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
-			die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');
+			if ($_SESSION['user_id'] !== '1') {
+					require 'header.php';
+					$legend = 'Вы авторизованы на сайте';
+					$text = 'Вы авторизованы на сайте. Если у вас отключена переадресация нажмите <a href="/">сюда</a>';
+					require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+					die('<meta http-equiv="Refresh" content="0; URL=http://'.$_SERVER['HTTP_HOST'].'">');
+			} else {
+					$security->log_action('login');
+					require 'header.php';
+					$legend = 'Логин или пароль не верны';
+					$text = 'Вы ввели неправильный логин или пароль. Попробуйте ещё раз.';
+					require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+					die();
+			}
 		}
 		else 
 		{

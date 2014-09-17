@@ -120,3 +120,42 @@ BEFORE INSERT OR UPDATE
 ON comments
 FOR EACH ROW
 EXECUTE PROCEDURE "THREAD_CH_TIMEST_UPDATE"();
+
+DROP TABLE IF EXISTS failed_actions CASCADE;
+CREATE TABLE failed_actions (
+       id serial PRIMARY KEY,
+       ip inet, 
+       date timestamp,
+       type varchar(32)
+);
+CREATE INDEX idx_failed_actions_date ON failed_actions(date);
+CREATE INDEX idx_failed_actions_type ON failed_actions(type);
+CREATE INDEX idx_failed_actions_ip ON failed_actions(ip);
+
+DROP TABLE IF EXISTS blocked_ip CASCADE;
+CREATE TABLE blocked_ip (
+       id serial PRIMARY KEY, 
+       ip inet, 
+       date timestamp
+);
+CREATE INDEX idx_blocked_ip_date ON blocked_ip(date);
+CREATE INDEX idx_blocked_ip_ip ON blocked_ip(ip);
+
+CREATE FUNCTION delete_old_actions() RETURNS trigger 
+       LANGUAGE plpgsql 
+       AS $$ 
+BEGIN
+       DELETE FROM failed_actions WHERE date < NOW() - INTERVAL '1 day'; RETURN NEW;
+END;
+$$;
+
+CREATE FUNCTION delete_old_blocks() RETURNS trigger 
+       LANGUAGE plpgsql 
+       AS $$ 
+BEGIN
+       DELETE FROM blocked_ip WHERE date < NOW() - INTERVAL '1 day'; RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER old_actions_gc AFTER INSERT ON failed_actions EXECUTE PROCEDURE delete_old_actions();
+CREATE TRIGGER old_blocks_gc AFTER INSERT ON blocked_ip EXECUTE PROCEDURE delete_old_blocks();
