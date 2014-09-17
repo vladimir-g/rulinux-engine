@@ -80,6 +80,16 @@ if(empty($_POST['sbm']))
 }
 else
 {
+    if (!$security->is_allowed()) {
+			require 'header.php';
+			$header = 'Ошибка';
+			$text = 'Постинг временно заблокирован, так как '.
+					'вы несколько раз неправильно ввели капчу. Подумайте над своим поведением.';
+			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
+			require 'footer.php';
+			exit();
+	}
+
 	if($usersC->get_captcha_level($_SESSION['user_id']) > -1)
 	{
 		if(empty($_SESSION['captcha_keystring']) || $_SESSION['captcha_keystring'] != $_POST['keystring'])
@@ -87,6 +97,7 @@ else
 			require 'header.php';
 			$legend = 'Неверно введен ответ с картинки';
 			$text = 'Неверно введен ответ с картинки';
+			$security->log_action('post');
 			require 'themes/'.$theme.'/templates/fieldset.tpl.php';
 			require 'footer.php';
 			exit();
