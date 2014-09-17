@@ -6,10 +6,10 @@ class determinant
 	{
 		global $captcha_font_path,$captcha_img_path;   
 		$hit = "Считай детерминант!";
-		$a=rand(0,9);
-		$b=rand(0,9);
-		$c=rand(0,9);
-		$d=rand(0,9);
+		$a=rand(1,9);
+		$b=rand(1,9);
+		$c=rand(1,9);
+		$d=rand(1,9);
 		$color = imagecolorallocate($canvas, rand(100,255),rand(100,255) , rand(100,255));
 		imageline  ( $canvas  , 20  , 10  , 20  , 60  , $color  );
 		imageline  ( $canvas  , 160  , 10  , 160  , 60  , $color  );

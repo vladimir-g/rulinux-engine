@@ -6,15 +6,15 @@ class determinant3
 	{
 		global $captcha_font_path,$captcha_img_path;
 		$hit = "Считай детерминант";
-		$a11=rand(0,9);
-		$a12=rand(0,9);
-		$a13=rand(0,9);
-		$a21=rand(0,9);
-		$a22=rand(0,9);
-		$a23=rand(0,9);
-		$a31=rand(0,9);
-		$a32=rand(0,9);
-		$a33=rand(0,9);
+		$a11=rand(1,9);
+		$a12=rand(1,9);
+		$a13=rand(1,9);
+		$a21=rand(1,9);
+		$a22=rand(1,9);
+		$a23=rand(1,9);
+		$a31=rand(1,9);
+		$a32=rand(1,9);
+		$a33=rand(1,9);
 		$color = imagecolorallocate($canvas, rand(100,255), rand(100,255), rand(100,255));
 		imageline($canvas, 20, 10, 20, 60, $color);
 		imageline($canvas, 160, 10, 160, 60, $color);
