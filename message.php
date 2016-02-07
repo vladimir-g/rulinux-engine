@@ -15,7 +15,7 @@ if (!empty($_GET['commentid'])) {
 else
 	$page = (int)$_GET['page'];
 
-$coreC->update_sessions_table(session_id(),$_SESSION[user_id], $thread_id);
+$coreC->update_sessions_table(session_id(),$_SESSION['user_id'], $thread_id);
 $section = $sectionsC->get_section_by_tid($thread_id);
 $section_id = $section['id'];
 $section_name = $section['name'];
@@ -55,6 +55,7 @@ $message_set_filter_link = 'set_filter_'.$message_id;
 $message_add_answer_link = 'comment_into_'.$thread_id.'_on_'.$message_id;
 $message_edit_link = 'message_'.$message_id.':edit';
 $messages_count = $messagesC->get_messages_count($thread_id);
+$changed = '';
 if(!empty($topic_start['changed_by']))
 {
 	$usr = $usersC->get_user_info($topic_start['changed_by']);
@@ -71,6 +72,7 @@ $r_count = $coreC->get_readers_count($thread_id);
 $readers_count = $coreC->declOfNum($r_count, array('пользователь', 'пользователя', 'пользователей'));
 $readers = 'Анонимных: '.$coreC->get_readers_count($thread_id, 1).'<br>Зарегистрированных: '.$coreC->get_readers_count($thread_id, 2).' <br>';
 $rdrs_arr = $coreC->get_readers($thread_id);
+$rdrs = '';
 for($i=0;$i<count($rdrs_arr);$i++)
 {
 	if($rdrs_arr[$i]['gid']==2)
@@ -81,6 +83,7 @@ for($i=0;$i<count($rdrs_arr);$i++)
 		$rdrs = $rdrs.'<div class="user">'.$rdrs_arr[$i]['nick'].'</div>';
 }
 $readers = $readers.$rdrs;
+$pages = '';
 if($pages_count > 1)
 {
 	if($page>1)
