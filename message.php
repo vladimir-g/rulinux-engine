@@ -29,8 +29,12 @@ $prev = $threadsC->get_previous_thread($thread_id);
 $next = $threadsC->get_next_thread($thread_id);
 $thread_previous_link = 'thread_'.$prev['id'].'_page_1';
 $thread_previous_subject = (!empty($prev['subject'])) ? $prev['subject'] : '(no title)';
-$thread_next_link = 'thread_'.$next['id'].'_page_1';
-$thread_next_subject = $next['subject'];
+$thread_next_link = '';
+$thread_next_subject = '';
+if (!empty($next)) {
+    $thread_next_link = 'thread_'.$next['id'].'_page_1';
+    $thread_next_subject = $next['subject'];
+}
 $topic_start = $messagesC->get_topic_start_message($thread_id);
 $thread_this_link = 'thread_'.$thread_id.'_page_'.$page;
 $current_user = $usersC->get_user_info($_SESSION['user_id']);

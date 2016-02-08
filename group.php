@@ -76,6 +76,7 @@ for($i=0; $i<count($thr); $i++)
 }
 if($pages_count > 1)
 {
+    $pages = '';
 	if($page>1)
 	{
 		$pg = $page-1;

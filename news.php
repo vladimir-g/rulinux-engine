@@ -38,6 +38,7 @@ $pages_count = ceil(($threads_count)/$threads_on_page);
 $pages_count>1 ? $begin=$threads_on_page*($page-1) : $begin = 0;
 if($pages_count > 1)
 {
+    $pages = '';
 	if($page>1)
 	{
 		$pg = $page-1;

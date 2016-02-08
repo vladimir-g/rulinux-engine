@@ -2,7 +2,7 @@
 require 'librarys/feedwriter/FeedWriter.php';
 require 'classes/core.php';
 (int)$section=$_GET['section'];
-(int)$subsection=$_GET['subsection'];
+(int)$subsection=(isset($_GET['subsection']) ? $_GET['subsection'] : null);
 (int)$tid=$_GET['newsid'];
 if(!empty($section))
 {
