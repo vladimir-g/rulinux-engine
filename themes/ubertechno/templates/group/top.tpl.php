@@ -1,23 +1,6 @@
 <h1><?=$section_name?> <?=$subsection_name?></h1><p style="margin-top: 0px">
 <em><?=$subsection_description?></em><br><br>
 
-<script type="text/javascript">
-var mins = 2;
-$(function()
-{		
-	$("#trigger").click(function(event) 
-	{
-		event.preventDefault();
-		$("#box").slideToggle();
-	});
-
-	$("#box a").click(function(event) 
-	{
-		event.preventDefault();
-		$("#box").slideUp();
-	});
-});
-</script>
 <div id="jq-wrapper">
 <div id="bodyContent" style="padding-bottom:10px">
 <a href="#" id="trigger">Рекомендации по разделу</a>

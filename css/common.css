@@ -40,6 +40,9 @@ div.filters ul {
 
 div.msg-hidden {
     display: none;
+}
+
+div.msg-show {
     border-width: 1px 0px;
     border-color: darkgray;
     border-style: solid;

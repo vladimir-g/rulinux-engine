@@ -4,8 +4,6 @@
 <LINK REL="alternate" TITLE="<?=$site_name?> RSS" HREF="<?=$rss_link?>" TYPE="application/rss+xml">
 <link href="/css/common.css" type="text/css" rel="stylesheet" />
 <link href="themes/<?=$theme?>/css/main.css" type="text/css" rel="stylesheet">
-<script src="/js/jquery.js" type="text/javascript"></script>
-<script src="/js/common.js" type="text/javascript">;</script> 
 <LINK REL=STYLESHEET TYPE="text/css" HREF="themes/<?=$theme?>/css/hover.css" TITLE="Normal">
 <link href="themes/<?=$theme?>/css/common.css" type="text/css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

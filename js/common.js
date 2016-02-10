@@ -1,60 +1,79 @@
-// hightlight.js
+(function (window) {
 
-var highLighted;
+    var ready = function (fn) {
+        if (document.readyState != 'loading'){
+            fn();
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+    };
 
-function highLight(toHighLight)
-{
-    if (highLighted==toHighLight) {
-      return;
-    }
+    var highlight = function () {
+        var res = window.location.hash.match(/(msg[1-9]\d*)/);
+        if (res) {
+            var msgs = document.querySelectorAll('div.msg');
+            for (var i = 0; i < msgs.length; i++) {
+                if (msgs[i].id === res[0])
+                    msgs[i].classList.add('highLighted');
+                else if (msgs[i].classList.contains('highLighted'))
+                    msgs[i].classList.remove('highLighted');
+            }
+        }
+    };
 
-    if (highLighted) {
-      highLighted.className="msg";
-    }
+    ready(function () {
 
-    highLighted = toHighLight;
-    highLighted.className = "msg highLighted";
-}
+        document.querySelector('body').classList.add('js');
 
-function highlightMessage(id)
-{
-  var toHighLight = document.getElementById(id);
+        // Forum recommendations show/hide
+        var recBlock = document.getElementById('trigger');
+        if (recBlock) {
+            recBlock.addEventListener('click', function (e) {
+                e.preventDefault();
+                var box = document.getElementById('box');
+                if (box.style.display === 'block') {
+                    box.style.display = 'none';
+                } else {
+                    box.style.display = 'block';
+                }
+            });
+        }
 
-  if (toHighLight)
-  {
-    highLight(toHighLight);
-  }
-}
+        // Highlight
+        window.addEventListener('hashchange', highlight);
+        highlight();            // Trigger on load
 
-function parseHash()
-{
-  var results = location.hash.match(/^#(msg[1-9]\d*)$/);
-  if (results) {
-    highlightMessage(results[1]);
-  }
-}
+        // Filter block
+        var filterLinks = document.querySelectorAll('a.filter-link');
+        for (var i = 0; i < filterLinks.length; i++) {
+            filterLinks[i].addEventListener('click', function (e) {
+                e.preventDefault();
+                var block = document.querySelector(this.dataset.fblock);
+                if (this.classList.contains('opened')) {
+                    this.classList.remove('opened');
+                    block.style.display = 'none';
+                } else {
+                    this.classList.add('opened');
+                    block.style.display = 'block';
+                }
+            });
+        }
 
-setInterval(parseHash, 1000);
-
-(function (h) { h.className = h.className + ' js'; })(document.documentElement);
-
-(function ($) {
-    
-    $(function () {
-        // Filter list
-        $('a.filter-link').click(function (e) {
-            e.preventDefault();
-            $($(this).data('fblock')).toggle();
-            if ($(this).hasClass('opened'))
-                $(this).removeClass('opened');
-            else
-                $(this).addClass('opened');
-        });
         // Toggle filtered message
-        $('a.toggle-hidden').click(function (e) {
-            e.preventDefault();
-            $($(this).data('hidden')).toggle();
-        });
+        var filtered = document.querySelectorAll('a.toggle-hidden');
+        for (var i = 0; i < filtered.length; i++) {
+            filtered[i].addEventListener('click', function (e) {
+                e.preventDefault();
+                var content = document.querySelector(this.dataset.hidden);
+                if (content.classList.contains('msg-hidden')) {
+                    content.classList.add('msg-show');
+                    content.classList.remove('msg-hidden');
+                } else {
+                    content.classList.add('msg-hidden');
+                }
+            });
+        }
+
     });
 
-})(jQuery);
+})(window);
