@@ -29,12 +29,12 @@ if (!empty($_POST['submit_form']))
 	if (!in_array($section_id, $valid_sections))
 		$section_id = FORUM_SECTION_ID;
 
-	if (empty($_POST['subject']))
+	if (trim($_POST['subject']) === '')
 		$errors['subject'] = 'Не заполнено поле "Заголовок"';
 	else
 		$subject = $_POST['subject'];
 	
-	if (empty($_POST['comment']))
+	if (trim($_POST['comment']) === '')
 		$errors['comment'] = $comment_errors[$section_id];
 	else
 	{

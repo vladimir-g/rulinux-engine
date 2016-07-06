@@ -16,12 +16,12 @@ $subj = $comment = $user_field = '';
 
 if(!empty($_POST['sbm']))
 {
-	if (empty($_POST['subject']))
+	if (trim($_POST['subject']) === '')
 		$errors['subject'] = 'Не заполнено поле "Тема"';
 	else
 		$subj = $_POST['subject'];
 
-	if (empty($_POST['comment']))
+	if (trim($_POST['comment']) === '')
 		$errors['comment'] = 'Не заполнено поле "Ваш комментарий"';
 	else
 		$comment = $_POST['comment'];
