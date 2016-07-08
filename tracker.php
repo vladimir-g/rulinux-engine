@@ -33,7 +33,8 @@ for($i=0; $i<count($messages);$i++)
 	}
 	else
 	{
-		$subject = (!empty($msg['subject'])) ? $msg['subject'] : '(no title)';
+        
+		$subject = (trim($msg['subject']) !== '') ? $msg['subject'] : '(no title)';
 		$is_filtered = false;
 	}
 	$coreC->validate_boolean($msg['banned']) ? $author = '<s>'.$msg['nick'].'</s>' :$author = $msg['nick'];

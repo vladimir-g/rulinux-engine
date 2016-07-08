@@ -28,7 +28,7 @@ $thread_attach_link = 'attach_thread_'.$thread_id;
 $prev = $threadsC->get_previous_thread($thread_id);
 $next = $threadsC->get_next_thread($thread_id);
 $thread_previous_link = 'thread_'.$prev['id'].'_page_1';
-$thread_previous_subject = (!empty($prev['subject'])) ? $prev['subject'] : '(no title)';
+$thread_previous_subject = (trim($prev['subject']) !== '') ? $prev['subject'] : '(no title)';
 $thread_next_link = '';
 $thread_next_subject = '';
 if (!empty($next)) {

@@ -63,7 +63,7 @@ for($i=0; $i<count($thr); $i++)
 	}
 	else
 	{
-		$thread_subject = (!empty($thr[$i]['subject'])) ? $thr[$i]['subject'] : '(no title)';		
+		$thread_subject = (trim($thr[$i]['subject']) !== '') ? $thr[$i]['subject'] : '(no title)';		
 		$is_filtered = false;
 	}
 	$thr_autor = $usersC->get_user_info($thr[$i]['uid']);
