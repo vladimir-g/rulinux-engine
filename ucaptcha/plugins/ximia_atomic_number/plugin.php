@@ -98,7 +98,7 @@ class ximia_atomic_number
 		$X[91]="Pa";
 		$X[92]="U";
 		$X[93]="Np";
-		$X[94]="Pl";
+		$X[94]="Pu";
 		$X[95]="Am";
 		$X[96]="Cm";
 		$X[97]="Bk";
@@ -117,10 +117,10 @@ class ximia_atomic_number
 		$X[110]="Ds";
 		$X[111]="Rg";
 		$X[112]="Cn";
-		$X[113]="Uut";
-		$X[114]="Uuq";
-		$X[114]="Uup";
-		$X[116]="Uuh";
+		$X[113]="Nh";
+		$X[114]="Fl";
+		$X[115]="Uup";
+		$X[116]="Lv";
 		$X[117]="Uus";
 		$X[118]="Uuo";
 		$X[119]="Uue";
