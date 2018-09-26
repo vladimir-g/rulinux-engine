@@ -1,5 +1,5 @@
 <?php
-final class filters extends object
+final class filters extends objectbase
 {
 	static $baseC = null;
 	private static $filters = array();
@@ -89,4 +89,3 @@ final class filters extends object
 		return implode(', ', $active_filters_list);
 	}
 }
-?>

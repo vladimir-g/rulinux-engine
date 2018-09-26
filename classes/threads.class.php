@@ -1,5 +1,5 @@
 <?php
-final class threads  extends object
+final class threads  extends objectbase
 {
 	static $baseC = null;
 	function __construct()
@@ -135,7 +135,7 @@ final class threads  extends object
 		$ret = self::$baseC->query('UPDATE threads SET approved = true , approved_by = \'::1::\', approve_timest=\'::2::\' WHERE id = \'::0::\'', 'assoc_array', $param_arr);
 		return $ret;
 	}
-	
+
 	function get_previous_thread($tid)
 	{
 		$tid = (int)$tid;
@@ -152,7 +152,7 @@ final class threads  extends object
 		else
 			return $ret;
 	}
-	
+
 	function get_next_thread($tid)
 	{
 		$tid = (int)$tid;
@@ -169,7 +169,7 @@ final class threads  extends object
 		else
 			return $ret;
 	}
-	
+
 	function get_msg_number($thread_id, $md5)
 	{
 		$param_arr = array($thread_id);
@@ -184,7 +184,7 @@ final class threads  extends object
 		}
 		return array("message_number"=>$message_number, "msg_id"=>$msg_id);
 	}
-	
+
 	function get_msg_number_by_cid($message_id)
 	{
 		$param_arr = array($message_id);
@@ -203,14 +203,14 @@ final class threads  extends object
 		}
 		return array($message_number, $thr[0]['tid'], $msg_id);
 	}
-	
+
 	function get_tid_by_cid($cid)
 	{
 		$where_arr = array(array("key"=>'cid', "value"=>$cid, "oper"=>'='));
 		$sel = self::$baseC->select('threads', '', '*', $where_arr, 'AND');
 		return $sel;
 	}
-	
+
 	function get_msg_number_by_tid($thread_id, $cid)
 	{
 		$param_arr = array($thread_id);
@@ -224,4 +224,3 @@ final class threads  extends object
 	}
 
 }
-?>

@@ -1,5 +1,5 @@
 <?php
-final class rss extends object
+final class rss extends objectbase
 {
 	static $baseC = null;
 	function __construct()
@@ -16,12 +16,12 @@ final class rss extends object
 			for($i=0; $i<count($sel); $i++)
 			{
 				$time = strtotime($sel[$i]['timest']);
-				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'http://'.$_SERVER["HTTP_HOST"].'/message.php?newsid='.$sel[$i]['tid'].'&page=1');
+				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'https://'.$_SERVER["HTTP_HOST"].'/message.php?newsid='.$sel[$i]['tid'].'&page=1');
 			}
 		}
 		return $ret;
 	}
-	
+
 	function get_section($section, $uinfo)
 	{
 		$ret = array();
@@ -37,7 +37,7 @@ final class rss extends object
 		}
 		return $ret;
 	}
-	
+
 	function get_subsection($section, $subsection, $uinfo)
 	{
 		$ret = array();
@@ -53,7 +53,7 @@ final class rss extends object
 		}
 		return $ret;
 	}
-	
+
 	function get_thread($tid, $uinfo)
 	{
 		$ret = array();
@@ -103,4 +103,3 @@ final class rss extends object
 		return $ret;
 	}
 }
-?>

@@ -18,7 +18,7 @@ class install
 		$ini->write($module,'db_charset', $charset);
 		$ini->updateFile();
 	}
-	
+
 	function create_data($bynarys_path, $sql)
 	{
 		if(empty($bynarys_path))
@@ -54,7 +54,7 @@ class install
 			return -1;
 		return 1;
 	}
-	
+
 	function create_directories()
 	{
 		if(!is_dir('../images'))
@@ -71,7 +71,7 @@ class install
 			mkdir('../logs',0775);
 		return 1;
 	}
-	
+
 	function set_settings($title, $pass_phrase)
 	{
 		config::include_database('../');
@@ -94,7 +94,7 @@ class install
 		else
 			return -1;
 	}
-	
+
 	function finish_installation()
 	{
 		$ini = new TIniFileEx('../config/install.ini');
@@ -113,7 +113,7 @@ class install
 		else
 			return 0;
 	}
-	
+
 	function create_root($login, $password)
 	{
 		config::include_database('../');
@@ -125,4 +125,3 @@ class install
 		return $ret;
 	}
 }
-?>

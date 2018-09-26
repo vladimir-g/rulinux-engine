@@ -1,5 +1,5 @@
 <?php
-final class faq extends object
+final class faq extends objectbase
 {
 	static $baseC = null;
 	function __construct()
@@ -12,11 +12,11 @@ final class faq extends object
 		$question_raw = $question;
 		$question = str_to_html($question);
 		$faq_arr = array(
-				array('subject', $subject), 
+				array('subject', $subject),
 				array('question', $question),
 				array('raw_question', $question_raw),
-				array('answer', ''), 
-				array('raw_answer', ''), 
+				array('answer', ''),
+				array('raw_answer', ''),
 				array('answered', '0'),
 				array('available', '1')
 				);
@@ -59,4 +59,3 @@ final class faq extends object
 			return -1;
 	}
 }
-?>

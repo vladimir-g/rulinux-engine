@@ -1,5 +1,5 @@
 <?php
-final class users extends object
+final class users extends objectbase
 {
 	static $baseC = null;
 	function __construct()
@@ -19,10 +19,10 @@ final class users extends object
 				$ret = self::$baseC->update('users', 'gid', $gid, 'id', $uid);
 				return $ret;
 			}
-			else 
+			else
 				return -2;
 		}
-		else 
+		else
 			return -1;
 	}
 	function get_group($id)
@@ -105,8 +105,8 @@ final class users extends object
 		$param_arr = array($uid);
 		$topics_dates = self::$baseC->query('SELECT min(timest) AS min, max(timest) AS max FROM comments WHERE id IN (SELECT min(id) FROM comments WHERE uid = \'::0::\' GROUP BY tid ORDER BY tid)', 'assoc_array', $param_arr);
 		$comments_dates = self::$baseC->query('SELECT min(timest) AS min, max(timest) AS max FROM comments WHERE id NOT IN (SELECT min(id) FROM comments WHERE uid = \'::0::\' GROUP BY tid ORDER BY tid) AND uid = \'::0::\'', 'assoc_array', $param_arr);
-		$comments_count = self::$baseC->query('SELECT count(*) AS cnt FROM comments WHERE uid = \'::0::\'', 'assoc_array', $param_arr); 
-		$topics_count = self::$baseC->query('SELECT count(*) AS cnt FROM threads WHERE EXISTS (SELECT id FROM comments WHERE uid = \'::0::\' AND id = cid)', 'assoc_array', $param_arr); 
+		$comments_count = self::$baseC->query('SELECT count(*) AS cnt FROM comments WHERE uid = \'::0::\'', 'assoc_array', $param_arr);
+		$topics_count = self::$baseC->query('SELECT count(*) AS cnt FROM threads WHERE EXISTS (SELECT id FROM comments WHERE uid = \'::0::\' AND id = cid)', 'assoc_array', $param_arr);
 		$ret = array("first_topic_date"=>$topics_dates[0]['min'], "last_topic_date"=>$topics_dates[0]['max'], "first_comment_date"=>$comments_dates[0]['min'], "last_comment_date"=>$comments_dates[0]['max'], "comments_count"=>$comments_count[0]['cnt'], "topics_count"=>$topics_count[0]['cnt']);
 		return $ret;
 	}
@@ -238,7 +238,7 @@ final class users extends object
 				return 1;
 			elseif ($sel[0]['banned']=='1')
 				return 1;
-			else 
+			else
 				return -2;
 		}
 		else
@@ -320,7 +320,7 @@ final class users extends object
 		$city = htmlspecialchars($city);
 		$raw_additional = str_replace('\\', '&#92;', $additional);
 		$additional = str_to_html($additional);
-		$photo = htmlspecialchars($photo);                
+		$photo = htmlspecialchars($photo);
 		$param_arr = array($id, $user_name, $user_lastname, $gender, $user_email, $show_email, $user_im, $show_im, $country, $city, $additional,
 				   $raw_additional);
 		$ret = self::$baseC->query('UPDATE users SET name = \'::1::\', lastname = \'::2::\', gender = \'::3::\', email = \'::4::\', show_email = \'::5::\', im = \'::6::\', show_im = \'::7::\', country = \'::8::\', city = \'::9::\', additional = \'::10::\', raw_additional = \'::11::\' WHERE id = \'::0::\'', 'assoc_array', $param_arr);
@@ -334,7 +334,7 @@ final class users extends object
 			$sel = self::$baseC->select('users', '', '*', $where_arr);
 			if(!empty($sel))
 				return $sel[0];
-			else 
+			else
 				return -2;
 		}
 		else return -1;
@@ -383,4 +383,3 @@ final class users extends object
 		return $ret;
 	}
 }
-?>

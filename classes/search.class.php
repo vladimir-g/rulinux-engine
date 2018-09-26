@@ -1,5 +1,5 @@
 <?php
-final class search extends object
+final class search extends objectbase
 {
 	static $baseC = null;
 	private static $timest_fmt = 'Y-m-d H:i:s';
@@ -44,7 +44,7 @@ final class search extends object
 		$sel = self::$baseC->query($query, 'assoc_array', $param_arr);
 		return $sel;
 	}
-	
+
 	function find_by_filters($str, $include, $date, $section, $username, $method, $filters_arr)
 	{
 		$query = 'SELECT * FROM comments WHERE ';
@@ -85,4 +85,3 @@ final class search extends object
 		return $sel;
 	}
 }
-?>

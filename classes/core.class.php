@@ -1,5 +1,5 @@
 <?php
-class core extends object
+class core extends objectbase
 {
 	static $baseC = null;
 	function __construct()
@@ -144,12 +144,12 @@ class core extends object
 		{
 			include $path;
 		}
-		else 
+		else
 		{
 			include 'themes/default/'.$filepath;
 		}
-		
-		
+
+
 	}
 	function remove_spam()//функция не применяется
 	{
@@ -184,7 +184,7 @@ class core extends object
 			return 1;
 		else
 			return 0;
-		
+
 	}
 }
 ?>

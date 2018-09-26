@@ -1,5 +1,5 @@
 <?php
-final class auth extends object
+final class auth extends objectbase
 {
 	static $baseC = null;
 	function __construct()
@@ -51,7 +51,7 @@ final class auth extends object
 		$where_arr = array();
 		if(!$openid)
 			$where_arr = array(array("key"=>'lower(nick)', "value"=>$login, "oper"=>'='), array("key"=>'password', "value"=>$pass, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
-		else 
+		else
 			$where_arr = array(array("key"=>'lower(openid)', "value"=>$login, "oper"=>'='), array("key"=>'banned', "value"=>'false', "oper"=>'='));
 		$sel = self::$baseC->select('users', '', 'id, nick, gid', $where_arr, 'AND');
 		if(!empty($sel))
@@ -73,7 +73,7 @@ final class auth extends object
 				$_SESSION['user_moder']='';
 				$_SESSION['user_admin']=1;
 			}
-			else 
+			else
 			{
 				$_SESSION['user_moder']='';
 				$_SESSION['user_admin']='';

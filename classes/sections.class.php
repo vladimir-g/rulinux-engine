@@ -1,5 +1,5 @@
 <?php
-final class sections extends object
+final class sections extends objectbase
 {
 	static $baseC = null;
 	function __construct()
@@ -71,4 +71,3 @@ final class sections extends object
 		return $sel[0]['icon'];
 	}
 }
-?>

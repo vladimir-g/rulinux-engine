@@ -1,5 +1,5 @@
 <?php
-final class admin extends object
+final class admin extends objectbase
 {
 	static $baseC = null;
 	function __construct()
@@ -11,11 +11,11 @@ final class admin extends object
 		if(!file_exists($dir))
 			mkdir($dir,0777);
 		$zip_handle = zip_open($file);
-		if (is_resource($zip_handle)) 
+		if (is_resource($zip_handle))
 		{
 			while($zip_entry = zip_read($zip_handle))
 			{
-				if ($zip_entry) 
+				if ($zip_entry)
 				{
 					$zip_name=zip_entry_name($zip_entry);
 					$zip_size=zip_entry_filesize($zip_entry);
@@ -40,7 +40,7 @@ final class admin extends object
 			return false;
 		}
 	}
-	function delTree($dir) 
+	function delTree($dir)
 	{
 		$files = glob( $dir . '*', GLOB_MARK );
 		foreach( $files as $file )
@@ -50,14 +50,14 @@ final class admin extends object
 			else
 				unlink( $file );
 		}
-		if (is_dir($dir)) 
+		if (is_dir($dir))
 		{
 			rmdir($dir);
 			return 1;
 		}
-		else 
+		else
 			return 0;
-	} 
+	}
 	function remove_thread($tid)
 	{
 		if(!preg_match("/^[0-9]*$/", $tid))
@@ -139,15 +139,15 @@ final class admin extends object
 			$ret = self::$baseC->insert('blocks', $arr);
 			self::log('user with id = '.$_SESSION['user_id'].' installed block '.$block['name'].' on directory '.$block['directory']);
 			return $ret;
-			
+
 		}
 		else
 			return -1;
 	}
-	
+
 	function remove_block($block_dir)
 	{
-		if (is_dir('blocks/'.$block_dir)) 
+		if (is_dir('blocks/'.$block_dir))
 		{
 			$ret = self::$baseC->delete('blocks', 'directory', $block_dir);
 			if($ret==1)
@@ -179,17 +179,17 @@ final class admin extends object
 			$ret = self::$baseC->insert('marks', $arr);
 			self::log('user with id = '.$_SESSION['user_id'].' installed mark '.$mark['name'].' on file '.$mark['file']);
 			return $ret;
-			
+
 		}
 		else
 			return -1;
 	}
-	
+
 	function remove_mark($mark_file, $count)
 	{
 		if($count>1)
 		{
-			if (is_file('classes/mark/'.$mark_file)) 
+			if (is_file('classes/mark/'.$mark_file))
 			{
 				$ret = self::$baseC->delete('marks', 'file', $mark_file);
 				if($ret==1)
@@ -207,7 +207,7 @@ final class admin extends object
 		else
 			return -1;
 	}
-	
+
 	function install_theme($filename)
 	{
 		$hash = md5(gmdate("Y-m-d H:i:s"));
@@ -224,17 +224,17 @@ final class admin extends object
 			$ret = self::$baseC->insert('themes', $arr);
 			self::log('user with id = '.$_SESSION['user_id'].' installed theme '.$theme['name'].' on directory '.$theme['directory']);
 			return $ret;
-			
+
 		}
 		else
 			return -1;
 	}
-	
+
 	function remove_theme($theme_dir, $count)
 	{
 		if($count>1)
 		{
-			if (is_dir('themes/'.$theme_dir)) 
+			if (is_dir('themes/'.$theme_dir))
 			{
 				$ret = self::$baseC->delete('themes', 'directory', $theme_dir);
 				if($ret==1)
@@ -252,7 +252,7 @@ final class admin extends object
 		else
 			return -1;
 	}
-	
+
 	function install_filter($filename)
 	{
 		$hash = md5(gmdate("Y-m-d H:i:s"));
@@ -269,15 +269,15 @@ final class admin extends object
 			$ret = self::$baseC->insert('filters', $arr);
 			self::log('user with id = '.$_SESSION['user_id'].' installed theme '.$filter['name'].' on directory '.$filter['directory']);
 			return $ret;
-			
+
 		}
 		else
 			return -1;
 	}
-	
+
 	function remove_filter($filter_dir)
 	{
-		if (is_dir('filters/'.$filter_dir)) 
+		if (is_dir('filters/'.$filter_dir))
 		{
 			$ret = self::$baseC->delete('filters', 'directory', $filter_dir);
 			if($ret==1)
@@ -292,7 +292,7 @@ final class admin extends object
 		else
 			return -1;
 	}
-	
+
 	function add_subsection($section, $name, $description, $shortfaq='', $rewrite, $icon='', $themes)
 	{
 		if(!empty($icon))
@@ -316,7 +316,7 @@ final class admin extends object
 		self::log('user with id = '.$_SESSION['user_id'].' added subsection '.$name.' to section with id = '.$section);
 		return $ret;
 	}
-	
+
 	function remove_subsection($id)
 	{
 		$param_arr = array($id);
@@ -333,14 +333,14 @@ final class admin extends object
 		self::log('user with id = '.$_SESSION['user_id'].' removed subsection with id =  '.$id);
 		return $ret;
 	}
-	
+
 	function log($text = '')
 	{
 		$timest = gmdate("Y-m-d H:i:s");
 		$text = "\n".$timest.' '.$text;
 		$path = $_SERVER['DOCUMENT_ROOT'].'/logs/admin.log';
-		$file = fopen($path, "a") or die("Can't open file ($path) to write logs"); 
-		if (fwrite($file, $text) === FALSE) 
+		$file = fopen($path, "a") or die("Can't open file ($path) to write logs");
+		if (fwrite($file, $text) === FALSE)
 			return -1;
 		fclose($file);
 		return 1;

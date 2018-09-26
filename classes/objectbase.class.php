@@ -1,5 +1,5 @@
 <?php
-class object
+class objectbase
 {
 	function declOfNum($number, $titles)
 	{
@@ -149,10 +149,10 @@ class object
 				$truncate .= '</'.$tag.'>';
 			}
 		}
-		
+
 		return $truncate;
 	}
-	
+
 	/* Execute htmlentities function with some predefined arguments */
 	function html_escape($str)
 	{

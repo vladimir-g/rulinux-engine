@@ -6,7 +6,7 @@ function timeMeasure()
     return ($sec+$msec);
 }
 define('TIMESTART', timeMeasure());
-if (get_magic_quotes_gpc()) 
+if (get_magic_quotes_gpc())
 {
 	function stripslashes_deep($value)
 	{
@@ -31,7 +31,7 @@ require_once 'librarys/simpleopenid/class.openid.php';
 require_once 'classes/base/base_interface.php';
 require_once "classes/config.class.php";
 config::include_database();
-require_once "classes/object.class.php";
+require_once "classes/objectbase.class.php";
 require_once "classes/core.class.php";
 $coreC = new core;
 $installed = $coreC->is_installed();
@@ -70,4 +70,3 @@ require 'classes/rss.class.php';
 $rssC = new rss;
 require 'ucaptcha/ucaptcha.php';
 $captchaC = new ucaptcha;
-?>

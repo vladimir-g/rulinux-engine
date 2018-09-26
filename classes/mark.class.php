@@ -1,5 +1,5 @@
 <?php
-final class mark extends object
+final class mark extends objectbase
 {
 	static $baseC = null;
 	static $latex = null;
@@ -70,4 +70,3 @@ final class mark extends object
 			return -1;
 	}
 }
-?>

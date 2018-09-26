@@ -1,6 +1,6 @@
 <?php
 
-final class templates extends object
+final class templates extends objectbase
 {
 	private $theme;
 	private $filename;
@@ -19,7 +19,7 @@ final class templates extends object
 		$theme = self::$baseC->select('themes', '', '*', $where_arr);
 		if (!is_dir('themes/'.$theme[0]['directory']))
 			$this->theme = $theme[0];
-		else 
+		else
 			$this->theme = 'default';
 	}
 	public function set_file($file)
@@ -62,7 +62,7 @@ final class templates extends object
 		$ret = array();
 		$tpl_val = file_get_contents($this->filename);
 		$arr = preg_split('#'.$this->l_delimiter.'#sim', $tpl_val, -1, PREG_SPLIT_NO_EMPTY);
-		foreach($arr as $value) 
+		foreach($arr as $value)
 		{
 			$tpls_arr = preg_split('#'.$this->r_delimiter.'#sim', $value, -1, PREG_SPLIT_NO_EMPTY);
 			$ret[$tpls_arr[0]] = $tpls_arr[1];
@@ -70,4 +70,3 @@ final class templates extends object
 		return $ret;
 	}
 }
-?>
