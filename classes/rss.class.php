@@ -32,7 +32,7 @@ final class rss extends objectbase
 			for($i=0; $i<count($sel); $i++)
 			{
 				$time = strtotime($sel[$i]['timest']);
-				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'http://'.$_SERVER["HTTP_HOST"].'/message.php?newsid='.$sel[$i]['tid'].'&page=1');
+				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'https://'.$_SERVER["HTTP_HOST"].'/message.php?newsid='.$sel[$i]['tid'].'&page=1');
 			}
 		}
 		return $ret;
@@ -48,7 +48,7 @@ final class rss extends objectbase
 			for($i=0; $i<count($sel); $i++)
 			{
 				$time = strtotime($sel[$i]['timest']);
-				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'http://'.$_SERVER["HTTP_HOST"].'/message.php?newsid='.$sel[$i]['tid'].'&page=1');
+				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>'https://'.$_SERVER["HTTP_HOST"].'/message.php?newsid='.$sel[$i]['tid'].'&page=1');
 			}
 		}
 		return $ret;
@@ -68,7 +68,7 @@ final class rss extends objectbase
 				$page = ceil($message_number/$uinfo['comments_on_page']);
 				if($page == 0)
 					$page = 1;
-				$link = 'http://'.$_SERVER["HTTP_HOST"].'/message.php?newsid='.$tid.'&page='.$page.'#'.$sel[$i]['id'];
+				$link = 'https://'.$_SERVER["HTTP_HOST"].'/message.php?newsid='.$tid.'&page='.$page.'#'.$sel[$i]['id'];
 				$ret[$i] = array("title"=>$sel[$i]['subject'], "time"=>$time, "description"=>$sel[$i]['comment'], "link"=>$link);
 			}
 		}
