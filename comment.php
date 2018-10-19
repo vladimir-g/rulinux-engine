@@ -31,7 +31,7 @@ if(!empty($_POST['sbm']))
 		$errors['user_field'] = 'Заполнено поле не требующее заполнения';
 		$user_field = $_POST['user_field'];
 	}
-	
+
 	if (empty($_SESSION['user_id']) || ($usersC->user_banned($_SESSION['user_id']) != 0))
 		$errors['banned'] = 'Постинг из-под данного аккаунта был заблокирован модератором';
 
@@ -75,7 +75,7 @@ if(!empty($_POST['sbm']))
 	elseif ($_POST['sbm'] == 'Предпросмотр' && empty($errors))
 	{
 		$is_preview = true;
-		$message_subject = $subj;
+		$message_subject = $coreC->html_escape($subj);
 		$message_comment = str_to_html($comment);
 		$message_timestamp = gmdate("Y-m-d H:i:s");
 		$msg_autor = $usersC->get_user_info($_SESSION['user_id']);
@@ -136,6 +136,3 @@ for($i=0; $i<count($filters_arr);$i++)
 }
 require 'themes/'.$theme.'/templates/comment/comment_bottom.tpl.php';
 require 'footer.php';
-?>
-
-
