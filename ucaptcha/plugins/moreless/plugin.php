@@ -7,8 +7,10 @@ class moreless
 		global $captcha_font_path,$captcha_img_path;
 		$a=rand(1,20);
 		$b=rand(1,20);
-		$c=rand(1,20);
-		$d=rand(1,20);
+                do {
+                    $c=rand(1,20);
+                    $d=rand(1,20);
+                } while ($c === $a && $d === $b);
 		$rand = "$a/$b ? $c/$d";
 		$l=rand(0,1);
 		if ($l==0)
@@ -24,7 +26,7 @@ class moreless
 			}
 		}
 		else
-		{	
+		{
 			$hit="Что меньше?";
 			if ($a/$b<$c/$d)
 			{
