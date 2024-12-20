@@ -1,5 +1,5 @@
 # -*- mode: org; eval: (visual-line-mode) -*-
-# Time-stamp: <2024-12-20 17:25:46 lockywolf>
+# Time-stamp: <2024-12-20 21:18:11 lockywolf>
 #+title: Introduction to the time-machine engine.
 #+author: anonymous
 #+date: 
@@ -24,7 +24,7 @@ rulin consists of three parts
 
 1. an SQL database, which is usually postgresql
 2. a php backend, which is mostly generating static html
-3. a minuscle dhtml embellishments, but you can ignore them
+3. a minuscule dhtml embellishments, but you can ignore them
 
 ** The database
 
@@ -61,3 +61,17 @@ https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
 8. Save
 
 The socat bit is critical, because all of those guys run on their own 127.0.0.1, and don't communicate.
+
+** php
+
+1. only php-7 works, with php-8 are issues, but you may try
+2. install php-pgsql
+3. enable in /etc/php.d/*ini
+4. enable short_open_tag in /etc/php.ini
+5. cd ~/rulinux-engine
+6. printf '%s' '[global]\ninstalled=1\n' > config/install.ini # don't ask me why, this is arcane knowledge
+7. tweak config/database.ini
+8. start php -S 127.0.0.1:8000
+9. firefox 127.0.0.1:8000
+10. PROFIT
+
