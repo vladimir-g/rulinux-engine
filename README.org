@@ -1,0 +1,63 @@
+# -*- mode: org; eval: (visual-line-mode) -*-
+# Time-stamp: <2024-12-20 17:25:46 lockywolf>
+#+title: Introduction to the time-machine engine.
+#+author: anonymous
+#+date: 
+#+created: <2024-12-20 Fri 11:49:06>
+#+refiled:
+#+language: en
+#+category: rulinux
+#+tags: php, postgresql, software
+#+creator: Emacs-30.0.50/org-mode-9.7-pre
+
+
+This file is about how to start hosting and developing the TimeMachine.
+
+The most famous website based on the TimeMachine communications engine is the widely known Russian language free, libre, and open software communication engine, called LOR-NG.
+
+* TODO Body
+
+** High-Level overview.
+
+
+rulin consists of three parts
+
+1. an SQL database, which is usually postgresql
+2. a php backend, which is mostly generating static html
+3. a minuscle dhtml embellishments, but you can ignore them
+
+** The database
+
+To try the database yourself, do the following:
+
+1. Install and start postgresql
+   1. This is done differently on each machine, but on Slackware you run
+   2. su postgres -c "initdb -D /var/lib/pgsql/14/data --locale=en_US.UTF-8 -A md5 -W"
+   3. Set SOME password, because not having a password is confusing for databases, say "a" is nice long hard to guess password
+   4. /etc/rc.d/rc.postgresql start
+2. Create tables and all of that database crap
+   1. PGPASSWORD=a psql -U postgres -S postgres -c "create user rulinux with password 'b';"
+   2. PGPASSWORD=a psql -U postgres -S postgres -c "create database rulinux with owner 'rulinux';"
+   3. PGPASSWORD=b pg_restore -U rulinux -d rulinux rulinux-public-sql-21-09-22-07-00-01.dump 
+
+
+*** How to use pgadmin to browse all of that?
+
+PgAdmin is a GUI tool for PostgreSQL, and of course using a GUI is better when you are a n00b and know no shit about SQL and stuffs.
+
+https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+
+1. Install docker
+2. docker pull dpage/pgadmin4
+3. docker run -p 8080:80 \
+    --name pgadmin_container \
+    -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=SuperSecret' \
+    -d dpage/pgadmin4
+4. socat TCP-LISTEN:5432,bind=172.17.0.1,reuseaddr,fork TCP-CONNECT:127.0.0.1:5432
+5. firefox 'http://127.0.0.1:8080'
+6. Login and Pass from point 3
+7. New Server, address 172.17.0.1, user "postgres" password from [[The database]]  , "password1"
+8. Save
+
+The socat bit is critical, because all of those guys run on their own 127.0.0.1, and don't communicate.
